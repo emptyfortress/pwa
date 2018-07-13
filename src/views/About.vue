@@ -1,5 +1,14 @@
-<template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+<template lang="pug">
+.about
+	h2 This is obaout
+	p alsalslakjs lkasj lkasj test
+	p alsalslakjs lkasj lkasj test
+	p alsalslakjs lkasj lkasj test
+	p alsalslakjs lkasj lkasj test
 </template>
+
+<style scoped lang="scss">
+h2 {
+	color: red;
+}
+</style>
