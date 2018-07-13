@@ -37,14 +37,14 @@ export default {
 	name: 'App',
 	data () {
 		return {
-			clipped: false,
+			clipped: true,
 			drawer: true,
-			fixed: false,
+			fixed: true,
 			items: [{
 				icon: 'bubble_chart',
 				title: 'Inspire'
 			}],
-			miniVariant: false,
+			miniVariant: true,
 			right: true,
 			rightDrawer: false,
 			title: 'Vuetify.js'
