@@ -22,8 +22,16 @@ v-app
 				v-list-tile-action
 					v-icon compare_arrows
 				v-list-tile-title Switch drawer (click me)
-	v-footer( :fixed="fixed" app )
-		span &copy; 2017
+	v-bottom-nav( app :value="true" )
+		v-btn(flat color="teal")
+			span Recents
+				v-icon history
+		v-btn( flat color="teal" )
+			span Favorites
+			v-icon favorite
+		v-btn( flat color="teal" )
+			span Nearby
+			v-icon place
 </template>
 
 <script>
