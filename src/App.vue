@@ -7,20 +7,15 @@ v-app
 					v-icon( v-html="item.icon" )
 				v-list-tile-content
 					v-list-tile-title( v-text="item.title" )
-	v-toolbar( app :clipped-left="clipped" )
+	v-toolbar( app :clipped-left="clipped" flat scroll-off-screen scroll-threshold=100 )
 		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
-		<!-- v&#45;btn( icon @click.stop="miniVariant = !miniVariant" ) -->
-		<!-- 	v&#45;icon( v&#45;html="miniVariant ? 'chevron_right' : 'chevron_left'" ) -->
-		<!-- v&#45;btn( icon @click.stop="clipped = !clipped" ) -->
-		<!-- 	v&#45;icon web -->
-		<!-- v&#45;btn( icon @click.stop="fixed = !fixed" ) -->
-		<!-- 	v&#45;icon remove -->
 		v-toolbar-title( v-text="title" )
 		v-spacer/
 		v-btn( icon @click.stop="rightDrawer = !rightDrawer" )
 			v-icon menu
 	v-content
-		router-view/
+		v-slide-y-transition(mode="out-in")
+			router-view/
 	v-navigation-drawer( temporary :right="right" v-model="rightDrawer" fixed app )
 		v-list
 			v-list-tile( @click="right = !right" )
@@ -44,16 +39,16 @@ export default {
 				{ icon: 'bubble_chart', title: 'Home', to: '/' },
 				{ icon: 'bubble_chart', title: 'Post a cat', to: '/post' }
 			],
-			miniVariant: true,
+			miniVariant: false,
 			right: true,
 			rightDrawer: false,
-			// title: 'International Docsvision System Group'
 			title: 'Docsvision'
 		}
 	},
 	methods: {
 		navigate (e) {
 			this.$router.push(e)
+			this.drawer = false
 		}
 	}
 }

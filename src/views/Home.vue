@@ -1,11 +1,10 @@
 <template lang="pug">
-	v-container( fluid grid-list-sm)
-		v-slide-y-transition( mode="out-in" )
-			v-layout(row wrap)
-				v-flex(v-for="picture in this.$root.cat" xs4 @click="displayDetails(picture['.key'])")
-					v-card(tile flat)
-						v-card-media(:src="picture.url" height="150")
-		footer
+v-container(grid-list-sm)
+	v-layout(row wrap)
+		v-flex(v-for="picture in this.$root.cat" :key="picture.id" xs6 sm4 @click="displayDetails(picture['.key'])")
+			v-card(tile flat)
+				v-card-media(:src="picture.url" height="150")
+	footer
 </template>
 
 <script>
