@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app
-	v-navigation-drawer( v-model="drawer" clipped floating disable-route-watcher app :mini-variant="miniVariant" )
+	v-navigation-drawer( v-model="drawer" clipped floating disable-route-watcher app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''")
 		v-list
 			v-list-tile( value="true" v-for="(item, i) in items" :key="i" @click="navigate(item.to)")
 				v-list-tile-action
@@ -18,18 +18,10 @@ v-app
 	v-content
 		v-slide-y-transition(mode="out-in")
 			router-view/
-	v-bottom-nav(app value="true" dark)
-		v-layout( row wrap )
-			v-flex
-				v-btn( flat color="teal" @click.stop="drawer = !drawer" )
-					v-icon menu
-			v-flex
-				v-btn( flat color="teal" @click.stop="drawer = !drawer" )
-					v-icon menu
-			v-spacer
-			v-flex
-				v-btn( flat color="teal" @click.stop="drawer = !drawer" )
-					v-icon menu
+	v-toolbar.my
+		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
+		v-spacer
+		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
 </template>
 
 <script>
@@ -38,6 +30,9 @@ export default {
 	name: 'App',
 	data () {
 		return {
+			styleObject: {
+				marginTop: 0
+			},
 			clipped: true,
 			drawer: true,
 			fixed: true,
@@ -62,11 +57,19 @@ export default {
 	methods: {
 		navigate (e) {
 			this.$router.push(e)
-			this.drawer = false
+			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
+			// this.drawer = false
 		}
 	}
 }
 </script>
 
 <style scoped lang="scss">
+.my {
+	position: fixed;
+	bottom: 0;
+}
+.shift {
+	margin-top: 56px;
+}
 </style>
