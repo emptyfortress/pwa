@@ -7,21 +7,28 @@ v-app
 					v-icon( v-html="item.icon" )
 				v-list-tile-content
 					v-list-tile-title( v-text="item.title" )
-	v-toolbar( app flat clipped-left v-if="$vuetify.breakpoint.lgAndUp")
+	v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''")
+		v-list
+			v-list-tile( value="true" v-for="(item, i) in items" :key="i" @click="navigate(item.to)")
+				v-list-tile-action
+					v-icon( v-html="item.icon" )
+				v-list-tile-content
+					v-list-tile-title( v-text="item.title" )
+	v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp")
 		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
 		v-toolbar-title( v-text="title" )
 		v-spacer/
-		v-btn( icon @click.stop="rightDrawer = !rightDrawer" )
+		v-btn( icon @click.stop="drawer1 = !drawer1" )
 			v-icon menu
 	v-toolbar( app flat scroll-off-screen scroll-threshold=100 dark v-if="$vuetify.breakpoint.mdAndDown" )
 		v-toolbar-title( v-text="title" )
 	v-content
 		v-slide-y-transition(mode="out-in")
 			router-view/
-	v-toolbar.my
+	v-toolbar(v-if="$vuetify.breakpoint.mdAndDown").my
 		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
 		v-spacer
-		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
+		v-toolbar-side-icon( @click.stop="drawer1 = !drawer1" )
 </template>
 
 <script>
@@ -35,6 +42,7 @@ export default {
 			},
 			clipped: true,
 			drawer: true,
+			drawer1: false,
 			fixed: true,
 			sheet: false,
 			tiles: [
@@ -58,7 +66,6 @@ export default {
 		navigate (e) {
 			this.$router.push(e)
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
-			// this.drawer = false
 		}
 	}
 }
