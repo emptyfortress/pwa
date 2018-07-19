@@ -19,9 +19,9 @@ v-app
 		v-toolbar-title( v-text="title" )
 		v-spacer/
 		v-btn( icon @click.stop="drawer1 = !drawer1" )
-			v-icon menu
+			v-icon offline_bolt
 		v-btn( icon @click.stop="drawer1 = !drawer1" )
-			v-icon menu
+			v-icon settings
 		v-btn( icon @click.stop="drawer1 = !drawer1" )
 			v-icon menu
 	v-toolbar( app flat scroll-off-screen :scroll-threshold=100 dark v-if="$vuetify.breakpoint.mdAndDown" )
@@ -33,6 +33,9 @@ v-app
 			router-view/
 	v-toolbar(v-if="$vuetify.breakpoint.mdAndDown").my
 		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
+		v-spacer
+		v-btn( icon )
+			v-icon offline_bolt
 		v-spacer
 		v-toolbar-side-icon( @click.stop="drawer1 = !drawer1" )
 </template>

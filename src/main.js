@@ -7,6 +7,7 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import '@/assets/css/support.css'
+import '@/assets/css/main.scss'
 import firebase from './services/firebase'
 import VueResource from 'vue-resource'
 
