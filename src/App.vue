@@ -20,8 +20,14 @@ v-app
 		v-spacer/
 		v-btn( icon @click.stop="drawer1 = !drawer1" )
 			v-icon menu
-	v-toolbar( app flat scroll-off-screen scroll-threshold=100 dark v-if="$vuetify.breakpoint.mdAndDown" )
-		v-toolbar-title( v-text="title" )
+		v-btn( icon @click.stop="drawer1 = !drawer1" )
+			v-icon menu
+		v-btn( icon @click.stop="drawer1 = !drawer1" )
+			v-icon menu
+	v-toolbar( app flat scroll-off-screen :scroll-threshold=100 dark v-if="$vuetify.breakpoint.mdAndDown" )
+		v-btn( icon  )
+			v-icon( @click="test" v-if="$route.path == '/'") home
+			v-icon( @click="test" v-else) arrow_back
 	v-content
 		v-slide-y-transition(mode="out-in")
 			router-view/
@@ -41,6 +47,7 @@ export default {
 				marginTop: 0
 			},
 			clipped: true,
+			thre: 100,
 			drawer: true,
 			drawer1: false,
 			fixed: true,
@@ -66,6 +73,9 @@ export default {
 		navigate (e) {
 			this.$router.push(e)
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
+		},
+		test () {
+			console.log(this.$route.path)
 		}
 	}
 }
