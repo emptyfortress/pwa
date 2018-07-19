@@ -25,9 +25,9 @@ v-app
 		v-btn( icon @click.stop="drawer1 = !drawer1" )
 			v-icon menu
 	v-toolbar( app flat scroll-off-screen :scroll-threshold=100 dark v-if="$vuetify.breakpoint.mdAndDown" )
-		v-btn( icon  )
-			v-icon( @click="test" v-if="$route.path == '/'") home
-			v-icon( @click="test" v-else) arrow_back
+		v-btn( icon to="/"  )
+			v-icon( v-if="$route.path == '/'") home
+			v-icon( v-else) arrow_back
 	v-content
 		v-slide-y-transition(mode="out-in")
 			router-view/

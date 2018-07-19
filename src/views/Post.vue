@@ -8,7 +8,7 @@ v-container(grid-list-md text-xs-center)
 					h3.headline.mb-0 Add a cat
 				v-form( ref="form" v-model="valid" lazy-validation )
 					v-text-field( v-model="title" :rules="nameRules" :counter="15" label="Название" required )
-					v-btn( @click="clear" ) Очистить
+					v-btn( @click="back" ) Отмена
 					v-btn( :disabled="!valid" @click="postCat" ) Отправить
 </template>
 
@@ -28,8 +28,8 @@ export default {
 		})
 	},
 	methods: {
-		clear () {
-			this.name = ''
+		back () {
+			this.$router.go(-1)
 		},
 		postCat () {
 			this.$root.$firebaseRefs.cat.push(
