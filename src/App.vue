@@ -1,8 +1,9 @@
 <template lang="pug">
 v-app
-	v-navigation-drawer( v-model="drawer" clipped floating disable-route-watcher app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''")
+	<!-- v&#45;navigation&#45;drawer( v&#45;model="drawer" clipped floating disable&#45;route&#45;watcher app :mini&#45;variant="minivariant" ) -->
+	v-navigation-drawer( v-model="drawer" clipped floating app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''")
 		v-list
-			v-list-tile( value="true" v-for="(item, i) in items" :key="i" @click="navigate(item.to)")
+			v-list-tile( value="true" v-for="(item, i) in items" :key="i" ripple @click="navigate(item.to)")
 				v-list-tile-action
 					v-icon( v-html="item.icon" )
 				v-list-tile-content
@@ -18,8 +19,7 @@ v-app
 		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
 		v-toolbar-title( v-text="title" )
 		v-spacer/
-		v-btn( icon @click.stop="drawer1 = !drawer1" )
-			v-icon offline_bolt
+		BottomSheet( narrow="true" )/
 		v-btn( icon @click.stop="drawer1 = !drawer1" )
 			v-icon settings
 		v-btn( icon @click.stop="drawer1 = !drawer1" )
@@ -34,13 +34,13 @@ v-app
 	v-toolbar(v-if="$vuetify.breakpoint.mdAndDown").my
 		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
 		v-spacer
-		v-btn( icon )
-			v-icon offline_bolt
+		BottomSheet/
 		v-spacer
 		v-toolbar-side-icon( @click.stop="drawer1 = !drawer1" )
 </template>
 
 <script>
+import BottomSheet from '@/components/BottomSheet'
 
 export default {
 	name: 'App',
@@ -76,10 +76,10 @@ export default {
 		navigate (e) {
 			this.$router.push(e)
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
-		},
-		test () {
-			console.log(this.$route.path)
 		}
+	},
+	components: {
+		BottomSheet
 	}
 }
 </script>
@@ -92,4 +92,12 @@ export default {
 .shift {
 	margin-top: 56px;
 }
+
+.close {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
 </style>

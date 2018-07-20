@@ -30,7 +30,6 @@
 	],
 	"start_url": "./src/main.js",
 	"display": "standalone",
-	"orientation": "portrait",
-	"background_color": "#000000",
+	"background_color": "#eee",
 	"theme_color": "#133C60"
 }
