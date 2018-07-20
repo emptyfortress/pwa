@@ -2,18 +2,18 @@
 v-bottom-sheet( v-model="sheet"  inset )
 	v-btn( slot="activator" icon )
 		v-icon offline_bolt
-	v-list
-		v-container( grid-list-sm )
-			v-layout( wrap )
-				v-flex( v-for="tile in tiles" :key="tile.id" @click="sheet = false" align-start)
-					v-card( tile flat width="200")
-						v-card-media( height="64px" contain :src="`https://cdn.vuetifyjs.com/images/bottom-sheets/${tile.img}`")
-						v-card-title
-							p.text-xs-center {{ tile.title }}
-							<!-- h3.headline.text&#45;xs&#45;center {{ tile.title }} -->
+	<!-- v&#45;card.test -->
+	.test
+		v-tabs( v-model="active" color="cyan" dark slider-color="yellow" )
+			v-tab( v-for="n in 3" :key="n" ripple ) item {{ n }}
+			v-tab-item( v-for="n in 3" :key="n" )
+				v-card( flat )
+					v-card-text Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
 </template>
 
 <script>
+
 export default {
 	props: [ 'narrow' ],
 	data () {
@@ -38,12 +38,16 @@ export default {
 	computed: {
 	},
 	methods: {
+	},
+	components: {
 	}
 }
 </script>
 
 <style scoped lang="scss">
-.v-card {
-	background: #eee;
+.test {
+	height: 300px;
+	background: #fff;
 }
+
 </style>

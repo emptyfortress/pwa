@@ -7,7 +7,7 @@ v-container( grid-list-md text-xs-center )
 				v-card-title(primary-title)
 					h3.headline.mb-0 {{cat.comment}}
 	v-btn(@click="goHome") Назад
-
+	v-container
 </template>
 
 <script>
