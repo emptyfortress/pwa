@@ -2,13 +2,18 @@
 v-bottom-sheet( v-model="sheet"  inset )
 	v-btn( slot="activator" icon )
 		v-icon offline_bolt
-	<!-- v&#45;card.test -->
 	.test
-		v-tabs( v-model="active" color="cyan" dark slider-color="yellow" )
-			v-tab( v-for="n in 3" :key="n" ripple ) item {{ n }}
-			v-tab-item( v-for="n in 3" :key="n" )
-				v-card( flat )
-					v-card-text Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		v-tabs( v-model="tabs" fixed-tabs )
+			v-tab( href="#mobile-tabs-5-1" )
+				v-icon phone
+			v-tab( href="#mobile-tabs-5-2" )
+				v-icon favorite
+			v-tab( href="#mobile-tabs-5-3" )
+				v-icon account_box
+		v-tabs-items( v-model="tabs" ).white.elevation-1
+			v-tab-item( v-for="i in 3" :id="'mobile-tabs-5-' + i" :key="i" )
+				v-card.hei
+					v-card-text {{ text }}
 
 </template>
 
@@ -20,6 +25,8 @@ export default {
 		return {
 			inset: this.narrow,
 			sheet: true,
+			tabs: null,
+			text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
 			tiles: [
 				{ id: 1, img: 'keep.png', title: 'Keep' },
 				{ id: 2, img: 'inbox.png', title: 'Inbox' },
@@ -46,8 +53,11 @@ export default {
 
 <style scoped lang="scss">
 .test {
-	height: 300px;
+	/* height: 300px; */
 	background: #fff;
+}
+.hei {
+	min-height: 200px;
 }
 
 </style>
