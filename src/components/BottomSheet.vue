@@ -4,9 +4,9 @@ v-bottom-sheet( v-model="sheet"  inset )
 		v-icon offline_bolt
 	v-list
 		v-container( grid-list-sm )
-			v-layout( align-start wrap )
-				v-flex( v-for="tile in tiles" :key="tile.id" @click="sheet = false" )
-					v-card( tile flat )
+			v-layout( wrap )
+				v-flex( v-for="tile in tiles" :key="tile.id" @click="sheet = false" align-start)
+					v-card( tile flat width="200")
 						v-card-media( height="64px" contain :src="`https://cdn.vuetifyjs.com/images/bottom-sheets/${tile.img}`")
 						v-card-title
 							p.text-xs-center {{ tile.title }}
