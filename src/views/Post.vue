@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container(grid-list-md text-xs-center)
+v-container(grid-list-md text-xs-center).rel
 	v-layout(align-start justify-center row)
 		v-flex(xs12)
 			v-card

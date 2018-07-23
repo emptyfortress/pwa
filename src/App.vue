@@ -1,6 +1,5 @@
 <template lang="pug">
-v-app
-	<!-- v&#45;navigation&#45;drawer( v&#45;model="drawer" clipped floating disable&#45;route&#45;watcher app :mini&#45;variant="minivariant" ) -->
+v-app.rel
 	v-navigation-drawer( v-model="drawer" clipped floating app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''")
 		v-list
 			v-list-tile( value="true" v-for="(item, i) in items" :key="i" ripple @click="navigate(item.to)")
@@ -8,6 +7,11 @@ v-app
 					v-icon( v-html="item.icon" )
 				v-list-tile-content
 					v-list-tile-title( v-text="item.title" )
+			v-list-tile( ripple @click="navigate('/about')" )
+				v-list-tile-action
+					v-icon copyright
+				v-list-tile-content
+					v-list-tile-title About
 	v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''")
 		v-list
 			v-list-tile( value="true" v-for="(item, i) in items" :key="i" @click="navigate(item.to)")
@@ -28,9 +32,9 @@ v-app
 		v-btn( icon to="/"  )
 			v-icon( v-if="$route.path == '/'") home
 			v-icon( v-else) arrow_back
-	v-content
+	v-content.rel
 		v-slide-y-transition(mode="out-in")
-			router-view/
+			router-view
 	v-toolbar(v-if="$vuetify.breakpoint.mdAndDown").my
 		v-toolbar-side-icon( @click.stop="drawer = !drawer" )
 		v-spacer
@@ -100,4 +104,7 @@ export default {
 	width: 100%;
 }
 
+.rel {
+	position: relative;
+}
 </style>

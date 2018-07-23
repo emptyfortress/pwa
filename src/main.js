@@ -10,9 +10,11 @@ import '@/assets/css/support.css'
 import '@/assets/css/main.scss'
 import firebase from './services/firebase'
 import VueResource from 'vue-resource'
+import VueParticles from 'vue-particles'
 
 Vue.use(Vuefire)
 Vue.use(VueResource)
+Vue.use(VueParticles)
 Vue.config.productionTip = false
 
 new Vue({
