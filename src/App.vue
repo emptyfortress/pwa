@@ -1,12 +1,12 @@
 <template lang="pug" >
-v-app.rel
+v-app( :dark="night" ).rel
 	template( v-if="authorised" )
 		v-navigation-drawer( v-model="leftDrawer" clipped floating app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerLeftContent /
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerRightContent /
 
-		v-toolbar( app flat clipped-left clipped-right color="primary" v-if="$vuetify.breakpoint.lgAndUp" )
+		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp" )
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			v-toolbar-title( v-text="title" )
 			v-spacer/
@@ -46,6 +46,7 @@ export default {
 	name: 'App',
 	data () {
 		return {
+			night: false,
 			styleObject: {
 				marginTop: 0
 			},
@@ -81,7 +82,7 @@ export default {
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
 		},
 		changeTheme () {
-			this.$vuetify.theme.primary = '#4caf50'
+			this.night = !this.night
 		}
 	},
 	components: {

@@ -10,3 +10,37 @@ $grey1:     #BDBDBD;
 $grey2:     #828282;
 $grey3:     #4F4F4F;
 $grey4:     #333333;
+ 
+
+.application.theme--light {
+  background: #fafafa;
+  color: rgba(0,0,0,0.87);
+}
+.application.theme--light a {
+  cursor: pointer;
+}
+.application.theme--light .text--primary {
+  color: rgba(0,0,0,0.87) !important;
+}
+.application.theme--light .text--secondary {
+  color: rgba(0,0,0,0.54) !important;
+}
+.application.theme--light .text--disabled {
+  color: rgba(0,0,0,0.38) !important;
+}
+.application.theme--dark {
+  background: #303030;
+  color: #fff;
+}
+.application.theme--dark a {
+  cursor: pointer;
+}
+.application.theme--dark .text--primary {
+  color: #fff !important;
+}
+.application.theme--dark .text--secondary {
+  color: rgba(255,255,255,0.7) !important;
+}
+.application.theme--dark .text--disabled {
+  color: rgba(255,255,255,0.5) !important;
+}
