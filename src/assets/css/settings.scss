@@ -13,11 +13,10 @@ $grey4:     #333333;
  
 
 .application.theme--light {
-  background: #fafafa;
+  background: $grey;
   color: rgba(0,0,0,0.87);
-}
-.application.theme--light a {
-  cursor: pointer;
+	.v-navigation-drawer { background: $grey; }
+	.v-toolbar { background: #F2F2F3; }
 }
 .application.theme--light .text--primary {
   color: rgba(0,0,0,0.87) !important;
@@ -31,9 +30,6 @@ $grey4:     #333333;
 .application.theme--dark {
   background: #303030;
   color: #fff;
-}
-.application.theme--dark a {
-  cursor: pointer;
 }
 .application.theme--dark .text--primary {
   color: #fff !important;

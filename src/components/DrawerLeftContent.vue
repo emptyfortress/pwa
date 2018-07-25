@@ -5,7 +5,7 @@ div
 			img( src="@/assets/img/dv-64.png" )
 	v-layout(column wrap )
 		v-list
-			v-list-tile( value="true" v-for="(item, i) in items" :key="i" ripple @click="navigate(item.to)")
+			v-list-tile( v-for="(item, i) in items" :key="i" ripple @click="navigate(item.to)")
 				v-list-tile-action
 					v-icon( v-html="item.icon" )
 				v-list-tile-content

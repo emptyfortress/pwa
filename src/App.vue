@@ -3,7 +3,7 @@ v-app( :dark="night" ).rel
 	template( v-if="authorised" )
 		v-navigation-drawer( v-model="leftDrawer" clipped floating app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerLeftContent /
-		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
+		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" ).white
 			DrawerRightContent /
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp" )
@@ -25,7 +25,7 @@ v-app( :dark="night" ).rel
 			v-slide-y-transition(mode="out-in")
 				router-view
 
-		v-toolbar(v-if="$vuetify.breakpoint.mdAndDown" ).my
+		v-toolbar(v-if="$vuetify.breakpoint.mdAndDown"  flat ).my
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			v-spacer
 			BottomSheet/
@@ -48,7 +48,8 @@ export default {
 		return {
 			night: false,
 			styleObject: {
-				marginTop: 0
+				marginTop: 0,
+				background: '#fff'
 			},
 			authorised: true,
 			notLogged: true,
