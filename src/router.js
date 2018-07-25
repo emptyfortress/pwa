@@ -12,12 +12,18 @@ export default new Router({
 		{
 			path: '/',
 			name: 'home',
-			component: Home
+			component: Home,
+			meta: {
+				title: 'главная'
+			}
 		},
 		{
 			path: '/detail/:id',
 			name: 'detail',
-			component: DetailView
+			component: DetailView,
+			meta: {
+				title: 'F0cck'
+			}
 		},
 		{
 			path: '/post',

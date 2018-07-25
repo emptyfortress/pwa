@@ -8,7 +8,8 @@ v-app( :dark="night" ).rel
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp" )
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
-			v-toolbar-title( v-text="title" )
+			v-spacer/
+			v-toolbar-title( v-text="pageTitle" )
 			v-spacer/
 			BottomSheet( narrow="true" )/
 			v-btn( icon @click.stop="changeTheme" )
@@ -37,6 +38,7 @@ v-app( :dark="night" ).rel
 </template>
 
 <script>
+// import router from './router'
 import DrawerLeftContent from '@/components/DrawerLeftContent'
 import DrawerRightContent from '@/components/DrawerRightContent'
 import BottomSheet from '@/components/BottomSheet'
@@ -71,11 +73,14 @@ export default {
 			],
 			miniVariant: false,
 			right: true,
-			rightDrawer: false,
-			title: 'Docsvision'
+			rightDrawer: false
+			// title: 'Docsvision'
 		}
 	},
 	computed: {
+		pageTitle () {
+			return this.$route.meta.title
+		}
 	},
 	methods: {
 		navigate (e) {
@@ -100,18 +105,15 @@ export default {
 	position: fixed;
 	bottom: 0;
 }
-.shift {
-	margin-top: 56px;
-}
-
-.close {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-}
 
 .rel {
 	position: relative;
 }
+
+.v-toolbar__title {
+	font-weight: 400;
+	text-transform: uppercase;
+	/* font-family: Tahoma; */
+}
+
 </style>

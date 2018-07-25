@@ -10,6 +10,7 @@ v-container(grid-list-sm)
 export default {
 	data () {
 		return {
+			title: 'just test'
 		}
 	},
 	methods: {
