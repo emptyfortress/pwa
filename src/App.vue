@@ -5,28 +5,33 @@ v-app.rel
 			DrawerLeftContent /
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerRightContent /
-		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp" )
+
+		v-toolbar( app flat clipped-left clipped-right color="primary" v-if="$vuetify.breakpoint.lgAndUp" )
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			v-toolbar-title( v-text="title" )
 			v-spacer/
 			BottomSheet( narrow="true" )/
-			v-btn( icon @click.stop="drawer1 = !drawer1" )
+			v-btn( icon @click.stop="changeTheme" )
 				v-icon settings
 			v-btn( icon @click.stop="drawer1 = !drawer1" )
 				v-icon menu
-		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 dark v-if="$vuetify.breakpoint.mdAndDown" )
+
+		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 v-if="$vuetify.breakpoint.mdAndDown" )
 			v-btn( icon to="/"  )
 				v-icon( v-if="$route.path == '/'") home
 				v-icon( v-else) arrow_back
+
 		v-content.rel
 			v-slide-y-transition(mode="out-in")
 				router-view
+
 		v-toolbar(v-if="$vuetify.breakpoint.mdAndDown" ).my
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			v-spacer
 			BottomSheet/
 			v-spacer
 			v-toolbar-side-icon( @click.stop="drawer1 = !drawer1" )
+
 	template( v-else )
 		Login
 </template>
@@ -74,6 +79,9 @@ export default {
 		navigate (e) {
 			this.$router.push(e)
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
+		},
+		changeTheme () {
+			this.$vuetify.theme.primary = '#4caf50'
 		}
 	},
 	components: {
