@@ -74,7 +74,6 @@ export default {
 			miniVariant: false,
 			right: true,
 			rightDrawer: false
-			// title: 'Docsvision'
 		}
 	},
 	computed: {
@@ -113,7 +112,8 @@ export default {
 .v-toolbar__title {
 	font-weight: 400;
 	text-transform: uppercase;
-	/* font-family: Tahoma; */
+	/* font-family: "Times New Roman"; */
+	font-size: 2rem;
 }
 
 </style>
