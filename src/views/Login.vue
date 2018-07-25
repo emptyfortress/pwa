@@ -1,6 +1,6 @@
 <template lang="pug">
 .full.text-xs-center
-	<!-- vue&#45;particles( color="#fff" ).part -->
+	vue-particles( color="#fff" ).part
 	v-layout( row align-center justify-center fill-height).login
 		v-flex.xs12.sm6.lg4
 			v-card
@@ -11,8 +11,8 @@
 					v-text-field( v-model="password"  label="Password" required )
 					v-checkbox( v-model="checkbox" label="Чужой компьютер" )
 					v-layout( row justify-space-between wrap)
-						v-btn( flat color="secondary" ) Напомнить пароль
-						v-btn( flat color="primary" ) Вход
+						v-btn( flat color="accent" ) Напомнить пароль
+						v-btn( flat color="success" ) Вход
 </template>
 
 <style scoped lang="scss">
@@ -24,7 +24,7 @@ h2 {
 	height: 100%;
 	color: #fff;
 	/* background: linear-gradient(#006297, #010B12); */
-	/* background: url(/img/globe-bg.jpg) no-repeat center center; */
+	background: url(/img/globe-bg.jpg) no-repeat center center;
 	/* background: -moz-linear-gradient(top, #010b12 0%, #2989d8 29%, #006297 47%, #006297 47%, #010b12 100%); */
 	/* background: -webkit-linear-gradient(top, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
 	/* background: linear-gradient(to bottom, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
