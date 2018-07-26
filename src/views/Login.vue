@@ -4,23 +4,31 @@
 	v-layout( row align-center justify-center fill-height).login
 		v-flex.xs12.sm6.lg4
 			v-card
-				v-form
-					v-avatar(size="64px" @click=' active = 1')
+				v-form.rel
+					v-avatar(size="64px" @click='next' v-if="active == 0").main
 						img( src="@/assets/img/user.svg" )
-					v-tabs(v-model='active')
-						div( style="display: none;" )
-							v-tab one
-							v-tab one
-						v-tab-item( :key=1 )
+					v-avatar(size="64px" @click='next' v-if=" active == 1" ).main
+						v-icon arrow_back
+					transition( name="slide" mode="out-in" )
+						.main( v-if=" active == 0")
 							.hello Привет, kmg01!
 							v-text-field(  label="Password" required )
 							v-checkbox( label="Чужой компьютер" )
 							v-layout( row justify-space-between wrap)
 								v-btn( flat color="accent" ) Напомнить пароль
 								v-btn( flat color="success" ) Вход
-						v-tab-item( :key=2 )
-							.hello Привет, kmg02!
-
+					transition( name="slide" mode="out-in" )
+						.user( v-if=" active == 1")
+							.hello Выберите учетную запись для входа
+							v-layout( row wrap justify-start align-center)
+								.userpic
+									v-avatar( size="64px" )
+										img( src="@/assets/img/user.svg" )
+									p kmg01@docsvision.com
+								.userpic
+									v-avatar( size="64px" )
+										img( src="@/assets/img/user1.svg" )
+									p kmg02
 </template>
 
 <script>
@@ -32,16 +40,25 @@ export default {
 	},
 	methods: {
 		next () {
-			// this.active = 2
-			// console.log(123)
-			const active = parseInt(this.active)
-			this.active = (active < 2 ? active + 1 : 0)
+			this.active === 0 ? this.active = 1 : this.active = 0
 		}
 	}
 }
 </script>
 
 <style scoped lang="scss">
+
+.slide-enter-active, .slide-leave-active {
+  transition: all .3s ease;
+	position: absolute;
+	width: 100%;
+}
+
+.slide-enter, .slide-leave-to {
+	transform: translateX(-50px);
+	opacity: 0;
+}
+
 h2 {
 	color: #fff;
 	font-size: 2rem;
@@ -56,6 +73,7 @@ h2 {
 	/* background: linear-gradient(to bottom, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
 
 }
+.rel { position: relative; }
 .part {
 	position: absolute;
 	top: 0;
@@ -70,25 +88,36 @@ h2 {
 
 .v-card {
 	padding-bottom: 1rem;
-	.v-avatar {
+	.v-avatar.main {
 		transform: translateY(-40px);
 		margin-bottom: 0;
+		background: #fff;
 	}
 	.hello {
 		font-size: 2rem;
 		text-align: left;
 		margin-top: 0;
 	}
+	min-height: 300px;
 }
 .v-input.mt0 {
 	margin-top: 0;
 }
-.v-carousel {
-	height: auto;
-	box-shadow: none;
+.v-avatar {
+	cursor: pointer;
+	&:hover {
+		background: #eee;
+	}
+	.v-icon {
+		font-size: 2.5rem;
+	}
 }
-.v-tabs__bar { display: none; }
-.v-tabs__items {
-	top: -50px;
+.userpic {
+	cursor: pointer;
+	margin-right: 1rem;
+	margin-top: 1rem;
+	.v-avatar { background: #eee; }
+
 }
+
 </style>
