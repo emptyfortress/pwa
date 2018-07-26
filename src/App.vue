@@ -18,9 +18,12 @@ v-app( :dark="night" ).rel
 				v-icon menu
 
 		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 v-if="$vuetify.breakpoint.mdAndDown" )
-			v-btn( icon to="/"  )
-				v-icon( v-if="$route.path == '/'") home
-				v-icon( v-else) arrow_back
+			v-btn( icon to="/"  v-if="$route.path !== '/'" )
+				v-icon arrow_back
+			<!-- v&#45;btn( icon to="/"  ) -->
+			<!-- 	v&#45;icon( v&#45;if="$route.path == '/'") home -->
+			<!-- 	v&#45;icon( v&#45;else) arrow_back -->
+			v-toolbar-title( v-text="pageTitle" )
 
 		v-content.rel
 			v-slide-y-transition(mode="out-in")
@@ -53,7 +56,7 @@ export default {
 				marginTop: 0,
 				background: '#fff'
 			},
-			authorised: true,
+			authorised: false,
 			notLogged: true,
 			clipped: true,
 			leftDrawer: false,
