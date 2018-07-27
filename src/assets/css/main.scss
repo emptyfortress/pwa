@@ -1,2 +1,17 @@
 @import 'settings';
 
+.rel { position: relative; }
+
+
+// this is my own animation
+
+.slideX-enter-active, .slideX-leave-active {
+  transition: all .3s ease;
+	position: absolute;
+	width: 100%;
+}
+
+.slideX-enter, .slideX-leave-to {
+	transform: translateX(-50px);
+	opacity: 0;
+}

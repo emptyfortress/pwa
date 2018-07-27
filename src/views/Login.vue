@@ -9,7 +9,7 @@
 						img( src="@/assets/img/user.svg" )
 					v-avatar(size="64px" @click='next' v-if=" active == 1" ).main
 						v-icon arrow_back
-					transition( name="slide" mode="out-in" )
+					transition( name="slideX" mode="out-in" )
 						.main( v-if=" active == 0")
 							.hello Привет, kmg01!
 							v-text-field(  label="Password" required )
@@ -17,18 +17,18 @@
 							v-layout( row justify-space-between wrap)
 								v-btn( flat color="accent" ) Напомнить пароль
 								v-btn( flat color="success" ) Вход
-					transition( name="slide" mode="out-in" )
+					transition( name="slideX" mode="out-in" )
 						.user( v-if=" active == 1")
 							.hello Выберите учетную запись для входа
 							v-layout( row wrap justify-start align-center)
-								.userpic
+								.userpic.accent.lighten-2( @click="next" )
 									v-avatar( size="64px" )
 										img( src="@/assets/img/user.svg" )
-									p kmg01@docsvision.com
-								.userpic
+									.subheading kmg01
+								.userpic( @click="next" )
 									v-avatar( size="64px" )
 										img( src="@/assets/img/user1.svg" )
-									p kmg02
+									.subheading kmg02
 </template>
 
 <script>
@@ -48,17 +48,6 @@ export default {
 
 <style scoped lang="scss">
 
-.slide-enter-active, .slide-leave-active {
-  transition: all .3s ease;
-	position: absolute;
-	width: 100%;
-}
-
-.slide-enter, .slide-leave-to {
-	transform: translateX(-50px);
-	opacity: 0;
-}
-
 h2 {
 	color: #fff;
 	font-size: 2rem;
@@ -67,13 +56,12 @@ h2 {
 	height: 100%;
 	color: #fff;
 	/* background: linear-gradient(#006297, #010B12); */
-	/* background: url(/img/globe-bg.jpg) no-repeat center center; */
+	background: url(/img/globe-bg.jpg) no-repeat center center;
 	/* background: -moz-linear-gradient(top, #010b12 0%, #2989d8 29%, #006297 47%, #006297 47%, #010b12 100%); */
 	/* background: -webkit-linear-gradient(top, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
 	/* background: linear-gradient(to bottom, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
 
 }
-.rel { position: relative; }
 .part {
 	position: absolute;
 	top: 0;
@@ -89,7 +77,7 @@ h2 {
 .v-card {
 	padding-bottom: 1rem;
 	.v-avatar.main {
-		transform: translateY(-40px);
+		transform: translateY(-30px);
 		margin-bottom: 0;
 		background: #fff;
 	}
@@ -116,6 +104,8 @@ h2 {
 	cursor: pointer;
 	margin-right: 1rem;
 	margin-top: 1rem;
+	padding: .5rem;
+	border-radius: 10px;
 	.v-avatar { background: #eee; }
 
 }

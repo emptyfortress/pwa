@@ -20,9 +20,6 @@ v-app( :dark="night" ).rel
 		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 v-if="$vuetify.breakpoint.mdAndDown" )
 			v-btn( icon to="/"  v-if="$route.path !== '/'" )
 				v-icon arrow_back
-			<!-- v&#45;btn( icon to="/"  ) -->
-			<!-- 	v&#45;icon( v&#45;if="$route.path == '/'") home -->
-			<!-- 	v&#45;icon( v&#45;else) arrow_back -->
 			v-toolbar-title( v-text="pageTitle" )
 
 		v-content.rel
