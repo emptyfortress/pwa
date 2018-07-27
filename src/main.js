@@ -12,11 +12,13 @@ import firebase from './services/firebase'
 import VueResource from 'vue-resource'
 import VueParticles from 'vue-particles'
 import Trend from 'vuetrend'
+import LiquorTree from 'liquor-tree'
 
 Vue.use(Vuefire)
 Vue.use(VueResource)
 Vue.use(VueParticles)
 Vue.use(Trend)
+Vue.use(LiquorTree)
 Vue.config.productionTip = false
 
 new Vue({
