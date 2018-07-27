@@ -1,6 +1,6 @@
 <template lang="pug">
 .full.text-xs-center
-	<!-- vue&#45;particles( color="#fff" ).part -->
+	vue-particles( color="#fff" ).part
 
 	v-layout( row align-center justify-center fill-height v-if="$vuetify.breakpoint.mdAndUp").login
 		v-flex.xs12.sm6.lg4
@@ -80,12 +80,11 @@ h2 {
 	font-size: 2rem;
 }
 .full {
-	/* margin: 0; */
-	/* padding: 0; */
+	position: relative;
 	height: 100%;
 	color: #fff;
-	background: linear-gradient(#006297, #010B12);
-	/* background: url(/img/globe-bg.jpg) no-repeat 10% 40%; */
+	/* background: linear-gradient(#006297, #010B12); */
+	background: url(/img/globe-bg.jpg) no-repeat 10% 40%;
 	/* background: -moz-linear-gradient(top, #010b12 0%, #2989d8 29%, #006297 47%, #006297 47%, #010b12 100%); */
 	/* background: -webkit-linear-gradient(top, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
 	/* background: linear-gradient(to bottom, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
@@ -146,7 +145,6 @@ h2 {
 	display: grid;
 	height: 100%;
 	grid-template-columns: 1fr 1fr 1fr;
-	/* grid-template-rows: .8fr 1fr 48px 1fr 3fr; */
 	grid-template-rows: auto;
 	grid-template-areas: "hello hello hello" "avatar avatar avatar" "finger finger finger" "pin pin pin" "keyboard keyboard keyboard";
 }
@@ -155,19 +153,15 @@ h2 {
 	grid-area: hello;
 	font-size: 1.5rem;
 	padding: 1rem;
-	/* margin-top: 1rem; */
-	border: 1px solid red;
 }
 
 .avatar {
 	grid-area: avatar;
-	border: 1px solid red;
 }
 
 .finger {
 	grid-area: finger;
-	border: 1px solid red;
-	background: #000000aa;
+	background: #00000044;
 	width: 100%;
 	height: 48px;
 	display: flex;
@@ -201,10 +195,9 @@ h2 {
 	grid-template-areas: "one two three" "four five six" "seven eight nine" ". zero .";
 	.v-btn {
 		padding: 0;
-		/* background: #000000aa; */
 		height: 100%;
 		font-size: 3rem;
-		border: 1px solid red;
+		border-radius: 1rem;
 	}
 }
 
