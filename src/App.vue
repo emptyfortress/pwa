@@ -53,7 +53,7 @@ export default {
 				marginTop: 0,
 				background: '#fff'
 			},
-			authorised: false,
+			authorised: true,
 			notLogged: true,
 			clipped: true,
 			leftDrawer: false,

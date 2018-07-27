@@ -11,9 +11,13 @@ v-container(grid-list-md)
 					v-flex
 						trend( :data="[0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
 				.folder This is folder
+		vue-easy-pie-chart( :percent="75" )
 </template>
 
 <script>
+import VueEasyPieChart from 'vue-easy-pie-chart'
+import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
+
 export default {
 	data () {
 		return {
@@ -24,6 +28,9 @@ export default {
 		displayDetails (id) {
 			this.$router.push({name: 'detail', params: { id: id }})
 		}
+	},
+	components: {
+		VueEasyPieChart
 	}
 }
 </script>
