@@ -1,7 +1,15 @@
 @import 'settings';
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 .rel { position: relative; }
 
+.bred {
+	border: 1px solid red;
+}
 
 // this is my own animation
 

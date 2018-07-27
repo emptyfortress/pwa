@@ -41,7 +41,7 @@ export default {
 				{ text: 'Item 4' }
 			],
 			treeOptions: {
-
+				checkbox: false
 			}
 		}
 	},
