@@ -17,7 +17,7 @@ v-container(grid-list-md)
 					v-flex
 						.folder Просрочено
 					v-flex
-						vue-easy-pie-chart( :percent="0" :scale-length="0" :size="90")
+						<!-- pie&#45;chart( :ratio=.42 :percent=42 :stroke&#45;width=10 ) -->
 	br
 	br
 	.display-1.font-weight-thin
@@ -44,6 +44,7 @@ v-container(grid-list-md)
 </template>
 
 <script>
+// import PieChart from 'vue-pie-chart/src/PieChart.vue'
 import VueEasyPieChart from 'vue-easy-pie-chart'
 import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
 
@@ -59,6 +60,7 @@ export default {
 		}
 	},
 	components: {
+		// 'pie-chart': PieChart,
 		VueEasyPieChart
 	}
 }
