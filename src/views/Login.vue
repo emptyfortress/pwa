@@ -5,28 +5,27 @@
 	v-layout( row align-center justify-center fill-height v-if="$vuetify.breakpoint.mdAndUp").login
 		v-flex.xs12.sm6.lg4
 			v-card
-				v-form.rel
-					v-avatar(size="64px" @click='next' v-if="active == 0").main
-						img( src="@/assets/img/user.svg" )
-					v-avatar(size="64px" @click='next' v-if=" active == 1" ).main
-						v-icon arrow_back
+				v-form(@submit.prevent='onEnter').rel
+					v-avatar(size="64px" @click='next').main
+						img( :src="iconPath()" v-if="!chooseUser" )
+						v-icon(v-if="chooseUser") arrow_back
 					transition( name="slideX" mode="out-in" )
-						.main( v-if=" active == 0")
-							.hello-big Привет, kmg01!
-							v-text-field(  label="Password" required )
+						.main( v-if="chooseUser == false")
+							.hello-big Привет, {{ currentUser.name }}!
+							v-text-field(  label="Password" v-model='password' required )
 							v-checkbox( label="Чужой компьютер" )
 							v-layout( row justify-space-between wrap)
 								v-btn( flat color="accent" ) Напомнить пароль
-								v-btn( flat color="success" ) Вход
+								v-btn( flat color="success" type='submit') Вход
 					transition( name="slideX" mode="out-in" )
-						.user( v-if=" active == 1")
+						.user( v-if="chooseUser == true")
 							.hello-big Выберите учетную запись для входа
 							v-layout( row wrap justify-start align-center)
-								.userpic.accent.lighten-2( @click="next" )
+								.userpic.accent.lighten-2( @click="next(0)" )
 									v-avatar( size="64px" )
-										img( src="@/assets/img/user.svg" )
+										img( src="@/assets/img/user0.svg" )
 									.subheading kmg01
-								.userpic( @click="next" )
+								.userpic( @click="next(1)" )
 									v-avatar( size="64px" )
 										img( src="@/assets/img/user1.svg" )
 									.subheading kmg02
@@ -34,8 +33,8 @@
 	v-layout.grid-container(v-if="$vuetify.breakpoint.smAndDown")
 		.hello Привет, kmg01!
 		.avatar
-			v-avatar(size="64px" @click='next' v-if="active == 0").mob
-				img( src="@/assets/img/user.svg" )
+			v-avatar(size="64px").mob
+				img( src="@/assets/img/user0.svg" )
 		.finger
 			img( src="@/assets/img/fingerprint.svg" )
 			span Приложите палец, чтобы войти
@@ -62,12 +61,32 @@
 export default {
 	data () {
 		return {
-			active: 0
+			active: 0,
+			chooseUser: false,
+			password: '',
+			email: ''
+		}
+	},
+	computed: {
+		currentUser () {
+			if (this.active === 0) {
+				return { name: 'kmg01', email: 'kmg01@docsvision.com', password: 'kmg001', pic: 'user0.svg' }
+			} else if (this.active === 1) {
+				return { name: 'kmg02', email: 'kmg02@docsvision.com', password: 'kmg002', pic: 'user1.svg' }
+			}
 		}
 	},
 	methods: {
-		next () {
-			this.active === 0 ? this.active = 1 : this.active = 0
+		next (e) {
+			this.chooseUser = !this.chooseUser
+			this.active = e
+		},
+		onEnter () {
+			console.log(this.currentUser.email, this.password)
+		},
+		iconPath () {
+			var icon = this.active
+			return require('@/assets/img/user' + icon + '.svg')
 		}
 	}
 }
@@ -120,9 +139,6 @@ h2 {
 }
 .v-avatar {
 	cursor: pointer;
-	&:hover {
-		background: #eee;
-	}
 	.v-icon {
 		font-size: 2.5rem;
 	}
