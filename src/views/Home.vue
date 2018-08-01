@@ -60,9 +60,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 .container {
 	margin-bottom: 5rem;
-	border: 1px solid red;
 }
 .display-1 {
 	text-transform: uppercase;

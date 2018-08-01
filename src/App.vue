@@ -103,6 +103,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 .my {
 	position: fixed;
 	bottom: 0;

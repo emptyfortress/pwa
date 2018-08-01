@@ -1,6 +1,6 @@
 <template lang="pug">
 .full.text-xs-center
-	<!-- vue&#45;particles( color="#fff" ).part -->
+	vue-particles( color="#fff" ).part
 
 	v-layout( row align-center justify-center fill-height v-if="$vuetify.breakpoint.mdAndUp").login
 		v-flex.xs12.sm6.lg4
@@ -53,7 +53,11 @@
 			v-btn( flat dark @click="pin(7)").seven 7
 			v-btn( flat dark @click="pin(8)").eight 8
 			v-btn( flat dark @click="pin(9)").nine 9
+			v-btn( flat dark @click="clearPin").refresh
+				v-icon refresh
 			v-btn( flat dark @click="pin(0)").zero 0
+			v-btn( flat dark @click="slicePin").backspace
+				v-icon backspace
 
 </template>
 
@@ -89,7 +93,6 @@
 		},
 		onEnter () {
 			this.$store.dispatch('logUserIn', {email: this.currentUser.email, password: this.password})
-			console.log(this.currentUser.email, this.password)
 		},
 		iconPath () {
 			var icon = this.active
@@ -97,10 +100,15 @@
 		},
 		pin (e) {
 			this.pincode.push(e)
-			console.log(this.pincode)
 			if (this.pincode[0] === 1 && this.pincode[1] === 2 && this.pincode[2] === 3 && this.pincode[3] === 4) {
 				this.onPinEnter()
 			}
+		},
+		clearPin () {
+			this.pincode = []
+		},
+		slicePin () {
+			this.pincode.splice(-1, 1)
 		}
 	}
 }
@@ -114,7 +122,8 @@ h2 {
 }
 .full {
 	position: relative;
-	height: 100%;
+	height: 100vh;
+	overflow: hidden;
 	color: #fff;
 	background: linear-gradient(#006297, #010B12);
 	/* background: url(/img/globe-bg.jpg) no-repeat 10% 40%; */
@@ -127,7 +136,7 @@ h2 {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100vh
+	height: 100%;
 }
 
 .v-form {

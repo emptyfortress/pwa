@@ -1,9 +1,12 @@
 @import 'settings';
 
-// html, body {
-// 	height: 100vh;
-// 	overflow: hidden;
-// }
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	// position: relative;
+	// overflow: hidden;
+}
 
 .rel { position: relative; }
 
@@ -14,7 +17,7 @@
 // this is my own animation
 
 .slideX-enter-active, .slideX-leave-active {
-  transition: all .3s ease;
+	transition: all .3s ease;
 	position: absolute;
 	width: 100%;
 }
