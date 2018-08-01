@@ -1,6 +1,6 @@
 <template lang="pug" >
 v-app( :dark="night" ).rel
-	template( v-if="authorised" )
+	template( v-if="userLogged" )
 		v-navigation-drawer( v-model="leftDrawer" clipped floating app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerLeftContent /
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" ).white
@@ -53,7 +53,7 @@ export default {
 				marginTop: 0,
 				background: '#fff'
 			},
-			authorised: true,
+			// authorised: true,
 			notLogged: true,
 			clipped: true,
 			leftDrawer: false,
@@ -79,6 +79,9 @@ export default {
 	computed: {
 		pageTitle () {
 			return this.$route.meta.title
+		},
+		userLogged () {
+			return this.$store.getters.user
 		}
 	},
 	methods: {

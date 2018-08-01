@@ -1,18 +1,18 @@
 <template lang="pug">
 .full.text-xs-center
-	vue-particles( color="#fff" ).part
+	<!-- vue&#45;particles( color="#fff" ).part -->
 
 	v-layout( row align-center justify-center fill-height v-if="$vuetify.breakpoint.mdAndUp").login
 		v-flex.xs12.sm6.lg4
 			v-card
 				v-form(@submit.prevent='onEnter').rel
-					v-avatar(size="64px" @click='next').main
+					v-avatar(size="64px" @click='toggleChoosing').main
 						img( :src="iconPath()" v-if="!chooseUser" )
 						v-icon(v-if="chooseUser") arrow_back
 					transition( name="slideX" mode="out-in" )
 						.main( v-if="chooseUser == false")
 							.hello-big Привет, {{ currentUser.name }}!
-							v-text-field(  label="Password" v-model='password' required )
+							v-text-field(type='password'  label="Password" v-model='password' required )
 							v-checkbox( label="Чужой компьютер" )
 							v-layout( row justify-space-between wrap)
 								v-btn( flat color="accent" ) Напомнить пароль
@@ -21,7 +21,7 @@
 						.user( v-if="chooseUser == true")
 							.hello-big Выберите учетную запись для входа
 							v-layout( row wrap justify-start align-center)
-								.userpic.accent.lighten-2( @click="next(0)" )
+								.userpic( @click="next(0)" )
 									v-avatar( size="64px" )
 										img( src="@/assets/img/user0.svg" )
 									.subheading kmg01
@@ -63,8 +63,8 @@ export default {
 		return {
 			active: 0,
 			chooseUser: false,
-			password: '',
-			email: ''
+			email: '',
+			password: ''
 		}
 	},
 	computed: {
@@ -74,12 +74,26 @@ export default {
 			} else if (this.active === 1) {
 				return { name: 'kmg02', email: 'kmg02@docsvision.com', password: 'kmg002', pic: 'user1.svg' }
 			}
+		},
+		user () {
+			return this.$store.getters.user
 		}
+	},
+	watch: {
+		user (value) {
+			if (value !== null && value !== undefined) {
+				this.$router.push('/')
+			}
+		}
+
 	},
 	methods: {
 		next (e) {
 			this.chooseUser = !this.chooseUser
 			this.active = e
+		},
+		toggleChoosing () {
+			this.chooseUser = !this.chooseUser
 		},
 		onEnter () {
 			console.log(this.currentUser.email, this.password)
@@ -102,8 +116,8 @@ h2 {
 	position: relative;
 	height: 100%;
 	color: #fff;
-	/* background: linear-gradient(#006297, #010B12); */
-	background: url(/img/globe-bg.jpg) no-repeat 10% 40%;
+	background: linear-gradient(#006297, #010B12);
+	/* background: url(/img/globe-bg.jpg) no-repeat 10% 40%; */
 	/* background: -moz-linear-gradient(top, #010b12 0%, #2989d8 29%, #006297 47%, #006297 47%, #010b12 100%); */
 	/* background: -webkit-linear-gradient(top, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
 	/* background: linear-gradient(to bottom, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
