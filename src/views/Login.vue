@@ -39,33 +39,32 @@
 			img( src="@/assets/img/fingerprint.svg" )
 			span Приложите палец, чтобы войти
 		.pin
-			#1
-			#2
-			#3
-			#4
+			div( :class='pincode.length >= 1 ? "filled" : "" ' )
+			div( :class='pincode.length >= 2 ? "filled" : "" ' )
+			div( :class='pincode.length >= 3 ? "filled" : "" ' )
+			div( :class='pincode.length >= 4 ? "filled" : "" ' )
 		.keyboard
-			v-btn( flat dark ).one 1
-			v-btn( flat dark ).two 2
-			v-btn( flat dark ).three 3
-			v-btn( flat dark ).four 4
-			v-btn( flat dark ).five 5
-			v-btn( flat dark ).six 6
-			v-btn( flat dark ).seven 7
-			v-btn( flat dark ).eight 8
-			v-btn( flat dark ).nine 9
-			v-btn( flat dark ).zero 0
+			v-btn( flat dark @click="pin(1)").one 1
+			v-btn( flat dark @click="pin(2)").two 2
+			v-btn( flat dark @click="pin(3)").three 3
+			v-btn( flat dark @click="pin(4)").four 4
+			v-btn( flat dark @click="pin(5)").five 5
+			v-btn( flat dark @click="pin(6)").six 6
+			v-btn( flat dark @click="pin(7)").seven 7
+			v-btn( flat dark @click="pin(8)").eight 8
+			v-btn( flat dark @click="pin(9)").nine 9
+			v-btn( flat dark @click="pin(0)").zero 0
 
 </template>
 
-<script>
-export default {
+<script> export default {
 	data () {
 		return {
 			active: 0,
 			chooseUser: false,
 			email: '',
 			password: '',
-			pin: []
+			pincode: []
 		}
 	},
 	computed: {
@@ -85,6 +84,9 @@ export default {
 		toggleChoosing () {
 			this.chooseUser = !this.chooseUser
 		},
+		onPinEnter () {
+			this.$store.dispatch('logUserIn', {email: 'kmg01@docsvision.com', password: 'kmg001'})
+		},
 		onEnter () {
 			this.$store.dispatch('logUserIn', {email: this.currentUser.email, password: this.password})
 			console.log(this.currentUser.email, this.password)
@@ -92,6 +94,13 @@ export default {
 		iconPath () {
 			var icon = this.active
 			return require('@/assets/img/user' + icon + '.svg')
+		},
+		pin (e) {
+			this.pincode.push(e)
+			console.log(this.pincode)
+			if (this.pincode[0] === 1 && this.pincode[1] === 2 && this.pincode[2] === 3 && this.pincode[3] === 4) {
+				this.onPinEnter()
+			}
 		}
 	}
 }
@@ -205,6 +214,9 @@ h2 {
 		background: #000;
 		margin: 0 .5rem;
 		border-radius: 1rem;
+		&.filled {
+			background: #00ff00;
+		}
 	}
 }
 
@@ -213,7 +225,7 @@ h2 {
 	grid-area: keyboard;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr 1fr;
-	grid-template-areas: "one two three" "four five six" "seven eight nine" ". zero .";
+	grid-template-areas: "one two three" "four five six" "seven eight nine" "refresh zero backspace";
 	.v-btn {
 		padding: 0;
 		height: 100%;
