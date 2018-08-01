@@ -64,7 +64,8 @@ export default {
 			active: 0,
 			chooseUser: false,
 			email: '',
-			password: ''
+			password: '',
+			pin: []
 		}
 	},
 	computed: {
@@ -74,18 +75,7 @@ export default {
 			} else if (this.active === 1) {
 				return { name: 'kmg02', email: 'kmg02@docsvision.com', password: 'kmg002', pic: 'user1.svg' }
 			}
-		},
-		user () {
-			return this.$store.getters.user
 		}
-	},
-	watch: {
-		user (value) {
-			if (value !== null && value !== undefined) {
-				this.$router.push('/')
-			}
-		}
-
 	},
 	methods: {
 		next (e) {
@@ -96,6 +86,7 @@ export default {
 			this.chooseUser = !this.chooseUser
 		},
 		onEnter () {
+			this.$store.dispatch('logUserIn', {email: this.currentUser.email, password: this.password})
 			console.log(this.currentUser.email, this.password)
 		},
 		iconPath () {
