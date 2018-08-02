@@ -13,12 +13,14 @@ import VueResource from 'vue-resource'
 import VueParticles from 'vue-particles'
 import Trend from 'vuetrend'
 import LiquorTree from 'liquor-tree'
+import Alert from './components/Alert'
 
 Vue.use(Vuefire)
 Vue.use(VueResource)
 Vue.use(VueParticles)
 Vue.use(Trend)
 Vue.use(LiquorTree)
+Vue.component('Alert', Alert)
 Vue.config.productionTip = false
 
 new Vue({

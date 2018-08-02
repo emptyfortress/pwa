@@ -1,6 +1,10 @@
 <template lang="pug">
 .full.text-xs-center
-	vue-particles( color="#fff" ).part
+	<!-- vue&#45;particles( color="#fff" ).part -->
+	transition( name="slideX" mode="out-in" )
+		v-layout( row v-if="error" )
+			v-flex.xs12.sm6.offset-sm3
+				Alert( @dismissed="onDismissed" :text="error.message" )
 
 	v-layout( row align-center justify-center fill-height v-if="$vuetify.breakpoint.mdAndUp").login
 		v-flex.xs12.sm6.lg4
@@ -61,7 +65,9 @@
 
 </template>
 
-<script> export default {
+<script>
+
+export default {
 	data () {
 		return {
 			active: 0,
@@ -78,6 +84,9 @@
 			} else if (this.active === 1) {
 				return { name: 'kmg02', email: 'kmg02@docsvision.com', password: 'kmg002', pic: 'user1.svg' }
 			}
+		},
+		error () {
+			return this.$store.getters.error
 		}
 	},
 	methods: {
@@ -109,6 +118,9 @@
 		},
 		slicePin () {
 			this.pincode.splice(-1, 1)
+		},
+		onDismissed () {
+			this.$store.dispatch('clearError')
 		}
 	}
 }
