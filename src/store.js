@@ -38,6 +38,9 @@ export default new Vuex.Store({
 		},
 		error (state) {
 			return state.error
+		},
+		folders (state) {
+			return state.folders
 		}
 	},
 	actions: {
@@ -66,6 +69,7 @@ export default new Vuex.Store({
 			commit('clearError')
 		},
 		loadFolders ({commit}) {
+			commit('setLoading', true)
 			firebase.database().ref('folders').once('value')
 				.then((data) => {
 					const folders = []
@@ -80,9 +84,11 @@ export default new Vuex.Store({
 						})
 					}
 					commit('setFolders', folders)
+					commit('setLoading', false)
 				})
 				.catch((error) => {
 					console.log(error)
+					commit('setLoading', false)
 				})
 		}
 	}
