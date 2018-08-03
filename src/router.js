@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import About from '@/views/About'
 import Post from '@/views/Post'
+import Create from '@/views/Create'
 import DetailView from '@/views/DetailView'
 
 Vue.use(Router)
@@ -24,6 +25,11 @@ export default new Router({
 			meta: {
 				title: 'F0cck'
 			}
+		},
+		{
+			path: '/create',
+			name: 'create',
+			component: Create
 		},
 		{
 			path: '/post',

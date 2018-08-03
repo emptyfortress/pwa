@@ -9,7 +9,8 @@ export default new Vuex.Store({
 	state: {
 		user: null,
 		loading: false,
-		error: null
+		error: null,
+		folders: []
 	},
 	mutations: {
 		setUser (state, payload) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
 		},
 		clearError (state) {
 			state.error = null
+		},
+		setFolders (state, payload) {
+			state.folders = payload
 		}
 	},
 	getters: {
@@ -60,6 +64,26 @@ export default new Vuex.Store({
 		},
 		clearError ({commit}) {
 			commit('clearError')
+		},
+		loadFolders ({commit}) {
+			firebase.database().ref('folders').once('value')
+				.then((data) => {
+					const folders = []
+					const obj = data.val()
+					for (let key in obj) {
+						folders.push({
+							id: key,
+							text: obj[key].text,
+							items: obj[key].items,
+							unread: obj[key].unread,
+							children: obj[key].children
+						})
+					}
+					commit('setFolders', folders)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
 		}
 	}
 })

@@ -81,7 +81,8 @@ export default {
 			return this.$route.meta.title
 		},
 		userLogged () {
-			return this.$store.getters.user
+			return true
+			// return this.$store.getters.user
 		}
 	},
 	methods: {
