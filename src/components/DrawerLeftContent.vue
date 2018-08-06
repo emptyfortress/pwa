@@ -27,10 +27,6 @@ export default {
 		}
 	},
 	computed: {
-		treeM () {
-			const switcher = document.querySelector('#switch')
-			return switcher.value
-		},
 		loading () {
 			return this.$store.getters.loading
 		},

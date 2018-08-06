@@ -23,28 +23,39 @@ v-container(grid-list-md)
 	.display-1.font-weight-thin
 		i.icon-folder
 		span Папки
-	v-layout(row wrap)
-		v-flex(v-for="n in 15" :key="n" xs6 sm4 @click="displayDetails(picture['.key'])")
+	v-layout( column v-if="loading" align-center justify-center)
+		v-flex.mt-5
+			v-progress-circular( indeterminate color="primary" )
+	v-layout(row wrap v-if="!loading")
+		v-flex(v-for="folder in folderData" :key="folder.id" xs6 sm4 @click="displayDetails(picture['.key'])")
 			v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
-				v-badge( color="info" overlap)
-					span( slot="badge" ) 7
+				v-badge( color="info" overlap v-if="folder.unread != 0")
+					span( slot="badge" ) {{ folder.unread }}
 				v-layout( row justify-space-around align-center)
 					v-flex
-						.counter 15
+						.counter {{ folder.items }}
 					v-flex
-						trend( :data="[0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
-				.folder This is folder
+						trend( :data="folder.history" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
+				.folder {{ folder.text }}
 </template>
 
 <script>
-// import PieChart from 'vue-pie-chart/src/PieChart.vue'
 import VueEasyPieChart from 'vue-easy-pie-chart'
 import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
 
 export default {
 	data () {
 		return {
-			title: 'just test'
+			title: 'just test',
+			folders: ''
+		}
+	},
+	computed: {
+		loading () {
+			return this.$store.getters.loading
+		},
+		folderData () {
+			return this.$store.getters.folders
 		}
 	},
 	methods: {
@@ -53,7 +64,6 @@ export default {
 		}
 	},
 	components: {
-		// 'pie-chart': PieChart,
 		VueEasyPieChart
 	}
 }
