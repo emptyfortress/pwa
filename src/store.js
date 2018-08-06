@@ -81,7 +81,10 @@ export default new Vuex.Store({
 							items: obj[key].items,
 							unread: obj[key].unread,
 							children: obj[key].children,
-							history: obj[key].history
+							history: obj[key].history,
+							state: obj[key].state,
+							type: obj[key].type,
+							dash: obj[key].dash
 						})
 					}
 					commit('setFolders', folders)

@@ -3,7 +3,10 @@ v-container(grid-list-md)
 	.display-1.font-weight-thin
 		i.icon-check
 		span Поручения
-	v-layout( row wrap )
+	v-layout( column v-if="loading" align-center justify-center)
+		v-flex.mt-5
+			v-progress-circular( indeterminate color="primary" )
+	v-layout( row wrap v-if="!loading")
 		v-flex( xs12 sm6 )
 			v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
 				v-layout( row justify-center align-center)
@@ -18,6 +21,18 @@ v-container(grid-list-md)
 						vue-easy-pie-chart( :percent="0" :scale-length="0" :size="80")
 					v-flex
 						.folder Просрочено на этой неделе
+		v-layout(row wrap )
+			v-flex(v-for="folder in taskData" :key="folder.id" xs6 sm4 @click="displayDetails(picture['.key'])")
+				v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
+					v-badge( color="info" overlap v-if="folder.unread != 0")
+						span( slot="badge" ) {{ folder.unread }}
+					v-layout( row justify-space-around align-center)
+						v-flex
+							.counter {{ folder.items }}
+						v-flex
+							trend( :data="folder.history" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
+					.folder {{ folder.text }}
+
 	br
 	br
 	.display-1.font-weight-thin
@@ -26,6 +41,7 @@ v-container(grid-list-md)
 	v-layout( column v-if="loading" align-center justify-center)
 		v-flex.mt-5
 			v-progress-circular( indeterminate color="primary" )
+
 	v-layout(row wrap v-if="!loading")
 		v-flex(v-for="folder in folderData" :key="folder.id" xs6 sm4 @click="displayDetails(picture['.key'])")
 			v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
@@ -46,8 +62,6 @@ import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
 export default {
 	data () {
 		return {
-			title: 'just test',
-			folders: ''
 		}
 	},
 	computed: {
@@ -55,12 +69,31 @@ export default {
 			return this.$store.getters.loading
 		},
 		folderData () {
-			return this.$store.getters.folders
+			const all = this.$store.getters.folders
+			let result = []
+			this.filterRec(all, x => x.dash === true && x.type === 'folder', result)
+			return result
+		},
+		taskData () {
+			const all = this.$store.getters.folders
+			let result = []
+			this.filterRec(all, x => x.dash === true && x.type === 'task', result)
+			return result
 		}
 	},
 	methods: {
 		displayDetails (id) {
 			this.$router.push({name: 'detail', params: { id: id }})
+		},
+		filterRec (currentItems, condition, result) {
+			for (let item of currentItems) {
+				if (condition(item)) {
+					result.push(item)
+				}
+				if (item.children) {
+					this.filterRec(item.children, condition, result)
+				}
+			}
 		}
 	},
 	components: {

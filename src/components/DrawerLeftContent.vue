@@ -6,6 +6,7 @@ div
 	v-layout( column v-if="loading" align-center justify-center)
 		v-flex.mt-5
 			v-progress-circular( indeterminate color="primary" )
+			<!-- TODO: make normal loading fb&#45;style -->
 	template( v-if="!loading" )
 		v-text-field( v-model="filterFolder" label="Фильтр").ml-3.mr-3
 		tree( :data="treeData" :filter="filterFolder" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
