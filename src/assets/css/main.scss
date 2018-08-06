@@ -26,3 +26,14 @@ html, body {
 	transform: translateX(-50px);
 	opacity: 0;
 }
+
+// tree styles **************************************** 
+.tree-highlights .tree-node.matched > .tree-content {
+  background: $yellow;
+}
+.tree > .tree-filter-empty {
+	margin: 1rem;
+	font-size: 1.1rem;
+	padding: .5rem 2rem;
+	border: 3px double #333;
+}

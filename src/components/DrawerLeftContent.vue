@@ -6,8 +6,9 @@ div
 	v-layout( column v-if="loading" align-center justify-center)
 		v-flex.mt-5
 			v-progress-circular( indeterminate color="primary" )
-	v-layout( column v-else)
-		tree( :data="treeData" :options="treeOptions" @node:selected="onNodeSelected")
+	template( v-if="!loading" )
+		v-text-field( v-model="filterFolder" label="Фильтр").ml-3.mr-3
+		tree( :data="treeData" :filter="filterFolder" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
 
 </template>
 
@@ -15,12 +16,21 @@ div
 export default {
 	data () {
 		return {
+			filterFolder: '',
 			treeOptions: {
-				checkbox: false
+				checkbox: false,
+				filter: {
+					emptyText: 'Aaaaa! Где мои папки?!!',
+					plainList: 0
+				}
 			}
 		}
 	},
 	computed: {
+		treeM () {
+			const switcher = document.querySelector('#switch')
+			return switcher.value
+		},
 		loading () {
 			return this.$store.getters.loading
 		},
