@@ -21,43 +21,32 @@ v-container(grid-list-md)
 						vue-easy-pie-chart( :percent="0" :scale-length="0" :size="80")
 					v-flex
 						.folder Просрочено на этой неделе
-		v-layout(row wrap )
-			v-flex(v-for="folder in taskData" :key="folder.id" xs6 sm4 @click="displayDetails(picture['.key'])")
-				v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
-					v-badge( color="info" overlap v-if="folder.unread != 0")
-						span( slot="badge" ) {{ folder.unread }}
-					v-layout( row justify-space-around align-center)
-						v-flex
-							.counter {{ folder.items }}
-						v-flex
-							trend( :data="folder.history" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
-					.folder {{ folder.text }}
+		v-flex( xs12 )
+			Widget(:folders="taskData")
 
+	br
+	br
+	br
+	br
+	.display-1.font-weight-thin
+		i.icon-doc
+		span Документы
+	Widget(:folders="docData")
+
+	br
+	br
 	br
 	br
 	.display-1.font-weight-thin
 		i.icon-folder
 		span Папки
-	v-layout( column v-if="loading" align-center justify-center)
-		v-flex.mt-5
-			v-progress-circular( indeterminate color="primary" )
-
-	v-layout(row wrap v-if="!loading")
-		v-flex(v-for="folder in folderData" :key="folder.id" xs6 sm4 @click="displayDetails(picture['.key'])")
-			v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
-				v-badge( color="info" overlap v-if="folder.unread != 0")
-					span( slot="badge" ) {{ folder.unread }}
-				v-layout( row justify-space-around align-center)
-					v-flex
-						.counter {{ folder.items }}
-					v-flex
-						trend( :data="folder.history" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
-				.folder {{ folder.text }}
+	Widget(:folders="folderData")
 </template>
 
 <script>
 import VueEasyPieChart from 'vue-easy-pie-chart'
 import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
+import Widget from '@/components/Widget'
 
 export default {
 	data () {
@@ -72,6 +61,12 @@ export default {
 			const all = this.$store.getters.folders
 			let result = []
 			this.filterRec(all, x => x.dash === true && x.type === 'folder', result)
+			return result
+		},
+		docData () {
+			const all = this.$store.getters.folders
+			let result = []
+			this.filterRec(all, x => x.dash === true && x.type === 'doc', result)
 			return result
 		},
 		taskData () {
@@ -97,7 +92,8 @@ export default {
 		}
 	},
 	components: {
-		VueEasyPieChart
+		VueEasyPieChart,
+		Widget
 	}
 }
 </script>
