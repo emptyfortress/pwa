@@ -115,10 +115,9 @@ export default {
 }
 
 .v-toolbar__title {
-	font-weight: 400;
+	/* font-weight: 400; */
 	text-transform: uppercase;
-	/* font-family: "Times New Roman"; */
-	font-size: 2rem;
+	font-size: 1rem;
 }
 
 </style>

@@ -32,6 +32,7 @@ export default {
 <style scoped lang="scss">
 .v-card {
 	position: relative;
+	cursor: pointer;
 	.v-badge {
 		position: absolute;
 		top: 1rem;
