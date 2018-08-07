@@ -5,7 +5,7 @@ div
 			v-progress-circular( indeterminate color="primary" )
 
 	v-layout(row wrap v-if="!loading")
-		v-flex(v-for="folder in folders" :key="folder.text" xs12 sm4 @click="goToFolder(folder.text)")
+		v-flex(v-for="folder in folders" :key="folder.id" xs12 sm4 @click="goToFolder(folder.id)")
 			v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
 				v-badge( color="info" overlap v-show="folder.unread != 0")
 					span( slot="badge" ) {{ folder.unread }}

@@ -76,7 +76,7 @@ export default new Vuex.Store({
 					const obj = data.val()
 					for (let key in obj) {
 						folders.push({
-							id: key,
+							id: obj[key].id,
 							text: obj[key].text,
 							items: obj[key].items,
 							unread: obj[key].unread,
