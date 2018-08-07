@@ -78,11 +78,11 @@ export default new Vuex.Store({
 						folders.push({
 							id: obj[key].id,
 							text: obj[key].text,
+							state: obj[key].state,
 							items: obj[key].items,
 							unread: obj[key].unread,
 							children: obj[key].children,
 							history: obj[key].history,
-							state: obj[key].state,
 							type: obj[key].type,
 							dash: obj[key].dash
 						})
