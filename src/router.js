@@ -5,6 +5,7 @@ import About from '@/views/About'
 import Post from '@/views/Post'
 import Create from '@/views/Create'
 import DetailView from '@/views/DetailView'
+import Folder from '@/views/Folder'
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
 			meta: {
 				title: 'F0cck'
 			}
+		},
+		{
+			path: '/folder/:id',
+			name: 'folder',
+			component: Folder
 		},
 		{
 			path: '/create',
