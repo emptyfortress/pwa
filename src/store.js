@@ -71,20 +71,23 @@ export default new Vuex.Store({
 		loadFolders ({commit}) {
 			commit('setLoading', true)
 			firebase.database().ref('folders').once('value')
-				.then((data) => {
+				.then((data1) => {
 					const folders = []
-					const obj = data.val()
+					const obj = data1.val()
+
 					for (let key in obj) {
 						folders.push({
 							id: obj[key].id,
 							text: obj[key].text,
 							state: obj[key].state,
-							items: obj[key].items,
-							unread: obj[key].unread,
 							children: obj[key].children,
-							history: obj[key].history,
-							type: obj[key].type,
-							dash: obj[key].dash
+							data: obj[key].data
+							// items: obj[key].data.items
+							// unread: obj[key].data.unread,
+							// history: obj[key].data.history,
+							// type: obj[key].data.type,
+							// path: obj[key].data.path,
+							// dash: obj[key].data.dash
 						})
 					}
 					commit('setFolders', folders)

@@ -22,7 +22,7 @@ v-container(grid-list-md)
 					v-flex
 						.folder Просрочено на этой неделе
 		v-flex( xs12 )
-			Widget(:folders="taskData")
+			Widget(:folders="all")
 
 	br
 	br
@@ -31,7 +31,7 @@ v-container(grid-list-md)
 	.display-1.font-weight-thin
 		i.icon-doc
 		span Документы
-	Widget(:folders="docData")
+	Widget(:folders="all")
 
 	br
 	br
@@ -62,7 +62,8 @@ export default {
 		},
 		folderData () {
 			let result = []
-			this.filterRec(this.all, x => x.dash === true && x.type === 'folder', result)
+			// this.filterRec(this.all, x => x.data.dash === true && x.data.type === 'folder', result)
+			this.filterRec(this.all, x => () => true, result)
 			return result
 		},
 		docData () {
@@ -72,7 +73,8 @@ export default {
 		},
 		taskData () {
 			let result = []
-			this.filterRec(this.all, x => x.dash === true && x.type === 'task', result)
+			this.filterRec(this.all, x => x.data.type === 'task', result)
+			// this.filterRec(this.all, x => x.data.type === 'task', result)
 			return result
 		}
 	},

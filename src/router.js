@@ -28,8 +28,8 @@ export default new Router({
 			}
 		},
 		{
-			path: '/folder/:id',
-			name: 'folder',
+			path: '/section/:id',
+			name: 'section',
 			component: Folder
 		},
 		{

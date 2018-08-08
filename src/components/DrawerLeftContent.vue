@@ -41,7 +41,7 @@ export default {
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
 		},
 		onNodeSelected (node) {
-			console.log(node.text)
+			this.$router.push(node.data.path)
 		}
 	}
 }
