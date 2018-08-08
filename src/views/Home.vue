@@ -41,6 +41,7 @@ v-container(grid-list-md)
 		i.icon-folder
 		span Папки
 	Widget(:folders="folderData")
+
 </template>
 
 <script>
@@ -62,17 +63,17 @@ export default {
 		},
 		folderData () {
 			let result = []
-			this.filterRec(this.all, x => x.dash === true && x.type === 'folder', result)
+			this.filterRec(this.all, x => x.data.dash === true && x.data.type === 'folder', result)
 			return result
 		},
 		docData () {
 			let result = []
-			this.filterRec(this.all, x => x.dash === true && x.type === 'doc', result)
+			this.filterRec(this.all, x => x.data.dash === true && x.data.type === 'doc', result)
 			return result
 		},
 		taskData () {
 			let result = []
-			this.filterRec(this.all, x => x.dash === true && x.type === 'task', result)
+			this.filterRec(this.all, x => x.data.dash === true && x.data.type === 'task', result)
 			return result
 		}
 	},
