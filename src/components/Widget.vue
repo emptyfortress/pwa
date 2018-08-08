@@ -7,13 +7,13 @@ div
 	v-layout(row wrap v-if="!loading")
 		v-flex(v-for="folder in folders" :key="folder.id" xs12 sm4 @click="goToFolder(folder)")
 			v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
-				<!-- v&#45;badge( color="info" overlap v&#45;show="folder.data.unread != 0") -->
-				<!-- 	span( slot="badge" ) {{ folder.data.unread }} -->
+				v-badge( color="info" overlap v-show="folder.unread != 0")
+					span( slot="badge" ) {{ folder.unread }}
 				v-layout( row justify-space-around align-center)
 					v-flex
-						<!-- .counter {{ folder.data.items }} -->
+						.counter {{ folder.items }}
 					v-flex
-						<!-- trend( :data="folder.data.history" :gradient=[ "#133C60", "#0195DA" ] auto&#45;draw smooth ) -->
+						trend( :data="folder.history" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
 				.folder {{ folder.text }}
 
 </template>

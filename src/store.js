@@ -81,13 +81,12 @@ export default new Vuex.Store({
 							text: obj[key].text,
 							state: obj[key].state,
 							children: obj[key].children,
-							data: obj[key].data
-							// items: obj[key].data.items
-							// unread: obj[key].data.unread,
-							// history: obj[key].data.history,
-							// type: obj[key].data.type,
-							// path: obj[key].data.path,
-							// dash: obj[key].data.dash
+							data: obj[key].data,
+							items: obj[key].items,
+							type: obj[key].type,
+							unread: obj[key].unread,
+							history: obj[key].history,
+							path: obj[key].path
 						})
 					}
 					commit('setFolders', folders)
