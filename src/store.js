@@ -10,6 +10,7 @@ export default new Vuex.Store({
 		user: null,
 		loading: false,
 		error: null,
+		page: '',
 		folders: []
 	},
 	mutations: {

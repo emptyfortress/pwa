@@ -20,6 +20,7 @@ export default {
 			filterFolder: '',
 			treeOptions: {
 				checkbox: false,
+				parentSelect: true,
 				filter: {
 					emptyText: 'Aaaaa! Где мои папки?!!',
 					plainList: 0

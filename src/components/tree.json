@@ -1,5 +1,5 @@
 [
-	{"id": "main", "text": "Главная", "state": {"selected": true}, "data": {"path": "/"}},
+	{"id": "main", "text": "Главная", "data": {"path": "/"}},
 	{"id": "tasks", "text": "Мои задания",
 		"data": {"type": "task",  "items": 17, "unread": 3, "history": [59, 10, 40, 35, 58, 52], "path": "/section/1"},
 		"state": {"expanded": true },

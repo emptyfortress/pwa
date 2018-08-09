@@ -78,7 +78,6 @@ export default {
 	},
 	computed: {
 		pageTitle () {
-			// return this.$route.meta.title + this.$route.params.id
 			return this.$route.meta.title || this.page(this.$route.params.id)
 		},
 		userLogged () {

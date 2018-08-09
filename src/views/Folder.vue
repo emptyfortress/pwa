@@ -1,5 +1,5 @@
 <template lang="pug">
-container
+v-container
 	h1 this is folder
 </template>
 
