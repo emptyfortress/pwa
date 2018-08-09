@@ -28,10 +28,8 @@ export default {
 	},
 	methods: {
 		goToFolder (e) {
-			// this.$router.push(e)
-			// this.$router.push('/section/' + e)
 			this.$router.push(e.data.path)
-			console.log(e.data.path)
+			// console.log(e.data.path)
 		}
 	}
 }
@@ -48,20 +46,21 @@ export default {
 	}
 	.counter {
 		font-weight: 300;
+		font-size: 2.5rem;
 	}
 	&.big {
 		padding: 1rem;
 		.folder {
 			font-size: 1.5rem;
 		}
-		.counter { font-size: 2.5rem; }
+		/* .counter { font-size: 2.5rem; } */
 	}
 	&.small {
 		padding: .7rem;
 		.folder {
 			font-size: 1.2rem;
 		}
-		.counter { font-size: 1.4rem; }
+		/* .counter { font-size: 1.4rem; } */
 	}
 	svg {
 		height: 60px;

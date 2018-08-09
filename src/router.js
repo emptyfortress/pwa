@@ -6,6 +6,7 @@ import Post from '@/views/Post'
 import Create from '@/views/Create'
 import DetailView from '@/views/DetailView'
 import Folder from '@/views/Folder'
+import Test from '@/components/Test'
 
 Vue.use(Router)
 
@@ -30,7 +31,10 @@ export default new Router({
 		{
 			path: '/section/:id',
 			name: 'section',
-			component: Folder
+			component: Folder,
+			children: [
+				{ path: 'detail', component: Test }
+			]
 		},
 		{
 			path: '/create',
