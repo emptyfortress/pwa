@@ -1,13 +1,11 @@
 <template lang="pug">
-<!-- v&#45;container -->
-	<!-- h1 this is folder -->
 div
 	h1 Folder {{folderId}}
 	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
 		v-flex(sm6 xs12)
 			v-layout(v-for="item in items" column)
-				v-card(flat router :to="temp")
-					h2 {{ item.title }}&nbsp;{{folderId}}.{{item.num}}
+				v-card(flat router :to="thispath(item.id)" )
+					h2(@click="show") {{ item.title }}&nbsp;{{folderId}}.{{item.id}}
 		v-flex(sm6 xs12)
 			.view
 				router-view
@@ -17,10 +15,12 @@ div
 export default {
 	data () {
 		return {
-			temp: '/section/' + this.$route.params.id + '/detail/'
 		}
 	},
 	computed: {
+		temp () {
+			return '/section/' + this.$route.params.id + '/detail/'
+		},
 		loading () {
 			return this.$store.getters.loading
 		},
@@ -28,7 +28,15 @@ export default {
 			return this.$store.getters.items
 		},
 		folderId () {
-			return this.$route.params.id
+			return this.$route.params
+		}
+	},
+	methods: {
+		thispath (e) {
+			return this.temp + e
+		},
+		show () {
+			console.log(this.$route.path)
 		}
 	}
 }

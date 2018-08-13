@@ -33,7 +33,7 @@ export default new Router({
 			name: 'section',
 			component: Folder,
 			children: [
-				{ path: 'detail', component: Test }
+				{ path: 'detail/:id', component: Test }
 			]
 		},
 		{
