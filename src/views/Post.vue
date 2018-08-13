@@ -35,7 +35,7 @@ export default {
 			this.$root.$firebaseRefs.cat.push(
 				{
 					'url': this.catUrl,
-					'comment': this.title,
+					'comment': "this is comment",
 					'info': 'Запощено с любовью',
 					'created_at': -1 * new Date().getTime()
 				})

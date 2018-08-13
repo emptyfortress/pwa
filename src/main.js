@@ -28,10 +28,12 @@ new Vue({
 	store,
 	firebase: {
 		cat: firebase.database.ref('cat').orderByChild('created_at'),
-		folders: firebase.database.ref('folders')
+		folders: firebase.database.ref('folders'),
+		items: firebase.database.ref('items')
 	},
 	render: h => h(App),
 	created () {
 		this.$store.dispatch('loadFolders')
+		this.$store.dispatch('loadItems')
 	}
 }).$mount('#app')

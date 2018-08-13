@@ -1,22 +1,34 @@
 <template lang="pug">
 <!-- v&#45;container -->
 	<!-- h1 this is folder -->
-v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
-	v-flex(sm6 xs12)
-		v-layout(v-for="n in 10" column)
-			v-card(flat router :to="temp")
-				h2 Это заголовок документа или задания
-	v-flex(sm6 xs12)
-		.view
-			router-view
+div
+	h1 Folder {{folderId}}
+	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
+		v-flex(sm6 xs12)
+			v-layout(v-for="item in items" column)
+				v-card(flat router :to="temp")
+					h2 {{ item.title }}&nbsp;{{folderId}}.{{item.num}}
+		v-flex(sm6 xs12)
+			.view
+				router-view
 </template>
 
 <script>
 export default {
 	data () {
 		return {
-			temp: '/section/' + this.$route.params.id + '/detail'
-
+			temp: '/section/' + this.$route.params.id + '/detail/'
+		}
+	},
+	computed: {
+		loading () {
+			return this.$store.getters.loading
+		},
+		items () {
+			return this.$store.getters.items
+		},
+		folderId () {
+			return this.$route.params.id
 		}
 	}
 }
@@ -24,9 +36,7 @@ export default {
 
 <style scoped lang="scss">
 .list {
-	/* height: 200px; */
 	width: 100%;
-	/* background: #fff; */
 }
 .view {
 	height: 200px;
