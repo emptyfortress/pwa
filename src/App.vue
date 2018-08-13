@@ -60,13 +60,6 @@ export default {
 			thre: 100,
 			drawer1: false,
 			sheet: false,
-			tiles: [
-				{ img: 'keep.png', title: 'Keep' },
-				{ img: 'inbox.png', title: 'Inbox' },
-				{ img: 'hangouts.png', title: 'Hangouts' },
-				{ img: 'messenger.png', title: 'Messenger' },
-				{ img: 'google.png', title: 'Google+' }
-			],
 			items: [
 				{ icon: 'bubble_chart', title: 'Home', to: '/' },
 				{ icon: 'bubble_chart', title: 'Post a cat', to: '/post' }
@@ -78,7 +71,9 @@ export default {
 	},
 	computed: {
 		pageTitle () {
-			return this.$route.meta.title || this.page(this.$route.params.id)
+			const myTitle = this.$route.meta.title || this.page(this.$route.path.split('/')[2])
+			this.$store.commit('setTitle', myTitle)
+			return myTitle
 		},
 		userLogged () {
 			return true

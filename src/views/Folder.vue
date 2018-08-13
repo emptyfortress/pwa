@@ -1,11 +1,11 @@
 <template lang="pug">
 div
-	h1 Folder {{folderId}}
+	h1 Folder {{pageTitle}}
 	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
 		v-flex(sm6 xs12)
 			v-layout(v-for="item in items" column)
-				v-card(flat router :to="thispath(item.id)" )
-					h2(@click="show") {{ item.title }}&nbsp;{{folderId}}.{{item.id}}
+				v-card(flat router :to="goToDetail(item.id)" )
+					h2 Item {{item.id}}
 		v-flex(sm6 xs12)
 			.view
 				router-view
@@ -18,8 +18,10 @@ export default {
 		}
 	},
 	computed: {
-		temp () {
-			return '/section/' + this.$route.params.id + '/detail/'
+		fold () {
+			const path = this.$route.path
+			const folderPath = path.split('/')
+			return folderPath[2]
 		},
 		loading () {
 			return this.$store.getters.loading
@@ -27,16 +29,13 @@ export default {
 		items () {
 			return this.$store.getters.items
 		},
-		folderId () {
-			return this.$route.params
+		pageTitle () {
+			return this.$store.getters.pageTitle
 		}
 	},
 	methods: {
-		thispath (e) {
-			return this.temp + e
-		},
-		show () {
-			console.log(this.$route.path)
+		goToDetail (e) {
+			return '/section/' + this.fold + '/detail/' + e
 		}
 	}
 }

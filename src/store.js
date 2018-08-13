@@ -12,7 +12,8 @@ export default new Vuex.Store({
 		error: null,
 		page: '',
 		folders: [],
-		items: []
+		items: [],
+		pageTitle: ''
 	},
 	mutations: {
 		setUser (state, payload) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
 		},
 		setItems (state, payload) {
 			state.items = payload
+		},
+		setTitle (state, payload) {
+			state.pageTitle = payload
 		}
 	},
 	getters: {
@@ -49,6 +53,9 @@ export default new Vuex.Store({
 		},
 		items (state) {
 			return state.items
+		},
+		pageTitle (state) {
+			return state.pageTitle
 		}
 	},
 	actions: {

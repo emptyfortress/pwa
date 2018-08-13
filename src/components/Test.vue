@@ -1,3 +1,13 @@
 <template lang="pug">
-h1 this is test
+h3 this is details of item {{fold}}.{{$route.params.id}}
 </template>
+
+<script>
+export default {
+	computed: {
+		fold () {
+			return this.$route.path.split('/')[2]
+		}
+	}
+}
+</script>
