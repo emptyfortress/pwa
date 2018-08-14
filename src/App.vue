@@ -8,7 +8,7 @@ v-app( :dark="night" ).rel
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp" )
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
-			v-spacer/
+			<!-- v&#45;spacer/ -->
 			v-toolbar-title( v-text="pageTitle" )
 			v-spacer/
 			BottomSheet( narrow="true" )/
@@ -156,9 +156,12 @@ export default {
 }
 
 .v-toolbar__title {
-	/* font-weight: 400; */
+	font-weight: 400;
 	text-transform: uppercase;
 	font-size: 1rem;
+	&:not(:first-child) {
+		margin-left: 0;
+	}
 }
 
 </style>
