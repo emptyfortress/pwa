@@ -37,6 +37,14 @@ export default new Router({
 			]
 		},
 		{
+			path: '/item/:id',
+			name: 'item',
+			component: Test,
+			meta: {
+				title: 'Item'
+			}
+		},
+		{
 			path: '/create',
 			name: 'create',
 			component: Create

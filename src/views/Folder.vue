@@ -1,4 +1,4 @@
-<template lang="pug">
+<template lang="pug" >
 div
 	h1 Folder {{pageTitle}}
 	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
@@ -8,7 +8,13 @@ div
 					h2 Item {{item.id}}
 		v-flex(sm6 xs12)
 			.view
-				router-view
+				v-slide-y-transition(mode="out-in")
+					router-view
+	v-layout( column wrap v-if="$vuetify.breakpoint.mdAndDown")
+		v-flex(sm6 xs12)
+			v-layout(column)
+				v-card(flat v-for="item in items" :to="goToDetailSm(item.id)" )
+					h2 Item
 </template>
 
 <script>
@@ -36,6 +42,9 @@ export default {
 	methods: {
 		goToDetail (e) {
 			return '/section/' + this.fold + '/detail/' + e
+		},
+		goToDetailSm (e) {
+			return '/item/' + e
 		}
 	}
 }
