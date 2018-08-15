@@ -24,10 +24,9 @@ export default {
 		}
 	},
 	computed: {
-		fold () {
-			const path = this.$route.path
-			const folderPath = path.split('/')
-			return folderPath[2]
+		url () {
+			const path = this.$route.path.split('/')
+			return path[1]
 		},
 		loading () {
 			return this.$store.getters.loading
@@ -41,7 +40,7 @@ export default {
 	},
 	methods: {
 		goToDetail (e) {
-			return '/section/' + this.fold + '/detail/' + e
+			return '/' + this.url + '/items/' + e
 		},
 		goToDetailSm (e) {
 			return '/item/' + e

@@ -10,10 +10,10 @@ export default new Vuex.Store({
 		user: null,
 		loading: false,
 		error: null,
-		page: '',
+		// page: '',
 		folders: [],
 		items: [],
-		pageTitle: ''
+		titles: ''
 	},
 	mutations: {
 		setUser (state, payload) {
@@ -35,7 +35,7 @@ export default new Vuex.Store({
 			state.items = payload
 		},
 		setTitle (state, payload) {
-			state.pageTitle = payload
+			state.titles = payload
 		}
 	},
 	getters: {
@@ -54,8 +54,8 @@ export default new Vuex.Store({
 		items (state) {
 			return state.items
 		},
-		pageTitle (state) {
-			return state.pageTitle
+		titles (state) {
+			return state.titles
 		}
 	},
 	actions: {
@@ -122,6 +122,27 @@ export default new Vuex.Store({
 						})
 					}
 					commit('setItems', items)
+					commit('setLoading', false)
+				})
+				.catch((error) => {
+					console.log(error)
+					commit('setLoading', false)
+				})
+		},
+		loadTitles ({commit}) {
+			commit('setLoading', true)
+			firebase.database().ref('titles').once('value')
+				.then((data) => {
+					const titles = []
+					const obj = data.val()
+
+					for (let key in obj) {
+						titles.push({
+							title: obj[key].title,
+							url: obj[key].url
+						})
+					}
+					commit('setTitle', titles)
 					commit('setLoading', false)
 				})
 				.catch((error) => {

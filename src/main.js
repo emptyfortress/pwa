@@ -35,5 +35,6 @@ new Vue({
 	created () {
 		this.$store.dispatch('loadFolders')
 		this.$store.dispatch('loadItems')
+		this.$store.dispatch('loadTitles')
 	}
 }).$mount('#app')

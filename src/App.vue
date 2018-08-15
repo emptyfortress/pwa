@@ -6,7 +6,7 @@ v-app( :dark="night" ).rel
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" ).white
 			DrawerRightContent /
 
-		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp" )
+		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp" @click="test" )
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			<!-- v&#45;spacer/ -->
 			v-toolbar-title( v-text="pageTitle" )
@@ -43,6 +43,7 @@ import DrawerLeftContent from '@/components/DrawerLeftContent'
 import DrawerRightContent from '@/components/DrawerRightContent'
 import BottomSheet from '@/components/BottomSheet'
 import Login from '@/views/Login'
+// import { find } from 'lodash'
 
 export default {
 	name: 'App',
@@ -71,16 +72,26 @@ export default {
 	},
 	computed: {
 		pageTitle () {
-			const myTitle = this.$route.meta.title || this.page(this.$route.path.split('/')[2])
-			this.$store.commit('setTitle', myTitle)
-			return myTitle
+			// return this.$store.getters.page
+			return 'test'
 		},
+		// titles () {
+		// 	return this.$store.getters.titles
+		// },
+		// pageTitle () {
+		// 	const url = this.$route.path
+		// 	const myTitle = this.titles.filter(item => item.url === url)
+		// 	return myTitle[0].title
+		// },
 		userLogged () {
 			return true
 			// return this.$store.getters.user
 		}
 	},
 	methods: {
+		test () {
+			console.log(this.$route.params.id)
+		},
 		navigate (e) {
 			this.$router.push(e)
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true

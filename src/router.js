@@ -4,7 +4,7 @@ import Home from '@/views/Home'
 import About from '@/views/About'
 import Post from '@/views/Post'
 import Create from '@/views/Create'
-import DetailView from '@/views/DetailView'
+// import DetailView from '@/views/DetailView'
 import Folder from '@/views/Folder'
 import Test from '@/components/Test'
 
@@ -21,19 +21,11 @@ export default new Router({
 			}
 		},
 		{
-			path: '/detail/:id',
-			name: 'detail',
-			component: DetailView,
-			meta: {
-				title: 'F0cck'
-			}
-		},
-		{
-			path: '/section/:id',
+			path: '/:id',
 			name: 'section',
 			component: Folder,
 			children: [
-				{ path: 'detail/:id', component: Test }
+				{ path: 'items/:id', component: Test }
 			]
 		},
 		{
@@ -59,6 +51,6 @@ export default new Router({
 			name: 'about',
 			component: About
 		}
-	]
-	// mode: 'history'
+	],
+	mode: 'history'
 })
