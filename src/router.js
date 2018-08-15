@@ -15,26 +15,20 @@ export default new Router({
 		{
 			path: '/',
 			name: 'home',
-			component: Home,
-			meta: {
-				title: 'главная'
-			}
+			component: Home
 		},
 		{
-			path: '/:id',
+			path: '/section/:section',
 			name: 'section',
 			component: Folder,
 			children: [
-				{ path: 'items/:id', component: Test }
+				{ path: 'item/:id', component: Test }
 			]
 		},
 		{
 			path: '/item/:id',
 			name: 'item',
-			component: Test,
-			meta: {
-				title: 'Item'
-			}
+			component: Test
 		},
 		{
 			path: '/create',
@@ -51,6 +45,6 @@ export default new Router({
 			name: 'about',
 			component: About
 		}
-	],
-	mode: 'history'
+	]
+	// mode: 'history'
 })

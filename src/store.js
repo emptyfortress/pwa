@@ -10,12 +10,18 @@ export default new Vuex.Store({
 		user: null,
 		loading: false,
 		error: null,
-		page: '',
+		currentFolder: '',
+		currentItem: '',
 		folders: [],
-		items: [],
-		titles: ''
+		items: []
 	},
 	mutations: {
+		setCurrentFolder (state, payload) {
+			state.currentFolder = payload
+		},
+		setCurrentItem (state, payload) {
+			state.currentItem = payload
+		},
 		setUser (state, payload) {
 			state.user = payload
 		},
@@ -33,15 +39,15 @@ export default new Vuex.Store({
 		},
 		setItems (state, payload) {
 			state.items = payload
-		},
-		setTitle (state, payload) {
-			state.titles = payload
-		},
-		setPage (state, payload) {
-			state.page = payload
 		}
 	},
 	getters: {
+		currentFolder (state) {
+			return state.currentFolder
+		},
+		currentItem (state) {
+			return state.currentItem
+		},
 		user (state) {
 			return state.user
 		},
@@ -56,12 +62,6 @@ export default new Vuex.Store({
 		},
 		items (state) {
 			return state.items
-		},
-		titles (state) {
-			return state.titles
-		},
-		page (state) {
-			return state.page
 		}
 	},
 	actions: {
@@ -128,27 +128,6 @@ export default new Vuex.Store({
 						})
 					}
 					commit('setItems', items)
-					commit('setLoading', false)
-				})
-				.catch((error) => {
-					console.log(error)
-					commit('setLoading', false)
-				})
-		},
-		loadTitles ({commit}) {
-			commit('setLoading', true)
-			firebase.database().ref('titles').once('value')
-				.then((data) => {
-					const titles = []
-					const obj = data.val()
-
-					for (let key in obj) {
-						titles.push({
-							title: obj[key].title,
-							url: obj[key].url
-						})
-					}
-					commit('setTitle', titles)
 					commit('setLoading', false)
 				})
 				.catch((error) => {

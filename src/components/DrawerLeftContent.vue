@@ -43,7 +43,7 @@ export default {
 		},
 		onNodeSelected (node) {
 			this.$router.push(node.data.path)
-			this.$store.commit('setPage', node.text)
+			this.$store.commit('setCurrentFolder', node)
 		}
 	}
 }

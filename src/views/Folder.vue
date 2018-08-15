@@ -1,10 +1,10 @@
 <template lang="pug" >
 div
-	h1 Folder
+	h1 {{currentFolder.text}}
 	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
 		v-flex(sm6 xs12)
-			v-layout(v-for="item in items" column)
-				v-card(flat router :to="goToDetail(item.id)" )
+			v-layout(v-for="item in items" :key="item.id" column)
+				v-card(flat router :to="goToDetail(item)" )
 					h2 Item {{item.id}}
 		v-flex(sm6 xs12)
 			.view
@@ -13,7 +13,7 @@ div
 	v-layout( column wrap v-if="$vuetify.breakpoint.mdAndDown")
 		v-flex(sm6 xs12)
 			v-layout(column)
-				v-card(flat v-for="item in items" :to="goToDetailSm(item.id)" )
+				v-card(flat v-for="item in items" :to="goToDetailSm(item)" )
 					h2 Item
 </template>
 
@@ -21,22 +21,12 @@ div
 export default {
 	data () {
 		return {
-			// mypage: 'zzzz'
 		}
 	},
-	mounted () {
-		// this.$store.commit('setPage', this.foo)
-		// console.log(this.foo)
-	},
 	computed: {
-		// foo () {
-		// 	const all = this.$store.getters.titles
-		// 	const url = this.$route.path
-		// 	const filt = all.filter(function (item) {
-		// 		return item.url === url
-		// 	})
-		// 	return filt[0]
-		// },
+		currentFolder () {
+			return this.$store.getters.currentFolder
+		},
 		loading () {
 			return this.$store.getters.loading
 		},
@@ -46,10 +36,11 @@ export default {
 	},
 	methods: {
 		goToDetail (e) {
-			return '/' + this.url + '/items/' + e
+			return this.currentFolder.data.path + '/item/' + e.id
+			// return '/section/:section' + '/item/' + e.id
 		},
 		goToDetailSm (e) {
-			return '/item/' + e
+			return '/item/' + e.id
 		}
 	}
 }

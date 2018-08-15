@@ -1,16 +1,13 @@
 <template lang="pug">
-h3 this is details of item {{fold}}.{{$route.params.id}}
+h3 this is details of item xx для папки {{currentFolder.text}}
 </template>
 
 <script>
 export default {
 	computed: {
-		fold () {
-			return this.$route.path.split('/')[2]
+		currentFolder () {
+			return this.$store.getters.currentFolder
 		}
-	},
-	mounted () {
-		this.$store.commit('setPage', 'detail')
 	}
 }
 </script>

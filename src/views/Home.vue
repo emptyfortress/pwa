@@ -54,9 +54,6 @@ export default {
 		return {
 		}
 	},
-	mounted () {
-		this.$store.commit('setPage', 'Главная')
-	},
 	computed: {
 		loading () {
 			return this.$store.getters.loading
