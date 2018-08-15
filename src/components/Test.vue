@@ -8,6 +8,9 @@ export default {
 		fold () {
 			return this.$route.path.split('/')[2]
 		}
+	},
+	mounted () {
+		this.$store.commit('setPage', 'detail')
 	}
 }
 </script>

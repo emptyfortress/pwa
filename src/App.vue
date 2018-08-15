@@ -9,7 +9,7 @@ v-app( :dark="night" ).rel
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp")
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			<!-- v&#45;spacer/ -->
-			v-toolbar-title( v-text="pathToTitle" )
+			v-toolbar-title( v-text="page" )
 			v-spacer/
 			BottomSheet( narrow="true" )/
 			v-btn( icon @click.stop="changeTheme" )
@@ -20,7 +20,7 @@ v-app( :dark="night" ).rel
 		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 v-if="$vuetify.breakpoint.mdAndDown" )
 			v-btn( icon to="/"  v-if="$route.path !== '/'" )
 				v-icon arrow_back
-			<!-- v&#45;toolbar&#45;title( v&#45;text="pageTitle" ) -->
+			v-toolbar-title( v-text="page" )
 
 		v-content.rel
 			v-slide-y-transition(mode="out-in")
@@ -72,12 +72,12 @@ export default {
 	watch: {
 		pagePath () {
 			console.log(this.pagePath)
-			this.pathToTitle(this.pagePath)
+			// this.pathToTitle(this.pagePath)
 		}
 	},
 	computed: {
-		pagePath () {
-			return this.$route.path
+		page () {
+			return this.$store.getters.page
 		},
 		titles () {
 			return this.$store.getters.titles
@@ -88,19 +88,19 @@ export default {
 		}
 	},
 	methods: {
-		pathToTitle (e) {
-			const currentTitle = this.titles.filter(item => item.url === e)[0]
-			console.log(currentTitle)
-			const page = currentTitle.title
-			return page
-		},
+		// pathToTitle (e) {
+		// 	const currentTitle = this.titles.filter(item => item.url === e)[0]
+		// 	console.log(currentTitle)
+		// 	const page = currentTitle.title
+		// 	return page
+		// },
 		navigate (e) {
 			this.$router.push(e)
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
 		},
 		changeTheme () {
 			this.night = !this.night
-		},
+		}
 		// page (e) {
 		// 	if (e === '1') return 'Мои задания'
 		// 	if (e === '1.1') return 'Входящие'

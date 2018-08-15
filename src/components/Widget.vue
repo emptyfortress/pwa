@@ -29,7 +29,7 @@ export default {
 	methods: {
 		goToFolder (e) {
 			this.$router.push(e.data.path)
-			// console.log(e.data.path)
+			this.$store.commit('setPage', e.text)
 		}
 	}
 }

@@ -1,6 +1,6 @@
 <template lang="pug" >
 div
-	h1 Folder {{pageTitle}}
+	h1 Folder
 	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
 		v-flex(sm6 xs12)
 			v-layout(v-for="item in items" column)
@@ -21,21 +21,27 @@ div
 export default {
 	data () {
 		return {
+			// mypage: 'zzzz'
 		}
 	},
+	mounted () {
+		// this.$store.commit('setPage', this.foo)
+		// console.log(this.foo)
+	},
 	computed: {
-		url () {
-			const path = this.$route.path.split('/')
-			return path[1]
-		},
+		// foo () {
+		// 	const all = this.$store.getters.titles
+		// 	const url = this.$route.path
+		// 	const filt = all.filter(function (item) {
+		// 		return item.url === url
+		// 	})
+		// 	return filt[0]
+		// },
 		loading () {
 			return this.$store.getters.loading
 		},
 		items () {
 			return this.$store.getters.items
-		},
-		pageTitle () {
-			return this.$store.getters.pageTitle
 		}
 	},
 	methods: {
