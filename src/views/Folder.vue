@@ -37,7 +37,6 @@ export default {
 	methods: {
 		goToDetail (e) {
 			return this.currentFolder.data.path + '/item/' + e.id
-			// return '/section/:section' + '/item/' + e.id
 		},
 		goToDetailSm (e) {
 			return '/item/' + e.id

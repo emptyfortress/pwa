@@ -20,7 +20,7 @@ v-app( :dark="night" ).rel
 		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 v-if="$vuetify.breakpoint.mdAndDown" )
 			v-btn( icon @click="back"  v-if="$route.path !== '/'" )
 				v-icon arrow_back
-			v-toolbar-title( v-text="currentFolder.text" )
+			v-toolbar-title( v-text="$route.path !== '/' ? currentFolder.text : 'Сводка'" )
 
 		v-content.rel
 			v-slide-y-transition(mode="out-in")
@@ -59,6 +59,7 @@ export default {
 			thre: 100,
 			drawer1: false,
 			sheet: false,
+			calc: 'test',
 			items: [
 				{ icon: 'bubble_chart', title: 'Home', to: '/' },
 				{ icon: 'bubble_chart', title: 'Post a cat', to: '/post' }
@@ -69,9 +70,6 @@ export default {
 		}
 	},
 	computed: {
-		// page () {
-		// 	return this.$store.getters.page
-		// },
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
