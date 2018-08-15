@@ -10,7 +10,7 @@ export default new Vuex.Store({
 		user: null,
 		loading: false,
 		error: null,
-		// page: '',
+		page: '',
 		folders: [],
 		items: [],
 		titles: ''
@@ -36,6 +36,9 @@ export default new Vuex.Store({
 		},
 		setTitle (state, payload) {
 			state.titles = payload
+		},
+		setPage (state, payload) {
+			state.page = payload
 		}
 	},
 	getters: {
@@ -56,6 +59,9 @@ export default new Vuex.Store({
 		},
 		titles (state) {
 			return state.titles
+		},
+		page (state) {
+			return state.page
 		}
 	},
 	actions: {
