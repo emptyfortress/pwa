@@ -49,10 +49,12 @@ export default {
 	methods: {
 		selectCurrentFolder (text) {
 			let current = this.$refs.menu.find(text)
-			// let par = this.$refs.menu.find(text).parent
 			current.select(true)
-			current[0].parent.expand()
-			// console.log(current[0].parent)
+			let par = current[0].parent
+			while (par) {
+				par.expand()
+				par = par.parent
+			}
 		},
 		navigate (e) {
 			this.$router.push(e)
