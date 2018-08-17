@@ -3,8 +3,8 @@ div
 	h1 {{currentFolder.text}}
 	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
 		v-flex(sm6 xs12)
-			v-layout(v-for="item in items" :key="item.id" column)
-				v-card(flat router :to="goToDetail(item)" )
+			v-layout(column)
+				v-card(flat :to="detail" v-for="item in items" :key="item.id" )
 					h2 Item {{item.id}}
 		v-flex(sm6 xs12)
 			.view
@@ -13,7 +13,7 @@ div
 	v-layout( column wrap v-if="$vuetify.breakpoint.mdAndDown")
 		v-flex(sm6 xs12)
 			v-layout(column)
-				v-card(flat v-for="item in items" :to="goToDetailSm(item)" )
+				v-card(flat v-for="item in items" :key="item.id" :to="goToDetailSm(item)" )
 					h2 Item
 </template>
 
@@ -32,11 +32,18 @@ export default {
 		},
 		items () {
 			return this.$store.getters.items
+		},
+		detail () {
+			return this.currentFolder.data.path + '/item/' + this.id
 		}
 	},
 	methods: {
 		goToDetail (e) {
+			// this.$store.commit('setCurrentItem', e)
+			// return this.currentFolder.data.path + '/item/' + e.id
 			return this.currentFolder.data.path + '/item/' + e.id
+			// console.log(ttt)
+			// this.$router.push(ttt)
 		},
 		goToDetailSm (e) {
 			return '/item/' + e.id

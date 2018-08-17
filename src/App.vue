@@ -6,11 +6,12 @@ v-app( :dark="night" ).rel
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" ).white
 			DrawerRightContent /
 
-		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp")
+		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp"  )
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			<!-- v&#45;spacer/ -->
 			v-toolbar-title( v-text="currentFolder.text" )
 			v-spacer/
+			v-btn(@click="sel") test
 			BottomSheet( narrow="true" )/
 			v-btn( icon @click.stop="changeTheme" )
 				v-icon settings
@@ -79,6 +80,9 @@ export default {
 		}
 	},
 	methods: {
+		sel () {
+			this.$refs.menu.find('Замещение').select(true)
+		},
 		back () {
 			this.$router.go(-1)
 		},

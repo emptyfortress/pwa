@@ -1,5 +1,5 @@
 <template lang="pug">
-h3 this is details of item xx для папки {{currentFolder.text}}
+h3 this is details of item для папки {{currentFolder.text}}
 </template>
 
 <script>

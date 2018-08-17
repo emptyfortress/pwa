@@ -8,12 +8,13 @@ div
 			v-progress-circular( indeterminate color="primary" )
 			<!-- TODO: make normal loading fb&#45;style -->
 	template( v-if="!loading" )
-		v-text-field( v-model="filterFolder" label="Фильтр").ml-3.mr-3
-		tree( :data="treeData" :filter="filterFolder" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
+		v-text-field(ref="input" v-model="filterFolder" label="Фильтр").ml-3.mr-3
+		tree(ref="menu" :data="treeData" :filter="filterFolder" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
 
 </template>
 
 <script>
+
 export default {
 	data () {
 		return {
@@ -21,6 +22,7 @@ export default {
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
+				multiple: false,
 				filter: {
 					emptyText: 'Aaaaa! Где мои папки?!!',
 					plainList: 0
@@ -34,9 +36,24 @@ export default {
 		},
 		treeData () {
 			return this.$store.getters.folders
+		},
+		selectedFolder () {
+			return this.$store.getters.currentFolder
+		}
+	},
+	watch: {
+		selectedFolder (newVal, oldVal) {
+			this.selectCurrentFolder(this.selectedFolder.text)
 		}
 	},
 	methods: {
+		selectCurrentFolder (text) {
+			let current = this.$refs.menu.find(text)
+			// let par = this.$refs.menu.find(text).parent
+			current.select(true)
+			current[0].parent.expand()
+			// console.log(current[0].parent)
+		},
 		navigate (e) {
 			this.$router.push(e)
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
@@ -50,5 +67,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.test {
+	background: #fff;
+}
 </style>
