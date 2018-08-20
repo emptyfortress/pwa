@@ -18,9 +18,6 @@ export default new Vuex.Store({
 		setCurrentFolder (state, payload) {
 			state.currentFolder = payload
 		},
-		// setCurrentItem (state, payload) {
-		// 	state.currentItem = payload
-		// },
 		setUser (state, payload) {
 			state.user = payload
 		},
@@ -45,9 +42,6 @@ export default new Vuex.Store({
 		currentFolder (state) {
 			return state.currentFolder
 		},
-		// currentItem (state) {
-		// 	return state.currentItem
-		// },
 		user (state) {
 			return state.user
 		},
@@ -76,7 +70,7 @@ export default new Vuex.Store({
 		items (state) {
 			return state.items
 		},
-		item (state) {
+		currentItem (state) {
 			return (itemId) => {
 				return state.items.find(item => {
 					return item.id === itemId

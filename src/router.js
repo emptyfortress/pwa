@@ -18,17 +18,18 @@ export default new Router({
 			component: Home
 		},
 		{
-			path: '/section/:section',
+			path: '/items/:id',
+			name: 'item',
+			props: true,
+			component: Test
+		},
+		{
+			path: '/:section',
 			name: 'section',
 			component: Folder,
 			children: [
-				{ path: 'item/:id', component: Test }
+				{ path: '/:section/:id', props: true, component: Test }
 			]
-		},
-		{
-			path: '/item/:id',
-			name: 'item',
-			component: Test
 		},
 		{
 			path: '/create',
