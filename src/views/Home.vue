@@ -78,9 +78,9 @@ export default {
 		}
 	},
 	methods: {
-		displayDetails (id) {
-			this.$router.push({name: 'detail', params: { id: id }})
-		},
+		// displayDetails (id) {
+		// 	this.$router.push({name: 'detail', params: { id: id }})
+		// },
 		filterRec (currentItems, condition, result) {
 			for (let item of currentItems) {
 				if (condition(item)) {

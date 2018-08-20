@@ -41,6 +41,7 @@ export default new Vuex.Store({
 			state.items = payload
 		}
 	},
+
 	getters: {
 		currentFolder (state) {
 			return state.currentFolder
@@ -64,6 +65,7 @@ export default new Vuex.Store({
 			return state.items
 		}
 	},
+
 	actions: {
 		logUserIn ({commit}, payload) {
 			commit('setLoading', true)

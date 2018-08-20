@@ -11,7 +11,6 @@ v-app( :dark="night" ).rel
 			<!-- v&#45;spacer/ -->
 			v-toolbar-title( v-text="currentFolder.text" )
 			v-spacer/
-			v-btn(@click="sel") test
 			BottomSheet( narrow="true" )/
 			v-btn( icon @click.stop="changeTheme" )
 				v-icon settings
@@ -80,9 +79,6 @@ export default {
 		}
 	},
 	methods: {
-		sel () {
-			this.$refs.menu.find('Замещение').select(true)
-		},
 		back () {
 			this.$router.go(-1)
 		},
