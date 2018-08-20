@@ -22,7 +22,7 @@ v-container(grid-list-md)
 					v-flex
 						.folder Просрочено на этой неделе
 		v-flex( xs12 )
-			Widget(:folders="taskData")
+			Widget(:folders="featuredType('task')")
 
 	br
 	br
@@ -31,7 +31,7 @@ v-container(grid-list-md)
 	.display-1.font-weight-thin
 		i.icon-doc
 		span Документы
-	Widget(:folders="docData")
+	Widget(:folders="featuredType('doc')")
 
 	br
 	br
@@ -40,7 +40,7 @@ v-container(grid-list-md)
 	.display-1.font-weight-thin
 		i.icon-folder
 		span Папки
-	Widget(:folders="folderData")
+	Widget(:folders="featuredType('folder')")
 
 </template>
 
@@ -50,37 +50,23 @@ import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
 import Widget from '@/components/Widget'
 
 export default {
-	data () {
-		return {
-		}
-	},
 	computed: {
 		loading () {
 			return this.$store.getters.loading
 		},
-		all () {
-			return this.$store.getters.folders
+		list () {
+			return this.$store.getters.folderList
 		},
-		folderData () {
-			let result = []
-			this.filterRec(this.all, x => x.data.dash === true && x.data.type === 'folder', result)
-			return result
-		},
-		docData () {
-			let result = []
-			this.filterRec(this.all, x => x.data.dash === true && x.data.type === 'doc', result)
-			return result
-		},
-		taskData () {
-			let result = []
-			this.filterRec(this.all, x => x.data.dash === true && x.data.type === 'task', result)
-			return result
+		featured () {
+			let all = this.$store.getters.folderList
+			let dash = all.filter(item => item.data.dash === true)
+			return dash
 		}
 	},
 	methods: {
-		// displayDetails (id) {
-		// 	this.$router.push({name: 'detail', params: { id: id }})
-		// },
+		featuredType (e) {
+			return this.featured.filter(x => x.data.type === e)
+		},
 		filterRec (currentItems, condition, result) {
 			for (let item of currentItems) {
 				if (condition(item)) {

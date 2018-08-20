@@ -8,8 +8,8 @@ div
 			v-progress-circular( indeterminate color="primary" )
 			<!-- TODO: make normal loading fb&#45;style -->
 	template( v-if="!loading" )
-		v-text-field(ref="input" v-model="filterFolder" label="Фильтр").ml-3.mr-3
-		tree(ref="menu" :data="treeData" :filter="filterFolder" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
+		v-text-field(ref="input" v-model="filterTree" label="Фильтр").ml-3.mr-3
+		tree(ref="menu" :data="treeData" :filter="filterTree" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
 
 </template>
 
@@ -18,7 +18,7 @@ div
 export default {
 	data () {
 		return {
-			filterFolder: '',
+			filterTree: '',
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
@@ -35,7 +35,7 @@ export default {
 			return this.$store.getters.loading
 		},
 		treeData () {
-			return this.$store.getters.folders
+			return this.$store.getters.tree
 		},
 		selectedFolder () {
 			return this.$store.getters.currentFolder

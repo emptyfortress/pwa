@@ -52,7 +52,7 @@
 		]
 	},
 	{"id": "replacing", "text": "Замещение",
-		"data": {"items": 10, "unread": 0, "history": [13, 11, 14, 38, 16, 55], "path": "/section/replacing", "dash": true},
+		"data": {"items": 10, "unread": 0, "history": [13, 11, 14, 38, 16, 55], "path": "/section/replacing" },
 		"children": [
 			{"id": "constant-replacing", "text": "Постоянное замещение",
 				"data": {"items": 7, "unread": 0, "history": [11, 6, 93, 13, 5, 11], "path": "/section/constant-replacing"}

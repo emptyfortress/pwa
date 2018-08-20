@@ -4,7 +4,8 @@ div
 	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
 		v-flex(sm6 xs12)
 			v-layout(column)
-				v-card(flat :to="detail" v-for="item in items" :key="item.id" )
+				<!-- v&#45;card(flat :to="detail" v&#45;for="item in items" :key="item.id" ) -->
+				v-card(flat :to="'item/' + item.id" v-for="item in items" :key="item.id" )
 					h2 Item {{item.id}}
 		v-flex(sm6 xs12)
 			.view
@@ -33,9 +34,9 @@ export default {
 		items () {
 			return this.$store.getters.items
 		},
-		detail () {
-			return this.currentFolder.data.path + '/item/' + this.id
-		}
+		// detail () {
+		// 	return this.currentFolder.data.path + '/item/' + this.id
+		// }
 	},
 	methods: {
 		goToDetail (e) {

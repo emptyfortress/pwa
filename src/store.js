@@ -11,17 +11,16 @@ export default new Vuex.Store({
 		loading: false,
 		error: null,
 		currentFolder: '',
-		currentItem: '',
-		folders: [],
+		tree: [],
 		items: []
 	},
 	mutations: {
 		setCurrentFolder (state, payload) {
 			state.currentFolder = payload
 		},
-		setCurrentItem (state, payload) {
-			state.currentItem = payload
-		},
+		// setCurrentItem (state, payload) {
+		// 	state.currentItem = payload
+		// },
 		setUser (state, payload) {
 			state.user = payload
 		},
@@ -34,8 +33,8 @@ export default new Vuex.Store({
 		clearError (state) {
 			state.error = null
 		},
-		setFolders (state, payload) {
-			state.folders = payload
+		setTree (state, payload) {
+			state.tree = payload
 		},
 		setItems (state, payload) {
 			state.items = payload
@@ -46,9 +45,9 @@ export default new Vuex.Store({
 		currentFolder (state) {
 			return state.currentFolder
 		},
-		currentItem (state) {
-			return state.currentItem
-		},
+		// currentItem (state) {
+		// 	return state.currentItem
+		// },
 		user (state) {
 			return state.user
 		},
@@ -58,15 +57,45 @@ export default new Vuex.Store({
 		error (state) {
 			return state.error
 		},
-		folders (state) {
-			return state.folders
+		tree (state) {
+			return state.tree
+		},
+		folderList (state, getters) { // this is flat list of all folders - for home page
+			let result = []
+			let tree = getters.tree
+			function fil (currentItems, result) {
+				for (let item of currentItems) {
+					result.push(item)
+					if (item.children) { fil(item.children, result) }
+				}
+				return result
+			}
+			fil(tree, result)
+			return result
 		},
 		items (state) {
 			return state.items
+		},
+		item (state) {
+			return (itemId) => {
+				return state.items.find(item => {
+					return item.id === itemId
+				})
+			}
 		}
 	},
 
 	actions: {
+		filterRec (currentItems, condition, result) {
+			for (let item of currentItems) {
+				if (condition(item)) {
+					result.push(item)
+				}
+				if (item.children) {
+					this.filterRec(item.children, condition, result)
+				}
+			}
+		},
 		logUserIn ({commit}, payload) {
 			commit('setLoading', true)
 			commit('clearError')
@@ -91,15 +120,15 @@ export default new Vuex.Store({
 		clearError ({commit}) {
 			commit('clearError')
 		},
-		loadFolders ({commit}) {
+		loadTree ({commit}) {
 			commit('setLoading', true)
-			firebase.database().ref('folders').once('value')
+			firebase.database().ref('tree').once('value')
 				.then((data1) => {
-					const folders = []
+					const tree = []
 					const obj = data1.val()
 
 					for (let key in obj) {
-						folders.push({
+						tree.push({
 							id: obj[key].id,
 							text: obj[key].text,
 							state: obj[key].state,
@@ -107,7 +136,7 @@ export default new Vuex.Store({
 							data: obj[key].data
 						})
 					}
-					commit('setFolders', folders)
+					commit('setTree', tree)
 					commit('setLoading', false)
 				})
 				.catch((error) => {
