@@ -3,11 +3,11 @@ div.all
 	h1 {{currentFolder.text}}
 
 	v-layout( row v-if="$vuetify.breakpoint.lgAndUp")
-		v-flex(sm4 xs12).list
-			v-layout(column).list
+		v-flex(sm4 xs12)
+			v-layout(column)
 				v-card(flat v-for="item in items" :key="item.id" :to="currentPath + '/' + item.id")
 					h2 Item {{item.id}}
-		v-flex(sm8 xs12).list
+		v-flex(sm8 xs12)
 			.view
 				v-slide-y-transition(mode="out-in")
 					router-view
@@ -39,18 +39,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.all {
-	height: 100%;
-	border: 1px solid blue;
-	overflow: auto;
-}
-.list {
-	width: 100%;
-	height: 500px;
-	/* height: calc(100vh - 110px); */
-	border: 1px solid red;
-	overflow: auto;
-}
 .view {
 	width: 100%;
 	background: #ddd;
