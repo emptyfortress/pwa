@@ -1,19 +1,21 @@
 <template lang="pug" >
-div
+div.all
 	h1 {{currentFolder.text}}
-	v-layout( row wrap v-if="$vuetify.breakpoint.lgAndUp")
-		v-flex(sm6 xs12)
-			v-layout(column)
+
+	v-layout( row v-if="$vuetify.breakpoint.lgAndUp")
+		v-flex(sm4 xs12).list
+			v-layout(column).list
 				v-card(flat v-for="item in items" :key="item.id" :to="currentPath + '/' + item.id")
 					h2 Item {{item.id}}
-		v-flex(sm6 xs12)
+		v-flex(sm8 xs12).list
 			.view
 				v-slide-y-transition(mode="out-in")
 					router-view
+
 	v-layout( column wrap v-if="$vuetify.breakpoint.mdAndDown")
-		v-flex(sm6 xs12)
+		v-flex(xs12)
 			v-layout(column)
-				v-card(flat v-for="item in items" :key="item.id" :to="'/items/' + item.id" )
+				v-card(flat v-for="item in items" :key="item.id" :to="'/m/' + item.id" )
 					h2 Item {{item.id}}
 </template>
 
@@ -32,37 +34,32 @@ export default {
 		items () {
 			return this.$store.getters.items
 		}
-	},
-	methods: {
-		goToDetail (e) {
-			// this.$store.commit('setCurrentItem', e)
-			// return this.currentFolder.data.path + '/item/' + e.id
-			return this.currentFolder.data.path + '/item/' + e.id
-			// console.log(ttt)
-			// this.$router.push(ttt)
-		},
-		goToDetailSm (e) {
-			return '/item/' + e.id
-		}
 	}
 }
 </script>
 
 <style scoped lang="scss">
+.all {
+	height: 100%;
+	border: 1px solid blue;
+	overflow: auto;
+}
 .list {
 	width: 100%;
+	height: 500px;
+	/* height: calc(100vh - 110px); */
+	border: 1px solid red;
+	overflow: auto;
 }
 .view {
-	height: 200px;
 	width: 100%;
 	background: #ddd;
 }
 .v-card {
-	min-height: 100px;
-	margin-bottom: 1rem;
+	margin-bottom: 1px;
+	padding: 1rem;
 	h2 {
 		font-weight: 400;
 	}
-
 }
 </style>

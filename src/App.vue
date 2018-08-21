@@ -7,8 +7,8 @@ v-app( :dark="night" ).rel
 			DrawerRightContent /
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp"  )
-			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
-			<!-- v&#45;spacer/ -->
+			v-btn( icon @click.stop="leftDrawer = !leftDrawer")
+				i.icon-ham-d
 			v-toolbar-title( v-text="currentFolder.text" )
 			v-spacer/
 			BottomSheet( narrow="true" )/
@@ -22,7 +22,8 @@ v-app( :dark="night" ).rel
 				v-icon arrow_back
 			v-toolbar-title( v-text="$route.path !== '/' ? currentFolder.text : 'Сводка'" )
 
-		v-content.rel
+		<!-- v&#45;content.rel -->
+		v-content
 			v-slide-y-transition(mode="out-in")
 				router-view
 

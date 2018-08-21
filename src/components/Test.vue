@@ -1,5 +1,7 @@
 <template lang="pug">
-h3 this is details of item {{currentItem.id}} для папки {{currentFolder.text}}
+div
+	div(v-for="n in 50")
+		h3 this is details of item {{currentItem.id}} для папки {{currentFolder.text}}
 </template>
 
 <script>
@@ -15,3 +17,8 @@ export default {
 	}
 }
 </script>
+
+<style scoped lang="scss">
+div div { margin-top: 2rem; }
+
+</style>
