@@ -22,8 +22,7 @@ v-app( :dark="night" ).rel
 				v-icon arrow_back
 			v-toolbar-title( v-text="$route.path !== '/' ? currentFolder.text : 'Сводка'" )
 
-		<!-- v&#45;content.rel -->
-		v-content
+		v-content.rel
 			v-slide-y-transition(mode="out-in")
 				router-view
 

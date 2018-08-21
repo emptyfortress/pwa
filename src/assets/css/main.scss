@@ -38,3 +38,8 @@ html, body {
 	padding: .5rem 2rem;
 	border: 3px double #333;
 }
+
+.application--wrap {
+	-webkit-backface-visibility: visible;
+	backface-visibility: visible;
+}

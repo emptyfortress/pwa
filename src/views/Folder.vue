@@ -1,22 +1,20 @@
 <template lang="pug" >
-div.all
-	h1 {{currentFolder.text}}
-
-	v-layout( row v-if="$vuetify.breakpoint.lgAndUp")
-		v-flex(sm4 xs12)
-			v-layout(column)
+div
+	div.all(v-if="$vuetify.breakpoint.lgAndUp")
+		h1 {{currentFolder.text}}
+		drag-zone.zone
+			drag-content.content
 				v-card(flat v-for="item in items" :key="item.id" :to="currentPath + '/' + item.id")
 					h2 Item {{item.id}}
-		v-flex(sm8 xs12)
-			.view
+			drag-handle.handle
+			drag-content.content
 				v-slide-y-transition(mode="out-in")
 					router-view
 
-	v-layout( column wrap v-if="$vuetify.breakpoint.mdAndDown")
-		v-flex(xs12)
-			v-layout(column)
-				v-card(flat v-for="item in items" :key="item.id" :to="'/m/' + item.id" )
-					h2 Item {{item.id}}
+	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
+		v-card(flat v-for="item in items" :key="item.id" :to="'/m/' + item.id" )
+			h2 Item {{item.id}}
+
 </template>
 
 <script>
@@ -32,18 +30,49 @@ export default {
 			return this.$store.getters.loading
 		},
 		items () {
-			return this.$store.getters.items
+			return this.$store.getters.items.filter( e => e.folder === this.currentFolder.id )
 		}
 	}
 }
 </script>
 
 <style scoped lang="scss">
-.view {
+
+.all {
+	height: calc(100vh - 108px);
 	width: 100%;
-	background: #ddd;
+	position: relative;
+}
+
+.zone {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+	clear: both;
+	display: flex;
+	.handle {
+		width: 20px;
+		&:hover {
+			border-left: 2px dotted #666;
+			border-right: 2px dotted #666;
+		}
+	}
+	.item {
+		width: 100%;
+	}
+	.content {
+		width: calc((100% - 17px)/2);
+		overflow: auto;
+	}
+}
+
+.m .v-card.v-card--flat {
+	background: #fff;
+	/* margin-bottom: 1rem; */
 }
 .v-card {
+	background: #fff;
 	margin-bottom: 1px;
 	padding: 1rem;
 	h2 {

@@ -14,6 +14,7 @@ import VueParticles from 'vue-particles'
 import Trend from 'vuetrend'
 import LiquorTree from 'liquor-tree'
 import Alert from './components/Alert'
+import VueDragZone from 'vue-drag-zone'
 
 Vue.use(Vuefire)
 Vue.use(VueResource)
@@ -21,6 +22,7 @@ Vue.use(VueParticles)
 Vue.use(Trend)
 Vue.use(LiquorTree)
 Vue.component('Alert', Alert)
+Vue.use(VueDragZone)
 Vue.config.productionTip = false
 
 new Vue({
