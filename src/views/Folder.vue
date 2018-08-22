@@ -30,7 +30,8 @@ export default {
 			return this.$store.getters.loading
 		},
 		items () {
-			return this.$store.getters.items.filter( e => e.folder === this.currentFolder.id )
+			return this.$store.getters.items
+			// return this.$store.getters.items.filter(e => e.folder === this.currentFolder.id)
 		}
 	}
 }
