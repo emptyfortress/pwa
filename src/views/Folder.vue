@@ -4,11 +4,12 @@ div
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
-				SlickList(lockAxis="y" v-model="items" @click="this.$router.push('/')")
+				SlickList(lockAxis="y" v-model="items" useDragHandle)
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 						v-card(:to="currentPath + '/' + item.id")
 							h2 Item {{item.id}}
-			drag-handle.handle
+							div(v-handle).handle
+					<!-- span(v&#45;handle).handle -->
 			drag-content.content
 				v-slide-y-transition(mode="out-in")
 					router-view
@@ -20,7 +21,7 @@ div
 </template>
 
 <script>
-import { SlickList, SlickItem } from 'vue-slicksort'
+import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
 
 export default {
 	data () {
@@ -51,6 +52,9 @@ export default {
 	components: {
 		SlickItem,
 		SlickList
+	},
+	directives: {
+		handle: HandleDirective
 	}
 }
 </script>
@@ -97,5 +101,10 @@ export default {
 	h2 {
 		font-weight: 400;
 	}
+}
+.handle {
+	width: 30px;
+	height: 30px;
+	background: red;
 }
 </style>
