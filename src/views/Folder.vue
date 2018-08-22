@@ -4,8 +4,10 @@ div
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
-				v-card(flat v-for="item in items" :key="item.id" :to="currentPath + '/' + item.id")
-					h2 Item {{item.id}}
+				SlickList(lockAxis="y" v-model="items" @click="this.$router.push('/')")
+					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
+						v-card(:to="currentPath + '/' + item.id")
+							h2 Item {{item.id}}
 			drag-handle.handle
 			drag-content.content
 				v-slide-y-transition(mode="out-in")
@@ -18,7 +20,14 @@ div
 </template>
 
 <script>
+import { SlickList, SlickItem } from 'vue-slicksort'
+
 export default {
+	data () {
+		return {
+
+		}
+	},
 	computed: {
 		currentPath () {
 			return this.currentFolder.data.path
@@ -33,6 +42,15 @@ export default {
 			return this.$store.getters.items
 			// return this.$store.getters.items.filter(e => e.folder === this.currentFolder.id)
 		}
+	},
+	methods: {
+		test () {
+			console.log('laksjla')
+		}
+	},
+	components: {
+		SlickItem,
+		SlickList
 	}
 }
 </script>
