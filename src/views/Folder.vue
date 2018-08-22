@@ -4,11 +4,13 @@ div
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
-				SlickList(lockAxis="y" :value="items" useDragHandle @input="newArr")
+				SlickList(lockAxis="y" :value="items" useDragHandle helperClass="moving" @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(:to="currentPath + '/' + item.id").rel
-							h2 Item {{item.id}}
-							div(v-handle).drag
+						v-card(flat :to="currentPath + '/' + item.id")
+							.wrap
+								div(v-handle).drag
+								div.card-content
+									h2 Item {{item.id}}
 			drag-handle.handle
 				div
 			drag-content.content
@@ -18,9 +20,11 @@ div
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
 		SlickList(lockAxis="y" :value="items" useDragHandle @input="newArr")
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-				v-card(:to="'/m/' + item.id")
-					h2 Item {{item.id}}
-					div(v-handle).drag
+				v-card(flat :to="'/m/' + item.id")
+					.wrap
+						div(v-handle).drag
+						div.card-content
+							h2 Item {{item.id}}
 
 </template>
 
@@ -100,26 +104,30 @@ export default {
 	}
 }
 
-.m .v-card.v-card--flat {
-	background: #fff;
-	/* margin-bottom: 1rem; */
-}
 .v-card {
-	background: #fff;
 	margin-bottom: 1px;
-	padding: 1rem;
-	padding-left: 3rem;
 	h2 {
 		font-weight: 400;
 	}
 }
 .drag {
-	position: absolute;
-	top: 50%;
-	left: 5px;
-	width: 11px;
-	height: 30px;
-	transform: translateY(-15px);
-	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAF0lEQVQYV2NkYGD4z8DAwMgAI0AMDA4AI3EBBMY7CTgAAAAASUVORK5CYII=) repeat;
+	width: 13px;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
+	background-color: blue;
 }
+.wrap {
+	display: flex;
+}
+.card-content {
+	padding: 1rem;
+}
+.moving {
+	background: #fff;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	h2 {
+		font-family: Roboto;
+		color: #000;
+	}
+}
+
 </style>
