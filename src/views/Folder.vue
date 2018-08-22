@@ -4,19 +4,23 @@ div
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
-				SlickList(lockAxis="y" v-model="items" useDragHandle)
+				SlickList(lockAxis="y" :value="items" useDragHandle @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 						v-card(:to="currentPath + '/' + item.id")
 							h2 Item {{item.id}}
 							div(v-handle).drag
 			drag-handle.handle
+				div
 			drag-content.content
 				v-slide-y-transition(mode="out-in")
 					router-view
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
-		v-card(flat v-for="item in items" :key="item.id" :to="'/m/' + item.id" )
-			h2 Item {{item.id}}
+		SlickList(lockAxis="y" :value="items" useDragHandle @input="newArr")
+			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
+				v-card(:to="'/m/' + item.id")
+					h2 Item {{item.id}}
+					div(v-handle).drag
 
 </template>
 
@@ -45,8 +49,8 @@ export default {
 		}
 	},
 	methods: {
-		test () {
-			console.log('laksjla')
+		newArr (e) {
+			this.$store.commit('setItems', e)
 		}
 	},
 	components: {
@@ -76,9 +80,15 @@ export default {
 	display: flex;
 	.handle {
 		width: 20px;
+		div {
+			width:8px;
+			height: 100%;
+			transform: translateX(10px);
+		}
 		&:hover {
-			border-left: 2px dotted #666;
-			border-right: 2px dotted #666;
+			div {
+				border-left: 3px dotted #333;
+			}
 		}
 	}
 	.item {
@@ -105,6 +115,6 @@ export default {
 .drag {
 	width: 30px;
 	height: 30px;
-	background: red;
+	background: #ddd;
 }
 </style>
