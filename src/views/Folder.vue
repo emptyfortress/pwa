@@ -8,8 +8,8 @@ div
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 						v-card(:to="currentPath + '/' + item.id")
 							h2 Item {{item.id}}
-							div(v-handle).handle
-					<!-- span(v&#45;handle).handle -->
+							div(v-handle).drag
+			drag-handle.handle
 			drag-content.content
 				v-slide-y-transition(mode="out-in")
 					router-view
@@ -102,7 +102,7 @@ export default {
 		font-weight: 400;
 	}
 }
-.handle {
+.drag {
 	width: 30px;
 	height: 30px;
 	background: red;
