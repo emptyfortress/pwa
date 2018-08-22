@@ -6,7 +6,7 @@ div
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" useDragHandle @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(:to="currentPath + '/' + item.id")
+						v-card(:to="currentPath + '/' + item.id").rel
 							h2 Item {{item.id}}
 							div(v-handle).drag
 			drag-handle.handle
@@ -108,13 +108,18 @@ export default {
 	background: #fff;
 	margin-bottom: 1px;
 	padding: 1rem;
+	padding-left: 3rem;
 	h2 {
 		font-weight: 400;
 	}
 }
 .drag {
-	width: 30px;
+	position: absolute;
+	top: 50%;
+	left: 5px;
+	width: 11px;
 	height: 30px;
-	background: #ddd;
+	transform: translateY(-15px);
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAF0lEQVQYV2NkYGD4z8DAwMgAI0AMDA4AI3EBBMY7CTgAAAAASUVORK5CYII=) repeat;
 }
 </style>
