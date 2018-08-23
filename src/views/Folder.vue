@@ -1,6 +1,6 @@
 <template lang="pug" >
-div
-	div.all(v-if="$vuetify.breakpoint.lgAndUp" )
+v-slide-x-transition(mode="out-in")
+	div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
@@ -11,14 +11,16 @@ div
 								div(v-handle).drag
 								div.card-content
 									.head {{item.title}}
+									.some some staff goes here
 									.fio Johtn Smith
 									.date 21 авг 18 г.
 									.state В работе
 			drag-handle.handle
 				div
 			drag-content.content
-				v-slide-y-transition(mode="out-in")
+				v-slide-x-transition(mode="out-in")
 					router-view
+	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
 		SlickList(lockAxis="y" :value="items" helperClass="moving" useDragHandle @input="newArr")
@@ -34,13 +36,15 @@ div
 <script>
 import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
+import Tiles from '@/components/Tiles'
 
 export default {
 	data () {
 		return {
 			cardResponse: {
 				tiny: el => el.width < 400,
-				small: el => el.width < 800
+				small: el => el.width < 800,
+				big: el => el.width > 1000
 			}
 		}
 	},
@@ -52,6 +56,9 @@ export default {
 				return 'tiny'
 			}
 			return null
+		},
+		tile () {
+			return this.$store.getters.tile
 		},
 		currentPath () {
 			return this.currentFolder.data.path
@@ -77,7 +84,8 @@ export default {
 	},
 	components: {
 		SlickItem,
-		SlickList
+		SlickList,
+		Tiles
 	},
 	directives: {
 		handle: HandleDirective,
@@ -123,13 +131,13 @@ export default {
 	}
 }
 
-.drag {
-	width: 15px;
-	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
-	/* background-color: blue; */
-}
 .wrap {
 	display: flex;
+	.drag {
+		width: 15px;
+		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
+		/* background-color: blue; */
+	}
 }
 
 .desktope.v-card {
@@ -155,33 +163,44 @@ export default {
 	font-family: Roboto;
 	color: #000;
 }
+.big.desktope {
+		.card-content .some {
+			display: block;
+			margin-right: 2rem;
+		}
+}
 
 .desktope .card-content {
 	margin: 1rem;
 	width: 100%;
 	display: flex;
 	.head {
-		width: 400px;
+		/* width: 60%; */
+		/* width: 60%; */
 		font-size: 1rem;
+		flex-grow: 1;
 	}
 	.fio {
-		width: 100px;
+		/* width: 20%; */
 		overflow: hidden;
 	}
 	.date {
-		width: 100px;
+		margin: 0 2rem;
+		/* width: 10%; */
 		overflow: hidden;
 	}
 	.state {
-		width: 100px;
+		/* width: 10%; */
+		/* width: 100px; */
 		overflow: hidden;
 	}
+	.some { display: none; }
 }
 .small.tiny.desktope {
 	.fio, .date, .state { display: none; }
 }
 .small.desktope {
-	white-space: nowrap;
+	/* white-space: nowrap; */
 	overflow: hidden;
 	.card-content {
 		display: block;
@@ -189,9 +208,11 @@ export default {
 			font-weight: 400;
 			font-size: 1.27rem;
 		}
-		.fio {
-			font-size: .9rem;
-			color: #666;
+		.fio, .date, .state {
+			font-weight: 300;
+			font-size: .95rem;
+			/* color: #666; */
+			float: left;
 		}
 	}
 }

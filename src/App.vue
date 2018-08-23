@@ -11,6 +11,9 @@ v-app( :dark="night" ).rel
 				i.icon-ham-d
 			v-toolbar-title( v-text="currentFolder.text" )
 			v-spacer/
+			v-btn( icon @click.stop="toggleTile" )
+				v-icon(v-if="!$store.getters.tile") view_module
+				v-icon(v-if="$store.getters.tile") vertical_split
 			BottomSheet( narrow="true" )/
 			v-btn( icon @click.stop="changeTheme" )
 				v-icon settings
@@ -88,6 +91,9 @@ export default {
 		},
 		changeTheme () {
 			this.night = !this.night
+		},
+		toggleTile () {
+			this.$store.commit('toggleTile')
 		}
 	},
 	components: {

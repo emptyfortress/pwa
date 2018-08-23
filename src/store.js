@@ -12,7 +12,8 @@ export default new Vuex.Store({
 		error: null,
 		currentFolder: '',
 		tree: [],
-		items: []
+		items: [],
+		tile: false
 	},
 	mutations: {
 		setCurrentFolder (state, payload) {
@@ -35,10 +36,18 @@ export default new Vuex.Store({
 		},
 		setItems (state, payload) {
 			state.items = payload
+		},
+		toggleTile (state) {
+			if (state.tile === false) {
+				state.tile = true
+			} else state.tile = false
 		}
 	},
 
 	getters: {
+		tile (state) {
+			return state.tile
+		},
 		currentFolder (state) {
 			return state.currentFolder
 		},
