@@ -6,11 +6,11 @@ div
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" useDragHandle helperClass="moving" @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(flat :to="currentPath + '/' + item.id")
+						v-card(flat :to="currentPath + '/' + item.id").desktope
 							.wrap
 								div(v-handle).drag
 								div.card-content
-									h2 Item {{item.id}}
+									h2 {{item.title}}
 			drag-handle.handle
 				div
 			drag-content.content
@@ -18,13 +18,13 @@ div
 					router-view
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
-		SlickList(lockAxis="y" :value="items" useDragHandle @input="newArr")
+		SlickList(lockAxis="y" :value="items" helperClass="moving" useDragHandle @input="newArr")
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-				v-card(flat :to="'/m/' + item.id")
+				v-card(flat :to="'/m/' + item.id").mobile
 					.wrap
 						div(v-handle).drag
 						div.card-content
-							h2 Item {{item.id}}
+							h2 {{item.title}}
 
 </template>
 
@@ -104,22 +104,40 @@ export default {
 	}
 }
 
-.v-card {
-	margin-bottom: 1px;
-	h2 {
-		font-weight: 400;
-	}
-}
 .drag {
-	width: 13px;
+	width: 15px;
 	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
-	background-color: blue;
+	/* background-color: blue; */
 }
 .wrap {
 	display: flex;
 }
-.card-content {
-	padding: 1rem;
+
+.desktope.v-card {
+	margin-bottom: 1px;
+}
+
+.mobile.v-card {
+	/* margin-bottom: 1rem; */
+	.card-content {
+		margin: 1rem;
+		width: 100%;
+		h2 {
+			font-weight: 400;
+			font-size: 1.27rem;
+		}
+	}
+}
+
+.desktope .card-content {
+	margin: 1rem;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	h2 {
+		font-weight: 400;
+		font-size: 1.27rem;
+	}
 }
 .moving {
 	background: #fff;
