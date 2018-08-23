@@ -6,7 +6,7 @@ div
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" useDragHandle helperClass="moving" @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(flat :to="currentPath + '/' + item.id" v-responsive="{ tiny: el => el.width < 400, small: el => el.width < 800 }").desktope.responsive-component
+						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse").desktope
 							.wrap
 								div(v-handle).drag
 								div.card-content
@@ -35,9 +35,21 @@ import { ResponsiveDirective } from 'vue-responsive-components'
 export default {
 	data () {
 		return {
+			cardResponse: {
+				tiny: el => el.width < 400,
+				small: el => el.width < 800
+			}
 		}
 	},
 	computed: {
+		cardWidth () {
+			if (this < 800) {
+				return 'small'
+			} else if (this < 400) {
+				return 'tiny'
+			}
+			return null
+		},
 		currentPath () {
 			return this.currentFolder.data.path
 		},
@@ -133,16 +145,6 @@ export default {
 	}
 }
 
-.desktope .card-content {
-	margin: 1rem;
-	width: 100%;
-	white-space: nowrap;
-	overflow: hidden;
-	h2 {
-		font-weight: 400;
-		font-size: 1.27rem;
-	}
-}
 .moving {
 	background: #fff;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -151,11 +153,25 @@ export default {
 		color: #000;
 	}
 }
-.small.tiny.responsive-component {
+
+.desktope .card-content {
+	margin: 1rem;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	h2 {
+		font-weight: 400;
+		font-size: 1rem;
+	}
+}
+.small.tiny.desktope {
 		background: green;
 }
-.small.responsive-component {
-		background: red;
+.small.desktope {
+	h2 {
+		font-weight: 400;
+		font-size: 1.27rem;
+	}
 }
 
 </style>
