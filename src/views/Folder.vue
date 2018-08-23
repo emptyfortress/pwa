@@ -10,7 +10,10 @@ div
 							.wrap
 								div(v-handle).drag
 								div.card-content
-									h2 {{item.title}}
+									.head {{item.title}}
+									.fio Johtn Smith
+									.date 21 авг 18 г.
+									.state В работе
 			drag-handle.handle
 				div
 			drag-content.content
@@ -24,7 +27,7 @@ div
 					.wrap
 						div(v-handle).drag
 						div.card-content
-							h2 {{item.title}}
+							.head {{item.title}}
 
 </template>
 
@@ -138,8 +141,9 @@ export default {
 	.card-content {
 		margin: 1rem;
 		width: 100%;
-		h2 {
-			font-weight: 400;
+		.head {
+			/* font-weight: 300; */
+			font-family: Roboto;
 			font-size: 1.27rem;
 		}
 	}
@@ -148,29 +152,47 @@ export default {
 .moving {
 	background: #fff;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-	h2 {
-		font-family: Roboto;
-		color: #000;
-	}
+	font-family: Roboto;
+	color: #000;
 }
 
 .desktope .card-content {
 	margin: 1rem;
 	width: 100%;
-	white-space: nowrap;
-	overflow: hidden;
-	h2 {
-		font-weight: 400;
+	display: flex;
+	.head {
+		width: 400px;
 		font-size: 1rem;
+	}
+	.fio {
+		width: 100px;
+		overflow: hidden;
+	}
+	.date {
+		width: 100px;
+		overflow: hidden;
+	}
+	.state {
+		width: 100px;
+		overflow: hidden;
 	}
 }
 .small.tiny.desktope {
-		background: green;
+	.fio, .date, .state { display: none; }
 }
 .small.desktope {
-	h2 {
-		font-weight: 400;
-		font-size: 1.27rem;
+	white-space: nowrap;
+	overflow: hidden;
+	.card-content {
+		display: block;
+		.head {
+			font-weight: 400;
+			font-size: 1.27rem;
+		}
+		.fio {
+			font-size: .9rem;
+			color: #666;
+		}
 	}
 }
 

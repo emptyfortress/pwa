@@ -19,6 +19,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-div div { margin-top: 2rem; background: #fff; }
+div div { margin-top: 2rem; }
 
 </style>
