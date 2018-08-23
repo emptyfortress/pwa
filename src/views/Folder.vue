@@ -1,12 +1,12 @@
 <template lang="pug" >
 div
-	div.all(v-if="$vuetify.breakpoint.lgAndUp")
+	div.all(v-if="$vuetify.breakpoint.lgAndUp" )
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" useDragHandle helperClass="moving" @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(flat :to="currentPath + '/' + item.id").desktope
+						v-card(flat :to="currentPath + '/' + item.id" v-responsive="{ tiny: el => el.width < 400, small: el => el.width < 800 }").desktope.responsive-component
 							.wrap
 								div(v-handle).drag
 								div.card-content
@@ -30,11 +30,11 @@ div
 
 <script>
 import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
+import { ResponsiveDirective } from 'vue-responsive-components'
 
 export default {
 	data () {
 		return {
-
 		}
 	},
 	computed: {
@@ -55,6 +55,9 @@ export default {
 	methods: {
 		newArr (e) {
 			this.$store.commit('setItems', e)
+		},
+		tee () {
+
 		}
 	},
 	components: {
@@ -62,7 +65,8 @@ export default {
 		SlickList
 	},
 	directives: {
-		handle: HandleDirective
+		handle: HandleDirective,
+		responsive: ResponsiveDirective
 	}
 }
 </script>
@@ -146,6 +150,12 @@ export default {
 		font-family: Roboto;
 		color: #000;
 	}
+}
+.small.tiny.responsive-component {
+		background: green;
+}
+.small.responsive-component {
+		background: red;
 }
 
 </style>
