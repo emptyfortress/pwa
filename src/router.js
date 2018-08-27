@@ -6,7 +6,7 @@ import Post from '@/views/Post'
 import Create from '@/views/Create'
 // import DetailView from '@/views/DetailView'
 import Folder from '@/views/Folder'
-import Test from '@/components/Test'
+import Detail from '@/components/Detail'
 
 Vue.use(Router)
 
@@ -21,14 +21,14 @@ export default new Router({
 			path: '/m/:id',
 			name: 'item',
 			props: true,
-			component: Test
+			component: Detail
 		},
 		{
 			path: '/:section',
 			name: 'section',
 			component: Folder,
 			children: [
-				{ path: '/:section/:id', props: true, component: Test }
+				{ path: '/:section/:id', props: true, component: Detail }
 			]
 		},
 		{
