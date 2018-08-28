@@ -159,6 +159,7 @@ export default new Vuex.Store({
 							id: obj[key].id,
 							title: obj[key].title,
 							folder: obj[key].folder,
+							author: obj[key].author,
 							num: obj[key].num
 						})
 					}
