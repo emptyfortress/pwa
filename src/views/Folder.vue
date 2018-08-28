@@ -77,9 +77,6 @@ export default {
 	methods: {
 		newArr (e) {
 			this.$store.commit('setItems', e)
-		},
-		tee () {
-
 		}
 	},
 	components: {
