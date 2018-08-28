@@ -14,6 +14,7 @@
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",
     "vue-drag-zone": "^2.0.0-rc1",
+    "vue-flip": "^0.2.4",
     "vue-resource": "^1.5.1",
     "vue-responsive-components": "^0.2.3",
     "vue-router": "^3.0.1",
