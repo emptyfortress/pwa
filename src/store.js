@@ -160,7 +160,7 @@ export default new Vuex.Store({
 							title: obj[key].title,
 							folder: obj[key].folder,
 							author: obj[key].author,
-							num: obj[key].num
+							files: obj[key].files
 						})
 					}
 					commit('setItems', items)

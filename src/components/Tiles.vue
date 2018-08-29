@@ -5,6 +5,7 @@ v-container(grid-list-xl fluid)
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 				vue-flip( :active-click="true" width="100%" ).flip
 					v-card(flat tile slot="front" )
+						.drag
 						v-list-tile( avatar )
 							v-list-tile-avatar
 								img(src="@/assets/img/user0.svg").av
@@ -14,26 +15,43 @@ v-container(grid-list-xl fluid)
 						v-divider
 						v-card-title(primary-title @click="doNothing")
 							p.header {{item.title}}
-						p.descr Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						<!-- p.descr Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
+						p.descr Lorem ipsum dolor sit amet, consectetur adipisicing elit,
 						v-card-actions
 							.status В работе
 							v-spacer
-							.attach
+							.attach(v-if="item.files")
 								i.icon-skrepka
-									span 13
+									span {{ item.files }}
 					v-card(flat tile slot="back")
-						p alks als alsddk dkskjs skjs k
+						.drag1
+						v-layout( column )
+							p.header-back {{item.title}}
+
+							v-tabs-items(v-model="tabs")
+								v-tab-item(id="tab1")
+									FilesList( :title="item.title" )
+								v-tab-item(id="tab2")
+									div this is item 2
+							v-card-actions( @click="doNothing" )
+								v-tabs( v-model="tabs" )
+									v-tab( href="#tab1" )
+										v-icon phone
+									v-tab( href="#tab2" )
+										v-icon favorite
 </template>
 
 <script>
 import { SlickList, SlickItem } from 'vue-slicksort'
 import VueFlip from 'vue-flip'
+import FilesList from '@/components/FilesList'
 
 export default {
 	props: ['items'],
 	data () {
 		return {
-			activeOnClick: false
+			activeOnClick: false,
+			tabs: null
 		}
 	},
 	computed: {
@@ -52,7 +70,8 @@ export default {
 	components: {
 		SlickItem,
 		SlickList,
-		VueFlip
+		VueFlip,
+		FilesList
 	}
 }
 </script>
@@ -93,6 +112,7 @@ export default {
 	width: 100%;
 	height: 50px;
 	padding: 0 1rem;
+	padding-left: 17px;
 }
 
 .moving {
@@ -102,7 +122,18 @@ export default {
 	color: #000;
 	line-height: 160%;
 }
+.header-back {
+	font-size: 1.2rem;
+	color: #82B1FF;
+	cursor: pointer;
+	/* margin-left: 1rem; */
+	border-bottom: 1px solid #ddd;
+	&:hover {
+		text-decoration: underline;
+	}
+}
 .header {
+	margin-top: 0;
 	font-size: 1.2rem;
 	color: #82B1FF;
 	cursor: pointer;
@@ -124,5 +155,22 @@ export default {
 	i span {
 		font-style: normal;
 	}
+}
+.drag {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 12px;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
+	/* background-color: blue; */
+}
+.drag1 {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 12px;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
 }
 </style>
