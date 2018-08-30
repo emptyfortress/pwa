@@ -4,9 +4,7 @@ v-container(grid-list-xl fluid)
 		v-layout( row wrap )
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 				vue-flip( :active-click="true" width="100%" :key="index" ).flip
-					v-card(flat tile slot="front" )
-						.expand
-							i.icon-new-window
+					v-card(flat tile slot="front")
 						.drag
 						.vert-flex
 							v-list-tile( avatar )
@@ -24,21 +22,23 @@ v-container(grid-list-xl fluid)
 								.attach(v-if="item.files")
 									i.icon-skrepka
 										span {{ item.files }}
+						.open( @click="doNothing" )
+							i.icon-new-window
 					v-card(flat tile slot="back")
 						.drag1
-						v-layout( column )
-							p.header {{item.title}}
+						.vert-flex
+							p.header-back {{item.title}}
 							v-tabs-items(v-model="tabs")
-								v-tab-item(id="tab1")
-									FilesList( :title="item.title" )
+								v-tab-item(id="tab1" v-if="item.files")
+									FilesList( :attach="item.attach" )
 								v-tab-item(id="tab2")
 									div this is item 2
 							v-card-actions( @click="doNothing" )
-								v-tabs( v-model="tabs" )
-									v-tab( href="#tab1" )
-										v-icon phone
-									v-tab( href="#tab2" )
-										v-icon favorite
+								v-tabs( v-model="tabs")
+									v-tab( href="#tab1" v-if="item.files")
+										i.icon-skrepka.big {{ item.files }}
+									v-tab( href="#tab2")
+										i.icon-info.big
 </template>
 
 <script>
@@ -124,12 +124,10 @@ export default {
 	line-height: 160%;
 }
 
-/* .header-back { */
-/* 	font-size: 1.2rem; */
-/* 	color: #82B1FF; */
-/* 	margin-left: 1rem; */
-/* 	border-bottom: 1px solid #ddd; */
-/* } */
+.header-back {
+	font-size: 1.2rem;
+	color: $grey2;
+}
 
 .header {
 	margin-top: 0;
@@ -163,6 +161,26 @@ export default {
 	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
 	/* background-color: blue; */
 }
+
+.open {
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 36px;
+	height: 40px;
+	text-align: right;
+	i {
+		color: $grey;
+		font-size: 1.5rem;
+	}
+	&:hover {
+		i {
+			color: $info;
+		}
+	}
+}
+
 .drag1 {
 	position: absolute;
 	top: 0;
@@ -180,11 +198,14 @@ export default {
 	max-height: 1px;
 	margin-bottom: 1rem;
 	background: none;
-	/* border-bottom: 1px dotted $grey1; */
 }
-.expand {
-	position: absolute;
-	top: 0;
-	right: 0;
+
+i.big {
+	font-size: 1.3rem;
+	font-style: normal;
+	text-align: center;
+}
+.v-tabs__items {
+	flex-grow: 1
 }
 </style>

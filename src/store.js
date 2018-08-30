@@ -161,7 +161,8 @@ export default new Vuex.Store({
 							folder: obj[key].folder,
 							author: obj[key].author,
 							descr: obj[key].descr,
-							files: obj[key].files
+							files: obj[key].files,
+							attach: obj[key].attach
 						})
 					}
 					commit('setItems', items)

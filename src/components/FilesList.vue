@@ -1,18 +1,15 @@
 <template lang="pug">
 ol
-	li(v-for="n in 20")
-		p filename.doc
+	li(v-for="item in attach")
+		a {{ item }}
 </template>
 
 <script>
 export default {
-	props: ['title']
+	props: ['attach']
 }
 </script>
 
 <style scoped lang="scss">
-ol {
-	border: 1px solid red;
-	height: 100%;
-}
+
 </style>
