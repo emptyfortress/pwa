@@ -3,7 +3,7 @@ v-container(grid-list-xl fluid)
 	SlickList( :value="items" axis="xy" helperClass="moving" @input="newArr" )
 		v-layout( row wrap )
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
-				vue-flip( :active-click="true" width="100%" ).flip
+				vue-flip( :active-click="true" width="100%" :key="index" ).flip
 					v-card(flat tile slot="front" )
 						.drag
 						v-list-tile( avatar )
@@ -13,10 +13,11 @@ v-container(grid-list-xl fluid)
 								v-list-tile-title {{ item.author }}
 								v-list-tile-sub-title 20 авг 13:10
 						v-divider
-						v-card-title(primary-title @click="doNothing")
+						<!-- v&#45;card&#45;title(primary&#45;title @click="doNothing") -->
+						v-card-title(primary-title )
 							p.header {{item.title}}
-						<!-- p.descr Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
-						p.descr Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+						p.descr Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						<!-- p.descr Lorem ipsum dolor sit amet, consectetur adipisicing elit, -->
 						v-card-actions
 							.status В работе
 							v-spacer
@@ -27,7 +28,6 @@ v-container(grid-list-xl fluid)
 						.drag1
 						v-layout( column )
 							p.header-back {{item.title}}
-
 							v-tabs-items(v-model="tabs")
 								v-tab-item(id="tab1")
 									FilesList( :title="item.title" )
@@ -125,25 +125,25 @@ export default {
 .header-back {
 	font-size: 1.2rem;
 	color: #82B1FF;
-	cursor: pointer;
-	/* margin-left: 1rem; */
+	/* cursor: pointer; */
+	margin-left: 1rem;
 	border-bottom: 1px solid #ddd;
-	&:hover {
-		text-decoration: underline;
-	}
+	/* &:hover { */
+	/* 	text-decoration: underline; */
+	/* } */
 }
 .header {
 	margin-top: 0;
 	font-size: 1.2rem;
 	color: #82B1FF;
-	cursor: pointer;
-	&:hover {
-		text-decoration: underline;
-	}
+	/* cursor: pointer; */
+	/* &:hover { */
+	/* 	text-decoration: underline; */
+	/* } */
 }
 .descr {
 	margin: 0 1rem;
-	height: 4.3rem;
+	/* height: 4.3rem; */
 	overflow: hidden;
 }
 .status {
