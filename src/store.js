@@ -160,6 +160,7 @@ export default new Vuex.Store({
 							title: obj[key].title,
 							folder: obj[key].folder,
 							author: obj[key].author,
+							descr: obj[key].descr,
 							files: obj[key].files
 						})
 					}

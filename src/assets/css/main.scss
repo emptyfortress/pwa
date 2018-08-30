@@ -1,4 +1,4 @@
-@import 'settings';
+@import 'colors';
 
 html, body {
 	height: 100%;
@@ -41,3 +41,31 @@ html, body {
 	backface-visibility: visible;
 }
 
+.application.theme--light {
+  background: $grey;
+  color: rgba(0,0,0,0.87);
+	.v-navigation-drawer { background: $grey; }
+	.v-toolbar { background: #F2F2F3; }
+}
+.application.theme--light .text--primary {
+  color: rgba(0,0,0,0.87) !important;
+}
+.application.theme--light .text--secondary {
+  color: rgba(0,0,0,0.54) !important;
+}
+.application.theme--light .text--disabled {
+  color: rgba(0,0,0,0.38) !important;
+}
+.application.theme--dark {
+  background: #303030;
+  color: #fff;
+}
+.application.theme--dark .text--primary {
+  color: #fff !important;
+}
+.application.theme--dark .text--secondary {
+  color: rgba(255,255,255,0.7) !important;
+}
+.application.theme--dark .text--disabled {
+  color: rgba(255,255,255,0.5) !important;
+}
