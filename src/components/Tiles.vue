@@ -28,7 +28,7 @@ v-container(grid-list-xl fluid)
 					.vert-flex
 						p.header-back {{item.title}}
 						<!-- v&#45;slide&#45;y&#45;transition(mode="out&#45;in") -->
-						FilesList( :attach="item.attach" v-if="item.focus === 'files'")
+						FilesList( :attach="item.attach" v-if="item.focus === 'files'" )
 						Attr(v-if="!item.files || item.focus === 'info'")
 
 						v-bottom-nav( :active.sync="item.focus" :value="item.files" absolute )
@@ -125,6 +125,9 @@ export default {
 	.v-bottom-nav {
 		background: #fff;
 	}
+}
+.v-bottom-nav {
+	box-shadow: none;
 }
 
 .header-back {

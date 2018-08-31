@@ -4,7 +4,7 @@ v-slide-x-transition(mode="out-in")
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
-				SlickList(lockAxis="y" :value="items" useDragHandle helperClass="moving" @input="newArr")
+				SlickList(lockAxis="y" :value="items" helperClass="moving" distance=2 @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse").desktope
 							.wrap
@@ -23,7 +23,7 @@ v-slide-x-transition(mode="out-in")
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
-		SlickList(lockAxis="y" :value="items" helperClass="moving" useDragHandle @input="newArr")
+		SlickList(lockAxis="y" :value="items" helperClass="moving" @input="newArr")
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 				v-card(flat :to="'/m/' + item.id").mobile
 					.wrap
@@ -77,6 +77,9 @@ export default {
 	methods: {
 		newArr (e) {
 			this.$store.commit('setItems', e)
+		},
+		tee () {
+
 		}
 	},
 	components: {

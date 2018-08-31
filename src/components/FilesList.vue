@@ -1,7 +1,7 @@
 <template lang="pug">
 ol
 	li(v-for="item in attach")
-		a {{ item }}
+		a(@click.stop) {{ item }}
 </template>
 
 <script>
