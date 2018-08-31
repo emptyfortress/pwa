@@ -27,17 +27,14 @@ v-container(grid-list-xl fluid)
 					.drag1
 					.vert-flex
 						p.header-back {{item.title}}
-						v-tabs-items(v-model="active")
-							v-tab-item(id="tab1" v-if="item.files")
-								FilesList( :attach="item.attach" )
-							v-tab-item(id="tab2")
-								div this is item 2
-						v-card-actions( @click="doNothing" )
-							v-tabs(v-model="active")
-								v-tab( href="#tab1" v-if="item.files")
-									i.icon-skrepka.big {{ item.files }}
-								v-tab( href="#tab2")
-										i.icon-info.big
+						FilesList( :attach="item.attach" v-if="item.bottomNav === 'files'")
+
+						v-bottom-nav( :active.sync="item.bottomNav" :value="true" absolute color="transparent")
+							v-btn( color="info" flat value="files" @click="doNothing" v-if="item.files")
+								i.icon-skrepka.big {{ item.files }}
+							v-btn( color="info" flat value="info" @click="doNothing")
+								i.icon-info.big
+
 </template>
 
 <script>
@@ -49,19 +46,14 @@ export default {
 	props: ['items'],
 	data () {
 		return {
+			showFiles: false,
+			showInfo: false,
 			activeOnClick: false,
-			active: 'tab1'
 		}
 	},
 	computed: {
 	},
-	mounted () {
-		this.active = 1
-	},
 	methods: {
-		setTab () {
-			this.active = 1
-		},
 		newArr (e) {
 			this.$store.commit('setItems', e)
 		},
