@@ -1,10 +1,10 @@
 <template lang="pug">
 v-container(grid-list-xl fluid)
-	SlickList( v-model="items" axis="xy" helperClass="moving" @input="newArr" ).mygrid
+	SlickList( :value="items" useDragHandle axis="xy" helperClass="moving" @input="newArr" ).mygrid
 		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
 				v-card(flat tile slot="front")
-					.drag
+					div(v-handle).drag
 					.vert-flex
 						v-list-tile( avatar )
 							v-list-tile-avatar
@@ -24,12 +24,14 @@ v-container(grid-list-xl fluid)
 					.open( @click="doNothing" )
 						i.icon-new-window
 				v-card(flat tile slot="back")
-					.drag1
+					div(v-handle).drag1
 					.vert-flex
 						p.header-back {{item.title}}
+						<!-- v&#45;slide&#45;y&#45;transition(mode="out&#45;in") -->
 						FilesList( :attach="item.attach" v-if="item.focus === 'files'")
+						Attr(v-if="!item.files || item.focus === 'info'")
 
-						v-bottom-nav( :active.sync="item.focus" :value="true" absolute color="transparent")
+						v-bottom-nav( :active.sync="item.focus" :value="item.files" absolute )
 							v-btn( color="info" flat value="files" @click="doNothing" v-if="item.files")
 								i.icon-skrepka.big {{ item.files }}
 							v-btn( color="info" flat value="info" @click="doNothing")
@@ -38,9 +40,11 @@ v-container(grid-list-xl fluid)
 </template>
 
 <script>
-import { SlickList, SlickItem } from 'vue-slicksort'
+import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
+// import { SlickList, SlickItem } from 'vue-slicksort'
 import VueFlip from 'vue-flip'
 import FilesList from '@/components/FilesList'
+import Attr from '@/components/Attr'
 
 export default {
 	props: ['items'],
@@ -68,7 +72,11 @@ export default {
 		SlickItem,
 		SlickList,
 		VueFlip,
-		FilesList
+		FilesList,
+		Attr
+	},
+	directives: {
+		handle: HandleDirective
 	}
 }
 </script>
@@ -114,6 +122,9 @@ export default {
 	font-family: Roboto;
 	color: #000;
 	line-height: 160%;
+	.v-bottom-nav {
+		background: #fff;
+	}
 }
 
 .header-back {
@@ -202,8 +213,6 @@ i.big {
 }
 
 .mygrid {
-	/* width: 100%; */
-	/* background: red; */
 	display: flex;
 	flex-flow: row wrap;
 }
@@ -212,11 +221,6 @@ i.big {
 	display: flex;
 	width: 265px;
 	margin: 1rem;
-}
-.test {
-	width: 100%;
-	height: 200px;
-	background: white;
 }
 
 </style>
