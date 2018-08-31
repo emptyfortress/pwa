@@ -27,9 +27,9 @@ v-container(grid-list-xl fluid)
 					.drag1
 					.vert-flex
 						p.header-back {{item.title}}
-						FilesList( :attach="item.attach" v-if="item.bottomNav === 'files'")
+						FilesList( :attach="item.attach" v-if="item.focus === 'files'")
 
-						v-bottom-nav( :active.sync="item.bottomNav" :value="true" absolute color="transparent")
+						v-bottom-nav( :active.sync="item.focus" :value="true" absolute color="transparent")
 							v-btn( color="info" flat value="files" @click="doNothing" v-if="item.files")
 								i.icon-skrepka.big {{ item.files }}
 							v-btn( color="info" flat value="info" @click="doNothing")
@@ -48,7 +48,7 @@ export default {
 		return {
 			showFiles: false,
 			showInfo: false,
-			activeOnClick: false,
+			activeOnClick: false
 		}
 	},
 	computed: {

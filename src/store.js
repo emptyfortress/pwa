@@ -162,6 +162,7 @@ export default new Vuex.Store({
 							author: obj[key].author,
 							descr: obj[key].descr,
 							files: obj[key].files,
+							focus: obj[key].focus,
 							attach: obj[key].attach
 						})
 					}
