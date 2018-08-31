@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
 import About from '@/views/About'
+import Nav from '@/views/Nav'
 import Post from '@/views/Post'
 import Create from '@/views/Create'
 // import DetailView from '@/views/DetailView'
@@ -16,6 +17,16 @@ export default new Router({
 			path: '/',
 			name: 'home',
 			component: Home
+		},
+		{
+			path: '/nav',
+			name: 'nav',
+			component: Nav
+		},
+		{
+			path: '/about',
+			name: 'about',
+			component: About
 		},
 		{
 			path: '/m/:id',
@@ -40,11 +51,6 @@ export default new Router({
 			path: '/post',
 			name: 'post',
 			component: Post
-		},
-		{
-			path: '/about',
-			name: 'about',
-			component: About
 		}
 	]
 	// mode: 'history'

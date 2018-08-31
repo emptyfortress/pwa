@@ -1,43 +1,42 @@
 <template lang="pug">
 v-container(grid-list-xl fluid)
-	SlickList( :value="items" axis="xy" helperClass="moving" @input="newArr" )
-		v-layout( row wrap )
-			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
-				vue-flip( :active-click="true" width="100%" :key="index" ).flip
-					v-card(flat tile slot="front")
-						.drag
-						.vert-flex
-							v-list-tile( avatar )
-								v-list-tile-avatar
-									img(src="@/assets/img/user0.svg").av
-								v-list-tile-content
-									v-list-tile-title {{ item.author }}
-									v-list-tile-sub-title 20 авг 13:10
-							v-divider
-							p.header {{item.title}}
-							p.descr {{item.descr}}
-							v-card-actions
-								.status В работе
-								v-spacer
-								.attach(v-if="item.files")
-									i.icon-skrepka
-										span {{ item.files }}
-						.open( @click="doNothing" )
-							i.icon-new-window
-					v-card(flat tile slot="back")
-						.drag1
-						.vert-flex
-							p.header-back {{item.title}}
-							v-tabs-items(v-model="tabs")
-								v-tab-item(id="tab1" v-if="item.files")
-									FilesList( :attach="item.attach" )
-								v-tab-item(id="tab2")
-									div this is item 2
-							v-card-actions( @click="doNothing" )
-								v-tabs( v-model="tabs")
-									v-tab( href="#tab1" v-if="item.files")
-										i.icon-skrepka.big {{ item.files }}
-									v-tab( href="#tab2")
+	SlickList( v-model="items" axis="xy" helperClass="moving" @input="newArr" ).mygrid
+		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
+			vue-flip( :active-click="true" width="100%" :key="index" ).flip
+				v-card(flat tile slot="front")
+					.drag
+					.vert-flex
+						v-list-tile( avatar )
+							v-list-tile-avatar
+								img(src="@/assets/img/user0.svg").av
+							v-list-tile-content
+								v-list-tile-title {{ item.author }}
+								v-list-tile-sub-title 20 авг 13:10
+						v-divider
+						p.header {{item.title}}
+						p.descr {{item.descr}}
+						v-card-actions
+							.status В работе
+							v-spacer
+							.attach(v-if="item.files")
+								i.icon-skrepka
+									span {{ item.files }}
+					.open( @click="doNothing" )
+						i.icon-new-window
+				v-card(flat tile slot="back")
+					.drag1
+					.vert-flex
+						p.header-back {{item.title}}
+						v-tabs-items(v-model="active")
+							v-tab-item(id="tab1" v-if="item.files")
+								FilesList( :attach="item.attach" )
+							v-tab-item(id="tab2")
+								div this is item 2
+						v-card-actions( @click="doNothing" )
+							v-tabs(v-model="active")
+								v-tab( href="#tab1" v-if="item.files")
+									i.icon-skrepka.big {{ item.files }}
+								v-tab( href="#tab2")
 										i.icon-info.big
 </template>
 
@@ -51,12 +50,18 @@ export default {
 	data () {
 		return {
 			activeOnClick: false,
-			tabs: null
+			active: 'tab1'
 		}
 	},
 	computed: {
 	},
+	mounted () {
+		this.active = 1
+	},
 	methods: {
+		setTab () {
+			this.active = 1
+		},
 		newArr (e) {
 			this.$store.commit('setItems', e)
 		},
@@ -86,11 +91,6 @@ export default {
 .v-list__tile__sub-title {
 	font-size: .9rem;
 	color: aaa;
-}
-.sli {
-	display: flex;
-	width: 265px;
-	margin: 1rem;
 }
 
 .flip {
@@ -208,4 +208,23 @@ i.big {
 .v-tabs__items {
 	flex-grow: 1
 }
+
+.mygrid {
+	/* width: 100%; */
+	/* background: red; */
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.sli {
+	display: flex;
+	width: 265px;
+	margin: 1rem;
+}
+.test {
+	width: 100%;
+	height: 200px;
+	background: white;
+}
+
 </style>
