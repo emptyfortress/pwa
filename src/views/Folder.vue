@@ -14,7 +14,7 @@ v-slide-x-transition(mode="out-in")
 								.card-content
 									.head {{item.title}}
 									.some some staff goes here
-									.fio Johtn Smith
+									.fio {{ item.author }}
 									.date 21 авг 18 г.
 									.state В работе
 			drag-handle.handle
@@ -25,7 +25,7 @@ v-slide-x-transition(mode="out-in")
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
-		SlickList(lockAxis="y" :value="items" helperClass="moving" useDragHandle @input="newArr")
+		SlickList(lockAxis="y" :value="items" helperClass="moving" :pressDelay=200 @input="newArr")
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 				v-card(flat :to="'/m/' + item.id").mobile
 					.wrap
@@ -188,19 +188,25 @@ export default {
 	margin: 1rem;
 	width: 100%;
 	display: flex;
+	align-items: center;
 	.head {
 		font-size: 1rem;
 		flex-grow: 1;
 		color: $secondary;
 	}
 	.fio {
+		width: 130px;
 		overflow: hidden;
+		/* background: red; */
 	}
 	.date {
-		margin: 0 2rem;
+		margin: 0 1.5rem;
 		overflow: hidden;
 	}
 	.state {
+		color: orange;
+		text-transform: uppercase;
+		font-size: .8rem;
 		overflow: hidden;
 	}
 	.some { display: none; }
@@ -219,11 +225,12 @@ export default {
 		.head {
 			font-size: 1.27rem;
 		}
-		.fio, .date, .state {
+		.fio, .date, {
 			font-weight: 300;
 			font-size: .95rem;
 			float: left;
 		}
+		.state {margin-top: 2px;}
 	}
 	.v-list__tile__avatar {
 		align-self: center;

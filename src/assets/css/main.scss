@@ -43,8 +43,11 @@ html, body {
 
 .application.theme--light {
   background: $grey;
+  // background: #FFFBF0;
+  // background: #FFF1E5;
   color: rgba(0,0,0,0.87);
 	.v-navigation-drawer { background: $grey; }
+	// .v-navigation-drawer { background: #FFE5CF; }
 	.v-toolbar { background: #F2F2F3; }
 }
 .application.theme--light .text--primary {
