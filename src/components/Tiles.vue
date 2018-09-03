@@ -1,10 +1,10 @@
 <template lang="pug">
 v-container(grid-list-xl fluid)
-	SlickList( :value="items" useDragHandle axis="xy" helperClass="moving" @input="newArr" ).mygrid
+	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr" ).mygrid
 		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
-				v-card(flat tile slot="front")
-					div(v-handle).drag
+				v-card(flat tile slot="front" :class="item.unread ? 'unread' : ''" )
+					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 					.vert-flex
 						v-list-tile( avatar )
 							v-list-tile-avatar
@@ -13,7 +13,7 @@ v-container(grid-list-xl fluid)
 								v-list-tile-title {{ item.author }}
 								v-list-tile-sub-title 20 авг 13:10
 						v-divider
-						p.header {{item.title}}
+						p.head {{item.title}}
 						p.descr {{item.descr}}
 						v-card-actions
 							.status В работе
@@ -23,11 +23,10 @@ v-container(grid-list-xl fluid)
 									span {{ item.files }}
 					.open( @click="doNothing" )
 						i.icon-new-window
-				v-card(flat tile slot="back")
-					div(v-handle).drag1
+				v-card(flat tile slot="back" :class="item.unread ? 'unread' : ''" )
+					.drag1
 					.vert-flex
-						p.header-back {{item.title}}
-						<!-- v&#45;slide&#45;y&#45;transition(mode="out&#45;in") -->
+						p.head-back {{item.title}}
 						FilesList( :attach="item.attach" v-if="item.focus === 'files'" )
 						Attr(v-if="!item.files || item.focus === 'info'")
 
@@ -41,7 +40,6 @@ v-container(grid-list-xl fluid)
 
 <script>
 import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
-// import { SlickList, SlickItem } from 'vue-slicksort'
 import VueFlip from 'vue-flip'
 import FilesList from '@/components/FilesList'
 import Attr from '@/components/Attr'
@@ -60,9 +58,6 @@ export default {
 	methods: {
 		newArr (e) {
 			this.$store.commit('setItems', e)
-		},
-		handleFlip () {
-			this.activeOnClick = !this.activeOnClick
 		},
 		doNothing (evt) {
 			evt.stopPropagation()
@@ -96,9 +91,6 @@ export default {
 .flip {
 	width: 100%;
 	height: 350px;
-	/* padding: .5rem; */
-	/* overflow: hidden; */
-	/* position: relative; */
 }
 .v-card {
 	width: 100%;
@@ -107,8 +99,9 @@ export default {
 	overflow: hidden;
 	position: relative;
 }
+
+
 .v-card__actions {
-	/* border-top: 1px solid $grey; */
 	width: 100%;
 	height: 50px;
 	min-height: 50px;
@@ -116,6 +109,14 @@ export default {
 	padding-left: 17px;
 }
 
+.v-card.unread {
+	.drag, .drag1 {
+		background-color: $accent;
+	}
+	.head {
+		font-weight: bold;
+	}
+}
 .moving {
 	background: #fff;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -130,12 +131,12 @@ export default {
 	box-shadow: none;
 }
 
-.header-back {
+.head-back {
 	font-size: 1.2rem;
 	color: $grey2;
 }
 
-.header {
+.head {
 	margin-top: 0;
 	margin-left: 1rem;
 	font-size: 1.2rem;
@@ -158,14 +159,18 @@ export default {
 		font-style: normal;
 	}
 }
-.drag {
+.drag, .drag1 {
 	position: absolute;
-	top: 0;
-	left: 0;
 	height: 100%;
-	width: 12px;
-	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
-	/* background-color: blue; */
+	width: 8px;
+	top: 0;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQYV2NctmzZ/8jISAZGEGBAAigcAI4pBAQE47ttAAAAAElFTkSuQmCC) repeat;
+}
+.drag {
+	left: 0;
+}
+.drag1 {
+	right: 0;
 }
 
 .open {
@@ -187,14 +192,6 @@ export default {
 	}
 }
 
-.drag1 {
-	position: absolute;
-	top: 0;
-	right: 0;
-	height: 100%;
-	width: 12px;
-	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
-}
 .vert-flex {
 	display: flex;
 	flex-direction: column;
@@ -224,6 +221,7 @@ i.big {
 	display: flex;
 	width: 265px;
 	margin: 1rem;
+	user-select: none;
 }
 
 </style>

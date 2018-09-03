@@ -9,6 +9,8 @@ v-slide-x-transition(mode="out-in")
 						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="item.unread ? 'unread' : ''" ).desktope
 							.wrap
 								.drag(@click.prevent="item.unread = !item.unread" )
+								v-list-tile-avatar
+									img(src="@/assets/img/user0.svg").av
 								.card-content
 									.head {{item.title}}
 									.some some staff goes here
@@ -23,12 +25,12 @@ v-slide-x-transition(mode="out-in")
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
-		SlickList(lockAxis="y" :value="items" helperClass="moving" @input="newArr")
+		SlickList(lockAxis="y" :value="items" helperClass="moving" useDragHandle @input="newArr")
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 				v-card(flat :to="'/m/' + item.id").mobile
 					.wrap
-						div(v-handle).drag
-						div.card-content
+						.drag(v-handle)
+						.card-content
 							.head {{item.title}}
 
 </template>
@@ -129,10 +131,18 @@ export default {
 	}
 }
 
+.v-avatar {
+	align-self: center;
+	margin: 0 .7rem;
+	.av {
+		background: $grey;
+	}
+}
+
 .wrap {
 	display: flex;
 	.drag {
-		width: 10px;
+		width: 8px;
 		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQYV2NctmzZ/8jISAZGEGBAAigcAI4pBAQE47ttAAAAAElFTkSuQmCC) repeat;
 	}
 }
@@ -155,7 +165,6 @@ export default {
 		margin: 1rem;
 		width: 100%;
 		.head {
-			/* font-family: Roboto; */
 			font-size: 1.27rem;
 		}
 	}
@@ -180,29 +189,28 @@ export default {
 	width: 100%;
 	display: flex;
 	.head {
-		/* width: 60%; */
 		font-size: 1rem;
 		flex-grow: 1;
-		/* font-weight: 300; */
+		color: $secondary;
 	}
 	.fio {
-		/* width: 20%; */
 		overflow: hidden;
 	}
 	.date {
 		margin: 0 2rem;
-		/* width: 10%; */
 		overflow: hidden;
 	}
 	.state {
-		/* width: 10%; */
-		/* width: 100px; */
 		overflow: hidden;
 	}
 	.some { display: none; }
 }
+
 .small.tiny.desktope {
-	.fio, .date, .state { display: none; }
+	.fio, .date, .state, .v-list__tile__avatar { display: none; }
+}
+.desktope {
+	.v-list__tile__avatar { display: none; }
 }
 .small.desktope {
 	overflow: hidden;
@@ -214,10 +222,17 @@ export default {
 		.fio, .date, .state {
 			font-weight: 300;
 			font-size: .95rem;
-			/* color: #666; */
 			float: left;
 		}
 	}
+	.v-list__tile__avatar {
+		align-self: center;
+		margin: 0 .7rem;
+		.av {
+			background: $grey;
+		}
+	display: block;
+}
 }
 
 </style>
