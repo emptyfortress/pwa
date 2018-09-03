@@ -6,9 +6,9 @@ v-slide-x-transition(mode="out-in")
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse").desktope
+						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="item.unread ? 'unread' : ''" ).desktope
 							.wrap
-								.drag(:class="item.unread ? 'unread' : ''" @click.prevent="item.unread = !item.unread" )
+								.drag(@click.prevent="item.unread = !item.unread" )
 								.card-content
 									.head {{item.title}}
 									.some some staff goes here
@@ -134,9 +134,15 @@ export default {
 	.drag {
 		width: 10px;
 		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQYV2NctmzZ/8jISAZGEGBAAigcAI4pBAQE47ttAAAAAElFTkSuQmCC) repeat;
-		&.unread {
-			background-color: $accent;
-		}
+	}
+}
+
+.v-card.unread {
+	.drag {
+		background-color: $accent;
+	}
+	.head {
+		font-weight: bold;
 	}
 }
 
@@ -145,13 +151,11 @@ export default {
 }
 
 .mobile.v-card {
-	/* margin-bottom: 1rem; */
 	.card-content {
 		margin: 1rem;
 		width: 100%;
 		.head {
-			/* font-weight: 300; */
-			font-family: Roboto;
+			/* font-family: Roboto; */
 			font-size: 1.27rem;
 		}
 	}
