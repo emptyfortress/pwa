@@ -4,12 +4,12 @@ v-slide-x-transition(mode="out-in")
 		h1 {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
-				SlickList(lockAxis="y" :value="items" helperClass="moving" distance=2 @input="newArr")
+				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse").desktope
 							.wrap
-								div(v-handle).drag
-								div.card-content
+								.drag(:class="item.unread ? 'unread' : ''" @click.prevent="item.unread = !item.unread" )
+								.card-content
 									.head {{item.title}}
 									.some some staff goes here
 									.fio Johtn Smith
@@ -77,9 +77,6 @@ export default {
 	methods: {
 		newArr (e) {
 			this.$store.commit('setItems', e)
-		},
-		tee () {
-
 		}
 	},
 	components: {
@@ -95,6 +92,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/css/colors.scss';
 
 .all {
 	height: calc(100vh - 108px);
@@ -134,9 +132,11 @@ export default {
 .wrap {
 	display: flex;
 	.drag {
-		width: 15px;
-		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGklEQVQYV2PcvHHzf19/X0YGBgYGMAEDKBwAjs0EBCLstwQAAAAASUVORK5CYII=) repeat;
-		/* background-color: blue; */
+		width: 10px;
+		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQYV2NctmzZ/8jISAZGEGBAAigcAI4pBAQE47ttAAAAAElFTkSuQmCC) repeat;
+		&.unread {
+			background-color: $accent;
+		}
 	}
 }
 
@@ -162,6 +162,7 @@ export default {
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 	font-family: Roboto;
 	color: #000;
+	line-height: 170%;
 }
 .big.desktope {
 		.card-content .some {
@@ -176,9 +177,9 @@ export default {
 	display: flex;
 	.head {
 		/* width: 60%; */
-		/* width: 60%; */
 		font-size: 1rem;
 		flex-grow: 1;
+		/* font-weight: 300; */
 	}
 	.fio {
 		/* width: 20%; */
@@ -200,12 +201,10 @@ export default {
 	.fio, .date, .state { display: none; }
 }
 .small.desktope {
-	/* white-space: nowrap; */
 	overflow: hidden;
 	.card-content {
 		display: block;
 		.head {
-			font-weight: 400;
 			font-size: 1.27rem;
 		}
 		.fio, .date, .state {

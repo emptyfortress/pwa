@@ -163,6 +163,7 @@ export default new Vuex.Store({
 							descr: obj[key].descr,
 							files: obj[key].files,
 							focus: obj[key].focus,
+							unread: obj[key].unread,
 							attach: obj[key].attach
 						})
 					}
