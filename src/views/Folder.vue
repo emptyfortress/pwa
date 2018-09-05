@@ -6,9 +6,10 @@ v-slide-x-transition(mode="out-in")
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="item.unread ? 'unread' : ''" ).desktope
+						<!-- v&#45;card(flat :to="currentPath + '/' + item.id" v&#45;responsive="cardResponse" :class="item.unread ? 'unread' : ''" ).desktope -->
+						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
 							.wrap
-								.drag(@click.prevent="item.unread = !item.unread" )
+								.drag(@click.prevent="toggleUnread(item)" )
 								v-list-tile-avatar
 									img(src="@/assets/img/user0.svg").av
 								.card-content
@@ -25,11 +26,11 @@ v-slide-x-transition(mode="out-in")
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
-		SlickList(lockAxis="y" :value="items" helperClass="moving" :pressDelay=200 @input="newArr")
+		SlickList(lockAxis="y" :value="items" helperClass="moving" :pressDelay=300 @input="newArr")
 			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-				v-card(flat :to="'/m/' + item.id").mobile
+				v-card(flat :to="'/m/' + item.id" :class="item.unread ? 'unread' : ''" ).mobile
 					.wrap
-						.drag(v-handle)
+						.drag(@click.prevent="item.unread = !item.unread" )
 						.card-content
 							.head {{item.title}}
 
@@ -79,6 +80,17 @@ export default {
 	methods: {
 		newArr (e) {
 			this.$store.commit('setItems', e)
+		},
+		myclass (e) {
+			let url = this.$route.params.id
+			if (e.unread && e.id === url) return 'unread selected'
+			else if (e.unread) return 'unread'
+			else if (e.id === url) return 'selected'
+		},
+		toggleUnread (e) {
+			e.unread = !e.unread
+			let cur = e
+			this.$store.dispatch('updateItemReadStatus', cur)
 		}
 	},
 	components: {
@@ -147,7 +159,7 @@ export default {
 	}
 }
 
-.v-card.unread {
+.v-card.unread, .v-card.selected.unread {
 	.drag {
 		background-color: $accent;
 	}
@@ -197,7 +209,6 @@ export default {
 	.fio {
 		width: 130px;
 		overflow: hidden;
-		/* background: red; */
 	}
 	.date {
 		margin: 0 1.5rem;
@@ -239,7 +250,13 @@ export default {
 			background: $grey;
 		}
 	display: block;
+	}
 }
+.desktope.selected {
+	/* background: #99BEFF; */
+	background: $secondary;
+	color: #fff;
+	.head { color: #fff; }
 }
 
 </style>

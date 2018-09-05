@@ -41,28 +41,22 @@ export default new Vuex.Store({
 			if (state.tile === false) {
 				state.tile = true
 			} else state.tile = false
+		},
+		updateItem (state, payload) {
+			const item = state.items.find(item => {
+				return item.id === payload.id
+			})
+			item.unread = payload.unread
 		}
 	},
 
 	getters: {
-		tile (state) {
-			return state.tile
-		},
-		currentFolder (state) {
-			return state.currentFolder
-		},
-		user (state) {
-			return state.user
-		},
-		loading (state) {
-			return state.loading
-		},
-		error (state) {
-			return state.error
-		},
-		tree (state) {
-			return state.tree
-		},
+		tile (state) { return state.tile },
+		currentFolder (state) { return state.currentFolder },
+		user (state) { return state.user },
+		loading (state) { return state.loading },
+		error (state) { return state.error },
+		tree (state) { return state.tree },
 		folderList (state, getters) { // this is flat list of all folders - for home page
 			let result = []
 			let tree = getters.tree
@@ -173,6 +167,17 @@ export default new Vuex.Store({
 				.catch((error) => {
 					console.log(error)
 					commit('setLoading', false)
+				})
+		},
+		updateItemReadStatus ({commit}, payload) {
+			const updateObject = {}
+			updateObject.unread = payload.unread
+			firebase.database().ref('items').child(payload.id).update(updateObject)
+				.then(() => {
+					commit('updateItem', payload)
+				})
+				.catch(error => {
+					console.log(error)
 				})
 		}
 	}
