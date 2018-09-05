@@ -1,12 +1,11 @@
 <template lang="pug" >
 v-slide-x-transition(mode="out-in")
 	div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
-		h1 {{currentFolder.text}}
+		h1(@click="cl") {{currentFolder.text}}
 		drag-zone.zone
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
 					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						<!-- v&#45;card(flat :to="currentPath + '/' + item.id" v&#45;responsive="cardResponse" :class="item.unread ? 'unread' : ''" ).desktope -->
 						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
 							.wrap
 								.drag(@click.prevent="toggleUnread(item)" )
@@ -21,8 +20,10 @@ v-slide-x-transition(mode="out-in")
 			drag-handle.handle
 				div
 			drag-content.content
-				v-slide-x-transition(mode="out-in")
+				v-slide-x-transition(mode="out-in" v-if="detail")
 					router-view
+				v-slide-x-transition(mode="out-in" v-else)
+					h2 {{currentPath}}
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
@@ -52,6 +53,11 @@ export default {
 		}
 	},
 	computed: {
+		detail () {
+			if (this.$route.params.id === undefined) {
+				return false
+			} else return true
+		},
 		cardWidth () {
 			if (this < 800) {
 				return 'small'
@@ -78,6 +84,9 @@ export default {
 		}
 	},
 	methods: {
+		cl () {
+			console.log(this.$route.params.id)
+		},
 		newArr (e) {
 			this.$store.commit('setItems', e)
 		},
@@ -122,11 +131,11 @@ export default {
 	clear: both;
 	display: flex;
 	.handle {
-		width: 20px;
+		width: 10px;
 		div {
 			width:8px;
 			height: 100%;
-			transform: translateX(10px);
+			transform: translateX(3px);
 		}
 		&:hover {
 			div {
@@ -155,7 +164,7 @@ export default {
 	display: flex;
 	.drag {
 		width: 8px;
-		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQYV2NctmzZ/8jISAZGEGBAAigcAI4pBAQE47ttAAAAAElFTkSuQmCC) repeat;
+		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIUlEQVQYV2Ns2vj/f50/IyMDAwMDmPj///9/RhAAcWAAAN0pCAS0Z2yqAAAAAElFTkSuQmCC) repeat;
 	}
 }
 
@@ -237,11 +246,11 @@ export default {
 			font-size: 1.27rem;
 		}
 		.fio, .date, {
-			font-weight: 300;
 			font-size: .95rem;
 			float: left;
+			opacity: .5;
 		}
-		.state {margin-top: 2px;}
+		.state {margin-top: 2px; float: right;}
 	}
 	.v-list__tile__avatar {
 		align-self: center;
@@ -253,10 +262,12 @@ export default {
 	}
 }
 .desktope.selected {
-	/* background: #99BEFF; */
 	background: $secondary;
 	color: #fff;
 	.head { color: #fff; }
+	.fio {
+		font-weight: normal;
+	}
 }
 
 </style>

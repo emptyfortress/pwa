@@ -1,5 +1,6 @@
 <template lang="pug">
 .detail
+	h2 {{ currentItem.title }}
 	.attr
 		ul.one
 			li Автор:
@@ -7,7 +8,7 @@
 			li Создано:
 			li Изменено:
 		ul
-			li {{currentItem.id}}
+			li {{currentItem.author}}
 			li Исполнитель:
 			li Создано:
 			li Изменено:
@@ -76,7 +77,14 @@ export default {
 
 <style scoped lang="scss">
 .detail {
-	/* background: #fff; */
+	background: #fff;
+	padding: 1rem;
+	height: 100%;
+	h2 {
+		font-size: 2rem;
+		font-weight: 400;
+		line-height: 120%;
+	}
 }
 iframe {
 	/* border: 1px solid red; */
@@ -89,6 +97,7 @@ iframe {
 }
 .attr {
 	display: flex;
+	opacity: .7;
 	ul {
 		list-style: none;
 	}
