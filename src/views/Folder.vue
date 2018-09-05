@@ -1,7 +1,7 @@
 <template lang="pug" >
 v-slide-x-transition(mode="out-in")
 	div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
-		h1(@click="cl") {{currentFolder.text}}
+		<!-- h1 {{currentFolder.text}} -->
 		drag-zone.zone
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
@@ -23,7 +23,11 @@ v-slide-x-transition(mode="out-in")
 				v-slide-x-transition(mode="out-in" v-if="detail")
 					router-view
 				v-slide-x-transition(mode="out-in" v-else)
-					h2 {{currentPath}}
+					v-container(fill-height)
+						v-layout(row wrap align-center)
+							div
+								h2 {{currentFolder.text}}
+								Widget(:folders="folder")
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
@@ -41,6 +45,7 @@ v-slide-x-transition(mode="out-in")
 import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import Tiles from '@/components/Tiles'
+import Widget from '@/components/Widget'
 
 export default {
 	data () {
@@ -53,6 +58,14 @@ export default {
 		}
 	},
 	computed: {
+		list () {
+			return this.$store.getters.folderList
+		},
+		folder () {
+			// let all = this.$store.getters.folderList
+			let dash = this.list.filter(item => item.data.path === this.currentPath)
+			return dash
+		},
 		detail () {
 			if (this.$route.params.id === undefined) {
 				return false
@@ -84,8 +97,8 @@ export default {
 		}
 	},
 	methods: {
-		cl () {
-			console.log(this.$route.params.id)
+		featuredType (e) {
+			return this.featured.filter(x => x.data.type === e)
 		},
 		newArr (e) {
 			this.$store.commit('setItems', e)
@@ -105,7 +118,8 @@ export default {
 	components: {
 		SlickItem,
 		SlickList,
-		Tiles
+		Tiles,
+		Widget
 	},
 	directives: {
 		handle: HandleDirective,
@@ -121,6 +135,7 @@ export default {
 	height: calc(100vh - 108px);
 	width: 100%;
 	position: relative;
+	margin-top: 3rem;
 }
 
 .zone {
