@@ -23,7 +23,7 @@ v-slide-x-transition(mode="out-in")
 				v-slide-x-transition(mode="out-in" v-if="detail")
 					router-view
 				v-slide-x-transition(mode="out-in" v-else)
-					DummyFolder(:folder="currentFolder")
+					DummyFolder(:folder="currentFolder" :items="items")
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
@@ -54,41 +54,23 @@ export default {
 		}
 	},
 	computed: {
-		list () {
-			return this.$store.getters.folderList
-		},
-		folder () {
-			let dash = this.list.filter(item => item.data.path === this.currentPath)
-			return dash
-		},
+		list () { return this.$store.getters.folderList },
 		detail () {
 			if (this.$route.params.id === undefined) {
 				return false
 			} else return true
 		},
-		cardWidth () {
-			if (this < 800) {
-				return 'small'
-			} else if (this < 400) {
-				return 'tiny'
-			}
-			return null
-		},
-		tile () {
-			return this.$store.getters.tile
-		},
-		currentPath () {
-			return this.currentFolder.data.path
-		},
-		currentFolder () {
-			return this.$store.getters.currentFolder
-		},
-		loading () {
-			return this.$store.getters.loading
-		},
+		tile () { return this.$store.getters.tile },
+		currentPath () { return this.currentFolder.data.path },
+		currentFolder () { return this.$store.getters.currentFolder },
+		loading () { return this.$store.getters.loading },
+		filter () { return this.$store.getters.filter },
+		// items () { return this.$store.getters.items },
 		items () {
-			return this.$store.getters.items
-			// return this.$store.getters.items.filter(e => e.folder === this.currentFolder.id)
+			let all = this.$store.getters.items
+			if (this.filter === 'unread') {
+				return all.filter(item => item.unread)
+			} else return all
 		}
 	},
 	methods: {

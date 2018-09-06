@@ -2,6 +2,9 @@
 v-container(fill-height)
 	v-layout(row wrap align-center)
 		v-container
+			v-btn(@click="showUnread") Filter
+			br
+			br
 			trend( :data="folder.data.history" :gradient="['#222']" auto-draw smooth ).trend
 			.folder
 				i.icon-folder-o
@@ -20,11 +23,22 @@ v-container(fill-height)
 				v-flex
 					.new Важных
 						span {{folder.data.unread}}
+			div {{$store.getters.filter}}
 </template>
 
 <script>
 export default {
-	props: ['folder']
+	props: ['folder'],
+	data () {
+		return {
+			unread: 'unread'
+		}
+	},
+	methods: {
+		showUnread () {
+			this.$store.commit('setFilter', this.unread)
+		}
+	}
 }
 </script>
 

@@ -13,6 +13,7 @@ export default new Vuex.Store({
 		currentFolder: '',
 		tree: [],
 		items: [],
+		filter: '',
 		tile: false
 	},
 	mutations: {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
 			if (state.tile === false) {
 				state.tile = true
 			} else state.tile = false
+		},
+		setFilter (state, payload) {
+			state.filter = payload
 		},
 		updateItem (state, payload) {
 			const item = state.items.find(item => {
@@ -73,6 +77,9 @@ export default new Vuex.Store({
 		items (state) {
 			return state.items
 		},
+		filter (state) {
+			return state.filter
+		},
 		currentItem (state) {
 			return (itemId) => {
 				return state.items.find(item => {
@@ -83,7 +90,7 @@ export default new Vuex.Store({
 	},
 
 	actions: {
-		filterRec (currentItems, condition, result) {
+		filterRec (currentItems, condition, result) { // recursive function for flatten
 			for (let item of currentItems) {
 				if (condition(item)) {
 					result.push(item)
