@@ -23,11 +23,7 @@ v-slide-x-transition(mode="out-in")
 				v-slide-x-transition(mode="out-in" v-if="detail")
 					router-view
 				v-slide-x-transition(mode="out-in" v-else)
-					v-container(fill-height)
-						v-layout(row wrap align-center)
-							div
-								h2 {{currentFolder.text}}
-								Widget(:folders="folder")
+					DummyFolder(:folder="currentFolder")
 	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
@@ -45,7 +41,7 @@ v-slide-x-transition(mode="out-in")
 import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import Tiles from '@/components/Tiles'
-import Widget from '@/components/Widget'
+import DummyFolder from '@/components/DummyFolder'
 
 export default {
 	data () {
@@ -62,7 +58,6 @@ export default {
 			return this.$store.getters.folderList
 		},
 		folder () {
-			// let all = this.$store.getters.folderList
 			let dash = this.list.filter(item => item.data.path === this.currentPath)
 			return dash
 		},
@@ -119,7 +114,7 @@ export default {
 		SlickItem,
 		SlickList,
 		Tiles,
-		Widget
+		DummyFolder
 	},
 	directives: {
 		handle: HandleDirective,
