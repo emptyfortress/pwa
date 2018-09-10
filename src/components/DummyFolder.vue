@@ -1,30 +1,23 @@
 <template lang="pug">
-v-container(fill-height)
-	v-layout(row wrap align-center)
-		v-container
-			v-btn(@click="showUnread") Filter
-			v-btn(@click="resetFilter") Reset
-			br
-			br
-			trend( :data="folder.data.history" :gradient="['#222']" auto-draw smooth ).trend
-			.folder
-				i.icon-folder-o
-				span {{folder.data.text}}
-			br
-			v-layout(row wrap)
-				v-flex
-					.new Всего
-						span {{folder.data.items}}
-				v-flex
-					.new Новых
-						span {{folder.data.unread}}
-				v-flex
-					.new Просрочено
-						span {{folder.data.unread}}
-				v-flex
-					.new Важных
-						span {{folder.data.unread}}
-			div {{$store.getters.filter}}
+v-container.infolder
+	trend( :data="folder.data.history" :gradient="['#222']" auto-draw smooth ).trend
+	.folder
+		i.icon-folder-o
+		span {{folder.data.text}}
+	br
+	v-layout(row wrap).filt
+		v-flex.item(@click="showUnread") {{folder.data.unread}}
+			.new Новых
+		v-flex.item {{folder.data.unread}}
+			.new Просрочено
+		v-flex.item {{folder.data.unread}}
+			.new Важных
+		v-flex.item {{folder.data.items}}
+			.new Всего
+	br
+	v-btn(flat) Сбросить новые
+	v-btn(@click="showUnread") Filter
+	v-btn(@click="resetFilter") Reset
 </template>
 
 <script>
@@ -49,6 +42,29 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
+.filt {
+	border-top: 1px solid $grey1;
+	border-bottom: 1px solid $grey1;
+	color: $secondary;
+	.item {
+		font-size: 2.5rem;
+		padding: 1rem;
+		line-height: 80%;
+		cursor: pointer;
+		&:hover {
+			background: #fff;
+		}
+	}
+	.new {
+		font-size: 1rem;
+		line-height: 80%;
+		margin-top: .5rem;
+	}
+}
+
+.infolder {
+	padding-top: 0;
+}
 .folder {
 	font-size: 2rem;
 	opacity: .5;

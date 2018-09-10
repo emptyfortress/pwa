@@ -29,22 +29,24 @@ html, body {
 // sort animation
 // ========================================
 
-// .sort-move { transition: all .4s; }
+.sort-move { transition: all .4s; }
 
 .sort-enter-active, .sort-leave-active {
   transition: all .4s;
 }
 .sort-leave-active {
 	position: absolute;
+	width: inherit;
 }
 .sort-enter, .sort-leave-to {
   opacity: 0;
-  // transform: translateY(30px);
+  transform: translateY(10px);
 }
 
 .sort {
   backface-visibility: hidden;
   z-index: 1;
+	width: 100%;
 }
 
 // tree styles **************************************** 
