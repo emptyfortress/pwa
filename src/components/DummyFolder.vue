@@ -3,6 +3,7 @@ v-container(fill-height)
 	v-layout(row wrap align-center)
 		v-container
 			v-btn(@click="showUnread") Filter
+			v-btn(@click="resetFilter") Reset
 			br
 			br
 			trend( :data="folder.data.history" :gradient="['#222']" auto-draw smooth ).trend
@@ -37,6 +38,9 @@ export default {
 	methods: {
 		showUnread () {
 			this.$store.commit('setFilter', this.unread)
+		},
+		resetFilter () {
+			this.$store.commit('setFilter', !this.unread)
 		}
 	}
 }

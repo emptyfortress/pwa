@@ -25,6 +25,28 @@ html, body {
 	opacity: 0;
 }
 
+// ========================================
+// sort animation
+// ========================================
+
+// .sort-move { transition: all .4s; }
+
+.sort-enter-active, .sort-leave-active {
+  transition: all .4s;
+}
+.sort-leave-active {
+	position: absolute;
+}
+.sort-enter, .sort-leave-to {
+  opacity: 0;
+  // transform: translateY(30px);
+}
+
+.sort {
+  backface-visibility: hidden;
+  z-index: 1;
+}
+
 // tree styles **************************************** 
 .tree-highlights .tree-node.matched > .tree-content {
   background: $yellow;

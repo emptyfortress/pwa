@@ -1,22 +1,22 @@
 <template lang="pug" >
 v-slide-x-transition(mode="out-in")
 	div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
-		<!-- h1 {{currentFolder.text}} -->
 		drag-zone.zone
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
-					SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-						v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
-							.wrap
-								.drag(@click.prevent="toggleUnread(item)" )
-								v-list-tile-avatar
-									img(src="@/assets/img/user0.svg").av
-								.card-content
-									.head {{item.title}}
-									.some some staff goes here
-									.fio {{ item.author }}
-									.date 21 авг 18 г.
-									.state В работе
+					transition-group(name="sort" )
+						SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
+							v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
+								.wrap
+									.drag(@click.prevent="toggleUnread(item)" )
+									v-list-tile-avatar
+										img(src="@/assets/img/user0.svg").av
+									.card-content
+										.head {{item.title}}
+										.some some staff goes here
+										.fio {{ item.author }}
+										.date 21 авг 18 г.
+										.state В работе
 			drag-handle.handle
 				div
 			drag-content.content
@@ -171,6 +171,7 @@ export default {
 
 .desktope.v-card {
 	margin-bottom: 1px;
+	/* display: table-row; */
 }
 
 .mobile.v-card {
