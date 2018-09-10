@@ -6,7 +6,7 @@ v-container.infolder
 		span {{folder.data.text}}
 	br
 	v-layout(row wrap).filt
-		v-flex.item(@click="showUnread") {{folder.data.unread}}
+		v-flex.item(@click="toggleUnread" :class="unread ? 'active' : ''") {{folder.data.unread}}
 			.new Новых
 		v-flex.item {{folder.data.unread}}
 			.new Просрочено
@@ -16,8 +16,8 @@ v-container.infolder
 			.new Всего
 	br
 	v-btn(flat) Сбросить новые
-	v-btn(@click="showUnread") Filter
-	v-btn(@click="resetFilter") Reset
+	<!-- v&#45;btn(@click="showUnread") Filter -->
+	<!-- v&#45;btn(@click="resetFilter") Reset -->
 </template>
 
 <script>
@@ -25,12 +25,22 @@ export default {
 	props: ['folder'],
 	data () {
 		return {
-			unread: 'unread'
+			unread: false
+			// unread: 'unread'
 		}
 	},
 	methods: {
 		showUnread () {
 			this.$store.commit('setFilter', this.unread)
+		},
+		toggleUnread () {
+			if (this.unread === false) {
+				this.$store.commit('setFilter', 'unread')
+				this.unread = true
+			} else {
+				this.$store.commit('setFilter', '')
+				this.unread = false
+			}
 		},
 		resetFilter () {
 			this.$store.commit('setFilter', !this.unread)
@@ -51,6 +61,10 @@ export default {
 		padding: 1rem;
 		line-height: 80%;
 		cursor: pointer;
+		&.active {
+			background: #fff;
+			border-top: 3px solid $info;
+		}
 		&:hover {
 			background: #fff;
 		}

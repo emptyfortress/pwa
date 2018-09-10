@@ -36,7 +36,6 @@ html, body {
 }
 .sort-leave-active {
 	position: absolute;
-	width: inherit;
 }
 .sort-enter, .sort-leave-to {
   opacity: 0;
@@ -44,9 +43,9 @@ html, body {
 }
 
 .sort {
-  backface-visibility: hidden;
-  z-index: 1;
-	width: 100%;
+	position: relative;
+  // backface-visibility: hidden;
+  // z-index: 1;
 }
 
 // tree styles **************************************** 

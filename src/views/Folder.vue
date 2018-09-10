@@ -4,7 +4,7 @@ v-slide-x-transition(mode="out-in")
 		drag-zone.zone
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
-					transition-group(name="sort" tag="span")
+					transition-group(name="sort" )
 						SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
 							v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
 								.wrap
