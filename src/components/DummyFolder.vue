@@ -14,10 +14,6 @@ v-container.infolder
 			.new Важных
 		v-flex.item {{folder.data.items}}
 			.new Всего
-	br
-	v-btn(flat) Сбросить новые
-	<!-- v&#45;btn(@click="showUnread") Filter -->
-	<!-- v&#45;btn(@click="resetFilter") Reset -->
 </template>
 
 <script>

@@ -1,39 +1,43 @@
 <template lang="pug" >
 v-slide-x-transition(mode="out-in")
-	div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
-		drag-zone.zone
-			drag-content.content
-				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
-					transition-group(name="sort" )
-						SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-							v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
-								.wrap
-									.drag(@click.prevent="toggleUnread(item)" )
-									v-list-tile-avatar
-										img(src="@/assets/img/user0.svg").av
-									.card-content
-										.head {{item.title}}
-										.some some staff goes here
-										.fio {{ item.author }}
-										.date 21 авг 18 г.
-										.state В работе
-			drag-handle.handle
-				div
-			drag-content.content
-				v-slide-x-transition(mode="out-in" v-if="detail")
-					router-view
-				v-slide-x-transition(mode="out-in" v-else)
-					DummyFolder(:folder="currentFolder" :items="items")
-	Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
+	div
+		.panel
+			v-btn(flat small color="info") Сбросить новые
+			v-btn(flat small color="info") Показать все
+		div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
+			drag-zone.zone
+				drag-content.content
+					SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
+						transition-group(name="sort" )
+							SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
+								v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
+									.wrap
+										.drag(@click.prevent="toggleUnread(item)" )
+										v-list-tile-avatar
+											img(src="@/assets/img/user0.svg").av
+										.card-content
+											.head {{item.title}}
+											.some some staff goes here
+											.fio {{ item.author }}
+											.date 21 авг 18 г.
+											.state В работе
+				drag-handle.handle
+					div
+				drag-content.content
+					v-slide-x-transition(mode="out-in" v-if="detail")
+						router-view
+					v-slide-x-transition(mode="out-in" v-else)
+						DummyFolder(:folder="currentFolder" :items="items")
+		Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
-	v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
-		SlickList(lockAxis="y" :value="items" helperClass="moving" :pressDelay=300 @input="newArr")
-			SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-				v-card(flat :to="'/m/' + item.id" :class="item.unread ? 'unread' : ''" ).mobile
-					.wrap
-						.drag(@click.prevent="item.unread = !item.unread" )
-						.card-content
-							.head {{item.title}}
+		v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
+			SlickList(lockAxis="y" :value="items" helperClass="moving" :pressDelay=300 @input="newArr")
+				SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
+					v-card(flat :to="'/m/' + item.id" :class="item.unread ? 'unread' : ''" ).mobile
+						.wrap
+							.drag(@click.prevent="item.unread = !item.unread" )
+							.card-content
+								.head {{item.title}}
 
 </template>
 
@@ -112,7 +116,7 @@ export default {
 	height: calc(100vh - 108px);
 	width: 100%;
 	position: relative;
-	margin-top: 3rem;
+	/* margin-top: 3rem; */
 }
 
 .zone {
@@ -261,6 +265,9 @@ export default {
 	.fio {
 		font-weight: normal;
 	}
+}
+.panel {
+	padding: .5rem 0;
 }
 
 </style>
