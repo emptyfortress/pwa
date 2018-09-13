@@ -36,6 +36,7 @@ new Vue({
 	render: h => h(App),
 	created () {
 		this.$store.dispatch('loadTree')
+		this.$store.dispatch('loadFolders')
 		this.$store.dispatch('loadItems')
 	}
 }).$mount('#app')

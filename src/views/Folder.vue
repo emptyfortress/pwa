@@ -3,7 +3,7 @@ v-slide-x-transition(mode="out-in")
 	div
 		.panel
 			v-btn(flat small color="info") Сбросить новые
-			v-btn(flat small color="info") Показать все
+			v-btn(flat small color="info" @click="showAll") Показать все
 		div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
 			drag-zone.zone
 				drag-content.content
@@ -78,6 +78,10 @@ export default {
 		}
 	},
 	methods: {
+		showAll () {
+			this.unread = false
+			this.$store.commit('setFilter', '')
+		},
 		featuredType (e) {
 			return this.featured.filter(x => x.data.type === e)
 		},
@@ -92,8 +96,7 @@ export default {
 		},
 		toggleUnread (e) {
 			e.unread = !e.unread
-			let cur = e
-			this.$store.dispatch('updateItemReadStatus', cur)
+			this.$store.dispatch('updateItemReadStatus', e)
 		}
 	},
 	components: {

@@ -12,8 +12,10 @@ v-container.infolder
 			.new Просрочено
 		v-flex.item {{folder.data.unread}}
 			.new Важных
-		v-flex.item {{folder.data.items}}
+		v-flex.item(@click="showAll") {{folder.data.items}}
 			.new Всего
+	v-btn(@click="up") click
+	div {{filt}}
 </template>
 
 <script>
@@ -22,12 +24,18 @@ export default {
 	data () {
 		return {
 			unread: false
-			// unread: 'unread'
+		}
+	},
+	computed: {
+		filt () {
+			return this.$store.getters.folders
+			// return cur.data.filter
 		}
 	},
 	methods: {
-		showUnread () {
-			this.$store.commit('setFilter', this.unread)
+		showAll () {
+			this.unread = false
+			this.$store.commit('setFilter', '')
 		},
 		toggleUnread () {
 			if (this.unread === false) {
@@ -38,8 +46,12 @@ export default {
 				this.unread = false
 			}
 		},
-		resetFilter () {
-			this.$store.commit('setFilter', !this.unread)
+		up () {
+			let dummy = {}
+			dummy.id = '0'
+			dummy.filter = 'fooooo'
+			console.log(dummy)
+			this.$store.dispatch('updateFolderFilter', dummy)
 		}
 	}
 }
