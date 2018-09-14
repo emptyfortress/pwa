@@ -213,13 +213,23 @@ export default new Vuex.Store({
 		updateFolderFilter ({commit}, payload) {
 			const updateObject = {}
 			updateObject.filter = payload.filter
-			firebase.database().ref('folders').child(payload.id).update(updateObject)
+			var folder = firebase.database().ref('tree').child(payload.id)
+			var data = folder.child('data')
+			data.update(updateObject)
 				.then(() => {
-					// commit('updateFolder', payload)
+					commit('updateFolder', payload)
 				})
 				.catch(error => {
 					console.log(error)
 				})
+
+			// firebase.database().ref('folders').child(payload.id).update(updateObject)
+			// 	.then(() => {
+			// 		commit('updateFolder', payload)
+			// 	})
+			// 	.catch(error => {
+			// 		console.log(error)
+			// 	})
 		}
 	}
 })
