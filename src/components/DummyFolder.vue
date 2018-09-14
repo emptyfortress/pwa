@@ -49,7 +49,7 @@ export default {
 		up () {
 			let dummy = {}
 			dummy.id = '0'
-			dummy.filter = 'fooooo'
+			dummy.filter = 'faaaa'
 			console.log(dummy)
 			this.$store.dispatch('updateFolderFilter', dummy)
 		}
