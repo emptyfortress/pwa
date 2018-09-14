@@ -40,9 +40,10 @@ export default new Vuex.Store({
 		},
 		updateFolder (state, payload) {
 			const folder = state.tree.find(folder => {
-				return folder.id === payload.id
+				// return folder.name === payload.id
+				return folder.name === 'my-doc'
 			})
-			// console.log(folder)
+			console.log(folder)
 			folder.data.filter = payload.filter
 		}
 	},
@@ -126,7 +127,7 @@ export default new Vuex.Store({
 
 					for (let key in obj) {
 						tree.push({
-							id: obj[key].id,
+							name: obj[key].name,
 							text: obj[key].text,
 							state: obj[key].state,
 							children: obj[key].children,
@@ -184,31 +185,19 @@ export default new Vuex.Store({
 			const updateObject = {}
 			updateObject.filter = payload.filter
 			var tree = firebase.database().ref('tree')
-			tree.orderByChild('id').equalTo('my-doc').on('value', function (snapshot) {
-				let ob = snapshot.val()
-				console.log(Object.keys(ob))
-				console.log(snapshot.key)
+			tree.orderByChild('name').equalTo('my-doc').once('value', function (snapshot) {
+				let myId = Object.keys(snapshot.val())[0]
+				let folder = tree.child(myId)
+				let data = folder.child('data')
+				data.update(updateObject)
+					.then(() => {
+						// console.log(123)
+						commit('updateFolder', payload)
+					})
+					.catch(error => {
+						console.log(error)
+					})
 			})
-			// tree.once('tasks')
-			// 	.then(function (snapshot) {
-			// 		var key = snapshot.key
-			// 		console.log(key)
-			// 	})
-			// let myId = firebase.database().ref('tree').orderByChild('id').equalTo('my-doc').on('value', function (snapshot) {
-			// 	console.log(snapshot.key)
-			// })
-			// var folder = tree.ref
-			// var folder = tree.ref('1')
-			// var folder = tree.parent('tasks')
-			// console.log(folder)
-			// var data = folder.child('data')
-			// data.update(updateObject)
-			// 	.then(() => {
-			// 		commit('updateFolder', payload)
-			// 	})
-			// 	.catch(error => {
-			// 		console.log(error)
-			// 	})
 		}
 	}
 })
