@@ -12,7 +12,6 @@ export default new Vuex.Store({
 		error: null,
 		currentFolder: '',
 		tree: [],
-		folders: [],
 		items: [],
 		filter: '',
 		tile: false
@@ -25,7 +24,6 @@ export default new Vuex.Store({
 		clearError (state) { state.error = null },
 		setTree (state, payload) { state.tree = payload },
 		setItems (state, payload) { state.items = payload },
-		setFolders (state, payload) { state.folders = payload },
 		toggleTile (state) {
 			if (state.tile === false) {
 				state.tile = true
@@ -41,10 +39,11 @@ export default new Vuex.Store({
 			item.unread = payload.unread
 		},
 		updateFolder (state, payload) {
-			const folder = state.folders.find(folder => {
+			const folder = state.tree.find(folder => {
 				return folder.id === payload.id
 			})
-			folder.filter = payload.filter
+			// console.log(folder)
+			folder.data.filter = payload.filter
 		}
 	},
 
@@ -55,7 +54,6 @@ export default new Vuex.Store({
 		loading (state) { return state.loading },
 		error (state) { return state.error },
 		tree (state) { return state.tree },
-		folders (state) { return state.folders },
 		folderList (state, getters) { // this is flat list of all folders - for home page
 			let result = []
 			let tree = getters.tree
@@ -143,34 +141,6 @@ export default new Vuex.Store({
 					commit('setLoading', false)
 				})
 		},
-		loadFolders ({commit}) {
-			commit('setLoading', true)
-			firebase.database().ref('folders').once('value')
-				.then((data) => {
-					const items = []
-					const obj = data.val()
-
-					for (let key in obj) {
-						items.push({
-							id: obj[key].id,
-							items: obj[key].items,
-							filter: obj[key].filter,
-							history: obj[key].history,
-							path: obj[key].path,
-							sort: obj[key].sort,
-							title: obj[key].title,
-							type: obj[key].type,
-							unread: obj[key].unread
-						})
-					}
-					commit('setFolders', items)
-					commit('setLoading', false)
-				})
-				.catch((error) => {
-					console.log(error)
-					commit('setLoading', false)
-				})
-		},
 		loadItems ({commit}) {
 			commit('setLoading', true)
 			firebase.database().ref('items').once('value')
@@ -213,17 +183,26 @@ export default new Vuex.Store({
 		updateFolderFilter ({commit}, payload) {
 			const updateObject = {}
 			updateObject.filter = payload.filter
-			var folder = firebase.database().ref('tree').child(payload.id)
-			var data = folder.child('data')
-			data.update(updateObject)
-				.then(() => {
-					commit('updateFolder', payload)
-				})
-				.catch(error => {
-					console.log(error)
-				})
-
-			// firebase.database().ref('folders').child(payload.id).update(updateObject)
+			var tree = firebase.database().ref('tree')
+			tree.orderByChild('id').equalTo('my-doc').on('value', function (snapshot) {
+				let ob = snapshot.val()
+				console.log(Object.keys(ob))
+				console.log(snapshot.key)
+			})
+			// tree.once('tasks')
+			// 	.then(function (snapshot) {
+			// 		var key = snapshot.key
+			// 		console.log(key)
+			// 	})
+			// let myId = firebase.database().ref('tree').orderByChild('id').equalTo('my-doc').on('value', function (snapshot) {
+			// 	console.log(snapshot.key)
+			// })
+			// var folder = tree.ref
+			// var folder = tree.ref('1')
+			// var folder = tree.parent('tasks')
+			// console.log(folder)
+			// var data = folder.child('data')
+			// data.update(updateObject)
 			// 	.then(() => {
 			// 		commit('updateFolder', payload)
 			// 	})
