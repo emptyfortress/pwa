@@ -6,7 +6,7 @@ v-container.infolder
 		span {{folder.data.text}}
 	br
 	v-layout(row wrap).filt
-		v-flex.item(@click="setFilter('')" :class="filter==='all' ? 'active' : ''") {{folder.data.items}}
+		v-flex.item(@click="setFilter('')" :class="filter==='' ? 'active' : ''") {{folder.data.items}}
 			.new Всего
 		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{folder.data.unread}}
 			.new Новых
@@ -29,11 +29,7 @@ export default {
 			return this.$store.getters.currentFolder
 		},
 		filter () {
-			if (this.currentFolder.data.filter === '') {
-				return 'all'
-			} else if (this.currentFolder.data.filter === 'unread') {
-				return 'unread'
-			}
+			return this.currentFolder.data.filter
 		}
 	},
 	methods: {
@@ -48,13 +44,6 @@ export default {
 			this.$store.dispatch('updateFolderFilter', dummy)
 			console.log(dummy)
 		}
-		// up () {
-		// 	let dummy = {}
-		// 	dummy.name = 'tasks'
-		// 	dummy.filter = 'unread'
-		// 	console.log(dummy)
-		// 	this.$store.dispatch('updateFolderFilter', dummy)
-		// }
 	}
 }
 </script>

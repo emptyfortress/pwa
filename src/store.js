@@ -39,11 +39,11 @@ export default new Vuex.Store({
 			item.unread = payload.unread
 		},
 		updateFolder (state, payload) {
-			const folder = state.tree.find(folder => {
-				return folder.id === payload.id
-			})
+			// const folder = state.tree.find(folder => {
+			// 	return folder.id === payload.id
+			// })
 			const current = state.currentFolder
-			folder.data.filter = payload.filter
+			// folder.data.filter = payload.filter
 			current.data.filter = payload.filter
 		}
 	},
@@ -191,8 +191,8 @@ export default new Vuex.Store({
 				let data = folder.child('data')
 				data.update(updateObject)
 					.then(() => {
-						// console.log(123)
-						commit('updateFolder', payload)
+						console.log(myId)
+						// commit('updateFolder', payload)
 					})
 					.catch(error => {
 						console.log(error)
