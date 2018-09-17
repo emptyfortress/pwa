@@ -31,6 +31,7 @@ new Vue({
 	firebase: {
 		// cat: firebase.database.ref('cat').orderByChild('created_at'),
 		tree: firebase.database.ref('tree'),
+		folders: firebase.database.ref('folders'),
 		items: firebase.database.ref('items')
 	},
 	render: h => h(App),

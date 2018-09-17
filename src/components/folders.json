@@ -1,5 +1,5 @@
 [
-	{"id": "main", "text": "Сводка", "path": "/"},
+	{"id": "main", "text": "Сводка", "path": "/", "unread": 0, "filter": "", "overdue": 0, "history": [], "dash": ""},
 	{"id": "tasks", "text": "Мои задания", "type": "task",  "items": 17, "unread": 3, "filter": "", "overdue": 0, "history": [59, 10, 40, 35, 58, 52], "path": "/tasks", "dash": true},
 	{"id": "inbox", "text": "Входящие", "type": "task",  "items": 19, "unread": 3, "filter": "", "overdue": 0, "history": [31, 7, 99, 72, 0, 8 ], "path": "/inbox"},
 	{"id": "inwork", "text": "В работе", "type": "task", "items": 8, "unread": 0, "filter": "", "overdue": 0, "history": [16, 2, 94, 18, 1, 12], "path": "/inwork", "dash": true},

@@ -11,7 +11,7 @@ export default new Vuex.Store({
 		loading: false,
 		error: null,
 		currentFolder: '',
-		follders: [],
+		folders: [],
 		tree: [],
 		items: [],
 		tile: false
@@ -86,16 +86,16 @@ export default new Vuex.Store({
 	},
 
 	actions: {
-		filterRec (currentItems, condition, result) { // recursive function for flatten
-			for (let item of currentItems) {
-				if (condition(item)) {
-					result.push(item)
-				}
-				if (item.children) {
-					this.filterRec(item.children, condition, result)
-				}
-			}
-		},
+		// filterRec (currentItems, condition, result) { // recursive function for flatten
+		// 	for (let item of currentItems) {
+		// 		if (condition(item)) {
+		// 			result.push(item)
+		// 		}
+		// 		if (item.children) {
+		// 			this.filterRec(item.children, condition, result)
+		// 		}
+		// 	}
+		// },
 		logUserIn ({commit}, payload) {
 			commit('setLoading', true)
 			commit('clearError')
@@ -137,6 +137,35 @@ export default new Vuex.Store({
 						})
 					}
 					commit('setTree', tree)
+					commit('setLoading', false)
+				})
+				.catch((error) => {
+					console.log(error)
+					commit('setLoading', false)
+				})
+		},
+		loadFolders ({commit}) {
+			commit('setLoading', true)
+			firebase.database().ref('folders').once('value')
+				.then((data) => {
+					const folders = []
+					const obj = data.val()
+
+					for (let key in obj) {
+						folders.push({
+							id: obj[key].id,
+							text: obj[key].text,
+							path: obj[key].path,
+							type: obj[key].type,
+							items: obj[key].items,
+							unread: obj[key].unread,
+							filter: obj[key].filter,
+							overdue: obj[key].overdue,
+							history: obj[key].history,
+							dash: obj[key].dash
+						})
+					}
+					commit('setFolders', folders)
 					commit('setLoading', false)
 				})
 				.catch((error) => {

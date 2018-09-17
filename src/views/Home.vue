@@ -23,7 +23,6 @@ v-container(grid-list-md)
 						.folder Просрочено на этой неделе
 		v-flex( xs12 )
 			Widget(:folders="featuredType('task')")
-
 	br
 	br
 	br
@@ -32,7 +31,6 @@ v-container(grid-list-md)
 		i.icon-doc
 		span Документы
 	Widget(:folders="featuredType('doc')")
-
 	br
 	br
 	br
