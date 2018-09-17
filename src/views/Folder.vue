@@ -68,7 +68,7 @@ export default {
 		currentPath () { return this.currentFolder.data.path },
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
-		filter () { return this.$store.getters.filter },
+		filter () { return this.currentFolder.data.filter },
 		items () {
 			let all = this.$store.getters.items
 			if (this.filter === 'unread') {

@@ -6,16 +6,14 @@ v-container.infolder
 		span {{folder.data.text}}
 	br
 	v-layout(row wrap).filt
-		v-flex.item(@click="showAll" :class="filter==='all' ? 'active' : ''") {{folder.data.items}}
+		v-flex.item(@click="setFilter('')" :class="filter==='all' ? 'active' : ''") {{folder.data.items}}
 			.new Всего
-		<!-- v&#45;flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{folder.data.unread}} -->
-		v-flex.item(@click="up" :class="filter==='unread' ? 'active' : ''") {{folder.data.unread}}
+		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{folder.data.unread}}
 			.new Новых
 		v-flex.item {{folder.data.overdue}}
 			.new Просрочено
 		v-flex.item {{folder.data.overdue}}
 			.new Важных
-	v-btn(@click="up") click
 </template>
 
 <script>
@@ -27,10 +25,13 @@ export default {
 		}
 	},
 	computed: {
+		currentFolder () {
+			return this.$store.getters.currentFolder
+		},
 		filter () {
-			if (this.tempFolder.data.filter === '') {
+			if (this.currentFolder.data.filter === '') {
 				return 'all'
-			} else if (this.tempFolder.data.filter === 'unread') {
+			} else if (this.currentFolder.data.filter === 'unread') {
 				return 'unread'
 			}
 		}
@@ -44,16 +45,16 @@ export default {
 			let dummy = {}
 			dummy.id = this.$store.getters.currentFolder.id
 			dummy.filter = e
-			// this.$store.dispatch('updateFolderFilter', dummy)
-			console.log(dummy)
-		},
-		up () {
-			let dummy = {}
-			dummy.id = 'tasks'
-			dummy.filter = 'unread'
-			console.log(dummy)
 			this.$store.dispatch('updateFolderFilter', dummy)
+			console.log(dummy)
 		}
+		// up () {
+		// 	let dummy = {}
+		// 	dummy.name = 'tasks'
+		// 	dummy.filter = 'unread'
+		// 	console.log(dummy)
+		// 	this.$store.dispatch('updateFolderFilter', dummy)
+		// }
 	}
 }
 </script>

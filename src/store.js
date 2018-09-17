@@ -40,11 +40,11 @@ export default new Vuex.Store({
 		},
 		updateFolder (state, payload) {
 			const folder = state.tree.find(folder => {
-				// return folder.name === payload.id
-				return folder.name === 'my-doc'
+				return folder.id === payload.id
 			})
-			console.log(folder)
+			const current = state.currentFolder
 			folder.data.filter = payload.filter
+			current.data.filter = payload.filter
 		}
 	},
 
@@ -127,7 +127,7 @@ export default new Vuex.Store({
 
 					for (let key in obj) {
 						tree.push({
-							name: obj[key].name,
+							id: obj[key].id,
 							text: obj[key].text,
 							state: obj[key].state,
 							children: obj[key].children,
@@ -185,7 +185,7 @@ export default new Vuex.Store({
 			const updateObject = {}
 			updateObject.filter = payload.filter
 			var tree = firebase.database().ref('tree')
-			tree.orderByChild('name').equalTo('my-doc').once('value', function (snapshot) {
+			tree.orderByChild('id').equalTo(payload.id).once('value', function (snapshot) {
 				let myId = Object.keys(snapshot.val())[0]
 				let folder = tree.child(myId)
 				let data = folder.child('data')
