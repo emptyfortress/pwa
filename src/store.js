@@ -11,9 +11,9 @@ export default new Vuex.Store({
 		loading: false,
 		error: null,
 		currentFolder: '',
+		follders: [],
 		tree: [],
 		items: [],
-		filter: '',
 		tile: false
 	},
 	mutations: {
@@ -23,6 +23,7 @@ export default new Vuex.Store({
 		setError (state, payload) { state.error = payload },
 		clearError (state) { state.error = null },
 		setTree (state, payload) { state.tree = payload },
+		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
 		toggleTile (state) {
 			if (state.tile === false) {
@@ -55,19 +56,20 @@ export default new Vuex.Store({
 		loading (state) { return state.loading },
 		error (state) { return state.error },
 		tree (state) { return state.tree },
-		folderList (state, getters) { // this is flat list of all folders - for home page
-			let result = []
-			let tree = getters.tree
-			function fil (currentItems, result) {
-				for (let item of currentItems) {
-					result.push(item)
-					if (item.children) { fil(item.children, result) }
-				}
-				return result
-			}
-			fil(tree, result)
-			return result
-		},
+		folders (state) { return state.folders },
+		// folderList (state, getters) {
+		// 	let result = []
+		// 	let tree = getters.tree
+		// 	function fil (currentItems, result) {
+		// 		for (let item of currentItems) {
+		// 			result.push(item)
+		// 			if (item.children) { fil(item.children, result) }
+		// 		}
+		// 		return result
+		// 	}
+		// 	fil(tree, result)
+		// 	return result
+		// },
 		items (state) {
 			return state.items
 		},
