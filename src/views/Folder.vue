@@ -2,7 +2,7 @@
 v-slide-x-transition(mode="out-in")
 	div
 		.panel
-			v-btn(flat small color="info") Сбросить новые
+			v-btn(flat small color="info" @click="clearUnread") Сбросить новые
 			v-btn(flat small color="info" @click="showAll") Показать все
 		div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
 			drag-zone.zone
@@ -73,13 +73,22 @@ export default {
 			let all = this.$store.getters.items
 			if (this.filter === 'unread') {
 				return all.filter(item => item.unread)
+			} else if (this.filter === 'overdue') {
+				return all.filter(item => item.overdue)
+			} else if (this.filter === 'important') {
+				return all.filter(item => item.important)
 			} else return all
 		}
 	},
 	methods: {
+		clearUnread () {
+
+		},
 		showAll () {
-			this.unread = false
-			this.$store.commit('setFilter', '')
+			let dummy = {}
+			dummy.id = this.currentFolder.id
+			dummy.filter = ''
+			this.$store.dispatch('updateFolderFilter', dummy)
 		},
 		featuredType (e) {
 			return this.featured.filter(x => x.type === e)
@@ -89,6 +98,7 @@ export default {
 		},
 		myclass (e) {
 			let url = this.$route.params.id
+			url = parseInt(url, 10)
 			if (e.unread && e.id === url) return 'unread selected'
 			else if (e.unread) return 'unread'
 			else if (e.id === url) return 'selected'

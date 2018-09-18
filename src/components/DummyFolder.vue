@@ -10,9 +10,9 @@ v-container.infolder
 			.new Всего
 		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{folder.unread}}
 			.new Новых
-		v-flex.item {{folder.overdue}}
+		v-flex.item(@click="setFilter('overdue')" :class="filter==='overdue' ? 'active' : ''") {{folder.overdue}}
 			.new Просрочено
-		v-flex.item {{folder.overdue}}
+		v-flex.item(@click="setFilter('important')" :class="filter==='important' ? 'active' : ''") {{folder.overdue}}
 			.new Важных
 </template>
 
@@ -35,9 +35,8 @@ export default {
 	methods: {
 		setFilter (e) {
 			let dummy = {}
-			dummy.text = this.$store.getters.currentFolder.text
+			dummy.id = this.$store.getters.currentFolder.id
 			dummy.filter = e
-			console.log(dummy)
 			this.$store.dispatch('updateFolderFilter', dummy)
 		}
 	}

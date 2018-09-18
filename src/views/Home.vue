@@ -52,9 +52,6 @@ export default {
 		loading () {
 			return this.$store.getters.loading
 		},
-		// list () {
-		// 	return this.$store.getters.folderList
-		// },
 		featured () {
 			let all = this.$store.getters.folders
 			let dash = all.filter(item => item.dash === true)
@@ -65,16 +62,6 @@ export default {
 		featuredType (e) {
 			return this.featured.filter(x => x.type === e)
 		}
-		// filterRec (currentItems, condition, result) {
-		// 	for (let item of currentItems) {
-		// 		if (condition(item)) {
-		// 			result.push(item)
-		// 		}
-		// 		if (item.children) {
-		// 			this.filterRec(item.children, condition, result)
-		// 		}
-		// 	}
-		// }
 	},
 	components: {
 		VueEasyPieChart,
