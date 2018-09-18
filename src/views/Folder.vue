@@ -2,8 +2,10 @@
 v-slide-x-transition(mode="out-in")
 	div
 		.panel
-			v-btn(flat small color="info" @click="clearUnread") Сбросить новые
-			v-btn(flat small color="info" @click="showAll") Показать все
+			v-slide-y-transition
+				v-btn(flat small color="info" @click="clearUnread" v-if="allRead") Сбросить новые
+			v-slide-y-transition
+				v-btn(flat small color="info" @click="showAll" v-if="filter !== ''") Показать все
 		div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
 			drag-zone.zone
 				drag-content.content
@@ -58,7 +60,6 @@ export default {
 		}
 	},
 	computed: {
-		list () { return this.$store.getters.folderList },
 		detail () {
 			if (this.$route.params.id === undefined) {
 				return false
@@ -78,11 +79,19 @@ export default {
 			} else if (this.filter === 'important') {
 				return all.filter(item => item.important)
 			} else return all
+		},
+		allRead () {
+			let items = this.$store.getters.items
+			let unreadItems = items.filter(item => item.unread)
+			if (unreadItems.length === 0) {
+				return false
+			} else return true
 		}
 	},
 	methods: {
 		clearUnread () {
-
+			let items = this.$store.getters.items
+			items.map(item => item.unread = 0)
 		},
 		showAll () {
 			let dummy = {}
@@ -280,6 +289,7 @@ export default {
 }
 .panel {
 	padding: .5rem 0;
+	min-height: 3.5rem;
 }
 
 </style>

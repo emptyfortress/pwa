@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container(grid-list-xl fluid)
+<!-- v&#45;container(grid&#45;list&#45;xl fluid) -->
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr" ).mygrid
 		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
