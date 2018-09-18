@@ -40,12 +40,10 @@ export default new Vuex.Store({
 			item.unread = payload.unread
 		},
 		updateFolder (state, payload) {
-			// const folder = state.tree.find(folder => {
-			// 	return folder.id === payload.id
-			// })
-			const current = state.currentFolder
-			// folder.data.filter = payload.filter
-			current.data.filter = payload.filter
+			const folder = state.folders.find(folder => {
+				return folder.text === payload.text
+			})
+			folder.filter = payload.filter
 		}
 	},
 
@@ -57,19 +55,6 @@ export default new Vuex.Store({
 		error (state) { return state.error },
 		tree (state) { return state.tree },
 		folders (state) { return state.folders },
-		// folderList (state, getters) {
-		// 	let result = []
-		// 	let tree = getters.tree
-		// 	function fil (currentItems, result) {
-		// 		for (let item of currentItems) {
-		// 			result.push(item)
-		// 			if (item.children) { fil(item.children, result) }
-		// 		}
-		// 		return result
-		// 	}
-		// 	fil(tree, result)
-		// 	return result
-		// },
 		items (state) {
 			return state.items
 		},
@@ -86,16 +71,6 @@ export default new Vuex.Store({
 	},
 
 	actions: {
-		// filterRec (currentItems, condition, result) { // recursive function for flatten
-		// 	for (let item of currentItems) {
-		// 		if (condition(item)) {
-		// 			result.push(item)
-		// 		}
-		// 		if (item.children) {
-		// 			this.filterRec(item.children, condition, result)
-		// 		}
-		// 	}
-		// },
 		logUserIn ({commit}, payload) {
 			commit('setLoading', true)
 			commit('clearError')
@@ -153,7 +128,7 @@ export default new Vuex.Store({
 
 					for (let key in obj) {
 						folders.push({
-							id: obj[key].id,
+							// id: obj[key].id,
 							text: obj[key].text,
 							path: obj[key].path,
 							type: obj[key].type,
@@ -214,21 +189,40 @@ export default new Vuex.Store({
 		},
 		updateFolderFilter ({commit}, payload) {
 			const updateObject = {}
+			updateObject.text = payload.text
 			updateObject.filter = payload.filter
-			var tree = firebase.database().ref('tree')
-			tree.orderByChild('id').equalTo(payload.id).once('value', function (snapshot) {
-				let myId = Object.keys(snapshot.val())[0]
-				let folder = tree.child(myId)
-				let data = folder.child('data')
-				data.update(updateObject)
-					.then(() => {
-						console.log(myId)
-						// commit('updateFolder', payload)
-					})
-					.catch(error => {
-						console.log(error)
-					})
-			})
+			firebase.database().ref('folders').child('1').update(updateObject)
+				.then(() => {
+					commit('updateFolder', payload)
+				})
+				.catch(error => {
+					console.log(error)
+				})
+			// console.log(folders)
 		}
+
+		// firebase.database().ref('folders').child(payload.text).update(updateObject)
+		// 	.then(() => {
+		// 		commit('updateFolder', payload)
+		// 	})
+		// 	.catch(error => {
+		// 		console.log(error)
+		// 	})
+
+		// var tree = firebase.database().ref('tree')
+		// tree.orderByChild('id').equalTo(payload.id).once('value', function (snapshot) {
+		// 	let myId = Object.keys(snapshot.val())[0]
+		// 	let folder = tree.child(myId)
+		// 	let data = folder.child('data')
+		// 	data.update(updateObject)
+		// 		.then(() => {
+		// 			console.log(myId)
+		// 			// commit('updateFolder', payload)
+		// 		})
+		// 		.catch(error => {
+		// 			console.log(error)
+		// 		})
+		// })
+		// }
 	}
 })

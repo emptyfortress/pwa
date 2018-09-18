@@ -34,6 +34,9 @@ export default {
 		loading () {
 			return this.$store.getters.loading
 		},
+		folders () {
+			return this.$store.getters.folders
+		},
 		treeData () {
 			return this.$store.getters.tree
 		},
@@ -61,8 +64,9 @@ export default {
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
 		},
 		onNodeSelected (node) {
-			this.$router.push(node.data.path)
-			this.$store.commit('setCurrentFolder', node)
+			let toFolder = this.folders.filter(folder => folder.text === node.text)[0]
+			this.$router.push(toFolder.path)
+			this.$store.commit('setCurrentFolder', toFolder)
 		}
 	}
 }

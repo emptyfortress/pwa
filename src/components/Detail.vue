@@ -38,11 +38,14 @@ export default {
 		}
 	},
 	computed: {
+		intId () {
+			return parseInt(this.id, 10)
+		},
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
 		currentItem () {
-			return this.$store.getters.currentItem(this.id)
+			return this.$store.getters.currentItem(this.intId)
 		}
 	},
 	mounted () {

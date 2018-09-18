@@ -65,10 +65,10 @@ export default {
 			} else return true
 		},
 		tile () { return this.$store.getters.tile },
-		currentPath () { return this.currentFolder.data.path },
+		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
-		filter () { return this.currentFolder.data.filter },
+		filter () { return this.currentFolder.filter },
 		items () {
 			let all = this.$store.getters.items
 			if (this.filter === 'unread') {
@@ -82,7 +82,7 @@ export default {
 			this.$store.commit('setFilter', '')
 		},
 		featuredType (e) {
-			return this.featured.filter(x => x.data.type === e)
+			return this.featured.filter(x => x.type === e)
 		},
 		newArr (e) {
 			this.$store.commit('setItems', e)

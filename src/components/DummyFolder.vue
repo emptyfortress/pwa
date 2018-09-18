@@ -1,18 +1,18 @@
 <template lang="pug">
 v-container.infolder
-	trend( :data="folder.data.history" :gradient="['#222']" auto-draw smooth ).trend
+	trend( :data="folder.history" :gradient="['#222']" auto-draw smooth ).trend
 	.folder
 		i.icon-folder-o
-		span {{folder.data.text}}
+		span {{folder.text}}
 	br
 	v-layout(row wrap).filt
-		v-flex.item(@click="setFilter('')" :class="filter==='' ? 'active' : ''") {{folder.data.items}}
+		v-flex.item(@click="setFilter('')" :class="filter==='' ? 'active' : ''") {{folder.items}}
 			.new Всего
-		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{folder.data.unread}}
+		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{folder.unread}}
 			.new Новых
-		v-flex.item {{folder.data.overdue}}
+		v-flex.item {{folder.overdue}}
 			.new Просрочено
-		v-flex.item {{folder.data.overdue}}
+		v-flex.item {{folder.overdue}}
 			.new Важных
 </template>
 
@@ -29,20 +29,16 @@ export default {
 			return this.$store.getters.currentFolder
 		},
 		filter () {
-			return this.currentFolder.data.filter
+			return this.currentFolder.filter
 		}
 	},
 	methods: {
-		showAll () {
-			this.unread = false
-			this.$store.commit('setFilter', '')
-		},
 		setFilter (e) {
 			let dummy = {}
-			dummy.id = this.$store.getters.currentFolder.id
+			dummy.text = this.$store.getters.currentFolder.text
 			dummy.filter = e
-			this.$store.dispatch('updateFolderFilter', dummy)
 			console.log(dummy)
+			this.$store.dispatch('updateFolderFilter', dummy)
 		}
 	}
 }

@@ -29,7 +29,7 @@ export default {
 	methods: {
 		goToFolder (e) {
 			this.$store.commit('setCurrentFolder', e)
-			this.$router.push(e.data.path)
+			this.$router.push(e.path)
 		}
 	}
 }
