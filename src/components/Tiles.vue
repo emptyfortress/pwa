@@ -100,7 +100,6 @@ export default {
 	position: relative;
 }
 
-
 .v-card__actions {
 	width: 100%;
 	height: 50px;
@@ -223,5 +222,9 @@ i.big {
 	margin: 1rem;
 	user-select: none;
 }
+.application .theme--light.v-card, .theme--light .v-card {
+	/* background-color: #ccc; */
+	color: rgba(0,0,0,.87);
 
+}
 </style>

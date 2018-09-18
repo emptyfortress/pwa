@@ -23,6 +23,9 @@ v-slide-x-transition(mode="out-in")
 											.fio {{ item.author }}
 											.date 21 авг 18 г.
 											.state В работе
+					.empty(v-if="items.length === 0")
+						img(src="@/assets/img/man.svg")
+						div {{list}}
 				drag-handle.handle
 					div
 				drag-content.content
@@ -86,12 +89,23 @@ export default {
 			if (unreadItems.length === 0) {
 				return false
 			} else return true
+		},
+		list () {
+			if (this.items.length === 0 && this.filter === 'unread') {
+				return 'Новых нет'
+			} else if (this.items.length === 0 && this.filter === 'overdue') {
+				return 'Просроченных нет'
+			} else if (this.items.length === 0 && this.filter === 'important') {
+				return 'Важных нет'
+			}
 		}
 	},
 	methods: {
 		clearUnread () {
 			let items = this.$store.getters.items
-			items.map(item => item.unread = 0)
+			items.map(function (item) {
+				item.unread = 0
+			})
 		},
 		showAll () {
 			let dummy = {}
@@ -292,4 +306,19 @@ export default {
 	min-height: 3.5rem;
 }
 
+.application .theme--light.v-card, .theme--light .v-card {
+	&:hover {
+	}
+}
+
+.empty {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+	color: rgba(0, 0, 0, .4);
+	img {
+		width: 30%;
+	}
+}
 </style>
