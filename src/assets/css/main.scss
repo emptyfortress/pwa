@@ -52,6 +52,13 @@ html, body {
 .tree-highlights .tree-node.matched > .tree-content {
   background: $yellow;
 }
+.tree-highlights .tree-node.selected > .tree-content {
+  background-color: #B2D1FF;
+	.tree-anchor {
+		// color: #fff;
+	}
+}
+
 .tree > .tree-filter-empty {
 	margin: 1rem;
 	font-size: 1.1rem;

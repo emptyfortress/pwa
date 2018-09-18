@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.test {
-	background: #fff;
-}
+.tree-node.selected > .tree-content {
+    background-color: #ccc;
+	}
 </style>
