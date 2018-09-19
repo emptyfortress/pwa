@@ -3,9 +3,11 @@ v-slide-x-transition(mode="out-in")
 	div
 		.panel
 			v-slide-y-transition
-				v-btn(flat small color="info" @click="clearUnread" v-if="allRead") Сбросить новые
+				v-btn(flat small color="info" @click="" v-if="selectMode") Выбрать все
 			v-slide-y-transition
-				v-btn(flat small color="info" @click="showAll" v-if="filter !== ''") Показать все
+				v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode") Сбросить новые
+			v-slide-y-transition
+				v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode") Показать все
 		div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
 			drag-zone.zone
 				drag-content.content
@@ -16,7 +18,8 @@ v-slide-x-transition(mode="out-in")
 									.wrap
 										.drag(@click.prevent="toggleUnread(item)" )
 										v-list-tile-avatar
-											img(src="@/assets/img/user0.svg" ).av
+											img(src="@/assets/img/user0.svg" v-if="!selectMode").av
+											v-checkbox(v-model="select" color="success" v-if="selectMode").check
 										.card-content
 											.head {{item.title}}
 											.some some staff goes here
@@ -31,10 +34,10 @@ v-slide-x-transition(mode="out-in")
 				drag-content.content
 					v-slide-x-transition(mode="out-in" v-if="detail")
 						router-view
-					v-slide-x-transition(mode="out-in" v-else)
+					v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 						DummyFolder(:folder="currentFolder" :items="items")
 					v-slide-x-transition(mode="out-in" v-if="selectMode")
-						p this is cool
+						MultiSelect(:folder="currentFolder" :items="items")
 		Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 		v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
@@ -53,6 +56,7 @@ import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import Tiles from '@/components/Tiles'
 import DummyFolder from '@/components/DummyFolder'
+import MultiSelect from '@/components/MultiSelect'
 
 export default {
 	data () {
@@ -62,15 +66,16 @@ export default {
 				small: el => el.width < 800,
 				big: el => el.width > 1000
 			},
-			selectMode: false
+			selectMode: false,
+			detailMode: false
 		}
 	},
 	computed: {
-		detail () {
-			if (this.$route.params.id === undefined) {
-				return false
-			} else return true
-		},
+		// detail () {
+		// 	if (this.$route.params.id === undefined) {
+		// 		return false
+		// 	} else return true
+		// },
 		tile () { return this.$store.getters.tile },
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
@@ -108,8 +113,11 @@ export default {
 			let destination = this.currentPath + '/' + e.id
 			if (i.shiftKey) {
 				this.selectMode = true
+				this.detail = false
 			} else {
 				this.$router.push(destination)
+				this.detail = true
+				this.selectMode = false
 			}
 		},
 		clearUnread () {
@@ -146,7 +154,8 @@ export default {
 		SlickItem,
 		SlickList,
 		Tiles,
-		DummyFolder
+		DummyFolder,
+		MultiSelect
 	},
 	directives: {
 		handle: HandleDirective,
@@ -204,6 +213,10 @@ export default {
 
 .wrap {
 	display: flex;
+	height: 100%;
+	.check {
+		width: 2rem;
+	}
 	.drag {
 		width: 8px;
 		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIUlEQVQYV2Ns2vj/f50/IyMDAwMDmPj///9/RhAAcWAAAN0pCAS0Z2yqAAAAAElFTkSuQmCC) repeat;
