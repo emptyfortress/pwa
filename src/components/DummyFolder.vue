@@ -14,6 +14,20 @@ v-container.infolder
 			.new Просрочено
 		v-flex.item(@click="setFilter('important')" :class="filter==='important' ? 'active' : ''") {{folder.overdue}}
 			.new Важных
+	br
+
+	v-layout(row wrap).sort
+		v-flex
+			v-btn(round color="info" small) Срок
+		v-flex
+			v-btn(flat round small) Статус
+		v-flex
+			v-btn(flat round small) Автор
+		v-flex
+			v-btn(flat round small) Тема
+		v-flex
+			v-btn(flat round small) Создан
+
 </template>
 
 <script>
@@ -21,7 +35,8 @@ export default {
 	props: ['folder'],
 	data () {
 		return {
-			tempFolder: this.folder
+			tempFolder: this.folder,
+			toggle_exclusive: 0
 		}
 	},
 	computed: {
@@ -95,4 +110,11 @@ export default {
 	margin-bottom: 1rem;
 }
 
+.sort {
+	.v-btn {
+	}
+	.flex {
+		flex-grow: 0;
+	}
+}
 </style>

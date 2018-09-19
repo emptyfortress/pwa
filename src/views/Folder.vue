@@ -11,17 +11,18 @@ v-slide-x-transition(mode="out-in")
 				drag-content.content
 					SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
 						transition-group(name="sort" )
-							SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item")
-								v-card(flat :to="currentPath + '/' + item.id" v-responsive="cardResponse" :class="myclass(item)" ).desktope
+							SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" )
+								<!-- v&#45;card(flat :to="currentPath + '/' + item.id" v&#45;responsive="cardResponse" :class="myclass(item)" @click.native="test").desktope -->
+								v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="").desktope
 									.wrap
 										.drag(@click.prevent="toggleUnread(item)" )
 										v-list-tile-avatar
-											img(src="@/assets/img/user0.svg").av
+											img(src="@/assets/img/user0.svg" ).av
 										.card-content
 											.head {{item.title}}
 											.some some staff goes here
 											.fio {{ item.author }}
-											.date 21 авг 18 г.
+											.date {{item.created}}
 											.state В работе
 					.empty(v-if="items.length === 0")
 						img(src="@/assets/img/man.svg")
@@ -101,6 +102,10 @@ export default {
 		}
 	},
 	methods: {
+		test () {
+			this.$router.push('/')
+			console.log('test')
+		},
 		clearUnread () {
 			let items = this.$store.getters.items
 			items.map(function (item) {
@@ -210,6 +215,7 @@ export default {
 
 .desktope.v-card {
 	margin-bottom: 1px;
+	user-select: none;
 	/* display: table-row; */
 }
 
