@@ -12,8 +12,7 @@ v-slide-x-transition(mode="out-in")
 					SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
 						transition-group(name="sort" )
 							SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" )
-								<!-- v&#45;card(flat :to="currentPath + '/' + item.id" v&#45;responsive="cardResponse" :class="myclass(item)" @click.native="test").desktope -->
-								v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="").desktope
+								v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="selectCard(item, $event)").desktope
 									.wrap
 										.drag(@click.prevent="toggleUnread(item)" )
 										v-list-tile-avatar
@@ -34,6 +33,8 @@ v-slide-x-transition(mode="out-in")
 						router-view
 					v-slide-x-transition(mode="out-in" v-else)
 						DummyFolder(:folder="currentFolder" :items="items")
+					v-slide-x-transition(mode="out-in" v-if="selectMode")
+						p this is cool
 		Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 		v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
@@ -60,7 +61,8 @@ export default {
 				tiny: el => el.width < 400,
 				small: el => el.width < 800,
 				big: el => el.width > 1000
-			}
+			},
+			selectMode: false
 		}
 	},
 	computed: {
@@ -102,9 +104,13 @@ export default {
 		}
 	},
 	methods: {
-		test () {
-			this.$router.push('/')
-			console.log('test')
+		selectCard (e, i) {
+			let destination = this.currentPath + '/' + e.id
+			if (i.shiftKey) {
+				this.selectMode = true
+			} else {
+				this.$router.push(destination)
+			}
 		},
 		clearUnread () {
 			let items = this.$store.getters.items
@@ -216,6 +222,11 @@ export default {
 .desktope.v-card {
 	margin-bottom: 1px;
 	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 	/* display: table-row; */
 }
 
@@ -237,10 +248,10 @@ export default {
 	line-height: 170%;
 }
 .big.desktope {
-		.card-content .some {
-			display: block;
-			margin-right: 2rem;
-		}
+	.card-content .some {
+		display: block;
+		margin-right: 2rem;
+	}
 }
 
 .desktope .card-content {
@@ -296,7 +307,7 @@ export default {
 		.av {
 			background: $grey;
 		}
-	display: block;
+		display: block;
 	}
 }
 .desktope.selected {
