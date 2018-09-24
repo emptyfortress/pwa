@@ -4,6 +4,12 @@ v-container.infolder
 		i.icon-multi
 		span Групповые операции
 	br
+	p(v-if="!selected") Ничего не выбрано
+	v-layout(column v-if="selected")
+		v-btn(large color="info") Взять в работу
+		v-btn(large color="success") Согласовать
+		v-btn(large color="warning") Согласовать с замечаниями
+		v-btn(large color="error") Отклонить
 
 </template>
 
@@ -14,6 +20,7 @@ export default {
 		}
 	},
 	computed: {
+		selected () { return this.$store.getters.selected },
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},

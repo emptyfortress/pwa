@@ -15,7 +15,8 @@ export default new Vuex.Store({
 		folders: [],
 		tree: [],
 		items: [],
-		tile: false
+		tile: false,
+		selected: false
 	},
 	mutations: {
 		setCurrentFolder (state, payload) { state.currentFolder = payload },
@@ -26,6 +27,7 @@ export default new Vuex.Store({
 		setTree (state, payload) { state.tree = payload },
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
+		setSelected (state, payload) { state.selected = payload },
 		toggleTile (state) {
 			if (state.tile === false) {
 				state.tile = true
@@ -56,12 +58,9 @@ export default new Vuex.Store({
 		error (state) { return state.error },
 		tree (state) { return state.tree },
 		folders (state) { return state.folders },
-		items (state) {
-			return state.items
-		},
-		filter (state) {
-			return state.filter
-		},
+		items (state) { return state.items },
+		filter (state) { return state.filter },
+		selected (state) { return state.selected },
 		currentItem (state) {
 			return (itemId) => {
 				return state.items.find(item => {

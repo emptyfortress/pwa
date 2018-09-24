@@ -5,9 +5,9 @@ v-slide-x-transition(mode="out-in")
 			v-slide-y-transition
 				.selectionPanel(v-if="selectMode")
 					div
-						v-checkbox(id="all" value="all" label="Все" color="success").mt0.left
+						v-checkbox(id="all" v-model="selectAll" value="select" label="Все" color="success").mt0.left
 					.quantity Выбрано
-						span 3
+						span {{selectedItems.length}}
 					v-btn(flat @click="closeSelection").mt0
 						i.icon-prev Назад
 			v-slide-y-transition
@@ -75,26 +75,16 @@ export default {
 			},
 			selectMode: false,
 			detail: false,
-			selectAll: false,
-			selected: []
+			selectAll: 'none'
 		}
 	},
 	computed: {
-		selectItem () {
-			if (this.selectAll) {
-				return true
-			} else return false
-		},
-		// detail () {
-		// 	if (this.$route.params.id === undefined) {
-		// 		return false
-		// 	} else return true
-		// },
 		tile () { return this.$store.getters.tile },
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
 		filter () { return this.currentFolder.filter },
+		selected () { return this.$store.getters.selected },
 		items () {
 			let all = this.$store.getters.items
 			if (this.filter === 'unread') {
@@ -104,6 +94,18 @@ export default {
 			} else if (this.filter === 'important') {
 				return all.filter(item => item.important)
 			} else return all
+		},
+		selectedItems () {
+			if (this.selectAll === 'select') {
+				this.$store.commit('setSelected', true)
+				return this.items.map(item => { item.selected = true })
+			} else if (this.selectAll === 'none') {
+				// this.$store.commit('setSelected', false)
+				return this.items.filter(item => item.selected)
+			} else {
+				this.$store.commit('setSelected', false)
+				return this.items.map(item => { item.selected = false })
+			}
 		},
 		allRead () {
 			let items = this.$store.getters.items
@@ -161,9 +163,9 @@ export default {
 		myclass (e) {
 			let url = this.$route.params.id
 			url = parseInt(url, 10)
-			if (e.unread && e.id === url) return 'unread selected'
+			if (e.unread && e.id === url && !this.selectMode) return 'unread selected'
 			else if (e.unread) return 'unread'
-			else if (e.id === url) return 'selected'
+			else if (e.id === url && !this.selectMode) return 'selected'
 		},
 		toggleUnread (e) {
 			e.unread = !e.unread
