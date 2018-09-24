@@ -167,7 +167,8 @@ export default new Vuex.Store({
 							focus: obj[key].focus,
 							unread: obj[key].unread,
 							attach: obj[key].attach,
-							created: obj[key].created
+							created: obj[key].created,
+							selected: false
 						})
 					}
 					commit('setItems', items)

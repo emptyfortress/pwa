@@ -3,7 +3,13 @@ v-slide-x-transition(mode="out-in")
 	div
 		.panel
 			v-slide-y-transition
-				v-btn(flat small color="info" @click="" v-if="selectMode") Выбрать все
+				.selectionPanel(v-if="selectMode")
+					div
+						v-checkbox(id="all" value="all" label="Все" color="success").mt0.left
+					.quantity Выбрано
+						span 3
+					v-btn(flat @click="closeSelection").mt0
+						i.icon-prev Назад
 			v-slide-y-transition
 				v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode") Сбросить новые
 			v-slide-y-transition
@@ -17,9 +23,10 @@ v-slide-x-transition(mode="out-in")
 								v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="selectCard(item, $event)").desktope
 									.wrap
 										.drag(@click.prevent="toggleUnread(item)" )
-										v-list-tile-avatar
+										v-list-tile-avatar(v-if="!selectMode")
 											img(src="@/assets/img/user0.svg" v-if="!selectMode").av
-											v-checkbox(v-model="select" color="success" v-if="selectMode").check
+										.check(v-if="selectMode")
+											v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" color="success")
 										.card-content
 											.head {{item.title}}
 											.some some staff goes here
@@ -36,7 +43,7 @@ v-slide-x-transition(mode="out-in")
 						router-view
 					v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 						DummyFolder(:folder="currentFolder" :items="items")
-					v-slide-x-transition(mode="out-in" v-if="selectMode")
+					v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
 						MultiSelect(:folder="currentFolder" :items="items")
 		Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
@@ -67,10 +74,17 @@ export default {
 				big: el => el.width > 1000
 			},
 			selectMode: false,
-			detailMode: false
+			detail: false,
+			selectAll: false,
+			selected: []
 		}
 	},
 	computed: {
+		selectItem () {
+			if (this.selectAll) {
+				return true
+			} else return false
+		},
 		// detail () {
 		// 	if (this.$route.params.id === undefined) {
 		// 		return false
@@ -109,8 +123,14 @@ export default {
 		}
 	},
 	methods: {
+		closeSelection () {
+			this.selectMode = false
+		},
 		selectCard (e, i) {
 			let destination = this.currentPath + '/' + e.id
+			if (this.selectMode) {
+				return
+			}
 			if (i.shiftKey) {
 				this.selectMode = true
 				this.detail = false
@@ -167,6 +187,10 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
+.mt0 {
+	margin: 0;
+	margin-left: 2rem;
+}
 .all {
 	height: calc(100vh - 108px);
 	width: 100%;
@@ -214,9 +238,6 @@ export default {
 .wrap {
 	display: flex;
 	height: 100%;
-	.check {
-		width: 2rem;
-	}
 	.drag {
 		width: 8px;
 		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIUlEQVQYV2Ns2vj/f50/IyMDAwMDmPj///9/RhAAcWAAAN0pCAS0Z2yqAAAAAElFTkSuQmCC) repeat;
@@ -333,7 +354,9 @@ export default {
 }
 .panel {
 	padding: .5rem 0;
-	min-height: 3.5rem;
+	height: 3.5rem;
+	/* font-size: 1.2rem; */
+	/* background: red; */
 }
 
 .application .theme--light.v-card, .theme--light .v-card {
@@ -351,4 +374,34 @@ export default {
 		width: 30%;
 	}
 }
+
+.check {
+	margin-left: 1rem;
+	align-self: center;
+	input, .v-input.v-input--selection-controls.v-input--checkbox {
+		margin: 0;
+		padding: 0;
+		padding-top: .5rem;
+		margin-bottom: -1rem;
+	}
+}
+
+.selectionPanel {
+	display: flex;
+	div {
+		.left { margin-left: 1.5rem; margin-right: 2rem; }
+	}
+}
+.quantity {
+	font-size: 1.1rem;
+	margin-left: 2rem;
+	font-weight: 300;
+	span {
+		margin-left: 1rem;
+		font-size: 1.5rem;
+		font-weight: 600;
+	}
+}
+.icon-prev { font-style: normal; }
+
 </style>
