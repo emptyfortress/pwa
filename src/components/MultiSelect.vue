@@ -1,43 +1,56 @@
 <template lang="pug">
-v-container.infolder
+.infolder
 	.folder
 		i.icon-multi
 		span Групповые операции
 	br
-	p(v-if="!selected") Ничего не выбрано
-	v-layout(column v-if="selected")
-		v-btn(large color="info") Взять в работу
-		v-btn(large color="success") Согласовать
-		v-btn(large color="warning") Согласовать с замечаниями
-		v-btn(large color="error") Отклонить
+	v-scale-transition(origin="center center" mode="out-in")
+		v-layout( align-center row justify-center v-if="!selected" key="one")
+			v-flex.text-xs-center
+				i.icon-basket
+				div Выберите объекты
+		v-layout(column  v-if="selected" key="two")
+			v-btn(large color="info") Взять в работу
+			v-btn(large color="success" :class="specialSelection(1)") Согласовать
+			v-btn(large color="warning" :class="specialSelection(1)") Согласовать с замечаниями
+			v-btn(large color="error" :class="specialSelection(2)") Отклонить
 
 </template>
 
 <script>
 export default {
+	props: ['quantity'],
 	data () {
 		return {
 		}
 	},
 	computed: {
-		selected () { return this.$store.getters.selected },
-		currentFolder () {
-			return this.$store.getters.currentFolder
-		},
-		filter () {
-			return this.currentFolder.filter
-		}
+		selected () { return this.$store.getters.selected }
 	},
 	methods: {
+		specialSelection (e) {
+			if (this.quantity > e) {
+				return 'disabled'
+			} else return ''
+		}
 	}
 }
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
+.disabled {
+	display: none;
+}
+
+.icon-basket {
+	font-size: 4rem;
+	opacity: .3;
+}
 
 .infolder {
 	padding-top: 0;
+	height: 100%;
 }
 .folder {
 	font-size: 2rem;

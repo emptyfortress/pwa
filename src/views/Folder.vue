@@ -3,17 +3,17 @@ v-slide-x-transition(mode="out-in")
 	div
 		.panel
 			v-slide-y-transition
-				.selectionPanel(v-if="selectMode")
+				.selectionPanel(v-if="selectMode" key="one")
 					div
 						v-checkbox(id="all" v-model="selectAll" value="select" label="Все" color="success").mt0.left
+						v-checkbox(id="all" v-model="selectNew" value="selectnew" label="Новые" color="success").mt0.left
 					.quantity Выбрано
-						span {{selectedItems.length}}
+						span {{quantity}}
 					v-btn(flat @click="closeSelection").mt0
 						i.icon-prev Назад
+				v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
 			v-slide-y-transition
-				v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode") Сбросить новые
-			v-slide-y-transition
-				v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode") Показать все
+				v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
 		div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
 			drag-zone.zone
 				drag-content.content
@@ -44,7 +44,7 @@ v-slide-x-transition(mode="out-in")
 					v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 						DummyFolder(:folder="currentFolder" :items="items")
 					v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
-						MultiSelect(:folder="currentFolder" :items="items")
+						MultiSelect(:quantity="quantity")
 		Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
 
 		v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
@@ -100,12 +100,20 @@ export default {
 				this.$store.commit('setSelected', true)
 				return this.items.map(item => { item.selected = true })
 			} else if (this.selectAll === 'none') {
-				// this.$store.commit('setSelected', false)
-				return this.items.filter(item => item.selected)
+				let temp = this.items.filter(item => item.selected)
+				if (temp.length > 0) {
+					this.$store.commit('setSelected', true)
+				} else if (temp.length === 0) {
+					this.$store.commit('setSelected', false)
+				}
+				return temp
 			} else {
 				this.$store.commit('setSelected', false)
 				return this.items.map(item => { item.selected = false })
 			}
+		},
+		quantity () {
+			return this.selectedItems.length
 		},
 		allRead () {
 			let items = this.$store.getters.items
