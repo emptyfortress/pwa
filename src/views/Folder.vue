@@ -6,7 +6,7 @@ v-slide-x-transition(mode="out-in")
 				.selectionPanel(v-if="selectMode" key="one")
 					div
 						v-checkbox(id="all" v-model="selectAll" value="select" label="Все" color="success").mt0.left
-						v-checkbox(id="all" v-model="selectNew" value="selectnew" label="Новые" color="success").mt0.left
+						v-checkbox(id="new" v-model="selectNew" label="Новые" color="success").mt0.left
 					.quantity Выбрано
 						span {{quantity}}
 					v-btn(flat @click="closeSelection").mt0
@@ -22,7 +22,7 @@ v-slide-x-transition(mode="out-in")
 							SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" )
 								v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="selectCard(item, $event)").desktope
 									.wrap
-										.drag(@click.prevent="toggleUnread(item)" )
+										.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 										v-list-tile-avatar(v-if="!selectMode")
 											img(src="@/assets/img/user0.svg" v-if="!selectMode").av
 										.check(v-if="selectMode")
@@ -42,7 +42,7 @@ v-slide-x-transition(mode="out-in")
 					v-slide-x-transition(mode="out-in" v-if="detail")
 						router-view
 					v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
-						DummyFolder(:folder="currentFolder" :items="items")
+						DummyFolder(:folder="currentFolder")
 					v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
 						MultiSelect(:quantity="quantity")
 		Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
@@ -75,7 +75,8 @@ export default {
 			},
 			selectMode: false,
 			detail: false,
-			selectAll: 'none'
+			selectAll: 'none',
+			selectNew: false
 		}
 	},
 	computed: {
@@ -93,6 +94,13 @@ export default {
 				return all.filter(item => item.overdue)
 			} else if (this.filter === 'important') {
 				return all.filter(item => item.important)
+			} else if (this.selectNew === true) {
+				let unread = all.filter(item => item.unread)
+				unread.map(item => { item.selected = true })
+				return unread
+			} else if (this.selectNew === false) {
+				all.map(item => { item.selected = false })
+				return all
 			} else return all
 		},
 		selectedItems () {
@@ -133,6 +141,9 @@ export default {
 		}
 	},
 	methods: {
+		doNothing (evt) {
+			evt.stopPropagation()
+		},
 		closeSelection () {
 			this.selectMode = false
 		},

@@ -8,7 +8,7 @@ v-container.infolder
 	v-layout(row wrap).filt
 		v-flex.item(@click="setFilter('')" :class="filter==='' ? 'active' : ''") {{folder.items}}
 			.new Всего
-		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{folder.unread}}
+		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{unreadItems}}
 			.new Новых
 		v-flex.item(@click="setFilter('overdue')" :class="filter==='overdue' ? 'active' : ''") {{folder.overdue}}
 			.new Просрочено
@@ -35,16 +35,24 @@ export default {
 	props: ['folder'],
 	data () {
 		return {
-			tempFolder: this.folder,
-			toggle_exclusive: 0
+			// tempFolder: this.folder,
+			// toggle_exclusive: 0
 		}
 	},
 	computed: {
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
+		// items () {
+		// 	return this.$store.getters.items
+		// },
 		filter () {
 			return this.currentFolder.filter
+		},
+		unreadItems () {
+			let items = this.$store.getters.items
+			let unread = items.filter(item => item.unread)
+			return unread.length
 		}
 	},
 	methods: {
