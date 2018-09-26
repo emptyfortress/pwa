@@ -14,38 +14,40 @@ v-slide-x-transition(mode="out-in")
 				v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
 			v-slide-y-transition
 				v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
-		div.all(v-if="$vuetify.breakpoint.lgAndUp && view === 'split'" )
-			drag-zone.zone
-				drag-content.content
-					SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
-						transition-group(name="sort" )
-							SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" )
-								v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="selectCard(item, $event)").desktope
-									.wrap
-										.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
-										v-list-tile-avatar(v-if="!selectMode")
-											img(:src="require('@/assets/img/user0.svg')" v-if="!selectMode").av
-										.check(v-if="selectMode")
-											v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" color="success")
-										.card-content
-											.head {{item.title}}
-											.some some staff goes here
-											.fio {{ item.author }}
-											.date {{item.created}}
-											.state В работе
-					.empty(v-if="items.length === 0")
-						img(:src="require('@/assets/img/man.svg')")
-						div {{list}}
-				drag-handle.handle
-					div
-				drag-content.content
-					v-slide-x-transition(mode="out-in" v-if="detail")
-						router-view
-					v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
-						DummyFolder(:folder="currentFolder")
-					v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
-						MultiSelect(:quantity="quantity")
+		<!-- div.all(v&#45;if="$vuetify.breakpoint.lgAndUp &#38;&#38; view === 'split'" ) -->
+		<!-- 	drag&#45;zone.zone -->
+		<!-- 		drag&#45;content.content -->
+		<!-- 			SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr") -->
+		<!-- 				transition&#45;group(name="sort" ) -->
+		<!-- 					SlickItem(v&#45;for="(item, index) in items" :index="index" :key="index" :item="item" ) -->
+		<!-- 						v&#45;card(flat v&#45;responsive="cardResponse" :class="myclass(item)" @click.native="selectCard(item, $event)").desktope -->
+		<!-- 							.wrap -->
+		<!-- 								.drag(@click.prevent="item.unread = !item.unread" @click="doNothing") -->
+		<!-- 								v&#45;list&#45;tile&#45;avatar(v&#45;if="!selectMode") -->
+		<!-- 									img(:src="require('@/assets/img/user0.svg')" v&#45;if="!selectMode").av -->
+		<!-- 								.check(v&#45;if="selectMode") -->
+		<!-- 									v&#45;checkbox(v&#45;model="item.selected" :value="item.selected" :id="item.id.toString()" color="success") -->
+		<!-- 								.card&#45;content -->
+		<!-- 									.head {{item.title}} -->
+		<!-- 									.some some staff goes here -->
+		<!-- 									.fio {{ item.author }} -->
+		<!-- 									.date {{item.created}} -->
+		<!-- 									.state В работе -->
+		<!-- 			.empty(v&#45;if="items.length === 0") -->
+		<!-- 				img(:src="require('@/assets/img/man.svg')") -->
+		<!-- 				div {{list}} -->
+		<!-- 		drag&#45;handle.handle -->
+		<!-- 			div -->
+		<!-- 		drag&#45;content.content -->
+		<!-- 			v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="detail") -->
+		<!-- 				router&#45;view -->
+		<!-- 			v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail &#38;&#38; !selectMode") -->
+		<!-- 				DummyFolder(:folder="currentFolder") -->
+		<!-- 			v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail &#38;&#38; selectMode") -->
+		<!-- 				MultiSelect(:quantity="quantity") -->
 		Tiles(v-if="$vuetify.breakpoint.lgAndUp && view === 'tile'" :items="items")
+		Split(v-if="$vuetify.breakpoint.lgAndUp && view === 'split'" :items="items")
+		DataTable(v-if="$vuetify.breakpoint.lgAndUp && view === 'table'" :items="items")
 
 		v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
 			SlickList(lockAxis="y" :value="items" helperClass="moving" :pressDelay=300 @input="newArr")
@@ -62,8 +64,10 @@ v-slide-x-transition(mode="out-in")
 import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import Tiles from '@/components/Tiles'
-import DummyFolder from '@/components/DummyFolder'
-import MultiSelect from '@/components/MultiSelect'
+import Split from '@/components/Split'
+import DataTable from '@/components/DataTable'
+// import DummyFolder from '@/components/DummyFolder'
+// import MultiSelect from '@/components/MultiSelect'
 
 export default {
 	data () {
@@ -195,8 +199,10 @@ export default {
 		SlickItem,
 		SlickList,
 		Tiles,
-		DummyFolder,
-		MultiSelect
+		Split,
+		DataTable
+		// DummyFolder,
+		// MultiSelect
 	},
 	directives: {
 		handle: HandleDirective,
