@@ -1,6 +1,6 @@
 <template lang="pug">
 .full.text-xs-center
-	<!-- vue&#45;particles( color="#fff" ).part -->
+	vue-particles( color="#fff" ).part
 	transition( name="slideX" mode="out-in" )
 		v-layout( row v-if="error" )
 			v-flex.xs12.sm6.offset-sm3
@@ -27,20 +27,20 @@
 							v-layout( row wrap justify-start align-center)
 								.userpic( @click="next(0)" )
 									v-avatar( size="64px" )
-										img( src="@/assets/img/user0.svg" )
+										img(:src="require('@/assets/img/user0.svg')" )
 									.subheading kmg01
 								.userpic( @click="next(1)" )
 									v-avatar( size="64px" )
-										img( src="@/assets/img/user1.svg" )
+										img(:src="require('@/assets/img/user1.svg')" )
 									.subheading kmg02
 
 	v-layout.grid-container(v-if="$vuetify.breakpoint.smAndDown")
 		.hello Привет, kmg01!
 		.avatar
 			v-avatar(size="64px").mob
-				img( src="@/assets/img/user0.svg" )
+				img(:src="require('@/assets/img/user0.svg')" )
 		.finger
-			img( src="@/assets/img/fingerprint.svg" )
+			img(:src="require('@/assets/img/fingerprint.svg')" )
 			span Приложите палец, чтобы войти
 		.pin
 			div( :class='pincode.length >= 1 ? "filled" : "" ' )
@@ -137,8 +137,8 @@ h2 {
 	height: 100vh;
 	overflow: hidden;
 	color: #fff;
-	background: linear-gradient(#006297, #010B12);
-	/* background: url(/img/globe-bg.jpg) no-repeat 10% 40%; */
+	/* background: linear-gradient(#006297, #010B12); */
+	background: url(/img/globe-bg.jpg) no-repeat 10% 40%;
 	/* background: -moz-linear-gradient(top, #010b12 0%, #2989d8 29%, #006297 47%, #006297 47%, #010b12 100%); */
 	/* background: -webkit-linear-gradient(top, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */
 	/* background: linear-gradient(to bottom, #010b12 0%,#2989d8 29%,#006297 47%,#006297 47%,#010b12 100%); */

@@ -13,7 +13,7 @@ export default {
 		return {
 			items: [
 				{ icon: 'bubble_chart', title: 'Home', to: '/' },
-				{ icon: 'bubble_chart', title: 'Post a cat', to: '/post' }
+				{ icon: 'bubble_chart', title: 'Эксперимент', to: '/sound' }
 			]
 		}
 	},

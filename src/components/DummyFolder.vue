@@ -35,17 +35,12 @@ export default {
 	props: ['folder'],
 	data () {
 		return {
-			// tempFolder: this.folder,
-			// toggle_exclusive: 0
 		}
 	},
 	computed: {
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
-		// items () {
-		// 	return this.$store.getters.items
-		// },
 		filter () {
 			return this.currentFolder.filter
 		},

@@ -10,6 +10,7 @@ export default new Vuex.Store({
 		user: null,
 		loading: false,
 		error: null,
+		view: 'tile',
 		currentFolder: '',
 		filter: '',
 		folders: [],
@@ -28,10 +29,14 @@ export default new Vuex.Store({
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
 		setSelected (state, payload) { state.selected = payload },
-		toggleTile (state) {
-			if (state.tile === false) {
-				state.tile = true
-			} else state.tile = false
+		toggleView (state) {
+			if (state.view === 'tile') {
+				state.view = 'split'
+			} else if (state.view === 'split') {
+				state.view = 'table'
+			} else if (state.view === 'table') {
+				state.view = 'tile'
+			}
 		},
 		setFilter (state, payload) {
 			state.filter = payload
@@ -51,7 +56,7 @@ export default new Vuex.Store({
 	},
 
 	getters: {
-		tile (state) { return state.tile },
+		view (state) { return state.view },
 		currentFolder (state) { return state.currentFolder },
 		user (state) { return state.user },
 		loading (state) { return state.loading },

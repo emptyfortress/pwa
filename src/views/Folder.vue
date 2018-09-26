@@ -14,7 +14,7 @@ v-slide-x-transition(mode="out-in")
 				v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
 			v-slide-y-transition
 				v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
-		div.all(v-if="$vuetify.breakpoint.lgAndUp && !tile" )
+		div.all(v-if="$vuetify.breakpoint.lgAndUp && view === 'split'" )
 			drag-zone.zone
 				drag-content.content
 					SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
@@ -24,7 +24,7 @@ v-slide-x-transition(mode="out-in")
 									.wrap
 										.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 										v-list-tile-avatar(v-if="!selectMode")
-											img(src="@/assets/img/user0.svg" v-if="!selectMode").av
+											img(:src="require('@/assets/img/user0.svg')" v-if="!selectMode").av
 										.check(v-if="selectMode")
 											v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" color="success")
 										.card-content
@@ -34,7 +34,7 @@ v-slide-x-transition(mode="out-in")
 											.date {{item.created}}
 											.state В работе
 					.empty(v-if="items.length === 0")
-						img(src="@/assets/img/man.svg")
+						img(:src="require('@/assets/img/man.svg')")
 						div {{list}}
 				drag-handle.handle
 					div
@@ -45,7 +45,7 @@ v-slide-x-transition(mode="out-in")
 						DummyFolder(:folder="currentFolder")
 					v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
 						MultiSelect(:quantity="quantity")
-		Tiles(v-if="$vuetify.breakpoint.lgAndUp && tile" :items="items")
+		Tiles(v-if="$vuetify.breakpoint.lgAndUp && view === 'tile'" :items="items")
 
 		v-layout( column v-if="$vuetify.breakpoint.mdAndDown")
 			SlickList(lockAxis="y" :value="items" helperClass="moving" :pressDelay=300 @input="newArr")
@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	computed: {
-		tile () { return this.$store.getters.tile },
+		view () { return this.$store.getters.view },
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },

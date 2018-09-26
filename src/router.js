@@ -3,8 +3,8 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import About from '@/views/About'
 import Nav from '@/views/Nav'
-import Post from '@/views/Post'
 import Create from '@/views/Create'
+import Sound from '@/views/Sound'
 // import DetailView from '@/views/DetailView'
 import Folder from '@/views/Folder'
 import Detail from '@/components/Detail'
@@ -22,6 +22,11 @@ export default new Router({
 			path: '/nav',
 			name: 'nav',
 			component: Nav
+		},
+		{
+			path: '/sound',
+			name: 'sound',
+			component: Sound
 		},
 		{
 			path: '/about',
@@ -46,11 +51,6 @@ export default new Router({
 			path: '/create',
 			name: 'create',
 			component: Create
-		},
-		{
-			path: '/post',
-			name: 'post',
-			component: Post
 		}
 	]
 	// mode: 'history'

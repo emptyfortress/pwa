@@ -7,7 +7,7 @@
 					.vert-flex
 						v-list-tile( avatar )
 							v-list-tile-avatar
-								img(src="@/assets/img/user0.svg").av
+								img(:src="require('@/assets/img/user0.svg')").av
 							v-list-tile-content
 								v-list-tile-title {{ item.author }}
 								v-list-tile-sub-title 20 авг 13:10

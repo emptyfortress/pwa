@@ -11,12 +11,13 @@ v-app( :dark="night" ).rel
 				i.icon-ham-d
 			v-toolbar-title( v-text="currentFolder.text" )
 			v-spacer/
-			v-btn( icon @click.stop="toggleTile" )
-				v-icon(v-if="!$store.getters.tile") view_module
-				v-icon(v-if="$store.getters.tile") vertical_split
+			v-btn( icon @click="toggleView" )
+				v-icon(v-if="view === 'tile'") view_carousel
+				v-icon(v-if="view === 'split'") vertical_split
+				v-icon(v-if="view === 'table'") view_comfy
 			BottomSheet( narrow="true" )/
 			v-btn( icon @click.stop="changeTheme" )
-				v-icon settings
+				v-icon brightness_4
 			v-btn( icon @click.stop="drawer1 = !drawer1" )
 				v-icon menu
 
@@ -73,6 +74,9 @@ export default {
 		}
 	},
 	computed: {
+		view () {
+			return this.$store.getters.view
+		},
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
@@ -92,8 +96,8 @@ export default {
 		changeTheme () {
 			this.night = !this.night
 		},
-		toggleTile () {
-			this.$store.commit('toggleTile')
+		toggleView () {
+			this.$store.commit('toggleView')
 		}
 	},
 	components: {
