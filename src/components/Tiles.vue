@@ -1,4 +1,10 @@
 <template lang="pug">
+div
+	.panel
+		v-slide-y-transition
+			v-btn(flat small color="info" @click="clearUnread") Сбросить новые
+		v-slide-y-transition
+			v-btn(flat small color="info" @click="") Только новые
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr" ).mygrid
 		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
@@ -226,4 +232,10 @@ i.big {
 	color: rgba(0,0,0,.87);
 
 }
+
+.panel {
+	padding: .5rem 0;
+	height: 3.5rem;
+}
+
 </style>

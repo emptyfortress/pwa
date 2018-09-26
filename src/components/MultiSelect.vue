@@ -10,6 +10,7 @@
 				i.icon-basket
 				div Выберите объекты
 		v-layout(column  v-if="selected" key="two")
+			v-btn(large color="accent" @click="clearUnread") Сбросить новые
 			v-btn(large color="info") Взять в работу
 			v-btn(large color="success" :class="specialSelection(1)") Согласовать
 			v-btn(large color="warning" :class="specialSelection(1)") Согласовать с замечаниями
@@ -28,6 +29,12 @@ export default {
 		selected () { return this.$store.getters.selected }
 	},
 	methods: {
+		clearUnread () {
+			let items = this.$store.getters.items
+			items.map(function (item) {
+				item.unread = 0
+			})
+		},
 		specialSelection (e) {
 			if (this.quantity > e) {
 				return 'disabled'

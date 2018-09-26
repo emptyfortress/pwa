@@ -130,6 +130,21 @@ export default {
 		doNothing (evt) {
 			evt.stopPropagation()
 		},
+		showAll () {
+			let dummy = {}
+			dummy.id = this.currentFolder.id
+			dummy.filter = ''
+			this.$store.dispatch('updateFolderFilter', dummy)
+		},
+		closeSelection () {
+			this.selectMode = false
+		},
+		clearUnread () {
+			let items = this.$store.getters.items
+			items.map(function (item) {
+				item.unread = 0
+			})
+		},
 		selectCard (e, i) {
 			let destination = this.currentPath + '/' + e.id
 			if (this.selectMode) {
@@ -172,6 +187,11 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
+.mt0 {
+	margin: 0;
+	margin-left: 2rem;
+}
+
 .all {
 	height: calc(100vh - 108px);
 	width: 100%;
@@ -194,9 +214,7 @@ export default {
 			transform: translateX(3px);
 		}
 		&:hover {
-			div {
-				border-left: 3px dotted #333;
-			}
+			div { border-left: 3px dotted #333; }
 		}
 	}
 	.content {

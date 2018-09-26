@@ -1,19 +1,6 @@
 <template lang="pug" >
 v-slide-x-transition(mode="out-in")
 	div
-		<!-- .panel -->
-		<!-- 	v&#45;slide&#45;y&#45;transition -->
-		<!-- 		.selectionPanel(v&#45;if="selectMode" key="one") -->
-		<!-- 			div -->
-		<!-- 				v&#45;checkbox(id="all" v&#45;model="selectAll" value="select" label="Все" color="success").mt0.left -->
-		<!-- 				v&#45;checkbox(id="new" v&#45;model="selectNew" label="Новые" color="success").mt0.left -->
-		<!-- 			.quantity Выбрано -->
-		<!-- 				span {{quantity}} -->
-		<!-- 			v&#45;btn(flat @click="closeSelection").mt0 -->
-		<!-- 				i.icon&#45;prev Назад -->
-		<!-- 		v&#45;btn(flat small color="info" @click="clearUnread" v&#45;if="allRead &#38;&#38; !selectMode" key="two") Сбросить новые -->
-		<!-- 	v&#45;slide&#45;y&#45;transition -->
-		<!-- 		v&#45;btn(flat small color="info" @click="showAll" v&#45;if="filter !== '' &#38;&#38; !selectMode" ) Показать все -->
 		v-slide-x-reverse-transition(mode="out-in")
 			Tiles(v-if="$vuetify.breakpoint.lgAndUp && view === 'tile'" :items="items")
 			Split(v-if="$vuetify.breakpoint.lgAndUp && view === 'split'" :items="items")
@@ -79,21 +66,6 @@ export default {
 	methods: {
 		doNothing (evt) {
 			evt.stopPropagation()
-		},
-		closeSelection () {
-			this.selectMode = false
-		},
-		clearUnread () {
-			let items = this.$store.getters.items
-			items.map(function (item) {
-				item.unread = 0
-			})
-		},
-		showAll () {
-			let dummy = {}
-			dummy.id = this.currentFolder.id
-			dummy.filter = ''
-			this.$store.dispatch('updateFolderFilter', dummy)
 		},
 		featuredType (e) {
 			return this.featured.filter(x => x.type === e)
@@ -172,6 +144,5 @@ export default {
 		}
 	}
 }
-
 
 </style>
