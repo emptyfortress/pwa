@@ -9,25 +9,26 @@ div
 		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
 				v-card(flat tile slot="front" :class="item.unread ? 'unread' : ''" )
-					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
-					.vert-flex
-						v-list-tile( avatar )
-							v-list-tile-avatar
-								img(:src="require('@/assets/img/user0.svg')").av
-							v-list-tile-content
-								v-list-tile-title {{ item.author }}
-								v-list-tile-sub-title 20 авг 13:10
-						v-divider
-						p.head {{item.title}}
-						p.descr {{item.descr}}
-						v-card-actions
-							.status В работе
-							v-spacer
-							.attach(v-if="item.files")
-								i.icon-skrepka
-									span {{ item.files }}
-					.open( @click="doNothing" )
-						i.icon-new-window
+					v-responsive(:aspect-ratio="3/4")
+						.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
+						.vert-flex
+							v-list-tile( avatar )
+								v-list-tile-avatar
+									img(:src="require('@/assets/img/user0.svg')").av
+								v-list-tile-content
+									v-list-tile-title {{ item.author }}
+									v-list-tile-sub-title 20 авг 13:10
+							v-divider
+							p.head {{item.title}}
+							p.descr {{item.descr}}
+							v-card-actions
+								.status В работе
+								v-spacer
+								.attach(v-if="item.files")
+									i.icon-skrepka
+										span {{ item.files }}
+						.open( @click="doNothing" )
+							i.icon-new-window
 				v-card(flat tile slot="back" :class="item.unread ? 'unread' : ''" )
 					.drag1
 					.vert-flex
