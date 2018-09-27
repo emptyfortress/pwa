@@ -3,7 +3,7 @@ div
 	.panel
 		v-layout(row wrap)
 			v-flex(xs3)
-				v-slider(v-model="size")
+				v-slider(v-model="size" min=200 max=1000 @input="changeWidth")
 			v-flex
 				v-slide-y-transition
 					v-btn(flat small color="info" @click="clearUnread") Сбросить новые
@@ -12,32 +12,32 @@ div
 				v-slide-y-transition
 					v-btn(flat small color="info" @click="showAll" v-if="filter !== ''" ) Показать все
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr" ).mygrid
-		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
+		SlickItem(ref="card" v-for="(item, index) in items" :index="index" :key="index" :item="item" v-bind:style="{width: computedWidth, height: computedHeight}").sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
 				v-card(flat tile slot="front" :class="item.unread ? 'unread' : ''" )
-					v-responsive(:aspect-ratio="3/4")
-						.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
-						.vert-flex
-							v-list-tile( avatar )
-								v-list-tile-avatar
-									img(:src="require('@/assets/img/user0.svg')").av
-								v-list-tile-content
-									v-list-tile-title {{ item.author }}
-									v-list-tile-sub-title 20 авг 13:10
-							v-divider
-							p.head {{item.title}}
-							p.descr {{item.descr}}
-							v-card-actions
-								.status В работе
-								v-spacer
-								.attach(v-if="item.files")
-									i.icon-skrepka
-										span {{ item.files }}
-						.open( @click="doNothing" )
-							i.icon-new-window
+					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
+					.vert-flex(v-bind:style="{height: computedHeight}")
+						v-list-tile( avatar )
+							v-list-tile-avatar
+								img(:src="require('@/assets/img/user0.svg')").av
+							v-list-tile-content
+								v-list-tile-title {{ item.author }}
+								v-list-tile-sub-title 20 авг 13:10
+						v-divider
+						p.head {{item.title}}
+						p.descr {{item.descr}}
+						v-spacer
+						v-card-actions
+							.status В работе
+							v-spacer
+							.attach(v-if="item.files")
+								i.icon-skrepka
+									span {{ item.files }}
+					.open( @click="doNothing" )
+						i.icon-new-window
 				v-card(flat tile slot="back" :class="item.unread ? 'unread' : ''" )
 					.drag1
-					.vert-flex
+					.vert-flex(v-bind:style="{height: computedHeight}")
 						p.head-back {{item.title}}
 						FilesList( :attach="item.attach" v-if="item.focus === 'files'" )
 						Attr(v-if="!item.files || item.focus === 'info'")
@@ -63,12 +63,20 @@ export default {
 			showFiles: false,
 			showInfo: false,
 			activeOnClick: false,
-			size: 20
+			size: 265,
+			width: 265,
+			height: 350
 		}
 	},
 	computed: {
 		currentFolder () { return this.$store.getters.currentFolder },
-		filter () { return this.currentFolder.filter }
+		filter () { return this.currentFolder.filter },
+		computedWidth () {
+			return this.width + 'px'
+		},
+		computedHeight () {
+			return this.height + 'px'
+		}
 	},
 	methods: {
 		newArr (e) {
@@ -76,6 +84,18 @@ export default {
 		},
 		doNothing (evt) {
 			evt.stopPropagation()
+		},
+		clearUnread () {
+			let items = this.$store.getters.items
+			items.map(function (item) {
+				item.unread = 0
+			})
+		},
+		changeWidth () {
+			this.width = this.size
+			// let el = this.$refs.card.clientHeight
+			// console.log(el)
+			this.height = this.width * 1.3
 		}
 	},
 	components: {
@@ -105,11 +125,11 @@ export default {
 
 .flip {
 	width: 100%;
-	height: 350px;
+	height: 100%;
 }
 .v-card {
-	width: 100%;
-	height: 350px;
+	/* width: 100%; */
+	/* height: 100%; */
 	padding: .5rem;
 	overflow: hidden;
 	position: relative;
@@ -209,7 +229,6 @@ export default {
 .vert-flex {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 }
 .v-divider {
 	max-height: 1px;
@@ -235,6 +254,7 @@ i.big {
 	display: flex;
 	width: 265px;
 	margin: 1rem;
+	/* height: 450px; */
 	user-select: none;
 }
 .application .theme--light.v-card, .theme--light .v-card {
@@ -248,6 +268,13 @@ i.big {
 	height: 3.5rem;
 }
 .slider {
+}
+
+.box {
+	width: 50%;
+  height:100px;
+  background:#000;
+  color:#fff;
 }
 
 </style>
