@@ -7,10 +7,9 @@ div
 			v-flex
 				v-slide-y-transition
 					v-btn(flat small color="info" @click="clearUnread") Сбросить новые
-				v-slide-y-transition
-					v-btn(flat small color="info" @click="") Только новые
-				v-slide-y-transition
-					v-btn(flat small color="info" @click="showAll" v-if="filter !== ''" ) Показать все
+				v-slide-y-transition(mode="out-in")
+					v-btn(flat small color="info" @click="setFilter('unread')" v-if="filter !== 'unread'" key="one") Только новые
+					v-btn(flat small color="info" @click="setFilter('')" v-if="filter !== ''" key="two") Показать все
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr" ).mygrid
 		SlickItem(ref="card" v-for="(item, index) in items" :index="index" :key="index" :item="item" v-bind:style="{width: computedWidth, height: computedHeight}").sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
@@ -93,9 +92,13 @@ export default {
 		},
 		changeWidth () {
 			this.width = this.size
-			// let el = this.$refs.card.clientHeight
-			// console.log(el)
 			this.height = this.width * 1.3
+		},
+		setFilter (e) {
+			let dummy = {}
+			dummy.id = this.$store.getters.currentFolder.id
+			dummy.filter = e
+			this.$store.dispatch('updateFolderFilter', dummy)
 		}
 	},
 	components: {
@@ -128,8 +131,6 @@ export default {
 	height: 100%;
 }
 .v-card {
-	/* width: 100%; */
-	/* height: 100%; */
 	padding: .5rem;
 	overflow: hidden;
 	position: relative;
