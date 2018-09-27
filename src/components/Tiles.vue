@@ -1,10 +1,16 @@
 <template lang="pug">
 div
 	.panel
-		v-slide-y-transition
-			v-btn(flat small color="info" @click="clearUnread") Сбросить новые
-		v-slide-y-transition
-			v-btn(flat small color="info" @click="") Только новые
+		v-layout(row wrap)
+			v-flex(xs3)
+				v-slider(v-model="size")
+			v-flex
+				v-slide-y-transition
+					v-btn(flat small color="info" @click="clearUnread") Сбросить новые
+				v-slide-y-transition
+					v-btn(flat small color="info" @click="") Только новые
+				v-slide-y-transition
+					v-btn(flat small color="info" @click="showAll" v-if="filter !== ''" ) Показать все
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr" ).mygrid
 		SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" ).sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
@@ -56,10 +62,13 @@ export default {
 		return {
 			showFiles: false,
 			showInfo: false,
-			activeOnClick: false
+			activeOnClick: false,
+			size: 20
 		}
 	},
 	computed: {
+		currentFolder () { return this.$store.getters.currentFolder },
+		filter () { return this.currentFolder.filter }
 	},
 	methods: {
 		newArr (e) {
@@ -237,6 +246,8 @@ i.big {
 .panel {
 	padding: .5rem 0;
 	height: 3.5rem;
+}
+.slider {
 }
 
 </style>
