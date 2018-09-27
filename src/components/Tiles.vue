@@ -10,12 +10,25 @@ div
 				v-slide-y-transition(mode="out-in")
 					v-btn(flat small color="info" @click="setFilter('unread')" v-if="filter !== 'unread'" key="one") Только новые
 					v-btn(flat small color="info" @click="setFilter('')" v-if="filter !== ''" key="two") Показать все
-	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr" ).mygrid
+	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr").mygrid
 		SlickItem(ref="card" v-for="(item, index) in items" :index="index" :key="index" :item="item" v-bind:style="{width: computedWidth, height: computedHeight}").sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
 				v-card(flat tile slot="front" :class="item.unread ? 'unread' : ''" )
 					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
-					.vert-flex(v-bind:style="{height: computedHeight}")
+					.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
+						img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="95%" ondragstart="return false;")
+						<!-- img(:src="require('@/assets/img/dv&#45;64.png')" width="100%" ondragstart="return false;") -->
+						<!-- p.head&#45;back {{item.title}} -->
+						<!-- FilesList( :attach="item.attach" v&#45;if="item.focus === 'files'" ) -->
+						<!-- Attr(v&#45;if="!item.files || item.focus === 'info'") -->
+						<!-- v&#45;bottom&#45;nav( :active.sync="item.focus" :value="item.files" absolute ) -->
+						<!-- 	v&#45;btn( color="info" flat value="files" @click="doNothing" v&#45;if="item.files") -->
+						<!-- 		i.icon&#45;skrepka.big {{ item.files }} -->
+						<!-- 	v&#45;btn( color="info" flat value="info" @click="doNothing") -->
+						<!-- 		i.icon&#45;info.big -->
+				v-card(flat tile slot="back" :class="item.unread ? 'unread' : ''" )
+					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
+					.vert-flex(v-bind:style="{width: computedWidth, height: computedHeight}")
 						v-list-tile( avatar )
 							v-list-tile-avatar
 								img(:src="require('@/assets/img/user0.svg')").av
@@ -34,18 +47,6 @@ div
 									span {{ item.files }}
 					.open( @click="doNothing" )
 						i.icon-new-window
-				v-card(flat tile slot="back" :class="item.unread ? 'unread' : ''" )
-					.drag1
-					.vert-flex(v-bind:style="{height: computedHeight}")
-						p.head-back {{item.title}}
-						FilesList( :attach="item.attach" v-if="item.focus === 'files'" )
-						Attr(v-if="!item.files || item.focus === 'info'")
-
-						v-bottom-nav( :active.sync="item.focus" :value="item.files" absolute )
-							v-btn( color="info" flat value="files" @click="doNothing" v-if="item.files")
-								i.icon-skrepka.big {{ item.files }}
-							v-btn( color="info" flat value="info" @click="doNothing")
-								i.icon-info.big
 
 </template>
 
@@ -92,7 +93,7 @@ export default {
 		},
 		changeWidth () {
 			this.width = this.size
-			this.height = this.width * 1.3
+			this.height = this.width * 1.4
 		},
 		setFilter (e) {
 			let dummy = {}
@@ -157,10 +158,6 @@ export default {
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 	font-family: Roboto;
 	color: #000;
-	line-height: 160%;
-	.v-bottom-nav {
-		background: #fff;
-	}
 }
 .v-bottom-nav {
 	box-shadow: none;
