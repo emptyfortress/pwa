@@ -6,13 +6,25 @@ div
 				v-slider(v-model="size" min=200 max=1000 @input="changeWidth")
 			v-flex
 				v-slide-y-transition(mode="out-in")
-					v-btn(flat icon v-if="filter !== 'unread'" @click="setFilter('unread')" key="one").filter
-						i.icon-filter-active
-					v-btn(flat icon v-if="filter === 'unread'" @click="setFilter('')" key="two").filter
-						i.icon-filter-remove
+					v-tooltip(top)
+						v-btn(flat icon color="info" @click="clearUnread" v-if="allRead" slot="activator")
+							i.icon-done
+						span Сбросить новые
 				v-slide-y-transition(mode="out-in")
-					v-btn(flat icon color="info" @click="clearUnread" v-if="allRead")
-						i.icon-done
+					v-tooltip(top key="one" v-if="filter !== 'unread'" )
+						v-btn(flat icon @click="setFilter('unread')" slot="activator").filter
+							i.icon-filter-active
+						span Применить фильтр
+					v-tooltip(top key="two" v-if="filter === 'unread'" )
+						v-btn(flat icon @click="setFilter('')" slot="activator").filter
+							i.icon-filter-remove
+						span Отменить фильтр
+				v-menu(v-model="filterSelection")
+					v-card(flat slot="activator")
+						span Новые
+					v-list
+						v-list-tile(v-for="(item, index) in filterList" :key="index").menu
+							v-list-tile-title {{item}}
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr").mygrid
 		SlickItem(ref="card" v-for="(item, index) in items" :index="index" :key="index" :item="item" v-bind:style="{width: computedWidth, height: computedHeight}").sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
@@ -59,7 +71,8 @@ export default {
 			activeOnClick: false,
 			size: 265,
 			width: 265,
-			height: 350
+			height: 350,
+			filterList: [ 'Новые', 'Просроченные', 'Важные', 'Создать фильтр...' ]
 		}
 	},
 	computed: {
@@ -278,7 +291,11 @@ i.big {
 
 .filter {
 	i {
-		font-size: 2rem;
+		font-size: 1.8rem;
 	}
 }
+.menu:hover {
+	background: $grey;
+}
+
 </style>
