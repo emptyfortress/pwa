@@ -6,7 +6,7 @@ div
 				v-slider(v-model="size" min=200 max=1000 @input="changeWidth")
 			v-flex
 				v-slide-y-transition(mode="out-in")
-					v-tooltip(top)
+					v-tooltip(top debounce="1000")
 						v-btn(flat icon color="info" @click="clearUnread" v-if="allRead" slot="activator")
 							i.icon-done
 						span Сбросить новые
