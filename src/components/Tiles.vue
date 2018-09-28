@@ -2,14 +2,17 @@
 div
 	.panel
 		v-layout(row wrap)
-			v-flex(xs3)
+			v-flex(xs2)
 				v-slider(v-model="size" min=200 max=1000 @input="changeWidth")
 			v-flex
-				v-slide-y-transition
-					v-btn(flat small color="info" @click="clearUnread") Сбросить новые
 				v-slide-y-transition(mode="out-in")
-					v-btn(flat small color="info" @click="setFilter('unread')" v-if="filter !== 'unread'" key="one") Только новые
-					v-btn(flat small color="info" @click="setFilter('')" v-if="filter !== ''" key="two") Показать все
+					v-btn(flat icon v-if="filter !== 'unread'" @click="setFilter('unread')" key="one").filter
+						i.icon-filter-active
+					v-btn(flat icon v-if="filter === 'unread'" @click="setFilter('')" key="two").filter
+						i.icon-filter-remove
+				v-slide-y-transition(mode="out-in")
+					v-btn(flat icon color="info" @click="clearUnread" v-if="allRead")
+						i.icon-done
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr").mygrid
 		SlickItem(ref="card" v-for="(item, index) in items" :index="index" :key="index" :item="item" v-bind:style="{width: computedWidth, height: computedHeight}").sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
@@ -17,15 +20,6 @@ div
 					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 					.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
 						img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="95%" ondragstart="return false;")
-						<!-- img(:src="require('@/assets/img/dv&#45;64.png')" width="100%" ondragstart="return false;") -->
-						<!-- p.head&#45;back {{item.title}} -->
-						<!-- FilesList( :attach="item.attach" v&#45;if="item.focus === 'files'" ) -->
-						<!-- Attr(v&#45;if="!item.files || item.focus === 'info'") -->
-						<!-- v&#45;bottom&#45;nav( :active.sync="item.focus" :value="item.files" absolute ) -->
-						<!-- 	v&#45;btn( color="info" flat value="files" @click="doNothing" v&#45;if="item.files") -->
-						<!-- 		i.icon&#45;skrepka.big {{ item.files }} -->
-						<!-- 	v&#45;btn( color="info" flat value="info" @click="doNothing") -->
-						<!-- 		i.icon&#45;info.big -->
 				v-card(flat tile slot="back" :class="item.unread ? 'unread' : ''" )
 					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 					.vert-flex(v-bind:style="{width: computedWidth, height: computedHeight}")
@@ -76,6 +70,13 @@ export default {
 		},
 		computedHeight () {
 			return this.height + 'px'
+		},
+		allRead () {
+			let items = this.$store.getters.items
+			let unreadItems = items.filter(item => item.unread)
+			if (unreadItems.length === 0) {
+				return false
+			} else return true
 		}
 	},
 	methods: {
@@ -275,4 +276,9 @@ i.big {
   color:#fff;
 }
 
+.filter {
+	i {
+		font-size: 2rem;
+	}
+}
 </style>
