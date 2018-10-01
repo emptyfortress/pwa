@@ -22,11 +22,11 @@ div
 					v-card-text Peek-a-boo lakjsdlkj!
 			v-alert(slot="no-results" :value="true" color="warning" icon="warning")
 				span Сорян, не могу найти {{ search }}
-				<!-- img(:src="require('@/assets/img/man.svg')") -->
-				<!-- Your search сорян for "{{ search }}" found no results. -->
 </template>
 
 <script>
+import { SlickList, SlickItem } from 'vue-slicksort'
+
 export default {
 	data () {
 		return {
@@ -137,6 +137,10 @@ export default {
 				}
 			]
 		}
+	},
+	components: {
+		SlickItem,
+		SlickList
 	}
 }
 </script>

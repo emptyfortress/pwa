@@ -47,7 +47,7 @@ div
 </template>
 
 <script>
-import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
+import { SlickList, SlickItem } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import DummyFolder from '@/components/DummyFolder'
 import MultiSelect from '@/components/MultiSelect'
@@ -178,7 +178,6 @@ export default {
 		MultiSelect
 	},
 	directives: {
-		handle: HandleDirective,
 		responsive: ResponsiveDirective
 	}
 }
