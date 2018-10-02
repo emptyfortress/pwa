@@ -6,28 +6,34 @@ div
 			span Nutrition
 			v-spacer
 			v-text-field(v-model="search" append-icon="search" label="Search" single-line hide-details)
-		v-data-table(:headers="headers" :items="desserts" :search="search" v-model="selected" :pagination.sync="pagination" item-key="name" select-all)
+		v-data-table(v-bind:headers="headers" :search="search" :items="desserts" :pagination.sync="pagination" :item-key="name" ref="sortableTable" expand hide-actions)
 			template(slot="headers" slot-scope="props")
 				tr
 					th
 						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
 					th(v-for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
-						v-icon(small) arrow_upward {{ header.text }}
+						span
+							v-icon(small) arrow_upward
+						span {{ header.text  }}
 			template(slot="items" slot-scope="props")
-				tr(@click="props.expanded = !props.expanded")
-					td(class="handle" style="max-width: 28px;") ::
+				tr(class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded").sortableRow
 					td
-					td {{ props.item.name }}
-					td {{ props.item.calories }}
-					td {{ props.item.fat }}
-					td {{ props.item.carbs }}
-					td {{ props.item.protein }}
-					td {{ props.item.iron }}
+						v-checkbox(:input-value="props.selected" primary hide-details)
+					td(style="width: 0.1%")
+						v-btn(style="cursor: move" icon).sortHandle
+							v-icon drag_handle
+					td {{ props.item.name  }}
+					td {{ props.item.calories  }}
+					td {{ props.item.fat  }}
+					td {{ props.item.carbs  }}
+					td {{ props.item.protein  }}
+					td {{ props.item.iron  }}
 			template(slot="expand" slot-scope="props")
-				v-card(flat)
+				v-card(flat :key="itemKey(props.name) + '_expand'")
 					v-card-text Peek-a-boo lakjsdlkj!
 			v-alert(slot="no-results" :value="true" color="warning" icon="warning")
 				span Сорян, не могу найти {{ search }}
+
 </template>
 
 <script>
@@ -37,11 +43,19 @@ export default {
 	data () {
 		return {
 			search: '',
+			selected: [],
+			expandRow: null,
+			itemKeys: new WeakMap(),
+			currentItemKey: 0,
 			pagination: {
 				sortBy: 'name'
 			},
 			headers: [
-				{text: ''},
+				{
+					text: '',
+					align: 'left',
+					sortable: false
+				},
 				{
 					text: 'Dessert (100g serving)',
 					align: 'left',
@@ -153,15 +167,54 @@ export default {
 		// SlickList
 	},
 	mounted () {
-		let table = document.querySelector('.v-datatable tbody')
-		const _self = this
-		Sortable.create(table, {
-			handle: '.handle', // Use handle so user can select text
-			onEnd ({ newIndex, oldIndex }) {
-				const rowSelected = _self.desserts.splice(oldIndex, 1)[0] // Get the selected row and remove it
-				_self.desserts.splice(newIndex, 0, rowSelected) // Move it to the new index
+		/* eslint-disable no-new */
+		new Sortable(
+			this.$refs.sortableTable.$el.getElementsByTagName('tbody')[0],
+			{
+				// draggable: '.sortableRow',
+				handle: '.sortHandle',
+				onStart: this.dragStart,
+				onEnd: this.dragReorder
 			}
-		})
+		)
+	},
+	methods: {
+		toggleAll () {
+			if (this.selected.length) this.selected = []
+			else this.selected = this.desserts.slice()
+		},
+		dragStart ({item}) {
+			const nextSib = item.nextSibling
+			if (nextSib &&
+				nextSib.classList.contains('datatable__expand-row')) {
+				this.expandRow = nextSib
+			} else {
+				this.expandRow = null
+			}
+		},
+		dragReorder ({item, oldIndex, newIndex}) {
+			console.log('reorder', item, oldIndex, newIndex)
+			const nextSib = item.nextSibling
+			if (nextSib &&
+				nextSib.classList.contains('datatable__expand-row') &&
+				nextSib !== this.expandRow) {
+				item.parentNode.insertBefore(item, nextSib.nextSibling)
+			}
+			const movedItem = this.items.splice(oldIndex, 1)[0]
+			this.items.splice(newIndex, 0, movedItem)
+		},
+		itemKey (item) {
+			if (!this.itemKeys.has(item)) this.itemKeys.set(item, ++this.currentItemKey)
+			return this.itemKeys.get(item)
+		},
+		changeSort (column) {
+			if (this.pagination.sortBy === column) {
+				this.pagination.descending = !this.pagination.descending
+			} else {
+				this.pagination.sortBy = column
+				this.pagination.descending = false
+			}
+		}
 	}
 }
 </script>
