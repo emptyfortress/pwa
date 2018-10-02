@@ -6,17 +6,23 @@ div
 			span Nutrition
 			v-spacer
 			v-text-field(v-model="search" append-icon="search" label="Search" single-line hide-details)
-		v-data-table(:headers="headers" :items="desserts" :search="search" v-model="selected" item-key="name" select-all).mytable
+		v-data-table(:headers="headers" :items="desserts" :search="search" v-model="selected" :pagination.sync="pagination" item-key="name" select-all)
+			template(slot="headers" slot-scope="props")
+				tr
+					th
+						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
+					th(v-for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
+						v-icon(small) arrow_upward {{ header.text }}
 			template(slot="items" slot-scope="props")
 				tr(@click="props.expanded = !props.expanded")
+					td(class="handle" style="max-width: 28px;") ::
 					td
-						v-checkbox(v-model="props.selected" primary hide-details)
 					td {{ props.item.name }}
-					td.text-xs-right {{ props.item.calories }}
-					td.text-xs-right {{ props.item.fat }}
-					td.text-xs-right {{ props.item.carbs }}
-					td.text-xs-right {{ props.item.protein }}
-					td.text-xs-right {{ props.item.iron }}
+					td {{ props.item.calories }}
+					td {{ props.item.fat }}
+					td {{ props.item.carbs }}
+					td {{ props.item.protein }}
+					td {{ props.item.iron }}
 			template(slot="expand" slot-scope="props")
 				v-card(flat)
 					v-card-text Peek-a-boo lakjsdlkj!
@@ -25,13 +31,17 @@ div
 </template>
 
 <script>
-import { SlickList, SlickItem } from 'vue-slicksort'
+import Sortable from 'sortablejs'
 
 export default {
 	data () {
 		return {
 			search: '',
+			pagination: {
+				sortBy: 'name'
+			},
 			headers: [
+				{text: ''},
 				{
 					text: 'Dessert (100g serving)',
 					align: 'left',
@@ -139,8 +149,19 @@ export default {
 		}
 	},
 	components: {
-		SlickItem,
-		SlickList
+		// SlickItem,
+		// SlickList
+	},
+	mounted () {
+		let table = document.querySelector('.v-datatable tbody')
+		const _self = this
+		Sortable.create(table, {
+			handle: '.handle', // Use handle so user can select text
+			onEnd ({ newIndex, oldIndex }) {
+				const rowSelected = _self.desserts.splice(oldIndex, 1)[0] // Get the selected row and remove it
+				_self.desserts.splice(newIndex, 0, rowSelected) // Move it to the new index
+			}
+		})
 	}
 }
 </script>
