@@ -6,7 +6,9 @@ div
 			span Nutrition
 			v-spacer
 			v-text-field(v-model="search" append-icon="search" label="Search" single-line hide-details)
-		v-data-table(v-bind:headers="headers" :items="items" :search="search" hide-actions ref="sortableTable" item-key="name" expand)
+		<!-- v&#45;data&#45;table(:headers="headers" :items="items" :search="search" hide&#45;actions ref="sortableTable" item&#45;key="name" expand) -->
+		v-data-table(:headers="headers" :items="items" :search="search" :loading="false" :pagination.sync="pagination" hide-actions ref="sortableTable" item-key="name" )
+			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
 				<!-- 	Not providing a unique key that's bound to the item object will break drag and drop sorting. -->
@@ -29,6 +31,11 @@ div
 
 			template(slot="expand" slot-scope="props")
 				v-card(flat :key="itemKey(props.item) + '_expand'") something nested here {{ props.item.name  }}
+			template(slot="no-data")
+				v-alert(:value="true" color="error" icon="warning")
+					p Sorry, nothing to display here :(
+			template(slot="pageText" slot-scope="props")
+				span Lignes {{ props.pageStart  }} - {{ props.pageStop  }} de {{ props.itemsLength  }}
 </template>
 
 <script>
@@ -38,6 +45,9 @@ export default {
 	data () {
 		return {
 			expandRow: null,
+			pagination: {
+				// sortBy: 'name'
+			},
 			search: '',
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
@@ -48,7 +58,7 @@ export default {
 				{
 					text: 'Dessert (100g serving)',
 					align: 'left',
-					sortable: false,
+					sortable: true,
 					value: 'name'
 				},
 				{ text: 'Calories', value: 'calories', sortable: false },
