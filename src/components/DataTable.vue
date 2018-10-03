@@ -6,33 +6,35 @@ div
 			span Nutrition
 			v-spacer
 			v-text-field(v-model="search" append-icon="search" label="Search" single-line hide-details)
-		v-data-table(v-bind:headers="headers" :search="search" :items="desserts" :pagination.sync="pagination" :item-key="name" ref="sortableTable" expand hide-actions)
-			template(slot="headers" slot-scope="props")
-				tr
-					th
-						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
-					th(v-for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
-						span
-							v-icon(small) arrow_upward
-						span {{ header.text  }}
-			template(slot="items" slot-scope="props")
-				tr(class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded").sortableRow
-					td
-						v-checkbox(:input-value="props.selected" primary hide-details)
-					td(style="width: 0.1%")
-						v-btn(style="cursor: move" icon).sortHandle
-							v-icon drag_handle
-					td {{ props.item.name  }}
-					td {{ props.item.calories  }}
-					td {{ props.item.fat  }}
-					td {{ props.item.carbs  }}
-					td {{ props.item.protein  }}
-					td {{ props.item.iron  }}
-			template(slot="expand" slot-scope="props")
-				v-card(flat :key="itemKey(props.name) + '_expand'")
-					v-card-text Peek-a-boo lakjsdlkj!
-			v-alert(slot="no-results" :value="true" color="warning" icon="warning")
-				span Сорян, не могу найти {{ search }}
+		v-btn(@click="goog(0)") click
+		v-btn(@click="goog(3)") click
+		<!-- v&#45;data&#45;table(v&#45;bind:headers="headers" :search="search" :items="desserts" :pagination.sync="pagination" :item&#45;key="name" ref="sortableTable" expand hide&#45;actions) -->
+		<!-- 	template(slot="headers" slot&#45;scope="props") -->
+		<!-- 		tr -->
+		<!-- 			th -->
+		<!-- 				v&#45;checkbox(:input&#45;value="props.all" :indeterminate="props.indeterminate" primary hide&#45;details @click.native="toggleAll") -->
+		<!-- 			th(v&#45;for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)") -->
+		<!-- 				span -->
+		<!-- 					v&#45;icon(small) arrow_upward -->
+		<!-- 				span {{ header.text  }} -->
+		<!-- 	template(slot="items" slot&#45;scope="props") -->
+		<!-- 		tr(class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded").sortableRow -->
+		<!-- 			td -->
+		<!-- 				v&#45;checkbox(:input&#45;value="props.selected" primary hide&#45;details) -->
+		<!-- 			td(style="width: 0.1%") -->
+		<!-- 				v&#45;btn(style="cursor: move" icon).sortHandle -->
+		<!-- 					v&#45;icon drag_handle -->
+		<!-- 			td {{ props.item.name  }} -->
+		<!-- 			td {{ props.item.calories  }} -->
+		<!-- 			td {{ props.item.fat  }} -->
+		<!-- 			td {{ props.item.carbs  }} -->
+		<!-- 			td {{ props.item.protein  }} -->
+		<!-- 			td {{ props.item.iron  }} -->
+		<!-- 	template(slot="expand" slot&#45;scope="props") -->
+		<!-- 		v&#45;card(flat :key="itemKey(props.name) + '_expand'") -->
+		<!-- 			v&#45;card&#45;text Peek&#45;a&#45;boo lakjsdlkj! -->
+		<!-- 	v&#45;alert(slot="no&#45;results" :value="true" color="warning" icon="warning") -->
+		<!-- 		span Сорян, не могу найти {{ search }} -->
 
 </template>
 
@@ -179,6 +181,11 @@ export default {
 		)
 	},
 	methods: {
+		goog (e) {
+			let dest = 'http://localhost:8080/#/inbox/' + e
+			let w = window.open(dest, 'DescriptiveWindowName', 'resizable,scrollbars,status')
+			// window.open('http://localhost:8080/', 'DescriptiveWindowName', 'resizable,scrollbars,status')
+		},
 		toggleAll () {
 			if (this.selected.length) this.selected = []
 			else this.selected = this.desserts.slice()
