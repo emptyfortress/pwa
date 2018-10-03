@@ -46,16 +46,16 @@ export default {
 				{
 					text: 'Dessert (100g serving)',
 					align: 'left',
-					sortable: false,
+					sortable: true,
 					value: 'name'
 				},
-				{ text: 'Calories', value: 'calories', sortable: false  },
-				{ text: 'Fat (g)', value: 'fat', sortable: false  },
-				{ text: 'Carbs (g)', value: 'carbs', sortable: false  },
-				{ text: 'Protein (g)', value: 'protein', sortable: false  },
-				{ text: 'Sodium (mg)', value: 'sodium', sortable: false  },
-				{ text: 'Calcium (%)', value: 'calcium', sortable: false  },
-				{ text: 'Iron (%)', value: 'iron', sortable: false  }
+				{ text: 'Calories', value: 'calories', sortable: false },
+				{ text: 'Fat (g)', value: 'fat', sortable: false },
+				{ text: 'Carbs (g)', value: 'carbs', sortable: false },
+				{ text: 'Protein (g)', value: 'protein', sortable: false },
+				{ text: 'Sodium (mg)', value: 'sodium', sortable: false },
+				{ text: 'Calcium (%)', value: 'calcium', sortable: false },
+				{ text: 'Iron (%)', value: 'iron', sortable: false }
 			],
 			items: [
 				{
