@@ -279,8 +279,6 @@ i.big {
 	padding: .5rem 0;
 	height: 3.5rem;
 }
-.slider {
-}
 
 .box {
 	width: 50%;

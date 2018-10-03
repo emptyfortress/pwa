@@ -16,6 +16,7 @@ export default new Vuex.Store({
 		folders: [],
 		tree: [],
 		items: [],
+		headers: [],
 		tile: false,
 		selected: false
 	},
@@ -64,6 +65,7 @@ export default new Vuex.Store({
 		tree (state) { return state.tree },
 		folders (state) { return state.folders },
 		items (state) { return state.items },
+		headers (state) { return state.headers },
 		filter (state) { return state.filter },
 		selected (state) { return state.selected },
 		currentItem (state) {
@@ -172,6 +174,9 @@ export default new Vuex.Store({
 							unread: obj[key].unread,
 							attach: obj[key].attach,
 							created: obj[key].created,
+							modified: obj[key].modified,
+							deadline: obj[key].deadline,
+							executor: obj[key].executor,
 							selected: false
 						})
 					}

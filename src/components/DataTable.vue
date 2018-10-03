@@ -1,12 +1,16 @@
 <template lang="pug">
 div
 	.panel
-	v-card(flat)
-		v-card-title
-			span Nutrition
+		v-layout(row wrap)
 			v-spacer
-			v-text-field(v-model="search" append-icon="search" label="Search" single-line hide-details)
-		v-data-table(:headers="headers" :items="items" :search="search" :loading="false" ref="sortableTable" item-key="name" )
+			v-flex(xs2)
+				v-text-field(v-model="search" label="Фильтр" hide-details).filter
+	v-card(flat)
+		<!-- v&#45;card&#45;title -->
+		<!-- 	span Nutrition -->
+		<!-- 	v&#45;spacer -->
+		<!-- 	v&#45;text&#45;field(v&#45;model="search" append&#45;icon="search" label="Search" single&#45;line hide&#45;details) -->
+		v-data-table(:headers="headers" :items="items" :search="search" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems")
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
@@ -19,17 +23,16 @@ div
 					td(class="px-1" style="width: 0.1%")
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td {{ props.item.name  }}
-					td {{ props.item.calories  }}
-					td {{ props.item.fat  }}
-					td {{ props.item.carbs  }}
-					td {{ props.item.protein  }}
-					td {{ props.item.sodium  }}
-					td {{ props.item.calcium  }}
-					td {{ props.item.iron  }}
+					td {{ props.item.title  }}
+					td.nowrap {{ props.item.author  }}
+					td {{ props.item.executor  }}
+					td.nowrap {{ props.item.deadline  }}
+					td.nowrap {{ props.item.created  }}
+					td.nowrap {{ props.item.modified  }}
+					td {{ props.item.files  }}
 
 			template(slot="expand" slot-scope="props")
-				v-card(flat :key="itemKey(props.item) + '_expand'") something nested here {{ props.item.name  }}
+				v-card(flat :key="itemKey(props.item) + '_expand'") something nested here {{ props.item.title  }}
 			template(slot="no-results")
 				v-alert(:value="true" color="warning" icon="warning")
 					span Сорян, ничего подходящего не нашел :(
@@ -45,144 +48,28 @@ export default {
 	data () {
 		return {
 			expandRow: null,
+			row: 'Строк на странице',
+			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
 			search: '',
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
 			headers: [
-				{
-					sortable: false
-				},
-				{
-					text: 'Dessert (100g serving)',
-					align: 'left',
-					sortable: true,
-					value: 'name'
-				},
-				{ text: 'Calories', value: 'calories', sortable: false },
-				{ text: 'Fat (g)', value: 'fat', sortable: false },
-				{ text: 'Carbs (g)', value: 'carbs', sortable: false },
-				{ text: 'Protein (g)', value: 'protein', sortable: false },
-				{ text: 'Sodium (mg)', value: 'sodium', sortable: false },
-				{ text: 'Calcium (%)', value: 'calcium', sortable: false },
-				{ text: 'Iron (%)', value: 'iron', sortable: false }
-			],
-			items: [
-				{
-					value: false,
-					name: 'Frozen Yogurt',
-					calories: 159,
-					fat: 6.0,
-					carbs: 24,
-					protein: 4.0,
-					sodium: 87,
-					calcium: '14%',
-					iron: '1%'
-				},
-				{
-					value: false,
-					name: 'Ice cream sandwich',
-					calories: 237,
-					fat: 9.0,
-					carbs: 37,
-					protein: 4.3,
-					sodium: 129,
-					calcium: '8%',
-					iron: '1%'
-				},
-				{
-					value: false,
-					name: 'Eclair',
-					calories: 262,
-					fat: 16.0,
-					carbs: 23,
-					protein: 6.0,
-					sodium: 337,
-					calcium: '6%',
-					iron: '7%'
-				},
-				{
-					value: false,
-					name: 'Cupcake',
-					calories: 305,
-					fat: 3.7,
-					carbs: 67,
-					protein: 4.3,
-					sodium: 413,
-					calcium: '3%',
-					iron: '8%'
-				},
-				{
-					value: false,
-					name: 'Gingerbread',
-					calories: 356,
-					fat: 16.0,
-					carbs: 49,
-					protein: 3.9,
-					sodium: 327,
-					calcium: '7%',
-					iron: '16%'
-				},
-				{
-					value: false,
-					name: 'Jelly bean',
-					calories: 375,
-					fat: 0.0,
-					carbs: 94,
-					protein: 0.0,
-					sodium: 50,
-					calcium: '0%',
-					iron: '0%'
-				},
-				{
-					value: false,
-					name: 'Lollipop',
-					calories: 392,
-					fat: 0.2,
-					carbs: 98,
-					protein: 0,
-					sodium: 38,
-					calcium: '0%',
-					iron: '2%'
-				},
-				{
-					value: false,
-					name: 'Honeycomb',
-					calories: 408,
-					fat: 3.2,
-					carbs: 87,
-					protein: 6.5,
-					sodium: 562,
-					calcium: '0%',
-					iron: '45%'
-				},
-				{
-					value: false,
-					name: 'Donut',
-					calories: 452,
-					fat: 25.0,
-					carbs: 51,
-					protein: 4.9,
-					sodium: 326,
-					calcium: '2%',
-					iron: '22%'
-				},
-				{
-					value: false,
-					name: 'KitKat',
-					calories: 518,
-					fat: 26.0,
-					carbs: 65,
-					protein: 7,
-					sodium: 54,
-					calcium: '12%',
-					iron: '6%'
-				}
+				{ 'id': 0, 'text': '', 'align': 'left', 'sortable': false, 'value': '' },
+				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': false, 'value': 'title' },
+				{ 'id': 2, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
+				{ 'id': 3, 'text': 'Исполн.', 'align': 'left', 'sortable': true, 'value': 'executor' },
+				{ 'id': 4, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
+				{ 'id': 5, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
+				{ 'id': 6, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
+				{ 'id': 7, 'text': 'Вложения', 'align': 'left', 'sortable': true, 'value': 'files' }
+				// { 'id': 8, 'text': 'Описание', 'align': 'left', 'sortable': false, 'value': 'descr' }
 			]
 		}
 	},
-	components: {
-		// SlickItem,
-		// SlickList
+	computed: {
+		items () {
+			return this.$store.getters.items
+		}
 	},
 	mounted () {
 		/* eslint-disable no-new */
@@ -245,11 +132,20 @@ export default {
 	border-bottom: none;
 }
 .panel {
-	padding: .5rem 0;
-	height: 3.5rem;
+	padding: .0 1rem;
+	/* height: 3.5rem; */
 }
 .sortHandle {
 	color: #333;
 	cursor: move;
 }
+
+.filter {
+	margin-bottom: .5rem;
+	padding-bottom: 0;
+}
+.nowrap {
+	white-space: nowrap;
+}
+
 </style>
