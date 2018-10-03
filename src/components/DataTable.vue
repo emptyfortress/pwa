@@ -6,36 +6,28 @@ div
 			span Nutrition
 			v-spacer
 			v-text-field(v-model="search" append-icon="search" label="Search" single-line hide-details)
-		v-btn(@click="goog(0)") click
-		v-btn(@click="goog(3)") click
-		<!-- v&#45;data&#45;table(v&#45;bind:headers="headers" :search="search" :items="desserts" :pagination.sync="pagination" :item&#45;key="name" ref="sortableTable" expand hide&#45;actions) -->
-		<!-- 	template(slot="headers" slot&#45;scope="props") -->
-		<!-- 		tr -->
-		<!-- 			th -->
-		<!-- 				v&#45;checkbox(:input&#45;value="props.all" :indeterminate="props.indeterminate" primary hide&#45;details @click.native="toggleAll") -->
-		<!-- 			th(v&#45;for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)") -->
-		<!-- 				span -->
-		<!-- 					v&#45;icon(small) arrow_upward -->
-		<!-- 				span {{ header.text  }} -->
-		<!-- 	template(slot="items" slot&#45;scope="props") -->
-		<!-- 		tr(class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded").sortableRow -->
-		<!-- 			td -->
-		<!-- 				v&#45;checkbox(:input&#45;value="props.selected" primary hide&#45;details) -->
-		<!-- 			td(style="width: 0.1%") -->
-		<!-- 				v&#45;btn(style="cursor: move" icon).sortHandle -->
-		<!-- 					v&#45;icon drag_handle -->
-		<!-- 			td {{ props.item.name  }} -->
-		<!-- 			td {{ props.item.calories  }} -->
-		<!-- 			td {{ props.item.fat  }} -->
-		<!-- 			td {{ props.item.carbs  }} -->
-		<!-- 			td {{ props.item.protein  }} -->
-		<!-- 			td {{ props.item.iron  }} -->
-		<!-- 	template(slot="expand" slot&#45;scope="props") -->
-		<!-- 		v&#45;card(flat :key="itemKey(props.name) + '_expand'") -->
-		<!-- 			v&#45;card&#45;text Peek&#45;a&#45;boo lakjsdlkj! -->
-		<!-- 	v&#45;alert(slot="no&#45;results" :value="true" color="warning" icon="warning") -->
-		<!-- 		span Сорян, не могу найти {{ search }} -->
+		<v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1" ref="sortableTable" item-key="name" expand >
+			<template slot="items" slot-scope="props">
+				<tr class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded"> <!-- NOTE:  You'll need a unique ID, that is specific to the given item, for the key.   Not providing a unique key that's bound to the item object will break drag and drop sorting.  The itemKey method will return a uid for a given object using WeakMap.  You could just use a property in the object with a unique value, like "props.item.name" in this case, but often getting a unique value from the object's properties can be difficult, like when adding new rows, or when the unique field is open to editing, etc. -->
+					<td class="px-1" style="width: 0.1%">
+						<v-btn style="cursor: move" icon class="sortHandle"><v-icon>drag_handle</v-icon></v-btn>
+					</td>
+					<td>{{ props.item.name  }}</td>
+					<td class="text-xs-right">{{ props.item.calories  }}</td>
+					<td class="text-xs-right">{{ props.item.fat  }}</td>
+					<td class="text-xs-right">{{ props.item.carbs  }}</td>
+					<td class="text-xs-right">{{ props.item.protein  }}</td>
+					<td class="text-xs-right">{{ props.item.sodium  }}</td>
+					<td class="text-xs-right">{{ props.item.calcium  }}</td>
+					<td class="text-xs-right">{{ props.item.iron  }}</td>
+				</tr>
+			</template>
 
+			<template slot="expand" slot-scope="props" >
+				<v-card flat :key="itemKey(props.item) + '_expand'"> something nested here {{ props.item.name  }} </v-card>
+			</template>
+
+		</v-data-table>
 </template>
 
 <script>
@@ -44,18 +36,11 @@ import Sortable from 'sortablejs'
 export default {
 	data () {
 		return {
-			search: '',
-			selected: [],
 			expandRow: null,
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
-			pagination: {
-				sortBy: 'name'
-			},
 			headers: [
 				{
-					text: '',
-					align: 'left',
 					sortable: false
 				},
 				{
@@ -64,13 +49,15 @@ export default {
 					sortable: false,
 					value: 'name'
 				},
-				{ text: 'Calories', value: 'calories' },
-				{ text: 'Fat (g)', value: 'fat' },
-				{ text: 'Carbs (g)', value: 'carbs' },
-				{ text: 'Protein (g)', value: 'protein' },
-				{ text: 'Iron (%)', value: 'iron' }
+				{ text: 'Calories', value: 'calories', sortable: false  },
+				{ text: 'Fat (g)', value: 'fat', sortable: false  },
+				{ text: 'Carbs (g)', value: 'carbs', sortable: false  },
+				{ text: 'Protein (g)', value: 'protein', sortable: false  },
+				{ text: 'Sodium (mg)', value: 'sodium', sortable: false  },
+				{ text: 'Calcium (%)', value: 'calcium', sortable: false  },
+				{ text: 'Iron (%)', value: 'iron', sortable: false  }
 			],
-			desserts: [
+			items: [
 				{
 					value: false,
 					name: 'Frozen Yogurt',
@@ -78,6 +65,8 @@ export default {
 					fat: 6.0,
 					carbs: 24,
 					protein: 4.0,
+					sodium: 87,
+					calcium: '14%',
 					iron: '1%'
 				},
 				{
@@ -87,6 +76,8 @@ export default {
 					fat: 9.0,
 					carbs: 37,
 					protein: 4.3,
+					sodium: 129,
+					calcium: '8%',
 					iron: '1%'
 				},
 				{
@@ -96,6 +87,8 @@ export default {
 					fat: 16.0,
 					carbs: 23,
 					protein: 6.0,
+					sodium: 337,
+					calcium: '6%',
 					iron: '7%'
 				},
 				{
@@ -105,6 +98,8 @@ export default {
 					fat: 3.7,
 					carbs: 67,
 					protein: 4.3,
+					sodium: 413,
+					calcium: '3%',
 					iron: '8%'
 				},
 				{
@@ -114,6 +109,8 @@ export default {
 					fat: 16.0,
 					carbs: 49,
 					protein: 3.9,
+					sodium: 327,
+					calcium: '7%',
 					iron: '16%'
 				},
 				{
@@ -123,6 +120,8 @@ export default {
 					fat: 0.0,
 					carbs: 94,
 					protein: 0.0,
+					sodium: 50,
+					calcium: '0%',
 					iron: '0%'
 				},
 				{
@@ -132,6 +131,8 @@ export default {
 					fat: 0.2,
 					carbs: 98,
 					protein: 0,
+					sodium: 38,
+					calcium: '0%',
 					iron: '2%'
 				},
 				{
@@ -141,6 +142,8 @@ export default {
 					fat: 3.2,
 					carbs: 87,
 					protein: 6.5,
+					sodium: 562,
+					calcium: '0%',
 					iron: '45%'
 				},
 				{
@@ -150,6 +153,8 @@ export default {
 					fat: 25.0,
 					carbs: 51,
 					protein: 4.9,
+					sodium: 326,
+					calcium: '2%',
 					iron: '22%'
 				},
 				{
@@ -159,6 +164,8 @@ export default {
 					fat: 26.0,
 					carbs: 65,
 					protein: 7,
+					sodium: 54,
+					calcium: '12%',
 					iron: '6%'
 				}
 			]
@@ -173,7 +180,7 @@ export default {
 		new Sortable(
 			this.$refs.sortableTable.$el.getElementsByTagName('tbody')[0],
 			{
-				// draggable: '.sortableRow',
+				draggable: '.sortableRow',
 				handle: '.sortHandle',
 				onStart: this.dragStart,
 				onEnd: this.dragReorder
@@ -181,11 +188,6 @@ export default {
 		)
 	},
 	methods: {
-		goog (e) {
-			let dest = 'http://localhost:8080/#/inbox/' + e
-			let w = window.open(dest, 'DescriptiveWindowName', 'resizable,scrollbars,status')
-			// window.open('http://localhost:8080/', 'DescriptiveWindowName', 'resizable,scrollbars,status')
-		},
 		toggleAll () {
 			if (this.selected.length) this.selected = []
 			else this.selected = this.desserts.slice()
@@ -230,8 +232,8 @@ export default {
 @import '@/assets/css/colors.scss';
 
 .application .theme--light.v-table tbody tr:not(:last-child), .theme--light .v-table tbody tr:not(:last-child) {
-    /* border-bottom: 1px solid rgba(0,0,0,.12); */
-    border-bottom: none;
+	/* border-bottom: 1px solid rgba(0,0,0,.12); */
+	border-bottom: none;
 }
 .panel {
 	padding: .5rem 0;
