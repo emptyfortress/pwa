@@ -6,10 +6,6 @@ div
 			v-flex(xs2)
 				v-text-field(v-model="search" label="Фильтр" hide-details).filter
 	v-card(flat)
-		<!-- v&#45;card&#45;title -->
-		<!-- 	span Nutrition -->
-		<!-- 	v&#45;spacer -->
-		<!-- 	v&#45;text&#45;field(v&#45;model="search" append&#45;icon="search" label="Search" single&#45;line hide&#45;details) -->
 		v-data-table(:headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
@@ -21,7 +17,7 @@ div
 				<!-- 	or when the unique field is open to editing, etc. -->
 				<!-- tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow -->
 				tr(:key="itemKey(props.item)" :class="setClass(props)").sortableRow
-					td(class="px-1").drag
+					td(class="px-1" @click="props.item.unread = !props.item.unread").drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
 					td(@click="expand(props)" ) {{ props.item.title  }}
@@ -61,14 +57,13 @@ export default {
 			headers: [
 				{ 'id': 0, 'text': null, 'align': 'left', 'sortable': false, 'value': 'drag' },
 				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': false, 'value': 'title' },
-				{ 'id': 11, 'text': null, 'align': 'left', 'sortable': false, 'value': 'open' },
+				{ 'id': 8, 'text': null, 'align': 'left', 'sortable': false, 'value': 'open' },
 				{ 'id': 2, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
 				{ 'id': 3, 'text': 'Исполн.', 'align': 'left', 'sortable': true, 'value': 'executor' },
 				{ 'id': 4, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
 				{ 'id': 5, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
 				{ 'id': 6, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
 				{ 'id': 7, 'text': 'Вложения', 'align': 'left', 'sortable': true, 'value': 'files' }
-				// { 'id': 8, 'text': 'Описание', 'align': 'left', 'sortable': false, 'value': 'descr' }
 			]
 		}
 	},
@@ -144,10 +139,13 @@ export default {
 		setClass (e) {
 			if (e.expanded === true) {
 				return 'wide'
+			} else if (e.item.unread) {
+				return 'unread'
 			}
 		},
 		expand (e) {
 			e.expanded = !e.expanded
+			e.item.unread = false
 		}
 	}
 }
@@ -156,6 +154,7 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
+/* this remove row border in table */
 .application .theme--light.v-table tbody tr:not(:last-child), .theme--light .v-table tbody tr:not(:last-child) {
 	/* border-bottom: 1px solid rgba(0,0,0,.12); */
 	border-bottom: none;
@@ -203,6 +202,16 @@ tr.wide {
 	td {
 		border-top: 1px solid #ccc;
 	}
+}
+.unread {
+	td {
+		font-weight: bold;
+		color: $secondary;
+		&.drag {
+			background-color: $accent;
+		}
+	}
+
 }
 
 </style>
