@@ -72,6 +72,7 @@ export default {
 			size: 265,
 			width: 265,
 			height: 350,
+			filterSelection: '',
 			filterList: [ 'Новые', 'Просроченные', 'Важные', 'Создать фильтр...' ]
 		}
 	},

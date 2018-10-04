@@ -10,7 +10,7 @@ div
 		<!-- 	span Nutrition -->
 		<!-- 	v&#45;spacer -->
 		<!-- 	v&#45;text&#45;field(v&#45;model="search" append&#45;icon="search" label="Search" single&#45;line hide&#45;details) -->
-		v-data-table(:headers="headers" :items="items" :search="search" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems")
+		v-data-table(:headers="headers" :items="items" :search="search" disable-initial-sort :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
@@ -20,7 +20,7 @@ div
 				<!-- 	but often getting a unique value from the object's properties can be difficult, like when adding new rows, -->
 				<!-- 	or when the unique field is open to editing, etc. -->
 				tr(class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded")
-					td(class="px-1" style="width: 0.1%")
+					td(class="px-1").drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
 					td {{ props.item.title  }}
@@ -146,6 +146,25 @@ export default {
 }
 .nowrap {
 	white-space: nowrap;
+}
+
+.narrow {
+	width: 20px;
+	border: 1px solid red;
+}
+
+.px-1 {
+	/* border: 1px solid red; */
+	.v-btn {
+		margin: 0;
+	}
+}
+.drag {
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIUlEQVQYV2Ns2vj/f50/IyMDAwMDmPj///9/RhAAcWAAAN0pCAS0Z2yqAAAAAElFTkSuQmCC) repeat;
+	/* background-color: $info; */
+	height: 100%;
+	padding: 0 2px;
+	margin: 0;
 }
 
 </style>
