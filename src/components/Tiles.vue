@@ -166,6 +166,7 @@ export default {
 	}
 	.head {
 		font-weight: bold;
+		color: darken($accent, 30%);
 	}
 }
 .moving {

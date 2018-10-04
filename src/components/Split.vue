@@ -241,10 +241,11 @@ export default {
 
 .v-card.unread, .v-card.selected.unread {
 	.drag {
-		background-color: $accent;
+		background-color: darken($accent, 30%);
 	}
 	.head {
 		font-weight: bold;
+		color: darken($accent, 30%);
 	}
 }
 
@@ -280,7 +281,7 @@ export default {
 	.head {
 		font-size: 1rem;
 		flex-grow: 1;
-		color: $secondary;
+		/* color: $secondary; */
 	}
 	.fio {
 		width: 130px;
