@@ -55,8 +55,8 @@ export default {
 			currentItemKey: 0,
 			pagination: { sortBy: '' },
 			headers: [
-				{ 'id': 0, 'text': null, 'align': 'left', 'sortable': false, 'value': 'drag' },
-				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': false, 'value': 'title' },
+				{ 'id': 0, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
+				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
 				{ 'id': 8, 'text': null, 'align': 'left', 'sortable': false, 'value': 'open' },
 				{ 'id': 2, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
 				{ 'id': 3, 'text': 'Исполн.', 'align': 'left', 'sortable': true, 'value': 'executor' },
@@ -188,11 +188,7 @@ export default {
 	}
 }
 .drag {
-	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIUlEQVQYV2Ns2vj/f50/IyMDAwMDmPj///9/RhAAcWAAAN0pCAS0Z2yqAAAAAElFTkSuQmCC) repeat;
-	/* background-color: $info; */
-	height: 100%;
-	padding: 0 2px;
-	margin: 0;
+	border-left: 8px solid #fff;
 }
 .expand {
 	height: 300px;
@@ -207,8 +203,9 @@ tr.wide {
 	td {
 		font-weight: bold;
 		color: $secondary;
+		.v-btn .v-btn__content .v-icon { color: $info; }
 		&.drag {
-			background-color: $accent;
+			border-left: 8px solid $accent;
 		}
 	}
 
