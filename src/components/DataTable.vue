@@ -32,7 +32,8 @@ div
 					td(@click="expand(props)" ) {{ props.item.files  }}
 
 			template(slot="expand" slot-scope="props")
-				v-card(flat :key="itemKey(props.item) + '_expand'").expand something nested here {{ props.item.title  }}
+				v-card(flat :key="itemKey(props.item) + '_expand'").expand
+					ExpandItem(:props="props")
 			template(slot="no-results")
 				v-alert(:value="true" color="warning" icon="warning")
 					span Сорян, ничего подходящего не нашел :(
@@ -43,6 +44,7 @@ div
 
 <script>
 import Sortable from 'sortablejs'
+import ExpandItem from '@/components/ExpandItem'
 
 export default {
 	data () {
@@ -83,6 +85,9 @@ export default {
 				onEnd: this.dragReorder
 			}
 		)
+	},
+	components: {
+		ExpandItem
 	},
 	methods: {
 		toggleAll () {
@@ -188,10 +193,11 @@ export default {
 	}
 }
 .drag {
-	border-left: 8px solid #fff;
+	border-left: 8px solid transparent;
 }
 .expand {
 	height: 300px;
+	padding: 1rem;
 }
 tr.wide {
 	background: $grey;
