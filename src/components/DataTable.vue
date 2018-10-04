@@ -10,7 +10,7 @@ div
 		<!-- 	span Nutrition -->
 		<!-- 	v&#45;spacer -->
 		<!-- 	v&#45;text&#45;field(v&#45;model="search" append&#45;icon="search" label="Search" single&#45;line hide&#45;details) -->
-		v-data-table(:headers="headers" :items="items" :search="search" disable-initial-sort :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
+		v-data-table(:headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
@@ -37,8 +37,8 @@ div
 				v-alert(:value="true" color="warning" icon="warning")
 					span Сорян, ничего подходящего не нашел :(
 			template(slot="no-data")
-				v-alert(:value="true" color="error" icon="warning")
-					p Sorry, nothing to display here :(
+				v-alert(:value="true" color="warning" icon="warning")
+					span Sorry, nothing to display here :(
 </template>
 
 <script>
@@ -53,6 +53,7 @@ export default {
 			search: '',
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
+			pagination: { sortBy: '' },
 			headers: [
 				{ 'id': 0, 'text': '', 'align': 'left', 'sortable': false, 'value': '' },
 				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': false, 'value': 'title' },
@@ -98,7 +99,10 @@ export default {
 			}
 		},
 		dragReorder ({item, oldIndex, newIndex}) {
-			console.log('reorder', item, oldIndex, newIndex)
+			let newItems = this.items.sort(this.predicateBy(this.pagination.sortBy))
+			if (this.pagination.descending === true) {
+				newItems = newItems.reverse()
+			}
 			const nextSib = item.nextSibling
 			if (nextSib &&
 				nextSib.classList.contains('datatable__expand-row') &&
@@ -107,6 +111,18 @@ export default {
 			}
 			const movedItem = this.items.splice(oldIndex, 1)[0]
 			this.items.splice(newIndex, 0, movedItem)
+			this.$store.commit('setItems', newItems)
+			this.pagination.sortBy = ''
+		},
+		predicateBy (prop) {
+			return function (a, b) {
+				if (a[prop] > b[prop]) {
+					return 1
+				} else if (a[prop] < b[prop]) {
+					return -1
+				}
+				return 0
+			}
 		},
 		itemKey (item) {
 			if (!this.itemKeys.has(item)) this.itemKeys.set(item, ++this.currentItemKey)
