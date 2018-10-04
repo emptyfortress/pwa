@@ -24,6 +24,9 @@ div
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
 					td {{ props.item.title  }}
+					td
+						.open
+							i.icon-new-window
 					td.nowrap {{ props.item.author  }}
 					td {{ props.item.executor  }}
 					td.nowrap {{ props.item.deadline  }}
@@ -32,7 +35,7 @@ div
 					td {{ props.item.files  }}
 
 			template(slot="expand" slot-scope="props")
-				v-card(flat :key="itemKey(props.item) + '_expand'") something nested here {{ props.item.title  }}
+				v-card(flat :key="itemKey(props.item) + '_expand'").expand something nested here {{ props.item.title  }}
 			template(slot="no-results")
 				v-alert(:value="true" color="warning" icon="warning")
 					span Сорян, ничего подходящего не нашел :(
@@ -55,8 +58,9 @@ export default {
 			currentItemKey: 0,
 			pagination: { sortBy: '' },
 			headers: [
-				{ 'id': 0, 'text': '', 'align': 'left', 'sortable': false, 'value': '' },
+				{ 'id': 0, 'text': null, 'align': 'left', 'sortable': false, 'value': 'drag' },
 				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': false, 'value': 'title' },
+				{ 'id': 11, 'text': null, 'align': 'left', 'sortable': false, 'value': 'open' },
 				{ 'id': 2, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
 				{ 'id': 3, 'text': 'Исполн.', 'align': 'left', 'sortable': true, 'value': 'executor' },
 				{ 'id': 4, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
@@ -181,6 +185,9 @@ export default {
 	height: 100%;
 	padding: 0 2px;
 	margin: 0;
+}
+.expand {
+	height: 300px;
 }
 
 </style>
