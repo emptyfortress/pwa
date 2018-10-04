@@ -19,20 +19,21 @@ div
 				<!-- 	You could just use a property in the object with a unique value, like "props.item.name" in this case, -->
 				<!-- 	but often getting a unique value from the object's properties can be difficult, like when adding new rows, -->
 				<!-- 	or when the unique field is open to editing, etc. -->
-				tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow
+				<!-- tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow -->
+				tr(:key="itemKey(props.item)" :class="setClass(props)").sortableRow
 					td(class="px-1").drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td {{ props.item.title  }}
+					td(@click="expand(props)" ) {{ props.item.title  }}
 					td
 						.open
 							i.icon-new-window
-					td.nowrap {{ props.item.author  }}
-					td {{ props.item.executor  }}
-					td.nowrap {{ props.item.deadline  }}
-					td.nowrap {{ props.item.created  }}
-					td.nowrap {{ props.item.modified  }}
-					td {{ props.item.files  }}
+					td(@click="expand(props)" ).nowrap {{ props.item.author  }}
+					td(@click="expand(props)" ) {{ props.item.executor  }}
+					td(@click="expand(props)" ).nowrap {{ props.item.deadline  }}
+					td(@click="expand(props)" ).nowrap {{ props.item.created  }}
+					td(@click="expand(props)" ).nowrap {{ props.item.modified  }}
+					td(@click="expand(props)" ) {{ props.item.files  }}
 
 			template(slot="expand" slot-scope="props")
 				v-card(flat :key="itemKey(props.item) + '_expand'").expand something nested here {{ props.item.title  }}
@@ -139,6 +140,14 @@ export default {
 				this.pagination.sortBy = column
 				this.pagination.descending = false
 			}
+		},
+		setClass (e) {
+			if (e.expanded === true) {
+				return 'wide'
+			}
+		},
+		expand (e) {
+			e.expanded = !e.expanded
 		}
 	}
 }
