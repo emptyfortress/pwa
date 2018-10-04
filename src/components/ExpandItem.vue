@@ -1,9 +1,13 @@
 <template lang="pug">
-v-layout(row wrap)
-	v-flex(grow)
-		h2 {{ props.item.title }}
-	v-flex(xs4)
-		img(:src="require('@/assets/img/docs/img' + props.item.id + '.jpg')").preview
+div
+	v-layout(row wrap)
+		v-flex(xs8)
+			h2 {{ props.item.title }}
+			v-avatar(size=64)
+				img(:src="require('@/assets/img/user0.svg')").av
+			.descr {{ props.item.descr }}
+		v-flex(xs4)
+			img(:src="require('@/assets/img/docs/img' + props.item.id + '.jpg')").preview
 </template>
 
 <script>
@@ -27,12 +31,19 @@ export default {
 h2 {
 	font-weight: 400;
 	text-transform: uppercase;
-}
-.v-layout {
-	overflow: hidden;
+	margin-bottom: 1rem;
 }
 .preview {
 	width: 100%;
 	box-shadow: 0 0 5px #000000aa;
+}
+
+.descr {
+	font-size: 1.1rem;
+	margin-right: 1rem;
+}
+
+.av {
+	background: #eee;
 }
 </style>

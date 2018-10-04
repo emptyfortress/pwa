@@ -20,16 +20,16 @@ div
 					td(class="px-1" @click="props.item.unread = !props.item.unread").drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td(@click="expand(props)" ) {{ props.item.title  }}
+					td(@click="expand(props, $event)" ) {{ props.item.title  }}
 					td
 						.open
 							i.icon-new-window
-					td(@click="expand(props)" ).nowrap {{ props.item.author  }}
-					td(@click="expand(props)" ) {{ props.item.executor  }}
-					td(@click="expand(props)" ).nowrap {{ props.item.deadline  }}
-					td(@click="expand(props)" ).nowrap {{ props.item.created  }}
-					td(@click="expand(props)" ).nowrap {{ props.item.modified  }}
-					td(@click="expand(props)" ) {{ props.item.files  }}
+					td(@click="expand(props, $event)" ).nowrap {{ props.item.author  }}
+					td(@click="expand(props, $event)" ) {{ props.item.executor  }}
+					td(@click="expand(props, $event)" ).nowrap {{ props.item.deadline  }}
+					td(@click="expand(props, $event)" ).nowrap {{ props.item.created  }}
+					td(@click="expand(props, $event)" ).nowrap {{ props.item.modified  }}
+					td(@click="expand(props, $event)" ) {{ props.item.files  }}
 
 			template(slot="expand" slot-scope="props")
 				v-card(flat :key="itemKey(props.item) + '_expand'").expand
@@ -148,9 +148,13 @@ export default {
 				return 'unread'
 			}
 		},
-		expand (e) {
-			e.expanded = !e.expanded
-			e.item.unread = false
+		expand (e, i) {
+			if (i.shiftKey) {
+				console.log('shift')
+			} else {
+				e.expanded = !e.expanded
+				e.item.unread = false
+			}
 		}
 	}
 }
@@ -208,10 +212,10 @@ tr.wide {
 .unread {
 	td {
 		font-weight: bold;
-		color: $secondary;
-		.v-btn .v-btn__content .v-icon { color: $info; }
+		color: darken($accent, 30%);
+		.v-btn .v-btn__content .v-icon { color: darken($accent, 30%); }
 		&.drag {
-			border-left: 8px solid $accent;
+			border-left: 8px solid darken($accent, 30%);
 		}
 	}
 
