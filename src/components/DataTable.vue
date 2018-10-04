@@ -202,6 +202,7 @@ export default {
 .expand {
 	height: 300px;
 	padding: 1rem;
+	overflow-y: hidden;
 }
 tr.wide {
 	background: $grey;
