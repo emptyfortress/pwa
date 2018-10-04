@@ -19,7 +19,7 @@ div
 				<!-- 	You could just use a property in the object with a unique value, like "props.item.name" in this case, -->
 				<!-- 	but often getting a unique value from the object's properties can be difficult, like when adding new rows, -->
 				<!-- 	or when the unique field is open to editing, etc. -->
-				tr(class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded")
+				tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow
 					td(class="px-1").drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
@@ -188,6 +188,12 @@ export default {
 }
 .expand {
 	height: 300px;
+}
+tr.wide {
+	background: $grey;
+	td {
+		border-top: 1px solid #ccc;
+	}
 }
 
 </style>
