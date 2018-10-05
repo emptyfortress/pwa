@@ -3,7 +3,7 @@ v-app( :dark="night" ).rel
 	template( v-if="userLogged" )
 		v-navigation-drawer( v-model="leftDrawer" clipped floating app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerLeftContent /
-		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" ).white
+		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerRightContent /
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp"  )
@@ -16,8 +16,6 @@ v-app( :dark="night" ).rel
 				v-icon(v-if="view === 'split'") vertical_split
 				v-icon(v-if="view === 'table'") view_comfy
 			BottomSheet( narrow="true" )/
-			v-btn( icon @click.stop="changeTheme" )
-				v-icon brightness_4
 			v-btn( icon @click.stop="drawer1 = !drawer1" )
 				v-icon menu
 
@@ -52,7 +50,6 @@ export default {
 	name: 'App',
 	data () {
 		return {
-			night: false,
 			styleObject: {
 				marginTop: 0,
 				background: '#fff'
@@ -74,6 +71,9 @@ export default {
 		}
 	},
 	computed: {
+		night () {
+			return this.$store.getters.theme
+		},
 		view () {
 			return this.$store.getters.view
 		},
@@ -94,7 +94,7 @@ export default {
 			this.$vuetify.breakpoint.mdAndDown ? this.drawer = false : this.drawer = true
 		},
 		changeTheme () {
-			this.night = !this.night
+			this.$store.commit('toggleTheme')
 		},
 		toggleView () {
 			this.$store.commit('toggleView')

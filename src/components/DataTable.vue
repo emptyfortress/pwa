@@ -20,8 +20,8 @@ div
 					th(v-if="selectMode").px-0.pl-2
 						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
 					th(v-for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
-						v-icon( small ) arrow_upward
 						span {{ header.text }}
+						v-icon( small ) arrow_upward
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
@@ -38,15 +38,14 @@ div
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
 					td(@click="clickRow(props, $event)" ).px-0 {{ props.item.title  }}
-					td
-						.open
-							i.icon-new-window
 					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.author  }}
 					td(@click="clickRow(props, $event)" ) {{ props.item.executor  }}
 					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.deadline  }}
 					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.created  }}
 					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.modified  }}
 					td(@click="clickRow(props, $event)" ) {{ props.item.files  }}
+					td
+						i.icon-new-window
 
 			template(slot="expand" slot-scope="props")
 				v-card(flat :key="itemKey(props.item) + '_expand'").expand
@@ -78,13 +77,13 @@ export default {
 			headers: [
 				{ 'id': 0, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
 				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
-				{ 'id': 8, 'text': null, 'align': 'left', 'sortable': false, 'value': 'open' },
 				{ 'id': 2, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
 				{ 'id': 3, 'text': 'Исполн.', 'align': 'left', 'sortable': true, 'value': 'executor' },
 				{ 'id': 4, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
 				{ 'id': 5, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
 				{ 'id': 6, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
-				{ 'id': 7, 'text': 'Вложения', 'align': 'left', 'sortable': true, 'value': 'files' }
+				{ 'id': 7, 'text': 'Вложения', 'align': 'left', 'sortable': true, 'value': 'files' },
+				{ 'id': 8, 'text': null, 'align': 'left', 'sortable': false, 'value': 'open' }
 			]
 		}
 	},
@@ -269,4 +268,11 @@ tr.wide {
 	}
 }
 .icon-prev { font-style: normal; }
+
+/* td { border: 1px solid grey; } */
+
+.mytable th {
+	text-align: left;
+	padding-left: 0;
+}
 </style>

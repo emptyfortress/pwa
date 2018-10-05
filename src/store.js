@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
+		night: false,
 		user: null,
 		loading: false,
 		error: null,
@@ -30,6 +31,11 @@ export default new Vuex.Store({
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
 		setSelected (state, payload) { state.selected = payload },
+		toggleTheme (state) {
+			if (state.night === false) {
+				state.night = true
+			} else state.night = false
+		},
 		toggleView (state) {
 			if (state.view === 'tile') {
 				state.view = 'split'
@@ -57,6 +63,7 @@ export default new Vuex.Store({
 	},
 
 	getters: {
+		theme (state) { return state.night },
 		view (state) { return state.view },
 		currentFolder (state) { return state.currentFolder },
 		user (state) { return state.user },
