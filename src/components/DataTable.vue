@@ -46,7 +46,6 @@ div
 					td(@click="clickRow(props, $event)" ) {{ props.item.files  }}
 					td
 						i.icon-new-window
-
 			template(slot="expand" slot-scope="props")
 				v-card(flat :key="itemKey(props.item) + '_expand'").expand
 					ExpandItem(:props="props")
@@ -83,7 +82,7 @@ export default {
 				{ 'id': 5, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
 				{ 'id': 6, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
 				{ 'id': 7, 'text': 'Вложения', 'align': 'left', 'sortable': true, 'value': 'files' },
-				{ 'id': 8, 'text': null, 'align': 'left', 'sortable': false, 'value': 'open' }
+				{ 'id': 8, 'text': null, 'value': '' }
 			]
 		}
 	},

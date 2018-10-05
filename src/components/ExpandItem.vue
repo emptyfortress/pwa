@@ -12,24 +12,25 @@ div
 						span {{ props.item.created }}
 						span.status В работе
 			.descr {{ props.item.descr }}
+			<!-- .block -->
 			table.attr
 				tr
-					td Автор:
+					td.px-0 Автор:
 					td {{ props.item.author }}
 				tr
-					td Исполнитель:
+					td.px-0 Исполнитель:
 					td {{ props.item.executor }}
 				tr
-					td Создано:
+					td.px-0 Создано:
 					td {{ props.item.created }}
 				tr
-					td Изменено:
+					td.px-0 Изменено:
 					td {{ props.item.modified }}
 				tr
-					td Срок:
+					td.px-0 Срок:
 					td {{ props.item.deadline }}
 				tr
-					td Вложений:
+					td.px-0 Вложений:
 					td {{ props.item.files }}
 		v-flex(xs4)
 			img(:src="require('@/assets/img/docs/img' + props.item.id + '.jpg')" @click="front").preview
@@ -101,7 +102,6 @@ h2 {
 	td:first-child { text-align: right; }
 	td {
 		height: 20px;
-		padding: 0 10px;
 	}
 }
 
