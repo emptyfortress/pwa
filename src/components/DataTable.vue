@@ -17,19 +17,20 @@ div
 				<!-- 	or when the unique field is open to editing, etc. -->
 				<!-- tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow -->
 				tr(:key="itemKey(props.item)" :class="setClass(props)").sortableRow
-					td(class="px-1" @click="props.item.unread = !props.item.unread").drag
+					td(v-if="multiSelect") not
+					td(class="px-0" @click="props.item.unread = !props.item.unread").drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td(@click="expand(props, $event)" ) {{ props.item.title  }}
+					td(class="px-0" @click="clickRow(props, $event)" ) {{ props.item.title  }}
 					td
 						.open
 							i.icon-new-window
-					td(@click="expand(props, $event)" ).nowrap {{ props.item.author  }}
-					td(@click="expand(props, $event)" ) {{ props.item.executor  }}
-					td(@click="expand(props, $event)" ).nowrap {{ props.item.deadline  }}
-					td(@click="expand(props, $event)" ).nowrap {{ props.item.created  }}
-					td(@click="expand(props, $event)" ).nowrap {{ props.item.modified  }}
-					td(@click="expand(props, $event)" ) {{ props.item.files  }}
+					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.author  }}
+					td(@click="clickRow(props, $event)" ) {{ props.item.executor  }}
+					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.deadline  }}
+					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.created  }}
+					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.modified  }}
+					td(@click="clickRow(props, $event)" ) {{ props.item.files  }}
 
 			template(slot="expand" slot-scope="props")
 				v-card(flat :key="itemKey(props.item) + '_expand'").expand
@@ -53,6 +54,7 @@ export default {
 			row: 'Строк на странице',
 			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
 			search: '',
+			multiSelect: false,
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
 			pagination: { sortBy: '' },
@@ -148,8 +150,9 @@ export default {
 				return 'unread'
 			}
 		},
-		expand (e, i) {
+		clickRow (e, i) {
 			if (i.shiftKey) {
+				this.multiSelect = true
 				console.log('shift')
 			} else {
 				e.expanded = !e.expanded
