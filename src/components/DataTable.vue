@@ -1,12 +1,27 @@
 <template lang="pug">
 div
 	.panel
-		v-layout(row wrap)
-			v-spacer
-			v-flex(xs2)
-				v-text-field(v-model="search" label="Фильтр" hide-details).filter
-	v-card(flat)
-		v-data-table(:headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
+			v-layout(row)
+				v-slide-y-transition
+					.selectionPanel(v-if="selectMode")
+						v-btn(flat @click="closeSelection").mx-0.mt-2
+							i.icon-prev Назад
+						.quantity Выбрано
+							<!-- span {{quantity}} -->
+							span 0
+				v-spacer
+				v-flex(xs2)
+					v-text-field(v-model="search" label="Фильтр" hide-details).filter
+
+	v-card(flat).mt-2
+		v-data-table(v-model="selected" :headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
+			template(slot="headers" slot-scope="props")
+				tr
+					th(v-if="selectMode").px-0.pl-2
+						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
+					th(v-for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
+						v-icon( small ) arrow_upward
+						span {{ header.text }}
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
@@ -17,11 +32,12 @@ div
 				<!-- 	or when the unique field is open to editing, etc. -->
 				<!-- tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow -->
 				tr(:key="itemKey(props.item)" :class="setClass(props)").sortableRow
-					td(v-if="multiSelect") not
-					td(class="px-0" @click="props.item.unread = !props.item.unread").drag
+					td(v-if="selectMode").px-0.pl-2
+						v-checkbox(:input-value="props.selected" primary hide-details)
+					td(@click="props.item.unread = !props.item.unread").px-0.drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td(class="px-0" @click="clickRow(props, $event)" ) {{ props.item.title  }}
+					td(@click="clickRow(props, $event)" ).px-0 {{ props.item.title  }}
 					td
 						.open
 							i.icon-new-window
@@ -54,7 +70,8 @@ export default {
 			row: 'Строк на странице',
 			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
 			search: '',
-			multiSelect: false,
+			selected: [],
+			selectMode: false,
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
 			pagination: { sortBy: '' },
@@ -74,6 +91,13 @@ export default {
 	computed: {
 		items () {
 			return this.$store.getters.items
+		},
+		allRead () {
+			let items = this.$store.getters.items
+			let unreadItems = items.filter(item => item.unread)
+			if (unreadItems.length === 0) {
+				return false
+			} else return true
 		}
 	},
 	mounted () {
@@ -94,7 +118,7 @@ export default {
 	methods: {
 		toggleAll () {
 			if (this.selected.length) this.selected = []
-			else this.selected = this.desserts.slice()
+			else this.selected = this.items.slice()
 		},
 		dragStart ({item}) {
 			const nextSib = item.nextSibling
@@ -152,12 +176,15 @@ export default {
 		},
 		clickRow (e, i) {
 			if (i.shiftKey) {
-				this.multiSelect = true
+				this.selectMode = true
 				console.log('shift')
 			} else {
 				e.expanded = !e.expanded
 				e.item.unread = false
 			}
+		},
+		closeSelection () {
+			this.selectMode = false
 		}
 	}
 }
@@ -173,7 +200,7 @@ export default {
 }
 .panel {
 	padding: .0 1rem;
-	/* height: 3.5rem; */
+	height: 3.5rem;
 }
 .sortHandle {
 	color: #333;
@@ -222,7 +249,24 @@ tr.wide {
 			border-left: 8px solid darken($accent, 30%);
 		}
 	}
-
 }
 
+.selectionPanel {
+	display: flex;
+	div {
+		.left { margin-left: 1.5rem; margin-right: 2rem; }
+	}
+}
+.quantity {
+	font-size: 1.1rem;
+	margin-top: 0.7rem;
+	margin-left: 2rem;
+	font-weight: 300;
+	span {
+		margin-left: 1rem;
+		font-size: 1.5rem;
+		font-weight: 600;
+	}
+}
+.icon-prev { font-style: normal; }
 </style>
