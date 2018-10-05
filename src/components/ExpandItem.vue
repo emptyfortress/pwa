@@ -12,26 +12,39 @@ div
 						span {{ props.item.created }}
 						span.status В работе
 			.descr {{ props.item.descr }}
-			<!-- .block -->
-			table.attr
-				tr
-					td.px-0 Автор:
-					td {{ props.item.author }}
-				tr
-					td.px-0 Исполнитель:
-					td {{ props.item.executor }}
-				tr
-					td.px-0 Создано:
-					td {{ props.item.created }}
-				tr
-					td.px-0 Изменено:
-					td {{ props.item.modified }}
-				tr
-					td.px-0 Срок:
-					td {{ props.item.deadline }}
-				tr
-					td.px-0 Вложений:
-					td {{ props.item.files }}
+			.block
+				table.attr
+					tr
+						td.px-0 Автор:
+						td {{ props.item.author }}
+					tr
+						td.px-0 Исполнитель:
+						td {{ props.item.executor }}
+					tr
+						td.px-0 Создано:
+						td {{ props.item.created }}
+					tr
+						td.px-0 Изменено:
+						td {{ props.item.modified }}
+					tr
+						td.px-0 Срок:
+						td {{ props.item.deadline }}
+					tr
+						td.px-0 Вложений:
+						td {{ props.item.files }}
+				<!-- v&#45;spacer -->
+				table.attr.files
+					tr(v-for="file in files")
+						td.px-1 {{ file.id }}
+						td.px-1 {{ file.name }}
+						td.px-1.text-xs-right {{ file.size }}
+				v-spacer
+				.buttons.mr-5
+					v-btn(small color="info") В работу
+					v-btn(small color="accent") Делегировать
+					v-btn(small color="success") Согласовать
+					v-btn(small color="error") Отклонить
+
 		v-flex(xs4)
 			img(:src="require('@/assets/img/docs/img' + props.item.id + '.jpg')" @click="front").preview
 </template>
@@ -41,6 +54,12 @@ export default {
 	props: ['props'],
 	data () {
 		return {
+			files: [
+				{ id: 1, name: 'Договор с ООО "Ромашка".doc', size: '15 kB' },
+				{ id: 2, name: 'Смета расходов.xls', size: '5 kB' },
+				{ id: 3, name: 'Приложение к договору.pdf', size: '43 kB' },
+				{ id: 4, name: 'Список допущенных сотрудников.txt', size: '1 kB' }
+			]
 		}
 	},
 	computed: {
@@ -102,7 +121,29 @@ h2 {
 	td:first-child { text-align: right; }
 	td {
 		height: 20px;
+		white-space: nowrap;
 	}
+	&.files {
+		margin: 1rem 2rem;
+		color: $secondary;
+		td {
+			font-size: 1.1rem;
+		}
+	}
+}
+.buttons {
+	width: 150px;
+	.v-btn {
+		width: 100%;
+	}
+	&.pos {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+}
+.rel {
+	position: relative;
 }
 
 </style>
