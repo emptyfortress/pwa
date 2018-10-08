@@ -38,13 +38,8 @@ div
 					td(@click="props.item.unread = !props.item.unread").px-0.drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td(@click="clickRow(props, $event)" v-if="headers[1].active" ).px-0 {{ props.item.title  }}
-					td(@click="clickRow(props, $event)" v-if="headers[2].active" ).nowrap {{ props.item.author  }}
-					td(@click="clickRow(props, $event)" v-if="headers[3].active" ) {{ props.item.executor  }}
-					td(@click="clickRow(props, $event)" v-if="headers[4].active" ).nowrap {{ props.item.deadline  }}
-					td(@click="clickRow(props, $event)" v-if="headers[5].active" ).nowrap {{ props.item.created  }}
-					td(@click="clickRow(props, $event)" v-if="headers[6].active" ).nowrap {{ props.item.modified  }}
-					td(@click="clickRow(props, $event)" v-if="headers[7].active" ).text-xs-center {{ props.item.files  }}
+					td(v-for="header in headers" :key="header.value" v-if="header.text !== null && header.active" @click="clickRow(props, $event)" :class="header.class" )
+						span {{ props.item[header.value] }}
 					td
 						i.icon-new-window
 			template(slot="expand" slot-scope="props")
@@ -97,19 +92,23 @@ export default {
 			currentItemKey: 0,
 			pagination: { sortBy: '' },
 			headers: [
-				{ 'id': 0, 'active': true, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
-				{ 'id': 1, 'active': true, 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
-				{ 'id': 2, 'active': true, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
-				{ 'id': 3, 'active': true, 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
-				{ 'id': 4, 'active': true, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
-				{ 'id': 5, 'active': true, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
-				{ 'id': 6, 'active': true, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
-				{ 'id': 7, 'active': true, 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
-				{ 'id': 8, 'active': false, 'text': null, 'value': '', sortable: false }
+				{ 'id': 0, 'active': true, 'class': 'px-0', 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
+				{ 'id': 1, 'active': true, 'class': 'px-0', 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
+				{ 'id': 2, 'active': true, 'class': 'nowrap', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
+				{ 'id': 3, 'active': true, 'class': 'nowrap', 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
+				{ 'id': 4, 'active': true, 'class': 'nowrap', 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
+				{ 'id': 5, 'active': true, 'class': 'nowrap', 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
+				{ 'id': 6, 'active': true, 'class': 'nowrap', 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
+				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
+				{ 'id': 8, 'active': false,'class': '',  'text': null, 'value': '', sortable: false }
 			]
 		}
 	},
 	computed: {
+		test (e) {
+		 // return e.toString()
+		 return 1234
+		},
 		items () {
 			return this.$store.getters.items
 		},
