@@ -47,6 +47,7 @@ div
 
 		v-flex(xs4)
 			img(:src="require('@/assets/img/docs/img' + props.item.id + '.jpg')" @click="front").preview
+
 </template>
 
 <script>

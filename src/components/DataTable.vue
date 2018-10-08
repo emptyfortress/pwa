@@ -13,7 +13,8 @@ div
 				v-flex(xs2)
 					v-text-field(v-model="search" label="Фильтр" hide-details).filter
 
-	v-card(flat).mt-2
+	v-card(flat).mt-2.rel
+		v-icon( small @click="dialog = true" ).set settings
 		v-data-table(v-model="selected" :headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			template(slot="headers" slot-scope="props")
 				tr
@@ -21,7 +22,7 @@ div
 						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
 					th(v-for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
 						span {{ header.text }}
-						v-icon( small ) arrow_upward
+						v-icon( small v-if="header.sortable") arrow_upward
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
@@ -43,7 +44,7 @@ div
 					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.deadline  }}
 					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.created  }}
 					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.modified  }}
-					td(@click="clickRow(props, $event)" ) {{ props.item.files  }}
+					td(@click="clickRow(props, $event)" ).text-xs-center {{ props.item.files  }}
 					td
 						i.icon-new-window
 			template(slot="expand" slot-scope="props")
@@ -55,6 +56,25 @@ div
 			template(slot="no-data")
 				v-alert(:value="true" color="warning" icon="warning")
 					span Sorry, nothing to display here :(
+	v-dialog(v-model="dialog" width="350")
+		v-card
+			v-card-title(class="headline grey lighten-2" primary-title) Настроить колонки
+			v-list
+				v-list-tile(v-for="item in headers" :key="item.id" v-if="item.text !== null")
+					v-list-tile-action
+						v-checkbox(v-model="item.active")
+					v-list-tile-content
+						v-list-tile-title {{ item.text }}
+			v-divider
+			v-card-actions
+				v-spacer
+				v-btn(color="primary" flat @click="dialog = false") Отмена
+				v-btn(color="primary" flat @click="dialog = false") Сохранить
+	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).my
+		v-btn(color="info" @click="snackbar = false").but В работу
+		v-btn(color="accent" @click="snackbar = false").but Делегировать
+		v-btn(color="success" @click="snackbar = false").but Согласовать
+		v-btn(flat  @click="snackbar = false") Close
 </template>
 
 <script>
@@ -69,20 +89,23 @@ export default {
 			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
 			search: '',
 			selected: [],
+			snackbar: false,
+			dialog: false,
+			columnSetup: false,
 			selectMode: false,
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
 			pagination: { sortBy: '' },
 			headers: [
-				{ 'id': 0, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
-				{ 'id': 1, 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
-				{ 'id': 2, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
-				{ 'id': 3, 'text': 'Исполн.', 'align': 'left', 'sortable': true, 'value': 'executor' },
-				{ 'id': 4, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
-				{ 'id': 5, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
-				{ 'id': 6, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
-				{ 'id': 7, 'text': 'Вложения', 'align': 'left', 'sortable': true, 'value': 'files' },
-				{ 'id': 8, 'text': null, 'value': '' }
+				{ 'id': 0, 'active': true, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
+				{ 'id': 1, 'active': true, 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
+				{ 'id': 2, 'active': true, 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
+				{ 'id': 3, 'active': true, 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
+				{ 'id': 4, 'active': true, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
+				{ 'id': 5, 'active': true, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
+				{ 'id': 6, 'active': true, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
+				{ 'id': 7, 'active': false, 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
+				{ 'id': 8, 'active': false, 'text': null, 'value': '', sortable: false }
 			]
 		}
 	},
@@ -117,6 +140,7 @@ export default {
 		toggleAll () {
 			if (this.selected.length) this.selected = []
 			else this.selected = this.items.slice()
+			this.snackbar = !this.snackbar
 		},
 		dragStart ({item}) {
 			const nextSib = item.nextSibling
@@ -274,4 +298,18 @@ tr.wide {
 	text-align: left;
 	padding-left: 0;
 }
+
+.rel {
+	position: relative;
+	.set {
+		position: absolute;
+		top: 1.2rem;
+		right: 2rem;
+		cursor: pointer;
+	}
+}
+.but {
+	padding: 1rem;
+}
+
 </style>
