@@ -20,7 +20,7 @@ div
 				tr
 					th(v-if="selectMode").px-0.pl-2
 						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
-					th(v-for="header in props.headers" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
+					th(v-for="header in props.headers" v-if="header.active" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
 						span {{ header.text }}
 						v-icon( small v-if="header.sortable") arrow_upward
 			v-progress-linear(slot="progress" color="blue" indeterminate)
@@ -38,13 +38,13 @@ div
 					td(@click="props.item.unread = !props.item.unread").px-0.drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td(@click="clickRow(props, $event)" ).px-0 {{ props.item.title  }}
-					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.author  }}
-					td(@click="clickRow(props, $event)" ) {{ props.item.executor  }}
-					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.deadline  }}
-					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.created  }}
-					td(@click="clickRow(props, $event)" ).nowrap {{ props.item.modified  }}
-					td(@click="clickRow(props, $event)" ).text-xs-center {{ props.item.files  }}
+					td(@click="clickRow(props, $event)" v-if="headers[1].active" ).px-0 {{ props.item.title  }}
+					td(@click="clickRow(props, $event)" v-if="headers[2].active" ).nowrap {{ props.item.author  }}
+					td(@click="clickRow(props, $event)" v-if="headers[3].active" ) {{ props.item.executor  }}
+					td(@click="clickRow(props, $event)" v-if="headers[4].active" ).nowrap {{ props.item.deadline  }}
+					td(@click="clickRow(props, $event)" v-if="headers[5].active" ).nowrap {{ props.item.created  }}
+					td(@click="clickRow(props, $event)" v-if="headers[6].active" ).nowrap {{ props.item.modified  }}
+					td(@click="clickRow(props, $event)" v-if="headers[7].active" ).text-xs-center {{ props.item.files  }}
 					td
 						i.icon-new-window
 			template(slot="expand" slot-scope="props")
@@ -59,17 +59,16 @@ div
 	v-dialog(v-model="dialog" width="350")
 		v-card
 			v-card-title(class="headline grey lighten-2" primary-title) Настроить колонки
-			v-list
-				v-list-tile(v-for="item in headers" :key="item.id" v-if="item.text !== null")
-					v-list-tile-action
-						v-checkbox(v-model="item.active")
-					v-list-tile-content
-						v-list-tile-title {{ item.text }}
+			SlickList( :value="headers" :distance=2 @input="newColumn" helperClass="moving" )
+				v-list.ml-4
+					SlickItem(v-for="(item, index) in headers" :index="index" :key="item.id" :item="item" v-if="item.text !== null")
+						v-checkbox(v-model="item.active" :label="item.text")
 			v-divider
 			v-card-actions
 				v-spacer
 				v-btn(color="primary" flat @click="dialog = false") Отмена
 				v-btn(color="primary" flat @click="dialog = false") Сохранить
+
 	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).my
 		v-btn(color="info" @click="snackbar = false").but В работу
 		v-btn(color="accent" @click="snackbar = false").but Делегировать
@@ -80,6 +79,7 @@ div
 <script>
 import Sortable from 'sortablejs'
 import ExpandItem from '@/components/ExpandItem'
+import { SlickList, SlickItem } from 'vue-slicksort'
 
 export default {
 	data () {
@@ -104,7 +104,7 @@ export default {
 				{ 'id': 4, 'active': true, 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
 				{ 'id': 5, 'active': true, 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
 				{ 'id': 6, 'active': true, 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
-				{ 'id': 7, 'active': false, 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
+				{ 'id': 7, 'active': true, 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
 				{ 'id': 8, 'active': false, 'text': null, 'value': '', sortable: false }
 			]
 		}
@@ -134,9 +134,14 @@ export default {
 		)
 	},
 	components: {
-		ExpandItem
+		ExpandItem,
+		SlickList,
+		SlickItem
 	},
 	methods: {
+		newColumn (e) {
+			this.headers = e
+		},
 		toggleAll () {
 			if (this.selected.length) this.selected = []
 			else this.selected = this.items.slice()
@@ -312,4 +317,10 @@ tr.wide {
 	padding: 1rem;
 }
 
+.moving {
+	z-index: 1000;
+	display: block;
+	font-family: Roboto;
+	line-height: 150%;
+}
 </style>
