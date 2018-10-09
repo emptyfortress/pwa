@@ -29,7 +29,9 @@ div
 				v-card(flat tile slot="front" :class="item.unread ? 'unread' : ''" )
 					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 					.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-						img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="95%" ondragstart="return false;")
+						img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="95%" ondragstart="return false;" v-if="item.files")
+						img(:src="require('@/assets/img/docs/empty.png')" width="95%" ondragstart="return false;" v-if="!item.files").empty
+						.emptyTitle(v-if="!item.files") {{ item.title }}
 				v-card(flat tile slot="back" :class="item.unread ? 'unread' : ''" )
 					.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 					.vert-flex(v-bind:style="{width: computedWidth, height: computedHeight}")
@@ -295,6 +297,15 @@ i.big {
 }
 .menu:hover {
 	background: $grey;
+}
+.empty {
+	width: 100%;
+	margin: -10px 0;
+}
+.emptyTitle {
+	position: absolute;
+	bottom: 1rem;
+	left: 2rem;
 }
 
 </style>

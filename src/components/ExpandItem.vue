@@ -48,7 +48,7 @@ div
 						v-btn(small color="success") Согласовать
 						v-btn(small color="error") Отклонить
 
-		v-flex(xs4)
+		v-flex(xs4 v-if="props.item.files")
 			img(:src="require('@/assets/img/docs/img' + props.item.id + '.jpg')" @click="front").preview
 
 </template>
