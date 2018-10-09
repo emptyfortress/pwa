@@ -12,38 +12,41 @@ div
 						span {{ props.item.created }}
 						span.status В работе
 			.descr {{ props.item.descr }}
-			.block
-				table.attr
-					tr
-						td.px-0 Автор:
-						td {{ props.item.author }}
-					tr
-						td.px-0 Исполнитель:
-						td {{ props.item.executor }}
-					tr
-						td.px-0 Создано:
-						td {{ props.item.created }}
-					tr
-						td.px-0 Изменено:
-						td {{ props.item.modified }}
-					tr
-						td.px-0 Срок:
-						td {{ props.item.deadline }}
-					tr
-						td.px-0 Вложений:
-						td {{ props.item.files }}
+			v-layout( row wrap )
+				v-flex.block
+					table.attr
+						tr
+							td.px-0 Автор:
+							td {{ props.item.author }}
+						tr
+							td.px-0 Исполнитель:
+							td {{ props.item.executor }}
+						tr
+							td.px-0 Создано:
+							td {{ props.item.created }}
+						tr
+							td.px-0 Изменено:
+							td {{ props.item.modified }}
+						tr
+							td.px-0 Срок:
+							td {{ props.item.deadline }}
+						tr
+							td.px-0 Вложений:
+							td {{ props.item.files }}
 				<!-- v&#45;spacer -->
-				table.attr.files
-					tr(v-for="file in files")
-						td.px-1 {{ file.id }}
-						td.px-1 {{ file.name }}
-						td.px-1.text-xs-right {{ file.size }}
+				v-flex
+					table.attr.files
+						tr(v-for="file in files")
+							td.px-1 {{ file.id }}
+							td.px-1 {{ file.name }}
+							td.px-1.text-xs-right {{ file.size }}
 				v-spacer
-				.buttons.mr-5
-					v-btn(small color="info") В работу
-					v-btn(small color="accent") Делегировать
-					v-btn(small color="success") Согласовать
-					v-btn(small color="error") Отклонить
+				v-flex
+					.buttons.mr-5
+						v-btn(small color="info") В работу
+						v-btn(small color="accent") Делегировать
+						v-btn(small color="success") Согласовать
+						v-btn(small color="error") Отклонить
 
 		v-flex(xs4)
 			img(:src="require('@/assets/img/docs/img' + props.item.id + '.jpg')" @click="front").preview

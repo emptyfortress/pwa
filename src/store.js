@@ -18,7 +18,7 @@ export default new Vuex.Store({
 		tree: [],
 		items: [],
 		headers: [],
-		tile: false,
+		// tile: false,
 		selected: false
 	},
 	mutations: {
@@ -36,15 +36,18 @@ export default new Vuex.Store({
 				state.night = true
 			} else state.night = false
 		},
-		toggleView (state) {
-			if (state.view === 'tile') {
-				state.view = 'split'
-			} else if (state.view === 'split') {
-				state.view = 'table'
-			} else if (state.view === 'table') {
-				state.view = 'tile'
-			}
+		toggleView (state, payload) {
+			state.view = payload
 		},
+		// toggleView (state) {
+		// 	if (state.view === 'tile') {
+		// 		state.view = 'split'
+		// 	} else if (state.view === 'split') {
+		// 		state.view = 'table'
+		// 	} else if (state.view === 'table') {
+		// 		state.view = 'tile'
+		// 	}
+		// },
 		setFilter (state, payload) {
 			state.filter = payload
 		},

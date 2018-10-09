@@ -2,14 +2,15 @@
 div
 	.panel
 		v-layout(row wrap)
-			v-flex(xs2)
-				v-slider(v-model="size" min=200 max=1000 @input="changeWidth")
 			v-flex
 				v-slide-y-transition(mode="out-in")
-					v-tooltip(top debounce="1000")
-						v-btn(flat icon color="info" @click="clearUnread" v-if="allRead" slot="activator")
-							i.icon-done
-						span Сбросить новые
+					v-btn(flat @click="clearUnread" v-if="allRead" color="info") Сбросить новые
+				v-menu(v-model="filterSelection")
+					v-card(flat slot="activator")
+						span Новые
+					v-list
+						v-list-tile(v-for="(item, index) in filterList" :key="index").menu
+							v-list-tile-title {{item}}
 				v-slide-y-transition(mode="out-in")
 					v-tooltip(top key="one" v-if="filter !== 'unread'" )
 						v-btn(flat icon @click="setFilter('unread')" slot="activator").filter
@@ -19,12 +20,9 @@ div
 						v-btn(flat icon @click="setFilter('')" slot="activator").filter
 							i.icon-filter-remove
 						span Отменить фильтр
-				v-menu(v-model="filterSelection")
-					v-card(flat slot="activator")
-						span Новые
-					v-list
-						v-list-tile(v-for="(item, index) in filterList" :key="index").menu
-							v-list-tile-title {{item}}
+			v-spacer
+			v-flex(xs2)
+				v-slider(v-model="size" min=200 max=1000 @input="changeWidth")
 	SlickList( :value="items" axis="xy" :distance=2 helperClass="moving" @input="newArr").mygrid
 		SlickItem(ref="card" v-for="(item, index) in items" :index="index" :key="index" :item="item" v-bind:style="{width: computedWidth, height: computedHeight}").sli
 			vue-flip( :active-click="true" width="100%" :key="index" ).flip
@@ -280,6 +278,7 @@ i.big {
 .panel {
 	padding: .5rem 0;
 	height: 3.5rem;
+	padding-right: 2rem;
 }
 
 .box {

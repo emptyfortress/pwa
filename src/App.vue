@@ -11,10 +11,15 @@ v-app( :dark="night" ).rel
 				i.icon-ham-d
 			v-toolbar-title( v-text="currentFolder.text" )
 			v-spacer/
-			v-btn( icon @click="toggleView" )
-				v-icon(v-if="view === 'tile'") view_carousel
-				v-icon(v-if="view === 'split'") vertical_split
-				v-icon(v-if="view === 'table'") view_comfy
+			v-slide-y-transition(mode="out-in")
+				v-btn-toggle( v-model="switchView" class="transparent" v-if="$route.path !== '/'")
+					v-btn( :value="1" flat @click="toggleView('tile')")
+						v-icon view_carousel
+					v-btn(:value="2" flat  @click="toggleView('split')")
+						v-icon  vertical_split
+					v-btn(:value="3" flat  @click="toggleView('table')")
+						v-icon view_comfy
+
 			BottomSheet( narrow="true" )/
 			v-btn( icon @click.stop="drawer1 = !drawer1" )
 				v-icon menu
@@ -60,7 +65,7 @@ export default {
 			thre: 100,
 			drawer1: false,
 			sheet: false,
-			calc: 'test',
+			switchView: 1,
 			items: [
 				{ icon: 'bubble_chart', title: 'Home', to: '/' },
 				{ icon: 'bubble_chart', title: 'Post a cat', to: '/post' }
@@ -74,9 +79,18 @@ export default {
 		night () {
 			return this.$store.getters.theme
 		},
-		view () {
-			return this.$store.getters.view
-		},
+		// view () {
+		// 	return this.$store.getters.view
+		// },
+		// switchView () {
+		// 	if (this.view === 'tile') {
+		// 		return 1
+		// 	} else if (this.view === 'split') {
+		// 		return 2
+		// 	} else if (this.view === 'table') {
+		// 		return 3
+		// 	}
+		// },
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
@@ -96,8 +110,15 @@ export default {
 		changeTheme () {
 			this.$store.commit('toggleTheme')
 		},
-		toggleView () {
-			this.$store.commit('toggleView')
+		toggleView (e) {
+			if (e === 'tile') {
+				this.switchView = 1
+			} else if (e === 'split') {
+				this.switchView = 2
+			} else if (e === 'table') {
+				this.switchView = 3
+			}
+			this.$store.commit('toggleView', e)
 		}
 	},
 	components: {
@@ -118,6 +139,8 @@ export default {
 
 .rel {
 	position: relative;
+	/* background: red; */
+	/* background: url(/img/star-bg.jpg) no-repeat top left; */
 }
 
 .v-toolbar__title {
@@ -129,4 +152,7 @@ export default {
 	}
 }
 
+.v-btn--active {
+	background: #ccc;
+}
 </style>

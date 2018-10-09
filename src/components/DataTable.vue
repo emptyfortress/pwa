@@ -2,6 +2,8 @@
 div
 	.panel
 			v-layout(row)
+				v-slide-y-transition(mode="out-in")
+					v-btn(flat @click="clearUnread" v-if="allRead" color="info") Сбросить новые
 				v-slide-y-transition
 					.selectionPanel(v-if="selectMode")
 						v-btn(flat @click="closeSelection").mx-0.mt-2
@@ -14,7 +16,8 @@ div
 					v-text-field(v-model="search" label="Фильтр" hide-details).filter
 
 	v-card(flat).mt-2.rel
-		v-icon( small @click="dialog = true" ).set settings
+		.set( @click="dialog = true" )
+			i.icon-settings
 		v-data-table(v-model="selected" :headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			template(slot="headers" slot-scope="props")
 				tr
@@ -100,15 +103,11 @@ export default {
 				{ 'id': 5, 'active': true, 'class': 'nowrap', 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
 				{ 'id': 6, 'active': true, 'class': 'nowrap', 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
 				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
-				{ 'id': 8, 'active': false,'class': '',  'text': null, 'value': '', sortable: false }
+				{ 'id': 8, 'active': false, 'class': '', 'text': null, 'value': '', sortable: false }
 			]
 		}
 	},
 	computed: {
-		test (e) {
-		 // return e.toString()
-		 return 1234
-		},
 		items () {
 			return this.$store.getters.items
 		},
@@ -140,6 +139,12 @@ export default {
 	methods: {
 		newColumn (e) {
 			this.headers = e
+		},
+		clearUnread () {
+			let items = this.$store.getters.items
+			items.map(function (item) {
+				item.unread = 0
+			})
 		},
 		toggleAll () {
 			if (this.selected.length) this.selected = []
@@ -308,7 +313,7 @@ tr.wide {
 	.set {
 		position: absolute;
 		top: 1.2rem;
-		right: 2rem;
+		right: 2.1rem;
 		cursor: pointer;
 	}
 }
