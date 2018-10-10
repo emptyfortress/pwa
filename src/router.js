@@ -7,6 +7,7 @@ import Create from '@/views/Create'
 import Sound from '@/views/Sound'
 // import DetailView from '@/views/DetailView'
 import Folder from '@/views/Folder'
+import Archive from '@/views/Archive'
 import Detail from '@/components/Detail'
 
 Vue.use(Router)
@@ -32,6 +33,11 @@ export default new Router({
 			path: '/about',
 			name: 'about',
 			component: About
+		},
+		{
+			path: '/archive',
+			name: 'archive',
+			component: Archive
 		},
 		{
 			path: '/m/:id',

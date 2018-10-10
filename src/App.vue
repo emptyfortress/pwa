@@ -79,18 +79,6 @@ export default {
 		night () {
 			return this.$store.getters.theme
 		},
-		// view () {
-		// 	return this.$store.getters.view
-		// },
-		// switchView () {
-		// 	if (this.view === 'tile') {
-		// 		return 1
-		// 	} else if (this.view === 'split') {
-		// 		return 2
-		// 	} else if (this.view === 'table') {
-		// 		return 3
-		// 	}
-		// },
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
@@ -139,7 +127,6 @@ export default {
 
 .rel {
 	position: relative;
-	/* background: red; */
 	/* background: url(/img/star-bg.jpg) no-repeat top left; */
 }
 
