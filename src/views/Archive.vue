@@ -1,22 +1,38 @@
 <template lang="pug" >
-div.all
+div
 	.panel
-		v-slide-y-transition(mode="out-in")
-			v-flex(xs3 v-if="filterActive")
-				v-select(v-model="value" :items="items" label="Фильтр")
-		v-spacer
-		v-slide-y-transition(mode="out-in")
-			v-btn(flat v-if="filterActive" @click="filterActive = !filterActive" key='o') Применить фильтр
-			v-btn(flat v-if="!filterActive" @click="filterActive = !filterActive" key='a') Задать фильтр
+		v-layout( row wrap )
+			v-slide-y-transition(mode="out-in")
+				v-flex(xs2 v-if="state === 1" key='1')
+					v-select(v-model="e1" :items="e11" label="Фильтровать по").mx-3
+			v-slide-y-transition(mode="out-in")
+				v-layout(row wrap)
+					v-flex(xs4 v-if="state === 1 && e1 === 'Тип документа'" key='2')
+						v-select(v-model="e2" :items="e21" ).mx-3
+					v-flex(xs4 v-if="state === 1 && (e1 === 'Тип документа' || e1 === 'Дата')" key='3')
+						v-select(v-model="e3" :items="e31" ).mx-3
+			v-slide-y-transition(mode="out-in")
+				v-btn(flat v-if="state === 1" @click="state = 2" key='o') Применить фильтр
+				v-btn(flat v-if="state === 0" @click="state = 1" key='a') Задать фильтр
 	v-slide-y-reverse-transition(mode="out-in")
-		v-layout(align-center justify-center column fill-height v-if="filterActive" key="one")
-			p {{ value }}
-		v-layout(align-center justify-center column fill-height v-if="!filterActive" key="two")
+		v-layout(align-center justify-center column fill-height v-if="(state === 1) && (e1 === '')" key="one").vcenter
+			.zag За Последний месяц
+			v-layout( row wrap )
+				.butt(v-for="butt in buttons")
+					v-btn {{ butt }}
+			.zag.mt-5 За Последний квартал
+			v-layout( row wrap )
+				.butt(v-for="butt in buttons")
+					v-btn {{ butt }}
+
+		v-layout(align-center justify-center column fill-height v-if="state === 0" key="two").vcenter
 			.arc
-				p Архив содержит миллионы документов.
+				p Архив содержит миллионы документов
 				p
 					i.icon-archive
 				p Задайте критерии фильтра
+	<!-- p {{ typeof e1 }} -->
+	<!-- p {{ e2 }} -->
 
 </template>
 
@@ -24,9 +40,14 @@ div.all
 export default {
 	data () {
 		return {
-			filterActive: false,
-			items: [ 'Дата', 'Тип документа', 'Автор', 'Исполнитель', 'Сотрудник', 'Статус', 'Вложения' ],
-			value: [ 'Дата', 'Тип документа', 'Автор', 'Исполнитель', 'Сотрудник', 'Статус', 'Вложения' ]
+			state: 0,
+			e1: '',
+			e11: [ 'Дата', 'Тип документа', 'Автор', 'Исполнитель', 'Сотрудник', 'Статус', 'Вложения' ],
+			e2: 'Задание',
+			e21: ['Задание', 'Групповое задание', 'Документ', 'Карточка', 'Договор', 'Служебная записка'],
+			buttons: ['Я - автор', 'Я - исполнитель', 'Я - контролер', 'Договоры', 'Поручения', 'Служебки'],
+			e3: 'Последний месяц',
+			e31: ['Последний месяц', 'Последний квартал', 'Диапазон']
 		}
 	},
 	computed: {
@@ -41,11 +62,7 @@ export default {
 
 .panel {
 	padding: .5rem 1rem;
-	/* border-bottom: 1px dotted #ccc; */
-	/* height: 3.8rem; */
-	/* width: 100%; */
 	display: flex;
-	/* background: #ccc; */
 }
 .arc {
 	color: $grey2;
@@ -59,8 +76,13 @@ export default {
 		opacity: .7;
 	}
 }
-
-.all {
-	height: 100%;
+.vcenter {
+	margin-top: 200px;
 }
+.zag {
+	text-transform: uppercase;
+	font-size: 2rem;
+	font-weight: 300;
+}
+
 </style>
