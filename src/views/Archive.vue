@@ -36,7 +36,7 @@ div
 
 	v-layout( row wrap v-if="filterlist" )
 		v-flex
-			v-chip(v-model="chip1" color="info" text-color="white" close) {{ slot }}
+			v-chip(v-model="chip1" v-for="slot in slots" color="info" text-color="white" close) {{ slot }}
 
 	v-slide-y-reverse-transition(mode="out-in")
 		v-layout(align-center justify-center column fill-height v-if="start === '' && state === 1" key="one").vcenter
@@ -364,16 +364,10 @@ export default {
 			this.second = ''
 		},
 		addFilter () {
-			let slot1 = this.slot
 			this.filterlist = true
-			this.slots.push(slot1)
-			// this.reset()
-			// console.log(this.slot)
+			this.slots.push(this.slot)
+			this.reset()
 			// console.log(123)
-			setTimeout(function () {
-				this.start = ''
-				this.second = ''
-			}, 1500)
 		},
 		querySelections (v) {
 			this.personloading = true
