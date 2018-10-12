@@ -4,19 +4,29 @@ div
 		v-layout(row)
 			v-slide-y-transition(mode="out-in")
 				v-layout( row v-if="state === 1" key='1')
-					v-flex(xs6)
+					v-flex(xs4)
 						v-select(v-model="start" :items="filters" label="Фильтровать по").mx-3
 					v-slide-y-transition(mode="out-in")
 						v-menu(v-if="start === 'Дата создания'" ref="menu" :close-on-content-click="false" v-model="menu" :nudge-right="30" :return-value.sync="date" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px")
 							v-text-field(slot="activator" v-model="date" label="Год, месяц" prepend-icon="event" readonly)
-							v-date-picker(v-model="date" type="month" scrollable locale="ru-ru")
+							v-date-picker(v-model="date" type="month" multiple scrollable locale="ru-ru")
 								v-spacer
 								v-btn(flat color="primary" @click="menu = false") Отмена
 								v-btn(flat color="primary" @click="$refs.menu.save(date)") OK
-						v-flex(v-if="start === 'Автор'" xs6 v-else key='three')
-							v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" v-model="select" solo background-color="grey" cache-items class="mx-3" flat hide-no-data hide-details label="Начните печатать")
-						v-flex(xs6 v-else key='two')
+						v-flex(v-if="start === 'Автор' || start === 'Исполнитель' || start === 'Сотрудник'" xs6 v-else key='three')
+							v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" v-model="select" solo background-color="grey" cache-items class="mx-3" flat hide-no-data hide-details label="Искать в справочнике")
+								template( slot="item" slot-scope="{ item, tile }" )
+									v-list-tile-avatar
+										img(:src="require('@/assets/img/user0.svg')").av
+									v-list-tile-content
+										v-list-tile-title {{ item }}
+										v-list-tile-subtitle.small отдел, департамент
+						v-flex(xs7 v-else key='two')
 							v-select(v-model="second" multiple :items="value" label="Значение").mx-3
+					v-slide-y-transition(mode="out-in")
+						v-flex(v-if="start !== ''" key="close")
+							v-btn(flat icon @click='reset')
+								v-icon close
 			v-spacer
 			v-slide-y-transition(mode="out-in")
 				v-btn(flat v-if="state === 2" @click="state = 2" key='3') Применить фильтр
@@ -24,7 +34,7 @@ div
 				v-btn(flat v-if="state === 0" @click="state = 1" key='5') Задать фильтр
 
 	v-slide-y-reverse-transition(mode="out-in")
-		v-layout(align-center justify-center column fill-height v-if="state === 1" key="one").vcenter
+		v-layout(align-center justify-center column fill-height v-if="start === '' && state === 1" key="one").vcenter
 			.zag За Последний месяц
 			v-layout( row wrap )
 				.butt(v-for="butt in buttons")
@@ -40,9 +50,6 @@ div
 				p
 					i.icon-archive
 				p Задайте критерии фильтра
-	<!-- p {{ typeof e1 }} -->
-	<!-- p {{ e2 }} -->
-
 </template>
 
 <script>
@@ -63,8 +70,258 @@ export default {
 			buttons: ['Я - автор', 'Я - исполнитель', 'Я - контролер', 'Договоры', 'Поручения', 'Служебки'],
 			filters: [ 'Тип документа', 'Дата создания', 'Автор', 'Исполнитель', 'Сотрудник', 'Статус' ],
 			stat: [ 'Согласовано', 'Согласовано с замечаниями', 'Делегировано', 'Отклонено', 'В работе' ],
-			persons: [ 'one', 'alskd', 'laksjd', 'laskjd', 'als', 'two', 'three', 'four', 'five', 'six', 'seven' ]
-
+			persons: [
+				'Абрамов',
+				'Авдеев',
+				'Агафонов',
+				'Аксёнов',
+				'Александров',
+				'Алексеев',
+				'Андреев',
+				'Анисимов',
+				'Антонов',
+				'Артемьев',
+				'Архипов',
+				'Афанасьев',
+				'Баранов',
+				'Белов',
+				'Белозёров',
+				'Белоусов',
+				'Беляев',
+				'Беляков',
+				'Беспалов',
+				'Бирюков',
+				'Блинов',
+				'Блохин',
+				'Бобров',
+				'Бобылёв',
+				'Богданов',
+				'Большаков',
+				'Борисов',
+				'Брагин',
+				'Буров',
+				'Быков',
+				'Васильев',
+				'Веселов',
+				'Виноградов',
+				'Вишняков',
+				'Владимиров',
+				'Власов',
+				'Волков',
+				'Воробьёв',
+				'Воронов',
+				'Воронцов',
+				'Гаврилов',
+				'Галкин',
+				'Герасимов',
+				'Голубев',
+				'Горбачёв',
+				'Горбунов',
+				'Гордеев',
+				'Горшков',
+				'Григорьев',
+				'Гришин',
+				'Громов',
+				'Гуляев',
+				'Гурьев',
+				'Гусев',
+				'Гущин',
+				'Давыдов',
+				'Данилов',
+				'Дементьев',
+				'Денисов',
+				'Дмитриев',
+				'Доронин',
+				'Дорофеев',
+				'Дроздов',
+				'Дьячков',
+				'Евдокимов',
+				'Евсеев',
+				'Егоров',
+				'Елисеев',
+				'Емельянов',
+				'Ермаков',
+				'Ершов',
+				'Ефимов',
+				'Ефремов',
+				'Жданов',
+				'Жуков',
+				'Журавлёв',
+				'Зайцев',
+				'Захаров',
+				'Зимин',
+				'Зиновьев',
+				'Зуев',
+				'Зыков',
+				'Иванов',
+				'Игнатов',
+				'Игнатьев',
+				'Ильин',
+				'Исаев',
+				'Исаков',
+				'Кабанов',
+				'Казаков',
+				'Калашников',
+				'Калинин',
+				'Капустин',
+				'Карпов',
+				'Кириллов',
+				'Киселёв',
+				'Князев',
+				'Ковалёв',
+				'Козлов',
+				'Колесников',
+				'Колобов',
+				'Комаров',
+				'Комиссаров',
+				'Кондратьев',
+				'Коновалов',
+				'Кононов',
+				'Константинов',
+				'Копылов',
+				'Корнилов',
+				'Королёв',
+				'Костин',
+				'Котов',
+				'Кошелев',
+				'Красильников',
+				'Крылов',
+				'Крюков',
+				'Кудрявцев',
+				'Кудряшов',
+				'Кузнецов',
+				'Кузьмин',
+				'Кулагин',
+				'Кулаков',
+				'Куликов',
+				'Лаврентьев',
+				'Лазарев',
+				'Лапин',
+				'Ларионов',
+				'Лебедев',
+				'Лихачёв',
+				'Лобанов',
+				'Логинов',
+				'Лукин',
+				'Лыткин',
+				'Макаров',
+				'Максимов',
+				'Мамонтов',
+				'Марков',
+				'Мартынов',
+				'Маслов',
+				'Матвеев',
+				'Медведев',
+				'Мельников',
+				'Меркушев',
+				'Миронов',
+				'Михайлов',
+				'Михеев',
+				'Мишин',
+				'Моисеев',
+				'Молчанов',
+				'Морозов',
+				'Муравьёв',
+				'Мухин',
+				'Мясников',
+				'Назаров',
+				'Наумов',
+				'Некрасов',
+				'Нестеров',
+				'Никитин',
+				'Никифоров',
+				'Николаев',
+				'Никонов',
+				'Новиков',
+				'Носков',
+				'Носов',
+				'Овчинников',
+				'Одинцов',
+				'Орехов',
+				'Орлов',
+				'Осипов',
+				'Павлов',
+				'Панов',
+				'Панфилов',
+				'Пахомов',
+				'Пестов',
+				'Петров',
+				'Петухов',
+				'Поляков',
+				'Пономарёв',
+				'Попов',
+				'Потапов',
+				'Прохоров',
+				'Рогов',
+				'Родионов',
+				'Рожков',
+				'Романов',
+				'Русаков',
+				'Рыбаков',
+				'Рябов',
+				'Савельев',
+				'Савин',
+				'Сазонов',
+				'Самойлов',
+				'Самсонов',
+				'Сафонов',
+				'Селезнёв',
+				'Селиверстов',
+				'Семёнов',
+				'Сергеев',
+				'Сидоров',
+				'Силин',
+				'Симонов',
+				'Ситников',
+				'Смирнов',
+				'Соболев',
+				'Соколов',
+				'Соловьёв',
+				'Сорокин',
+				'Степанов',
+				'Стрелков',
+				'Субботин',
+				'Суворов',
+				'Суханов',
+				'Сысоев',
+				'Тарасов',
+				'Терентьев',
+				'Тетерин',
+				'Тимофеев',
+				'Титов',
+				'Тихонов',
+				'Третьяков',
+				'Трофимов',
+				'Туров',
+				'Уваров',
+				'Устинов',
+				'Фадеев',
+				'Федосеев',
+				'Федотов',
+				'Филатов',
+				'Филиппов',
+				'Фокин',
+				'Фомин',
+				'Фомичёв',
+				'Фролов',
+				'Фёдоров',
+				'Харитонов',
+				'Хохлов',
+				'Цветков',
+				'Чернов',
+				'Шарапов',
+				'Шаров',
+				'Шашков',
+				'Шестаков',
+				'Шилов',
+				'Ширяев',
+				'Шубин',
+				'Щербаков',
+				'Щукин',
+				'Юдин',
+				'Яковлев',
+				'Якушев'
+			]
 		}
 	},
 	watch: {
@@ -80,6 +337,10 @@ export default {
 		}
 	},
 	methods: {
+		reset () {
+			this.start = ''
+			this.second = ''
+		},
 		querySelections (v) {
 			this.personloading = true
 			// Simulated ajax query
@@ -123,6 +384,19 @@ export default {
 	text-transform: uppercase;
 	font-size: 2rem;
 	font-weight: 300;
+}
+.application .theme--light.v-list .v-list__tile__mask, .theme--light .v-list .v-list__tile__mask {
+	color: #fff;
+	background: #333;
+}
+
+.av {
+	background: $grey;
+}
+.small {
+	font-size: .8rem;
+	color: $grey2;
+	font-style: italic;
 }
 
 </style>
