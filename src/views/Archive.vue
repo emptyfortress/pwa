@@ -14,13 +14,14 @@ div
 								v-btn(flat color="primary" @click="menu = false") Отмена
 								v-btn(flat color="primary" @click="$refs.menu.save(date)") OK
 						v-flex(v-if="start === 'Автор' || start === 'Исполнитель' || start === 'Сотрудник'" xs6 v-else key='three')
-							v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" v-model="select" solo background-color="grey" cache-items class="mx-3" flat hide-no-data hide-details label="Искать в справочнике")
+							v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" v-model="select" solo multiple chips deletable-chips background-color="grey" cache-items class="mx-3" flat hide-no-data hide-details label="Искать в справочнике")
 								template( slot="item" slot-scope="{ item, tile }" )
 									v-list-tile-avatar
 										img(:src="require('@/assets/img/user0.svg')").av
 									v-list-tile-content
 										v-list-tile-title {{ item }}
-										v-list-tile-subtitle.small отдел, департамент
+										v-list-tile-sub-title.small отдел, департамент
+						<!-- v&#45;flex(xs7 v&#45;if="start === 'Тип документа' || start === 'Статус'" key='two') -->
 						v-flex(xs7 v-else key='two')
 							v-select(v-model="second" multiple :items="value" label="Значение").mx-3
 					v-slide-y-transition(mode="out-in")
@@ -29,9 +30,13 @@ div
 								v-icon close
 			v-spacer
 			v-slide-y-transition(mode="out-in")
-				v-btn(flat v-if="state === 2" @click="state = 2" key='3') Применить фильтр
-				v-btn(flat v-if="state === 1" @click="state = 1" key='k4') Добавить фильтр
+				<!-- v&#45;btn(flat v&#45;if="state === 2" @click="state = 2" key='3') Применить фильтр -->
+				v-btn(flat v-if="state === 1" @click="addFilter" key='k4') Добавить фильтр
 				v-btn(flat v-if="state === 0" @click="state = 1" key='5') Задать фильтр
+
+	v-layout( row wrap v-if="filterlist" )
+		v-flex
+			v-chip(v-model="chip1" color="info" text-color="white" close) {{ slot }}
 
 	v-slide-y-reverse-transition(mode="out-in")
 		v-layout(align-center justify-center column fill-height v-if="start === '' && state === 1" key="one").vcenter
@@ -56,11 +61,17 @@ div
 export default {
 	data () {
 		return {
+			chip1: true,
+			chip2: false,
+			chip3: false,
+			chip4: false,
 			state: 0,
 			menu: false,
 			date: null,
 			start: '',
 			second: '',
+			filterlist: false,
+			slots: [],
 			personloading: false,
 			search: null,
 			items: [],
@@ -330,6 +341,17 @@ export default {
 		}
 	},
 	computed: {
+		slot () {
+			let two = ''
+			if (this.second) {
+				two = this.second
+			} else if (this.select) {
+				two = this.select
+			} else if (this.date) {
+				two = this.date
+			}
+			return this.start + ': ' + two
+		},
 		value () {
 			if (this.start === 'Тип документа') return this.doc
 			else if (this.start === 'Дата создания') return this.srok
@@ -340,6 +362,18 @@ export default {
 		reset () {
 			this.start = ''
 			this.second = ''
+		},
+		addFilter () {
+			let slot1 = this.slot
+			this.filterlist = true
+			this.slots.push(slot1)
+			// this.reset()
+			// console.log(this.slot)
+			// console.log(123)
+			setTimeout(function () {
+				this.start = ''
+				this.second = ''
+			}, 1500)
 		},
 		querySelections (v) {
 			this.personloading = true
