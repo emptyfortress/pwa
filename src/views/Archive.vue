@@ -9,10 +9,10 @@ div
 					v-slide-y-transition(mode="out-in")
 						v-menu(v-if="start === 'Дата создания'" ref="menu" :close-on-content-click="false" v-model="menu" :nudge-right="30" :return-value.sync="date" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px" key="five")
 							v-text-field(slot="activator" v-model="date" label="Год, месяц" prepend-icon="event" readonly)
-							v-date-picker(v-model="date" type="month" multiple scrollable locale="ru-ru")
-								v-spacer
-								v-btn(flat color="primary" @click="menu = false") Отмена
-								v-btn(flat color="primary" @click="$refs.menu.save(date)") OK
+							v-date-picker(v-model="date" type="month" @input="$refs.menu.save(date)" scrollable locale="ru-ru")
+								<!-- v&#45;spacer -->
+								<!-- v&#45;btn(flat color="primary" @click="menu = false") Отмена -->
+								<!-- v&#45;btn(flat color="primary" @click="$refs.menu.save(date)") OK -->
 						v-flex(v-if="start === 'Автор' || start === 'Исполнитель' || start === 'Сотрудник'" xs6 key='three')
 							v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" v-model="select" solo multiple chips deletable-chips background-color="grey" cache-items class="mx-3" flat hide-no-data hide-details label="Искать в справочнике")
 								template( slot="item" slot-scope="{ item, tile }" )
@@ -36,7 +36,8 @@ div
 			v-flex
 				v-chip(v-for="(slot, index) in slots" :key="index" @input="remove(slot)" color="info" text-color="white" close) {{ slot }}
 			v-spacer
-			v-btn(flat @click="state = 2" key='3') Применить фильтр
+			v-btn(flat key='3' @click="saveFilter") Сохранить
+			v-btn(flat @click="state = 2" key='4') Применить фильтр
 
 	v-layout(align-center justify-center column v-if="state === 1" key="two")
 		.arc
@@ -47,7 +48,10 @@ div
 
 	v-slide-y-reverse-transition(mode="out-in")
 		v-container
-			v-layout(column fill-height v-if="state === 1" key="one")
+			v-layout(column fill-height v-if="state > 0" key="one")
+				v-layout( row wrap v-if="state === 3" )
+					.butt
+						v-btn(flat) {{ slotsString }}
 				v-layout( row wrap align-center )
 					.zag
 						span За Последний месяц
@@ -73,6 +77,7 @@ export default {
 			second: '',
 			filterlist: false,
 			slots: [],
+			slotsString: '',
 			personloading: false,
 			search: null,
 			items: [],
@@ -369,6 +374,9 @@ export default {
 		}
 	},
 	methods: {
+		saveFilter () {
+			this.state = 3
+		},
 		remove (item) {
 			this.slots.splice(this.slots.indexOf(item), 1)
 			this.slots = [...this.slots]
@@ -382,6 +390,7 @@ export default {
 		addFilter () {
 			this.filterlist = true
 			this.slots.push(this.slot)
+			this.slotsString = this.slots.toString()
 			this.reset()
 			this.state = 2
 		},
@@ -431,6 +440,7 @@ export default {
 .zag {
 	text-transform: uppercase;
 	font-size: .8rem;
+	width: 180px;
 	span {
 		background: #999;
 		color: #fff;
