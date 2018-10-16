@@ -5,7 +5,7 @@ v-app( :dark="night" ).rel
 			DrawerLeftContent /
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerRightContent /
-		v-navigation-drawer( v-model="drawer2" hide-overlay temporary right floating app width="600" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" ).add
+		.add( v-if="drawer2")
 			h2 Add task
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp"  )
@@ -158,7 +158,7 @@ export default {
 	position: fixed;
 	bottom: 2rem;
 	right: 2rem;
-	z-index: 100;
+	z-index: 2;
 	i {
 		transition: all .3s ease;
 	}
@@ -168,9 +168,18 @@ export default {
 		}
 	}
 }
+.add {
+	width: 600px;
+	height: 300px;
+	background: #fff;
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	z-index: 1;
+}
 
-.application.theme--light .v-navigation-drawer.add {
+/* .application.theme--light .v-navigation-drawer.add { */
 	/* height: 50%; */
 	/* background: #fff; */
-}
+/* } */
 </style>
