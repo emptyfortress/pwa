@@ -5,6 +5,8 @@ v-app( :dark="night" ).rel
 			DrawerLeftContent /
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerRightContent /
+		v-navigation-drawer( v-model="drawer2" hide-overlay temporary right floating app width="600" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" ).add
+			h2 Add task
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp"  )
 			v-btn( icon @click.stop="leftDrawer = !leftDrawer")
@@ -42,6 +44,10 @@ v-app( :dark="night" ).rel
 
 	template( v-else )
 		Login
+
+	<!-- ActionButton().fab -->
+	v-btn( fab dark large color="info" @click="toggleTask" :class="drawer2 ? 'rotate' : ''" ).fab
+		v-icon(dark) add
 </template>
 
 <script>
@@ -50,6 +56,7 @@ import DrawerLeftContent from '@/components/DrawerLeftContent'
 import DrawerRightContent from '@/components/DrawerRightContent'
 import BottomSheet from '@/components/BottomSheet'
 import Login from '@/views/Login'
+// import ActionButton from '@/components/ActionButton'
 
 export default {
 	name: 'App',
@@ -64,6 +71,7 @@ export default {
 			leftDrawer: false,
 			thre: 100,
 			drawer1: false,
+			drawer2: false,
 			sheet: false,
 			switchView: 1,
 			items: [
@@ -88,6 +96,9 @@ export default {
 		}
 	},
 	methods: {
+		toggleTask () {
+			this.drawer2 = !this.drawer2
+		},
 		back () {
 			this.$router.go(-1)
 		},
@@ -114,6 +125,7 @@ export default {
 		DrawerLeftContent,
 		DrawerRightContent,
 		Login
+		// ActionButton
 	}
 }
 </script>
@@ -141,5 +153,24 @@ export default {
 
 .v-btn--active {
 	background: #ccc;
+}
+.fab {
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	z-index: 100;
+	i {
+		transition: all .3s ease;
+	}
+	&.rotate {
+		i {
+			transform: rotate(135deg);
+		}
+	}
+}
+
+.application.theme--light .v-navigation-drawer.add {
+	/* height: 50%; */
+	/* background: #fff; */
 }
 </style>

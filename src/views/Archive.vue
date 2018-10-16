@@ -37,7 +37,7 @@ div
 				v-chip(v-for="(slot, index) in slots" :key="index" @input="remove(slot)" color="info" text-color="white" close) {{ slot }}
 			v-spacer
 			v-btn(flat key='3' @click="saveFilter") Сохранить
-			v-btn(flat @click="state = 2" key='4') Применить фильтр
+			v-btn(flat @click="applyFilter" key='4') Применить фильтр
 
 	v-layout(align-center justify-center column v-if="state === 1" key="two")
 		.arc
@@ -63,6 +63,9 @@ div
 					.butt(v-for="butt in buttons")
 						v-btn(flat) {{ butt }}
 
+	v-slide-y-transition(mode="out-in")
+		router-view
+
 </template>
 
 <script>
@@ -75,7 +78,6 @@ export default {
 			date: null,
 			start: '',
 			second: '',
-			filterlist: false,
 			slots: [],
 			slotsString: '',
 			personloading: false,
@@ -374,6 +376,9 @@ export default {
 		}
 	},
 	methods: {
+		applyFilter () {
+			this.$router.push('/filtered')
+		},
 		saveFilter () {
 			this.state = 3
 		},
@@ -388,7 +393,6 @@ export default {
 			this.select = null
 		},
 		addFilter () {
-			this.filterlist = true
 			this.slots.push(this.slot)
 			this.slotsString = this.slots.toString()
 			this.reset()
