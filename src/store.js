@@ -18,7 +18,7 @@ export default new Vuex.Store({
 		tree: [],
 		items: [],
 		headers: [],
-		// tile: false,
+		addTask: false,
 		selected: false
 	},
 	mutations: {
@@ -38,6 +38,9 @@ export default new Vuex.Store({
 		},
 		toggleView (state, payload) {
 			state.view = payload
+		},
+		toggleAddTask (state) {
+			state.addTask = !state.addTask
 		},
 		// toggleView (state) {
 		// 	if (state.view === 'tile') {
@@ -78,6 +81,7 @@ export default new Vuex.Store({
 		headers (state) { return state.headers },
 		filter (state) { return state.filter },
 		selected (state) { return state.selected },
+		addTask (state) { return state.addTask },
 		currentItem (state) {
 			return (itemId) => {
 				return state.items.find(item => {

@@ -5,8 +5,6 @@ v-app( :dark="night" ).rel
 			DrawerLeftContent /
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerRightContent /
-		.add( v-if="drawer2")
-			h2 Add task
 
 		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp"  )
 			v-btn( icon @click.stop="leftDrawer = !leftDrawer")
@@ -45,8 +43,14 @@ v-app( :dark="night" ).rel
 	template( v-else )
 		Login
 
+	v-scale-transition(origin="bottom right 0")
+		AddTask(v-if="addTask")
+		<!-- drag&#45;it&#45;dude(v&#45;if="addTask") -->
+		<!-- 	.add -->
+		<!-- 		h2 Add task -->
+
 	<!-- ActionButton().fab -->
-	v-btn( fab dark large color="info" @click="toggleTask" :class="drawer2 ? 'rotate' : ''" ).fab
+	v-btn( fab dark large color="info" @click="toggleTask" :class="addTask ? 'rotate' : ''" ).fab
 		v-icon(dark) add
 </template>
 
@@ -56,6 +60,8 @@ import DrawerLeftContent from '@/components/DrawerLeftContent'
 import DrawerRightContent from '@/components/DrawerRightContent'
 import BottomSheet from '@/components/BottomSheet'
 import Login from '@/views/Login'
+import AddTask from '@/components/AddTask'
+// import DragItDude from 'vue-drag-it-dude'
 // import ActionButton from '@/components/ActionButton'
 
 export default {
@@ -71,7 +77,6 @@ export default {
 			leftDrawer: false,
 			thre: 100,
 			drawer1: false,
-			drawer2: false,
 			sheet: false,
 			switchView: 1,
 			items: [
@@ -84,6 +89,9 @@ export default {
 		}
 	},
 	computed: {
+		addTask () {
+			return this.$store.getters.addTask
+		},
 		night () {
 			return this.$store.getters.theme
 		},
@@ -97,7 +105,8 @@ export default {
 	},
 	methods: {
 		toggleTask () {
-			this.drawer2 = !this.drawer2
+			this.$store.commit('toggleAddTask')
+			// this.addTask = !this.addTask
 		},
 		back () {
 			this.$router.go(-1)
@@ -124,13 +133,16 @@ export default {
 		BottomSheet,
 		DrawerLeftContent,
 		DrawerRightContent,
-		Login
+		Login,
+		AddTask
+		// DragItDude
 		// ActionButton
 	}
 }
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/css/colors.scss';
 
 .my {
 	position: fixed;
@@ -158,7 +170,7 @@ export default {
 	position: fixed;
 	bottom: 2rem;
 	right: 2rem;
-	z-index: 2;
+	z-index: 4;
 	i {
 		transition: all .3s ease;
 	}
@@ -168,18 +180,5 @@ export default {
 		}
 	}
 }
-.add {
-	width: 600px;
-	height: 300px;
-	background: #fff;
-	position: fixed;
-	bottom: 1rem;
-	right: 1rem;
-	z-index: 1;
-}
 
-/* .application.theme--light .v-navigation-drawer.add { */
-	/* height: 50%; */
-	/* background: #fff; */
-/* } */
 </style>
