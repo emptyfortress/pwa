@@ -8,12 +8,12 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			<!-- v&#45;icon call_received -->
 			v-icon(@click="closePop").close close
 		v-layout(row fill-height justify-start ).add
-			div(@click="test") test
+			div test
 			v-flex(xs12)
-				UserSelect(mycolor="white" label="Исполнитель")
+				UserSelect(mycolor="white" label="Исполнитель" v-on:dblclick.native.stop)
 	.favusers
 		v-layout(row)
-			drag(v-for="n in 8" key="n" class="drag" :transfer-data="{ draggable }" @mousedown.native.stop="test")
+			drag(v-for="n in 8" :key="n" class="drag" :transfer-data="{ draggable }" @mousedown.native.stop)
 				v-list-tile-avatar
 					img(:src="require('@/assets/img/user0.svg')").av
 </template>
@@ -42,10 +42,6 @@ export default {
 		UserSelect
 	},
 	methods: {
-		test () {
-			console.log('test')
-			return false
-		},
 		expand () {
 			if (this.expanded === 0) { this.expanded = 1 } else if (this.expanded === 1) { this.expanded = 2 } else if (this.expanded === 2) { this.expanded = 0 }
 		},
@@ -100,16 +96,16 @@ export default {
 }
 
 .tall {
-	height: 98vh;
+	height: 93vh;
 }
 .centr {
 	position: ablsolute;
-	top: 5%;
+	top: 7%;
 	bottom: 5%;
 	left: 10%;
 	right: 10%;
 	width: 80%;
-	height: 90%;
+	height: 88%;
 }
 
 .favusers {
@@ -127,10 +123,8 @@ export default {
 
 .av {
 	background: $grey;
-	box-shadow: 0 0 3px 1px $info;
+	/* box-shadow: 0 0 3px 1px $info; */
 	/* border: 1px solid #000; */
 }
-.full {
-	width: 100%;
-}
+
 </style>

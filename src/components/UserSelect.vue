@@ -1,5 +1,5 @@
 <template lang="pug">
-v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" v-model="select" solo multiple chips deletable-chips :background-color="mycolor" cache-items class="mx-3" flat hide-no-data hide-details :label="label")
+v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" :v-model="select" solo multiple chips deletable-chips :background-color="mycolor" cache-items class="mx-3" flat hide-no-data hide-details :label="label")
 	template( slot="item" slot-scope="{ item, tile }" )
 		v-list-tile-avatar
 			img(:src="require('@/assets/img/user0.svg')").av
@@ -10,13 +10,13 @@ v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="sea
 
 <script>
 export default {
-	props: ['mycolor', 'label'],
+	props: ['mycolor', 'label', 'initialselect'],
 	data () {
 		return {
 			personloading: false,
 			search: null,
 			items: [],
-			select: null,
+			select: this.initialselect,
 			persons: [
 				'Абрамов',
 				'Авдеев',

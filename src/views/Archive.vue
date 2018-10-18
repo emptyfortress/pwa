@@ -14,13 +14,14 @@ div
 								<!-- v&#45;btn(flat color="primary" @click="menu = false") Отмена -->
 								<!-- v&#45;btn(flat color="primary" @click="$refs.menu.save(date)") OK -->
 						v-flex(v-if="start === 'Автор' || start === 'Исполнитель' || start === 'Сотрудник'" xs6 key='three')
+							<!-- UserSelect(label="Искать в справочнике" mycolor="grey" initialselect="select") -->
 							v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" v-model="select" solo multiple chips deletable-chips background-color="grey" cache-items class="mx-3" flat hide-no-data hide-details label="Искать в справочнике")
 								template( slot="item" slot-scope="{ item, tile }" )
 									v-list-tile-avatar
 										img(:src="require('@/assets/img/user0.svg')").av
 									v-list-tile-content
 										v-list-tile-title {{ item }}
-										v-list-tile-sub-title.small отдел, департамент
+							<!-- 			v&#45;list&#45;tile&#45;sub&#45;title.small отдел, департамент -->
 						v-flex(xs7 v-if="start === 'Тип документа' || start === 'Статус' " key='two')
 							v-select(v-model="second" multiple :items="value" label="Значение").mx-3
 					v-slide-y-transition(mode="out-in")
@@ -43,7 +44,7 @@ div
 		.arc
 			p Архив содержит миллионы документов
 			p
-				i.icon-archive
+				i.icon-archive(@click="test")
 			p Задайте критерии фильтра
 
 	v-slide-y-reverse-transition(mode="out-in")
@@ -69,6 +70,8 @@ div
 </template>
 
 <script>
+import UserSelect from '@/components/UserSelect'
+
 export default {
 	data () {
 		return {
@@ -343,11 +346,11 @@ export default {
 			]
 		}
 	},
-	watch: {
-		search (val) {
-			val && val !== this.select && this.querySelections(val)
-		}
-	},
+	// watch: {
+	// 	search (val) {
+	// 		val && val !== this.select && this.querySelections(val)
+	// 	}
+	// },
 	computed: {
 		dis () {
 			if (this.second !== '') {
@@ -375,7 +378,13 @@ export default {
 			else if (this.start === 'Статус') return this.stat
 		}
 	},
+	components: {
+	 UserSelect
+	},
 	methods: {
+		test () {
+			console.log(this.select)
+		},
 		applyFilter () {
 			this.$router.push('/filtered')
 		},
