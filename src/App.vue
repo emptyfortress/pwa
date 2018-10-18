@@ -45,11 +45,7 @@ v-app( :dark="night" ).rel
 
 	v-scale-transition(origin="bottom right 0")
 		AddTask(v-if="addTask")
-		<!-- drag&#45;it&#45;dude(v&#45;if="addTask") -->
-		<!-- 	.add -->
-		<!-- 		h2 Add task -->
 
-	<!-- ActionButton().fab -->
 	v-btn( fab dark large color="info" @click="toggleTask" :class="addTask ? 'rotate' : ''" ).fab
 		v-icon(dark) add
 </template>
@@ -61,8 +57,6 @@ import DrawerRightContent from '@/components/DrawerRightContent'
 import BottomSheet from '@/components/BottomSheet'
 import Login from '@/views/Login'
 import AddTask from '@/components/AddTask'
-// import DragItDude from 'vue-drag-it-dude'
-// import ActionButton from '@/components/ActionButton'
 
 export default {
 	name: 'App',
@@ -106,7 +100,6 @@ export default {
 	methods: {
 		toggleTask () {
 			this.$store.commit('toggleAddTask')
-			// this.addTask = !this.addTask
 		},
 		back () {
 			this.$router.go(-1)
@@ -135,8 +128,6 @@ export default {
 		DrawerRightContent,
 		Login,
 		AddTask
-		// DragItDude
-		// ActionButton
 	}
 }
 </script>
@@ -151,7 +142,6 @@ export default {
 
 .rel {
 	position: relative;
-	/* background: url(/img/star-bg.jpg) no-repeat top left; */
 }
 
 .v-toolbar__title {
@@ -166,10 +156,11 @@ export default {
 .v-btn--active {
 	background: #ccc;
 }
+
 .fab {
 	position: fixed;
-	bottom: 2rem;
-	right: 2rem;
+	bottom: 1rem;
+	right: 1rem;
 	z-index: 4;
 	i {
 		transition: all .3s ease;

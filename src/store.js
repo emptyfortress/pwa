@@ -42,15 +42,9 @@ export default new Vuex.Store({
 		toggleAddTask (state) {
 			state.addTask = !state.addTask
 		},
-		// toggleView (state) {
-		// 	if (state.view === 'tile') {
-		// 		state.view = 'split'
-		// 	} else if (state.view === 'split') {
-		// 		state.view = 'table'
-		// 	} else if (state.view === 'table') {
-		// 		state.view = 'tile'
-		// 	}
-		// },
+		closeAddTask (state) {
+			state.addTask = false
+		},
 		setFilter (state, payload) {
 			state.filter = payload
 		},
