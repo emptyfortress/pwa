@@ -1,20 +1,26 @@
 <template lang="pug">
 drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
-	.top
-		span создать
-		v-icon minimize
-		v-icon call_made
-		<!-- v&#45;icon call_received -->
-		v-icon(@click="closePop").close close
-	v-layout(row fill-height justify-start ).add
-		div(@click="test") test
-		div
-			drag(class="drag" :transfer-data="{ draggable }" @mousedown.native.stop="test") Drag
-			drop(class="drop" @drop="handleDrop") Dropzone
+	drop(@drop="handleDrop").drop
+		.top
+			span создать
+			v-icon minimize
+			v-icon call_made
+			<!-- v&#45;icon call_received -->
+			v-icon(@click="closePop").close close
+		v-layout(row fill-height justify-start ).add
+			div(@click="test") test
+			v-flex(xs12)
+				UserSelect(mycolor="white" label="Исполнитель")
+	.favusers
+		v-layout(row)
+			drag(v-for="n in 8" key="n" class="drag" :transfer-data="{ draggable }" @mousedown.native.stop="test")
+				v-list-tile-avatar
+					img(:src="require('@/assets/img/user0.svg')").av
 </template>
 
 <script>
 import DragItDude from 'vue-drag-it-dude'
+import UserSelect from '@/components/UserSelect'
 
 export default {
 	data () {
@@ -32,7 +38,8 @@ export default {
 		}
 	},
 	components: {
-		DragItDude
+		DragItDude,
+		UserSelect
 	},
 	methods: {
 		test () {
@@ -93,8 +100,7 @@ export default {
 }
 
 .tall {
-	/* background: red; */
-	height: 99vh;
+	height: 98vh;
 }
 .centr {
 	position: ablsolute;
@@ -106,32 +112,25 @@ export default {
 	height: 90%;
 }
 
-.drag,
-.drop {
-	font-family: sans-serif;
-	display: inline-block;
-	border-radius: 10px;
-	background: #ccc;
-	position: relative;
-	padding: 30px;
-	text-align: center;
-	vertical-align: top;
+.favusers {
+	position: absolute;
+	top: -50px;
+	left: 0;
 }
 
 .drag {
-	color: #fff;
 	cursor: move;
-	background: #777;
-	border-right: 2px solid #555;
-	border-bottom: 2px solid #555;
-	position: ablsolute;
-	top: -200px;
 }
-
 .drop {
-	background: #eee;
-	border-top: 2px solid #ccc;
-	border-left: 2px solid #ccc;
+	height: 100%;
 }
 
+.av {
+	background: $grey;
+	box-shadow: 0 0 3px 1px $info;
+	/* border: 1px solid #000; */
+}
+.full {
+	width: 100%;
+}
 </style>
