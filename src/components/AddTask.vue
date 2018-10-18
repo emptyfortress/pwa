@@ -7,8 +7,10 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 		<!-- v&#45;icon call_received -->
 		v-icon(@click="closePop").close close
 	v-layout(row fill-height justify-start ).add
-		h2 test
-		h2 test
+		div(@click="test") test
+		div
+			drag(class="drag" :transfer-data="{ draggable }" @mousedown.native.stop="test") Drag
+			drop(class="drop" @drop="handleDrop") Dropzone
 </template>
 
 <script>
@@ -17,7 +19,8 @@ import DragItDude from 'vue-drag-it-dude'
 export default {
 	data () {
 		return {
-			expanded: 0
+			expanded: 0,
+			draggable: 'Drag me'
 		}
 	},
 	computed: {
@@ -32,11 +35,18 @@ export default {
 		DragItDude
 	},
 	methods: {
+		test () {
+			console.log('test')
+			return false
+		},
 		expand () {
 			if (this.expanded === 0) { this.expanded = 1 } else if (this.expanded === 1) { this.expanded = 2 } else if (this.expanded === 2) { this.expanded = 0 }
 		},
 		closePop () {
 			this.$store.commit('closeAddTask')
+		},
+		handleDrop (data, event) {
+			alert(`You dropped with data: ${JSON.stringify(data)}`)
 		}
 	}
 }
@@ -94,6 +104,34 @@ export default {
 	right: 10%;
 	width: 80%;
 	height: 90%;
+}
+
+.drag,
+.drop {
+	font-family: sans-serif;
+	display: inline-block;
+	border-radius: 10px;
+	background: #ccc;
+	position: relative;
+	padding: 30px;
+	text-align: center;
+	vertical-align: top;
+}
+
+.drag {
+	color: #fff;
+	cursor: move;
+	background: #777;
+	border-right: 2px solid #555;
+	border-bottom: 2px solid #555;
+	position: ablsolute;
+	top: -200px;
+}
+
+.drop {
+	background: #eee;
+	border-top: 2px solid #ccc;
+	border-left: 2px solid #ccc;
 }
 
 </style>

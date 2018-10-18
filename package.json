@@ -14,6 +14,7 @@
     "register-service-worker": "^1.0.0",
     "sortablejs": "^1.7.0",
     "vue": "^2.5.16",
+    "vue-drag-drop": "^1.1.4",
     "vue-drag-it-dude": "^1.1.1",
     "vue-drag-zone": "^2.0.0-rc1",
     "vue-flip": "^0.2.4",
