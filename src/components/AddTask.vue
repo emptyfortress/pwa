@@ -10,7 +10,8 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 		v-layout(row fill-height justify-start ).add
 			div test
 			v-flex(xs12)
-				UserSelect(mycolor="white" label="Исполнитель" v-on:dblclick.native.stop)
+				UserSelect(mycolor="white" label="Исполнитель" v-on:dblclick.native.stop v-model="selected")
+				p {{ selected }}
 	.favusers
 		v-layout(row)
 			drag(v-for="n in 8" :key="n" class="drag" :transfer-data="{ draggable }" @mousedown.native.stop)
@@ -26,6 +27,7 @@ export default {
 	data () {
 		return {
 			expanded: 0,
+			selected: null,
 			draggable: 'Drag me'
 		}
 	},

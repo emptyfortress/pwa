@@ -1,5 +1,13 @@
 <template lang="pug">
-v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="search" :v-model="select" solo multiple chips deletable-chips :background-color="mycolor" cache-items class="mx-3" flat hide-no-data hide-details :label="label")
+v-autocomplete(:loading="personloading"
+		:items="persons"
+		:search-input.sync="search"
+		:label="label"
+		:background-color="mycolor" cache-items
+		v-model="selected"
+		@change="onChange"
+		class="mx-3" flat hide-no-data hide-details solo multiple chips deletable-chips
+		)
 	template( slot="item" slot-scope="{ item, tile }" )
 		v-list-tile-avatar
 			img(:src="require('@/assets/img/user0.svg')").av
@@ -16,7 +24,7 @@ export default {
 			personloading: false,
 			search: null,
 			items: [],
-			select: null,
+			selected: null,
 			persons: [
 				'Абрамов',
 				'Авдеев',
@@ -279,6 +287,10 @@ export default {
 	computed: {
 	},
 	methods: {
+		onChange () {
+			console.log(this.selected)
+			this.$emit('input', this.selected)
+		},
 		querySelections (v) {
 			this.personloading = true
 			// Simulated ajax query
