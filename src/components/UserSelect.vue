@@ -10,13 +10,13 @@ v-autocomplete(:loading="personloading" :items="persons" :search-input.sync="sea
 
 <script>
 export default {
-	props: ['mycolor', 'label', 'initialselect'],
+	props: ['mycolor', 'label'],
 	data () {
 		return {
 			personloading: false,
 			search: null,
 			items: [],
-			select: this.initialselect,
+			select: null,
 			persons: [
 				'Абрамов',
 				'Авдеев',
