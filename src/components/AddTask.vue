@@ -11,9 +11,11 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			div test
 			v-flex(xs12)
 				v-layout( row wrap )
-					v-btn(flat small color="accent" v-for="item in tem").temp
-						v-icon star
-						span {{ item }}
+					v-tooltip(top v-for="item in templ" :key="item.id")
+						v-btn(flat small color="accent" slot="activator" :outline="item.outline").temp
+							v-icon star
+							span {{ item.id }}
+						span {{ item.text }}
 					v-btn(flat small color="accent").temp
 						v-icon star_border
 						span 7
@@ -22,7 +24,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 				v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
 				v-text-field(type='text' class="mx-3 mt-0" label="Содержание" v-model='description' )
 				v-layout( row align-center class="mx-3" )
-					v-flex.rel
+					.rel
 						.label Дней на исполнение
 						v-layout(row align-center )
 							v-btn( flat icon @click="minus" )
@@ -35,6 +37,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 						:close-on-content-click="true"
 						v-model="menu" :nudge-right="30"
 						:return-value.sync="date" lazy transition="scale-transition"
+						max-width="290px" min-width="290px"
 						offset-y full-width )
 							v-text-field(slot="activator" v-model="date" label="Дата исполнения" prepend-icon="event" readonly)
 							v-date-picker(v-model="date" @input="$refs.menu.save(date)" scrollable locale="ru-ru")
@@ -61,8 +64,14 @@ export default {
 			theme: null,
 			days: 3,
 			draggable: 'Drag me',
-			templ: [ 'Отчеты кв.', 'Новый договор', 'Закупка товаров', 'Цели подчиненных' ],
-			tem: [ 1, 2, 3, 4, 5, 6 ]
+			templ: [
+				{id: 1, outline: true, text: 'На исполнение'},
+				{id: 2, outline: false, text: 'На исполнение с контролем'},
+				{id: 3, outline: false, text: 'На ознакомление'},
+				{id: 4, outline: false, text: 'На согласование'},
+				{id: 5, outline: false, text: 'Группа заданий'},
+				{id: 6, outline: false, text: 'Документ'}
+			]
 		}
 	},
 	computed: {
@@ -79,8 +88,7 @@ export default {
 	},
 	components: {
 		DragItDude,
-		UserSelect,
-		VueNumericInput
+		UserSelect
 	},
 	methods: {
 		plus () {
@@ -121,7 +129,7 @@ export default {
 		top: 0;
 		right: 0;
 		text-align: right;
-		/* background: $info; */
+		background: $info;
 		span {
 			font-size: .9rem;
 			text-transform: uppercase;
@@ -131,12 +139,13 @@ export default {
 			background: $info;
 		}
 		i {
+			color: #fff;
 			cursor: pointer;
 			padding: .5rem;
 			display: inline-block;
 			font-size: .97rem;
 			&:hover {
-				background: #eee;
+				background: lighten($info, 20%);
 			}
 		}
 	}
