@@ -2,29 +2,21 @@
 drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 	drop(@drop="handleDrop").drop
 		.top
-			span создать
+			span создать:
+			span(v-if="true") на исполнение
 			v-icon minimize
 			v-icon call_made
 			<!-- v&#45;icon call_received -->
 			v-icon(@click="closePop").close close
-		v-layout(row fill-height justify-start ).add
-			div test
+		v-layout(column fill-height justify-start ).add
 			v-flex(xs12)
-				v-layout( row wrap )
-					v-tooltip(top v-for="item in templ" :key="item.id")
-						v-btn(flat small color="accent" slot="activator" :outline="item.outline").temp
-							v-icon star
-							span {{ item.id }}
-						span {{ item.text }}
-					v-btn(flat small color="accent").temp
-						v-icon star_border
-						span 7
-
+				v-select(label="Тип" :items="types" v-if="expanded !==0").mx-3
 				UserSelect(mycolor="white" label="Исполнители" v-on:dblclick.native.stop v-model="selected")
 				v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
-				v-text-field(type='text' class="mx-3 mt-0" label="Содержание" v-model='description' )
+				v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание" v-model='description' height="30")
+				v-textarea(v-else class="mx-3 mt-0" label="Содержание" v-model='description'  height="100")
 				v-layout( row align-center class="mx-3" )
-					.rel
+					.rel.mr-5
 						.label Дней на исполнение
 						v-layout(row align-center )
 							v-btn( flat icon @click="minus" )
@@ -41,13 +33,36 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 						offset-y full-width )
 							v-text-field(slot="activator" v-model="date" label="Дата исполнения" prepend-icon="event" readonly)
 							v-date-picker(v-model="date" @input="$refs.menu.save(date)" scrollable locale="ru-ru")
+					template(v-if="expanded === 2")
+						v-btn(flat ) Конец недели
+						v-btn(flat ) След.понедельник
+						v-btn(flat ) Конец месяца
+						v-btn(flat ) Конец квартала
+				div(v-if="expanded === 1")
+					v-btn(flat ) Конец недели
+					v-btn(flat ) След.понедельник
+					v-btn(flat ) Конец месяца
+					v-btn(flat ) Конец квартала
 				v-btn(flat) Файлы
+				v-card-actions
+					v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
+					v-btn(flat color="orange") На исполнение
 
 	.favusers
 		v-layout(row)
 			drag(v-for="n in 8" :key="n" class="drag" :transfer-data="{ draggable }" @mousedown.native.stop)
 				v-list-tile-avatar
 					img(:src="require('@/assets/img/user0.svg')").av
+	.favstars
+		v-layout( column )
+			v-tooltip(left v-for="star in stars" key="star.id")
+				div(slot="activator" :class="star.class")
+					i.icon-star-full
+				span {{star.text}}
+			v-tooltip(left v-for="n in 5" key="n")
+				.slot(slot="activator")
+					i.icon-star-empty
+				span <Пусто>
 </template>
 
 <script>
@@ -64,21 +79,22 @@ export default {
 			theme: null,
 			days: 3,
 			draggable: 'Drag me',
-			templ: [
-				{id: 1, outline: true, text: 'На исполнение'},
-				{id: 2, outline: false, text: 'На исполнение с контролем'},
-				{id: 3, outline: false, text: 'На ознакомление'},
-				{id: 4, outline: false, text: 'На согласование'},
-				{id: 5, outline: false, text: 'Группа заданий'},
-				{id: 6, outline: false, text: 'Документ'}
+			types: [ 'На исполнение', 'На исполнение с контролем', 'На ознакомление', 'На согласование', 'Группа заданий', 'Документ' ],
+			stars: [
+				{id: 1, class: 'active', text: 'На исполнение'},
+				{id: 2, class: '', text: 'На исполнение с контролем'},
+				{id: 3, class: '', text: 'На ознакомление'},
+				{id: 4, class: '', text: 'На согласование'},
+				{id: 5, class: '', text: 'Группа заданий'},
+				{id: 6, class: '', text: 'Документ'}
 			]
 		}
 	},
 	computed: {
-		srok () {
-			let today = new Date().toDateString()
-			return today
-		},
+		// srok () {
+		// 	let today = new Date().toDateString()
+		// 	return today
+		// },
 		addTask () {
 			return this.$store.getters.addTask
 		},
@@ -203,6 +219,33 @@ export default {
 .temp {
 	min-width: 0px;
 	margin: .5rem .1rem;
+}
+
+.v-card__actions {
+	position: absolute;
+	bottom: 1rem;
+	left: 0;
+	/* background: #ccc; */
+}
+
+.favstars {
+	position: absolute;
+	top: 0;
+	left: -43px;
+	height: 100%;
+	background: #000000aa;
+	.active {
+		background: $info;
+		i { color: #fff; }
+	}
+	.slot{
+
+	}
+	i {
+		font-size: 1.92rem;
+		cursor: pointer;
+		color: #fff;
+	}
 }
 
 </style>
