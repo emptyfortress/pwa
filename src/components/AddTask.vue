@@ -10,11 +10,11 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-icon(@click="closePop").close close
 		v-layout(column fill-height justify-start ).add
 			v-flex(xs12)
-				v-select(label="Тип" :items="types" v-if="expanded !==0").mx-3
-				UserSelect(mycolor="white" label="Исполнители" v-on:dblclick.native.stop v-model="selected")
+				v-select(label="Тип" :items="types" v-if="expanded !==0" v-model="type").mx-3
+				UserSelect(mycolor="white" label="Исполнители" v-on:dblclick.native.stop  :value="fio" )
 				v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
-				v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание" v-model='description' height="30")
-				v-textarea(v-else class="mx-3 mt-0" label="Содержание" v-model='description'  height="100")
+				v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание"  height="30")
+				v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100")
 				v-layout( row align-center class="mx-3" )
 					.rel.mr-5
 						.label Дней на исполнение
@@ -50,17 +50,27 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 
 	.favusers
 		v-layout(row)
-			drag(v-for="n in 8" :key="n" class="drag" :transfer-data="{ draggable }" @mousedown.native.stop)
+			v-tooltip(top v-for="user in favorites" :key="user.id" )
+				drag(class="drag" :transfer-data="user.name" @mousedown.native.stop slot="activator")
+					v-list-tile-avatar
+						img(:src="require('@/assets/img/user0.svg')").av
+				span {{ user.name }}
+			v-tooltip(top)
+				drag(@mousedown.native.stop slot="activator" :transfer-data="group1")
+					v-list-tile-avatar
+						img(:src="require('@/assets/img/users.svg')").av
+				span Бухгалтерия
+			drag(@mousedown.native.stop)
 				v-list-tile-avatar
-					img(:src="require('@/assets/img/user0.svg')").av
+					img(:src="require('@/assets/img/users.svg')").av
 	.favstars
 		v-layout( column )
-			v-tooltip(left v-for="star in stars" key="star.id")
+			v-tooltip(left v-for="star in stars" :key="star.id")
 				div(slot="activator" :class="star.class")
 					i.icon-star-full
 				span {{star.text}}
-			v-tooltip(left v-for="n in 5" key="n")
-				.slot(slot="activator")
+			v-tooltip(left v-for="n in 5" :key="n")
+				.slot(slot="activator" @click="setForm(2)")
 					i.icon-star-empty
 				span <Пусто>
 </template>
@@ -78,23 +88,41 @@ export default {
 			menu: null,
 			theme: null,
 			days: 3,
+			type: 'На исполнение',
 			draggable: 'Drag me',
-			types: [ 'На исполнение', 'На исполнение с контролем', 'На ознакомление', 'На согласование', 'Группа заданий', 'Документ' ],
+			fio: [],
+			value: '',
+			types: [
+				'На исполнение',
+				'На исполнение с контролем',
+				'На ознакомление',
+				'На согласование',
+				'Группа заданий',
+				'Документ'
+			],
 			stars: [
-				{id: 1, class: 'active', text: 'На исполнение'},
-				{id: 2, class: '', text: 'На исполнение с контролем'},
-				{id: 3, class: '', text: 'На ознакомление'},
-				{id: 4, class: '', text: 'На согласование'},
-				{id: 5, class: '', text: 'Группа заданий'},
-				{id: 6, class: '', text: 'Документ'}
+				{id: 10, class: 'active', text: 'На исполнение'},
+				{id: 20, class: '', text: 'На исполнение с контролем'},
+				{id: 30, class: '', text: 'На ознакомление'},
+				{id: 40, class: '', text: 'На согласование'},
+				{id: 50, class: '', text: 'Группа заданий'},
+				{id: 60, class: '', text: 'Документ'}
+			],
+			favorites: [
+				{ name: 'Беспалов', id: 1 },
+				{ name: 'Гордеев', id: 2 },
+				{ name: 'Евдокимов', id: 3 },
+				{ name: 'Карпов', id: 4 },
+				{ name: 'Морозов', id: 5 },
+				{ name: 'Фомин', id: 6 }
 			]
 		}
 	},
 	computed: {
-		// srok () {
-		// 	let today = new Date().toDateString()
-		// 	return today
-		// },
+		group1 () {
+			let one = [ 'Абрамов', 'Авдеев' ]
+			return [...one]
+		},
 		addTask () {
 			return this.$store.getters.addTask
 		},
@@ -107,6 +135,13 @@ export default {
 		UserSelect
 	},
 	methods: {
+		setForm (e) {
+			this.type = this.stars[e].text
+			if (e === 2) {
+				this.fio.push('Агафонов', 'Волков', 'Блинов')
+				this.days = 10
+			}
+		},
 		plus () {
 			this.days++
 		},
@@ -120,7 +155,14 @@ export default {
 			this.$store.commit('closeAddTask')
 		},
 		handleDrop (data, event) {
-			alert(`You dropped with data: ${JSON.stringify(data)}`)
+			if (Array.isArray(data)) {
+				this.fio.push(...data)
+			} else this.fio.push(data)
+			console.log(data)
+		},
+		handleDrop1 (data, event) {
+			this.fio.push(...data)
+			console.log(data)
 		}
 	}
 }

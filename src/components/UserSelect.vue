@@ -18,13 +18,13 @@ v-autocomplete(:loading="personloading"
 
 <script>
 export default {
-	props: ['mycolor', 'label'],
+	props: ['mycolor', 'label', 'value'],
 	data () {
 		return {
 			personloading: false,
 			search: null,
 			items: [],
-			selected: null,
+			selected: this.value,
 			persons: [
 				'Абрамов',
 				'Авдеев',
