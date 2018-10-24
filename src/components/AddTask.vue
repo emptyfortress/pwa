@@ -10,8 +10,13 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-icon(@click="closePop").close close
 		v-layout(column fill-height justify-start ).add
 			v-flex(xs12)
-				v-select(label="Тип" :items="types" v-if="expanded !==0" v-model="type").mx-3
+				v-layout(row v-if="expanded !==0" )
+					v-flex(xs6)
+						v-select(label="Тип" :items="types" v-model="type").mx-3
+					v-flex(xs4)
+						v-checkbox( v-model="ex4" label="На контроле" color="primary" value="primary" hide-details )
 				UserSelect(mycolor="white" label="Исполнители" v-on:dblclick.native.stop  :value="fio" )
+				UserSelect(mycolor="white" label="Контролер" v-on:dblclick.native.stop  :value="fio1" )
 				v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
 				v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание"  height="30")
 				v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100")
@@ -60,9 +65,11 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/users.svg')").av
 				span Бухгалтерия
-			drag(@mousedown.native.stop)
-				v-list-tile-avatar
-					img(:src="require('@/assets/img/users.svg')").av
+			v-tooltip(top)
+				drag(@mousedown.native.stop slot="activator" :transfer-data="group2")
+					v-list-tile-avatar
+						img(:src="require('@/assets/img/users.svg')").av
+				span Кадры
 	.favstars
 		v-layout( column )
 			v-tooltip(left v-for="star in stars" :key="star.id")
@@ -82,7 +89,7 @@ import UserSelect from '@/components/UserSelect'
 export default {
 	data () {
 		return {
-			expanded: 0,
+			expanded: 2,
 			selected: null,
 			date: '2018-11-12',
 			menu: null,
@@ -123,6 +130,16 @@ export default {
 			let one = [ 'Абрамов', 'Авдеев' ]
 			return [...one]
 		},
+		group2 () {
+			let one = [
+				'Беспалов',
+				'Бирюков',
+				'Блинов',
+				'Блохин',
+				'Бобров'
+			]
+			return [...one]
+		},
 		addTask () {
 			return this.$store.getters.addTask
 		},
@@ -158,11 +175,11 @@ export default {
 			if (Array.isArray(data)) {
 				this.fio.push(...data)
 			} else this.fio.push(data)
-			console.log(data)
+			// console.log(data)
 		},
 		handleDrop1 (data, event) {
 			this.fio.push(...data)
-			console.log(data)
+			// console.log(data)
 		}
 	}
 }

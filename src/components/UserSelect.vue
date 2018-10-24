@@ -6,7 +6,7 @@ v-autocomplete(:loading="personloading"
 		:background-color="mycolor" cache-items
 		v-model="selected"
 		@change="onChange"
-		class="mx-3" flat hide-no-data hide-details solo multiple chips deletable-chips
+		class="mx-3" flat hide-no-data hide-details multiple chips deletable-chips
 		)
 	template( slot="item" slot-scope="{ item, tile }" )
 		v-list-tile-avatar
