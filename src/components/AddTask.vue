@@ -1,71 +1,72 @@
 <template lang="pug">
 drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
-	drop(@drop="handleDrop").drop
-		.top
-			span создать:
-			span(v-if="true") на исполнение
-			v-icon minimize
-			v-icon call_made
-			<!-- v&#45;icon call_received -->
-			v-icon(@click="closePop").close close
-		v-layout(column fill-height justify-start ).add
-			v-flex(xs12)
-				v-layout(row v-if="expanded !==0" )
-					v-flex(xs6)
-						v-select(label="Тип" :items="types" v-model="type").mx-3
-					v-flex(xs4)
-						v-checkbox( v-model="ex4" label="На контроле" color="primary" value="primary" hide-details )
-				UserSelect(mycolor="white" label="Исполнители" v-on:dblclick.native.stop  :value="fio" )
-				UserSelect(mycolor="white" label="Контролер" v-on:dblclick.native.stop  :value="fio1" )
-				v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
-				v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание"  height="30")
-				v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100")
-				v-layout( row align-center class="mx-3" )
-					.rel.mr-5
-						.label Дней на исполнение
-						v-layout(row align-center )
-							v-btn( flat icon @click="minus" )
-								v-icon remove
-							input(type="text" size="25" :value="days" id="count" placeholder="Дни")
-							v-btn( flat icon  @click="plus")
-								v-icon add
-					v-flex
-						v-menu(ref="menu"
-						:close-on-content-click="true"
-						v-model="menu" :nudge-right="30"
-						:return-value.sync="date" lazy transition="scale-transition"
-						max-width="290px" min-width="290px"
-						offset-y full-width )
-							v-text-field(slot="activator" v-model="date" label="Дата исполнения" prepend-icon="event" readonly)
-							v-date-picker(v-model="date" @input="$refs.menu.save(date)" scrollable locale="ru-ru")
-					template(v-if="expanded === 2")
-						v-btn(flat ) Конец недели
-						v-btn(flat ) След.понедельник
-						v-btn(flat ) Конец месяца
-						v-btn(flat ) Конец квартала
-				div(v-if="expanded === 1")
+	.top
+		span создать:
+		span(v-if="true") на исполнение
+		v-icon minimize
+		v-icon call_made
+		<!-- v&#45;icon call_received -->
+		v-icon(@click="closePop").close close
+	v-layout(column fill-height justify-start ).add
+		v-flex(xs12)
+			v-layout(row v-if="expanded !==0" )
+				v-flex(xs6)
+					v-select(label="Тип" :items="types" v-model="type").mx-3
+				v-flex(xs4)
+					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details )
+			drop(@drop="handleDrop" @dragover="over = true" @dragleave="over = false" class="drop" :class="{ over }")
+				UserSelect(label="Исполнители" v-on:dblclick.native.stop  :value="fio" )
+			drop(@drop="handleDrop1" @dragover="over = true" @dragleave="over = false" class="drop" :class="{ over }")
+				UserSelect(label="Контролер" v-on:dblclick.native.stop  :value="fio1" )
+			v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
+			v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание"  height="30")
+			v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100")
+			v-layout( row align-center class="mx-3" )
+				.rel.mr-5
+					.label Дней на исполнение
+					v-layout(row align-center )
+						v-btn( flat icon @click="minus" )
+							v-icon remove
+						input(type="text" size="25" :value="days" id="count" placeholder="Дни")
+						v-btn( flat icon  @click="plus")
+							v-icon add
+				v-flex
+					v-menu(ref="menu"
+					:close-on-content-click="true"
+					v-model="menu" :nudge-right="30"
+					:return-value.sync="date" lazy transition="scale-transition"
+					max-width="290px" min-width="290px"
+					offset-y full-width )
+						v-text-field(slot="activator" v-model="date" label="Срок исполнения" prepend-icon="event" readonly)
+						v-date-picker(v-model="date" @input="$refs.menu.save(date)" scrollable locale="ru-ru")
+				template(v-if="expanded === 2")
 					v-btn(flat ) Конец недели
 					v-btn(flat ) След.понедельник
 					v-btn(flat ) Конец месяца
 					v-btn(flat ) Конец квартала
-				v-btn(flat) Файлы
-				v-card-actions
-					v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
-					v-btn(flat color="orange") На исполнение
+			div(v-if="expanded === 1")
+				v-btn(flat ) Конец недели
+				v-btn(flat ) След.понедельник
+				v-btn(flat ) Конец месяца
+				v-btn(flat ) Конец квартала
+			v-btn(flat) Файлы
+			v-card-actions
+				v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
+				v-btn(flat color="orange") На исполнение
 
 	.favusers
 		v-layout(row)
-			v-tooltip(top v-for="user in favorites" :key="user.id" )
+			v-tooltip(left v-for="user in favorites" :key="user.id" )
 				drag(class="drag" :transfer-data="user.name" @mousedown.native.stop slot="activator")
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/user0.svg')").av
 				span {{ user.name }}
-			v-tooltip(top)
+			v-tooltip(left)
 				drag(@mousedown.native.stop slot="activator" :transfer-data="group1")
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/users.svg')").av
 				span Бухгалтерия
-			v-tooltip(top)
+			v-tooltip(left)
 				drag(@mousedown.native.stop slot="activator" :transfer-data="group2")
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/users.svg')").av
@@ -89,15 +90,18 @@ import UserSelect from '@/components/UserSelect'
 export default {
 	data () {
 		return {
-			expanded: 2,
+			expanded: 0,
 			selected: null,
 			date: '2018-11-12',
 			menu: null,
 			theme: null,
 			days: 3,
+			over: false,
 			type: 'На исполнение',
 			draggable: 'Drag me',
 			fio: [],
+			fio1: [],
+			controler: false,
 			value: '',
 			types: [
 				'На исполнение',
@@ -178,8 +182,8 @@ export default {
 			// console.log(data)
 		},
 		handleDrop1 (data, event) {
-			this.fio.push(...data)
-			// console.log(data)
+			this.fio1.push(data)
+			this.over = false
 		}
 	}
 }
@@ -248,8 +252,14 @@ export default {
 .drag {
 	cursor: move;
 }
-.drop {
-	height: 100%;
+.draghover {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background: red;
+}
+.drop.over {
+	background: #eaf9d7;
 }
 
 .av {
@@ -284,7 +294,6 @@ export default {
 	position: absolute;
 	bottom: 1rem;
 	left: 0;
-	/* background: #ccc; */
 }
 
 .favstars {
@@ -296,9 +305,6 @@ export default {
 	.active {
 		background: $info;
 		i { color: #fff; }
-	}
-	.slot{
-
 	}
 	i {
 		font-size: 1.92rem;

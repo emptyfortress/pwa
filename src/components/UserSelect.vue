@@ -3,11 +3,16 @@ v-autocomplete(:loading="personloading"
 		:items="persons"
 		:search-input.sync="search"
 		:label="label"
-		:background-color="mycolor" cache-items
+		background-color="transparent" cache-items
 		v-model="selected"
 		@change="onChange"
 		class="mx-3" flat hide-no-data hide-details multiple chips deletable-chips
 		)
+	template(slot="selection" slot-scope="data")
+		v-chip(:selected="data.selected" close class="chip--select-multi" @input="remove(data.item)")
+			v-avatar
+				img(:src="require('@/assets/img/user0.svg')").dark
+			span {{ data.item }}
 	template( slot="item" slot-scope="{ item, tile }" )
 		v-list-tile-avatar
 			img(:src="require('@/assets/img/user0.svg')").av
@@ -18,7 +23,7 @@ v-autocomplete(:loading="personloading"
 
 <script>
 export default {
-	props: ['mycolor', 'label', 'value'],
+	props: ['label', 'value'],
 	data () {
 		return {
 			personloading: false,
@@ -300,6 +305,10 @@ export default {
 				})
 				this.personloading = false
 			}, 500)
+		},
+		remove (item) {
+			const index = this.selected.indexOf(item)
+			if (index >= 0) this.selected.splice(index, 1)
 		}
 	}
 }
@@ -319,6 +328,17 @@ export default {
 
 .av {
 	background: $grey;
+}
+.dark {
+	background: #fff;
+	background: -moz-linear-gradient(top, #05abe0 0%, #53cbf1 60%, #87e0fd 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #05abe0 0%,#53cbf1 60%,#87e0fd 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #05abe0 0%,#53cbf1 60%,#87e0fd 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#05abe0', endColorstr='#87e0fd',GradientType=0 ); /* IE6-9 */
+}
+.chip--select-multi {
+	background: #d1e3f7;
+	border: 1px solid #99bee8;
 }
 .small {
 	font-size: .8rem;
