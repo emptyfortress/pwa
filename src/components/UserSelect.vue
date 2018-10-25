@@ -294,6 +294,7 @@ export default {
 	methods: {
 		onChange () {
 			this.$emit('input', this.selected)
+			console.log('component ' + this.selected)
 		},
 		querySelections (v) {
 			this.personloading = true

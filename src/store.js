@@ -20,7 +20,8 @@ export default new Vuex.Store({
 		headers: [],
 		addTask: false,
 		selected: false,
-		min: false
+		min: false,
+		slot0: []
 	},
 	mutations: {
 		setCurrentFolder (state, payload) { state.currentFolder = payload },
@@ -34,6 +35,7 @@ export default new Vuex.Store({
 		setSelected (state, payload) { state.selected = payload },
 		toggleMin (state) { state.min = !state.min },
 		closeMin (state) { state.min = false },
+		setSlot0 (state, payload) { state.slot0 = payload },
 		toggleTheme (state) {
 			if (state.night === false) {
 				state.night = true
@@ -80,6 +82,7 @@ export default new Vuex.Store({
 		selected (state) { return state.selected },
 		addTask (state) { return state.addTask },
 		min (state) { return state.min },
+		slot0 (state) { return state.slot0 },
 		currentItem (state) {
 			return (itemId) => {
 				return state.items.find(item => {

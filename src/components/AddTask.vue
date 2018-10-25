@@ -15,9 +15,9 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 				v-flex(xs4)
 					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details )
 			drop(@drop="handleDrop" @dragover="over = true" @dragleave="over = false" class="drop" :class="{ over }")
-				UserSelect(label="Исполнители" v-on:dblclick.native.stop  :value="fio" )
-			drop(@drop="handleDrop1" @dragover="over = true" @dragleave="over = false" class="drop" :class="{ over }")
-				UserSelect(label="Контролер" v-on:dblclick.native.stop  :value="fio1" )
+				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio")
+			drop(@drop="handleDrop1" @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
+				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
 			v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
 			v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание"  height="30")
 			v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100")
@@ -97,7 +97,8 @@ export default {
 			theme: null,
 			days: 3,
 			over: false,
-			type: 'На исполнение',
+			over1: false,
+			// type: 'На исполнение',
 			draggable: 'Drag me',
 			fio: [],
 			fio1: [],
@@ -130,9 +131,15 @@ export default {
 		}
 	},
 	computed: {
+		// fio () {
+		// 	return this.$store.getters.slot0.fio ? this.$store.getters.slot0.fio : []
+		// },
+		// fio1 () { return this.$store.getters.slot0.fio1 },
 		slot0 () {
-			let form = []
-			form.user = fio
+			let form = {}
+			form.fio = this.fio
+			form.fio1 = this.fio1
+			form.type = this.type
 			return form
 		},
 		group1 () {
@@ -161,6 +168,12 @@ export default {
 		UserSelect
 	},
 	methods: {
+		test () {
+			console.log('loving ' + this.fio)
+			// console.log('parent' + this.selected)
+			// this.fio.push(this.fio)
+			// console.log(this.fio)
+		},
 		setForm (e) {
 			this.type = this.stars[e].text
 			if (e === 2) {
@@ -181,19 +194,23 @@ export default {
 			this.$store.commit('closeAddTask')
 		},
 		minimize () {
+			this.$store.commit('setSlot0', this.slot0)
 			this.$store.commit('closeAddTask')
 			this.$store.commit('toggleMin')
-			console.log(this.form)
+			console.log(this.slot0)
 		},
 		handleDrop (data, event) {
 			if (Array.isArray(data)) {
 				this.fio.push(...data)
-			} else this.fio.push(data)
-			// console.log(data)
+				this.over = false
+			} else {
+				this.fio.push(data)
+				this.over = false
+			}
 		},
 		handleDrop1 (data, event) {
 			this.fio1.push(data)
-			this.over = false
+			this.over1 = false
 		}
 	}
 }
@@ -262,13 +279,7 @@ export default {
 .drag {
 	cursor: move;
 }
-.draghover {
-	display: block;
-	width: 100px;
-	height: 100px;
-	background: red;
-}
-.drop.over {
+.drop.over, .drop.over1 {
 	background: #eaf9d7;
 }
 
