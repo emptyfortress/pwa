@@ -9,7 +9,7 @@ v-autocomplete(:loading="personloading"
 		class="mx-3" flat hide-no-data hide-details multiple chips deletable-chips
 		)
 	template(slot="selection" slot-scope="data")
-		v-chip(:selected="data.selected" close class="chip--select-multi" @input="remove(data.item)")
+		v-chip(:selected="data.selected"  close class="chip--select-multi" @input="remove(data.item)")
 			v-avatar
 				img(:src="require('@/assets/img/user0.svg')").dark
 			span {{ data.item }}
@@ -293,7 +293,6 @@ export default {
 	},
 	methods: {
 		onChange () {
-			console.log(this.selected)
 			this.$emit('input', this.selected)
 		},
 		querySelections (v) {

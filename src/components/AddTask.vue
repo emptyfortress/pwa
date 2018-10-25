@@ -3,8 +3,8 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 	.top
 		span создать:
 		span(v-if="true") на исполнение
-		v-icon minimize
-		v-icon call_made
+		v-icon(@click="minimize") minimize
+		v-icon(@click="expand") call_made
 		<!-- v&#45;icon call_received -->
 		v-icon(@click="closePop").close close
 	v-layout(column fill-height justify-start ).add
@@ -174,6 +174,10 @@ export default {
 		},
 		closePop () {
 			this.$store.commit('closeAddTask')
+		},
+		minimize () {
+			this.$store.commit('closeAddTask')
+			this.$store.commit('toggleMin')
 		},
 		handleDrop (data, event) {
 			if (Array.isArray(data)) {

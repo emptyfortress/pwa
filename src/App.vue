@@ -46,8 +46,13 @@ v-app( :dark="night" ).rel
 	v-scale-transition(origin="bottom right 0")
 		AddTask(v-if="addTask")
 
-	v-btn( fab dark large color="info" @click="toggleTask" :class="addTask ? 'rotate' : ''" ).fab
-		v-icon(dark) add
+	v-slide-y-reverse-transition
+		v-btn( fab dark large color="info" v-if="!min" @click="toggleTask" :class="addTask ? 'rotate' : ''" ).fab
+			v-icon(dark) add
+
+	v-slide-y-reverse-transition
+		Min(v-if="min")
+
 </template>
 
 <script>
@@ -57,6 +62,7 @@ import DrawerRightContent from '@/components/DrawerRightContent'
 import BottomSheet from '@/components/BottomSheet'
 import Login from '@/views/Login'
 import AddTask from '@/components/AddTask'
+import Min from '@/components/Min'
 
 export default {
 	name: 'App',
@@ -83,6 +89,9 @@ export default {
 		}
 	},
 	computed: {
+		min () {
+			return this.$store.getters.min
+		},
 		addTask () {
 			return this.$store.getters.addTask
 		},
@@ -127,7 +136,8 @@ export default {
 		DrawerLeftContent,
 		DrawerRightContent,
 		Login,
-		AddTask
+		AddTask,
+		Min
 	}
 }
 </script>
