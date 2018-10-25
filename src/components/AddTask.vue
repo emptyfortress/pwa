@@ -74,11 +74,11 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 	.favstars
 		v-layout( column )
 			v-tooltip(left v-for="star in stars" :key="star.id")
-				div(slot="activator" :class="star.class")
+				div(slot="activator" :class="star.class" @click="setForm(2)")
 					i.icon-star-full
 				span {{star.text}}
 			v-tooltip(left v-for="n in 5" :key="n")
-				.slot(slot="activator" @click="setForm(2)")
+				.slot(slot="activator")
 					i.icon-star-empty
 				span <Пусто>
 </template>
@@ -130,6 +130,11 @@ export default {
 		}
 	},
 	computed: {
+		slot0 () {
+			let form = []
+			form.user = fio
+			return form
+		},
 		group1 () {
 			let one = [ 'Абрамов', 'Авдеев' ]
 			return [...one]
@@ -178,6 +183,7 @@ export default {
 		minimize () {
 			this.$store.commit('closeAddTask')
 			this.$store.commit('toggleMin')
+			console.log(this.form)
 		},
 		handleDrop (data, event) {
 			if (Array.isArray(data)) {
@@ -288,10 +294,6 @@ export default {
 }
 .rel {
 	position: relative;
-}
-.temp {
-	min-width: 0px;
-	margin: .5rem .1rem;
 }
 
 .v-card__actions {

@@ -33,6 +33,7 @@ export default new Vuex.Store({
 		setItems (state, payload) { state.items = payload },
 		setSelected (state, payload) { state.selected = payload },
 		toggleMin (state) { state.min = !state.min },
+		closeMin (state) { state.min = false },
 		toggleTheme (state) {
 			if (state.night === false) {
 				state.night = true
