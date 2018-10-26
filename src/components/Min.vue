@@ -5,7 +5,6 @@
 		span(v-if="true") на исполнение
 		v-icon(@click="restore") minimize
 		v-icon(@click="restore") call_made
-		<!-- v&#45;icon call_received -->
 		v-icon(@click="closePop").close close
 
 </template>

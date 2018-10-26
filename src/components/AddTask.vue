@@ -4,23 +4,23 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 		span создать:
 		span(v-if="true") на исполнение
 		v-icon(@click="minimize") minimize
-		v-icon(@click="expand") call_made
-		<!-- v&#45;icon call_received -->
+		v-icon(v-if="expanded !==2" @click="expand") call_made
+		v-icon(v-if='expanded === 2' @click="expand") call_received
 		v-icon(@click="closePop").close close
 	v-layout(column fill-height justify-start ).add
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
 				v-flex(xs6)
-					v-select(label="Тип" :items="types" v-model="type").mx-3
+					v-select(label="Тип" :items="types" v-model="type" ).mx-3
 				v-flex(xs4)
 					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details )
 			drop(@drop="handleDrop" @dragover="over = true" @dragleave="over = false" class="drop" :class="{ over }")
 				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio")
-			drop(@drop="handleDrop1" @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
+			drop(v-if="controler" @drop="handleDrop1" @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
 				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
 			v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
-			v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание"  height="30")
-			v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100")
+			v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание" v-model="description" height="30")
+			v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100" v-model="description")
 			v-layout( row align-center class="mx-3" )
 				.rel.mr-5
 					.label Дней на исполнение
@@ -73,14 +73,11 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 				span Кадры
 	.favstars
 		v-layout( column )
-			v-tooltip(left v-for="star in stars" :key="star.id")
-				div(slot="activator" :class="star.class" @click="setForm(2)")
-					i.icon-star-full
+			v-tooltip(left v-for="(star, index) in stars" :key="index")
+				div(slot="activator" :class="star.class" @click="loadSlot(index)")
+					i.icon-star-full(v-if="star.text !== 'Пусто'")
+					i.icon-star-empty(v-if="star.text === 'Пусто'")
 				span {{star.text}}
-			v-tooltip(left v-for="n in 5" :key="n")
-				.slot(slot="activator")
-					i.icon-star-empty
-				span <Пусто>
 </template>
 
 <script>
@@ -98,10 +95,11 @@ export default {
 			days: 3,
 			over: false,
 			over1: false,
-			// type: 'На исполнение',
 			draggable: 'Drag me',
+			type: 'На исполнение',
 			fio: [],
 			fio1: [],
+			description: '',
 			controler: false,
 			value: '',
 			types: [
@@ -113,12 +111,23 @@ export default {
 				'Документ'
 			],
 			stars: [
-				{id: 10, class: 'active', text: 'На исполнение'},
-				{id: 20, class: '', text: 'На исполнение с контролем'},
-				{id: 30, class: '', text: 'На ознакомление'},
-				{id: 40, class: '', text: 'На согласование'},
-				{id: 50, class: '', text: 'Группа заданий'},
-				{id: 60, class: '', text: 'Документ'}
+				{
+					id: 0,
+					class: 'active',
+					text: 'На исполнение',
+					type: 'На исполнение',
+					fio: 'Волков'
+				},
+				{id: 1, class: '', text: 'На ознакомление'},
+				{id: 2, class: '', text: 'Пусто', controler: false},
+				{id: 3, class: '', text: 'Пусто', controler: false},
+				{id: 4, class: '', text: 'Пусто', controler: false},
+				{id: 5, class: '', text: 'Пусто', controler: false},
+				{id: 6, class: '', text: 'Пусто', controler: false},
+				{id: 7, class: '', text: 'Пусто', controler: false},
+				{id: 8, class: '', text: 'Пусто', controler: false},
+				{id: 9, class: '', text: 'Пусто', controler: false},
+				{id: 10, class: '', text: 'Пусто', controler: false}
 			],
 			favorites: [
 				{ name: 'Беспалов', id: 1 },
@@ -130,16 +139,17 @@ export default {
 			]
 		}
 	},
+	created () {
+		// this.setForm()
+	},
 	computed: {
-		// fio () {
-		// 	return this.$store.getters.slot0.fio ? this.$store.getters.slot0.fio : []
-		// },
-		// fio1 () { return this.$store.getters.slot0.fio1 },
 		slot0 () {
 			let form = {}
 			form.fio = this.fio
 			form.fio1 = this.fio1
 			form.type = this.type
+			form.theme = this.theme
+			form.description = this.description
 			return form
 		},
 		group1 () {
@@ -168,18 +178,26 @@ export default {
 		UserSelect
 	},
 	methods: {
-		test () {
-			console.log('loving ' + this.fio)
-			// console.log('parent' + this.selected)
-			// this.fio.push(this.fio)
-			// console.log(this.fio)
+		setForm () {
+			let obj = this.$store.getters.slot0
+			this.fio = obj.fio
+			this.fio1 = obj.fio1
+			this.theme = obj.theme
+			this.type = obj.type
+			this.description = obj.description
 		},
-		setForm (e) {
-			this.type = this.stars[e].text
-			if (e === 2) {
-				this.fio.push('Агафонов', 'Волков', 'Блинов')
-				this.days = 10
-			}
+		resetForm () {
+			this.fio.splice(0, this.fio.length)
+			this.fio1.splice(0, this.fio1.length)
+			this.theme = ''
+			this.type = 'На исполнение'
+			this.description = ''
+		},
+		loadSlot (e) {
+			this.resetForm()
+			this.type = this.stars[e].type
+			this.controler = this.stars[e].controler
+			this.fio.push(this.stars[e].fio)
 		},
 		plus () {
 			this.days++
@@ -209,8 +227,13 @@ export default {
 			}
 		},
 		handleDrop1 (data, event) {
-			this.fio1.push(data)
-			this.over1 = false
+			if (Array.isArray(data)) {
+				this.fio1.push(...data)
+				this.over1 = false
+			} else {
+				this.fio1.push(data)
+				this.over1 = false
+			}
 		}
 	}
 }
@@ -316,7 +339,7 @@ export default {
 .favstars {
 	position: absolute;
 	top: 0;
-	left: -43px;
+	left: -39px;
 	height: 100%;
 	background: #000000aa;
 	.active {
