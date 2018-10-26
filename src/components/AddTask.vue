@@ -2,7 +2,7 @@
 drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 	.top
 		span создать:
-		span(v-if="true") на исполнение
+		span(v-if="true") {{ type }}
 		v-icon(@click="minimize") minimize
 		v-icon(v-if="expanded !==2" @click="expand") call_made
 		v-icon(v-if='expanded === 2' @click="expand") call_received
@@ -52,7 +52,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
-				v-btn(flat color="orange") На исполнение
+				v-btn(flat color="orange") Отправить
 
 	.favusers
 		v-layout(row)
@@ -113,29 +113,37 @@ export default {
 			stars: [
 				{
 					id: 0,
-					class: 'active',
+					class: '',
 					text: 'На исполнение',
 					type: 'На исполнение',
-					fio: 'Волков'
+					fio: ['Волков']
 				},
-				{id: 1, class: '', text: 'На ознакомление'},
-				{id: 2, class: '', text: 'Пусто', controler: false},
-				{id: 3, class: '', text: 'Пусто', controler: false},
-				{id: 4, class: '', text: 'Пусто', controler: false},
-				{id: 5, class: '', text: 'Пусто', controler: false},
-				{id: 6, class: '', text: 'Пусто', controler: false},
-				{id: 7, class: '', text: 'Пусто', controler: false},
-				{id: 8, class: '', text: 'Пусто', controler: false},
-				{id: 9, class: '', text: 'Пусто', controler: false},
-				{id: 10, class: '', text: 'Пусто', controler: false}
+				{
+					id: 1,
+					class: '',
+					text: 'На ознакомление',
+					type: 'На ознакомление',
+					fio: ['Попов', 'Рябов', 'Титов', 'Шарапов'],
+					theme: 'Квартальный отчет',
+					description: 'Прошу подготовить отчет за текущий квартал'
+				},
+				{id: 2, class: '', text: 'Пусто'},
+				{id: 3, class: '', text: 'Пусто'},
+				{id: 4, class: '', text: 'Пусто'},
+				{id: 5, class: '', text: 'Пусто'},
+				{id: 6, class: '', text: 'Пусто'},
+				{id: 7, class: '', text: 'Пусто'},
+				{id: 8, class: '', text: 'Пусто'},
+				{id: 9, class: '', text: 'Пусто'},
+				{id: 10, class: '', text: 'Пусто'}
 			],
 			favorites: [
-				{ name: 'Беспалов', id: 1 },
-				{ name: 'Гордеев', id: 2 },
-				{ name: 'Евдокимов', id: 3 },
-				{ name: 'Карпов', id: 4 },
-				{ name: 'Морозов', id: 5 },
-				{ name: 'Фомин', id: 6 }
+				{id: 0, name: 'Беспалов'},
+				{id: 1, name: 'Гордеев'},
+				{id: 2, name: 'Евдокимов'},
+				{id: 3, name: 'Карпов'},
+				{id: 4, name: 'Морозов'},
+				{id: 5, name: 'Фомин'}
 			]
 		}
 	},
@@ -195,9 +203,15 @@ export default {
 		},
 		loadSlot (e) {
 			this.resetForm()
+			this.stars.map((star) => { star.class = '' })
+			if (this.stars[e].text !== 'Пусто') {
+				this.stars[e].class = 'active'
+			}
 			this.type = this.stars[e].type
 			this.controler = this.stars[e].controler
-			this.fio.push(this.stars[e].fio)
+			this.fio.push(...this.stars[e].fio)
+			this.theme = this.stars[e].theme
+			this.description = this.stars[e].description
 		},
 		plus () {
 			this.days++
