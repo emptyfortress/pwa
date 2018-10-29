@@ -52,7 +52,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
-				v-btn(flat color="orange") Отправить
+				v-btn(flat color="orange" @click="test1" v-longpress="test") Отправить
 
 	.favusers
 		v-layout(row)
@@ -78,11 +78,23 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 					i.icon-star-full(v-if="star.text !== 'Пусто'")
 					i.icon-star-empty(v-if="star.text === 'Пусто'")
 				span {{star.text}}
+	v-fade-transition
+		.save(v-if="save")
+			v-container( fill-height )
+				v-layout(flex align-center justify-center)
+					div
+						h2 Сохранить предустановки?
+						p Все значения в данном слоте будут перезаписаны.
+						v-text-field(label="Название" solo placeholder="Введите название")
+						v-btn(flat dark @click="save = false") Отмена
+						v-btn(flat dark) Сохранить
+
 </template>
 
 <script>
 import DragItDude from 'vue-drag-it-dude'
 import UserSelect from '@/components/UserSelect'
+import Longpress from '@/directives/longpress-directive'
 
 export default {
 	data () {
@@ -97,10 +109,12 @@ export default {
 			over1: false,
 			draggable: 'Drag me',
 			type: 'На исполнение',
+			state: 'idle',
 			fio: [],
 			fio1: [],
 			description: '',
 			controler: false,
+			save: true,
 			value: '',
 			types: [
 				'На исполнение',
@@ -183,9 +197,20 @@ export default {
 	},
 	components: {
 		DragItDude,
-		UserSelect
+		UserSelect,
+		Longpress
 	},
 	methods: {
+		test1 () {
+			this.state = 'click'
+			console.log(this.state)
+		},
+		test (e) {
+			// e.preventDefault()
+			this.state = 'long'
+			this.save = true
+			console.log(this.state)
+		},
 		setForm () {
 			let obj = this.$store.getters.slot0
 			this.fio = obj.fio
@@ -364,6 +389,22 @@ export default {
 		font-size: 1.92rem;
 		cursor: pointer;
 		color: #fff;
+	}
+}
+.save {
+	width: 100%;
+	height: 100%;
+	background: #0d4188de;
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #fff;
+	div {
+		margin: 0 auto;
+		h2 {
+			font-weight: 400;
+			margin-bottom: 1rem;
+		}
 	}
 }
 
