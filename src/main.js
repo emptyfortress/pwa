@@ -16,7 +16,9 @@ import LiquorTree from 'liquor-tree'
 import Alert from './components/Alert'
 import VueDragZone from 'vue-drag-zone'
 import VueDragDrop from 'vue-drag-drop'
+// import longpress from 'vue-long-press-directive'
 
+// Vue.use(longpress)
 Vue.use(Vuefire)
 Vue.use(VueResource)
 Vue.use(VueParticles)

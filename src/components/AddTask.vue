@@ -52,7 +52,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
-				v-btn(flat color="orange" @click="test1" v-longpress="test") Отправить
+				v-btn(flat color="orange") Отправить
 
 	.favusers
 		v-layout(row)
@@ -74,18 +74,18 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 	.favstars
 		v-layout( column )
 			v-tooltip(left v-for="(star, index) in stars" :key="index")
-				div(slot="activator" :class="star.class" @click="loadSlot(index)")
-					i.icon-star-full(v-if="star.text !== 'Пусто'")
-					i.icon-star-empty(v-if="star.text === 'Пусто'")
-				span {{star.text}}
+				div(slot="activator" :class="star.class")
+					i.icon-star-full(v-if="star.name !=='Пусто'" @click="loadSlot(index)" v-longpress="saveSlot")
+					i.icon-star-empty(v-if="star.name ==='Пусто'" @click="resetForm(index)" v-longpress="saveSlot")
+				span {{star.name}}
 	v-fade-transition
 		.save(v-if="save")
 			v-container( fill-height )
 				v-layout(flex align-center justify-center)
 					div
 						h2 Сохранить предустановки?
-						p Все значения в данном слоте будут перезаписаны.
-						v-text-field(label="Название" solo placeholder="Введите название")
+						p Все значения в {{ currentSlot + 1 }} слоте будут перезаписаны.
+						v-text-field(label="Название" solo :placeholder="placeholder" v-model='name')
 						v-btn(flat dark @click="save = false") Отмена
 						v-btn(flat dark) Сохранить
 
@@ -94,6 +94,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 <script>
 import DragItDude from 'vue-drag-it-dude'
 import UserSelect from '@/components/UserSelect'
+// import Longpress from 'vue-longpress'
 import Longpress from '@/directives/longpress-directive'
 
 export default {
@@ -109,12 +110,13 @@ export default {
 			over1: false,
 			draggable: 'Drag me',
 			type: 'На исполнение',
-			state: 'idle',
 			fio: [],
 			fio1: [],
 			description: '',
 			controler: false,
-			save: true,
+			save: false,
+			currentSlot: null,
+			name: '',
 			value: '',
 			types: [
 				'На исполнение',
@@ -128,28 +130,28 @@ export default {
 				{
 					id: 0,
 					class: '',
-					text: 'На исполнение',
+					name: 'На исполнение',
 					type: 'На исполнение',
 					fio: ['Волков']
 				},
 				{
 					id: 1,
 					class: '',
-					text: 'На ознакомление',
+					name: 'На ознакомление',
 					type: 'На ознакомление',
 					fio: ['Попов', 'Рябов', 'Титов', 'Шарапов'],
 					theme: 'Квартальный отчет',
 					description: 'Прошу подготовить отчет за текущий квартал'
 				},
-				{id: 2, class: '', text: 'Пусто'},
-				{id: 3, class: '', text: 'Пусто'},
-				{id: 4, class: '', text: 'Пусто'},
-				{id: 5, class: '', text: 'Пусто'},
-				{id: 6, class: '', text: 'Пусто'},
-				{id: 7, class: '', text: 'Пусто'},
-				{id: 8, class: '', text: 'Пусто'},
-				{id: 9, class: '', text: 'Пусто'},
-				{id: 10, class: '', text: 'Пусто'}
+				{id: 2, class: '', name: 'Пусто'},
+				{id: 3, class: '', name: 'Пусто'},
+				{id: 4, class: '', name: 'Пусто'},
+				{id: 5, class: '', name: 'Пусто'},
+				{id: 6, class: '', name: 'Пусто'},
+				{id: 7, class: '', name: 'Пусто'},
+				{id: 8, class: '', name: 'Пусто'},
+				{id: 9, class: '', name: 'Пусто'},
+				{id: 10, class: '', name: 'Пусто'}
 			],
 			favorites: [
 				{id: 0, name: 'Беспалов'},
@@ -165,6 +167,11 @@ export default {
 		// this.setForm()
 	},
 	computed: {
+		placeholder () {
+			if (this.name === '') {
+				return 'Введите название'
+			} else return this.name
+		},
 		slot0 () {
 			let form = {}
 			form.fio = this.fio
@@ -172,6 +179,7 @@ export default {
 			form.type = this.type
 			form.theme = this.theme
 			form.description = this.description
+			form.name = this.name
 			return form
 		},
 		group1 () {
@@ -199,17 +207,13 @@ export default {
 		DragItDude,
 		UserSelect,
 		Longpress
+		// Longpress
 	},
 	methods: {
-		test1 () {
-			this.state = 'click'
-			console.log(this.state)
-		},
-		test (e) {
-			// e.preventDefault()
-			this.state = 'long'
+		saveSlot () {
 			this.save = true
-			console.log(this.state)
+			console.log(this.currentSlot)
+			console.log(this.slot0)
 		},
 		setForm () {
 			let obj = this.$store.getters.slot0
@@ -218,18 +222,20 @@ export default {
 			this.theme = obj.theme
 			this.type = obj.type
 			this.description = obj.description
+			this.name = obj.name
 		},
-		resetForm () {
+		resetForm (e) {
 			this.fio.splice(0, this.fio.length)
 			this.fio1.splice(0, this.fio1.length)
 			this.theme = ''
 			this.type = 'На исполнение'
 			this.description = ''
+			this.currentSlot = e
 		},
 		loadSlot (e) {
 			this.resetForm()
 			this.stars.map((star) => { star.class = '' })
-			if (this.stars[e].text !== 'Пусто') {
+			if (this.stars[e].name !== 'Пусто') {
 				this.stars[e].class = 'active'
 			}
 			this.type = this.stars[e].type
@@ -237,6 +243,9 @@ export default {
 			this.fio.push(...this.stars[e].fio)
 			this.theme = this.stars[e].theme
 			this.description = this.stars[e].description
+			this.name = this.stars[e].name
+			this.currentSlot = e
+			console.log(this.currentSlot)
 		},
 		plus () {
 			this.days++
@@ -395,6 +404,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	background: #0d4188de;
+	z-index: 3;
 	position: absolute;
 	top: 0;
 	left: 0;
