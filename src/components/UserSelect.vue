@@ -14,7 +14,7 @@ v-autocomplete(:loading="personloading"
 				img(:src="require('@/assets/img/user0.svg')").dark
 			span {{ data.item }}
 
-	template( slot="item" slot-scope="{ item, tile }" )
+	template( slot="item" slot-scope="{ item, tile }")
 		v-list-tile-avatar
 			img(:src="require('@/assets/img/user0.svg')").av
 		v-list-tile-content

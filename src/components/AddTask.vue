@@ -16,7 +16,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 				v-flex(xs4)
 					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details )
 			drop(@drop="handleDrop" @dragover="over = true" @dragleave="over = false" class="drop" :class="{ over }")
-				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio")
+				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
 			drop(v-if="controler" @drop="handleDrop1" @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
 				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
 			v-text-field(type='text' class="mx-3" label="Тема" v-model='theme' required )
@@ -84,12 +84,15 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-container( fill-height )
 				v-layout(flex align-center justify-center)
 					div
-						h2 Сохранить предустановки?
-						p Все значения в {{ currentSlot + 1 }} слоте будут перезаписаны.
+						h1 Слот {{  currentSlot + 1  }}
+						h2 Сохранить шаблон?
+						p Все значения в слоте будут обновлены.
 						v-text-field(label="Название" solo placeholder="Введите название" v-model='name' autofocus)
-						v-btn(flat dark @click="save = false") Отмена
 						v-btn(flat dark @click="saving") Сохранить
+						v-btn(flat dark @click="save = false") Отмена
 
+						v-btn(flat icon dark).del
+							v-icon delete
 </template>
 
 <script>
@@ -106,6 +109,7 @@ export default {
 			date: '2018-11-12',
 			menu: null,
 			theme: null,
+			search: '',
 			days: 3,
 			over: false,
 			over1: false,
@@ -159,14 +163,14 @@ export default {
 					theme: 'Цели сотрудников по отделам',
 					description: 'Промежуточные цели, уточнение формулировок'
 				},
-				{id: 3, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
-				{id: 4, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
-				{id: 5, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
-				{id: 6, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
-				{id: 7, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
-				{id: 8, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
-				{id: 9, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
-				{id: 10, class: '', name: 'Пусто', fio: [], fio1: [], controler: false}
+				{id: 3, class: '', name: 'Пусто', fio: [], fio1: []},
+				{id: 4, class: '', name: 'Пусто', fio: [], fio1: []},
+				{id: 5, class: '', name: 'Пусто', fio: [], fio1: []},
+				{id: 6, class: '', name: 'Пусто', fio: [], fio1: []},
+				{id: 7, class: '', name: 'Пусто', fio: [], fio1: []},
+				{id: 8, class: '', name: 'Пусто', fio: [], fio1: []},
+				{id: 9, class: '', name: 'Пусто', fio: [], fio1: []},
+				{id: 10, class: '', name: 'Пусто', fio: [], fio1: []}
 			],
 			favorites: [
 				{id: 0, name: 'Беспалов'},
@@ -195,13 +199,7 @@ export default {
 			return [...one]
 		},
 		group2 () {
-			let one = [
-				'Беспалов',
-				'Бирюков',
-				'Блинов',
-				'Блохин',
-				'Бобров'
-			]
+			let one = [ 'Беспалов', 'Бирюков', 'Блинов', 'Блохин', 'Бобров' ]
 			return [...one]
 		},
 		addTask () {
@@ -441,15 +439,19 @@ export default {
 		}
 	}
 }
-.rr {
-	width: 300px;
-	height: 200px;
-	background: red;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
 .mainpop {
 	overflow: auto;
+}
+.del {
+	position: absolute;
+	bottom: 2rem;
+	left: 2rem;
+	opacity: .5;
+	&:hover {
+		opacity: 1;
+	}
+	i {
+		font-size: 3rem;
+	}
 }
 </style>
