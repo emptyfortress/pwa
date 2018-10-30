@@ -86,7 +86,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 					div
 						h2 Сохранить предустановки?
 						p Все значения в {{ currentSlot + 1 }} слоте будут перезаписаны.
-						v-text-field(label="Название" solo placeholder="Введите название" v-model='name')
+						v-text-field(label="Название" solo placeholder="Введите название" v-model='name' autofocus)
 						v-btn(flat dark @click="save = false") Отмена
 						v-btn(flat dark @click="saving") Сохранить
 
@@ -136,7 +136,7 @@ export default {
 					theme: 'Подготовить презентацию',
 					description: 'Прошу подготовить презентацию для показа клиентам',
 					fio: ['Волков'],
-					fio1: ''
+					fio1: []
 				},
 				{
 					id: 1,
@@ -144,7 +144,7 @@ export default {
 					name: 'На ознакомление',
 					type: 'На ознакомление',
 					fio: ['Попов', 'Рябов', 'Титов', 'Шарапов'],
-					fio1: '',
+					fio1: [],
 					theme: 'Квартальный отчет',
 					description: 'Прошу подготовить отчет за текущий квартал'
 				},
@@ -159,14 +159,14 @@ export default {
 					theme: 'Цели сотрудников по отделам',
 					description: 'Промежуточные цели, уточнение формулировок'
 				},
-				{id: 3, class: '', name: 'Пусто'},
-				{id: 4, class: '', name: 'Пусто'},
-				{id: 5, class: '', name: 'Пусто'},
-				{id: 6, class: '', name: 'Пусто'},
-				{id: 7, class: '', name: 'Пусто'},
-				{id: 8, class: '', name: 'Пусто'},
-				{id: 9, class: '', name: 'Пусто'},
-				{id: 10, class: '', name: 'Пусто'}
+				{id: 3, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
+				{id: 4, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
+				{id: 5, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
+				{id: 6, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
+				{id: 7, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
+				{id: 8, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
+				{id: 9, class: '', name: 'Пусто', fio: [], fio1: [], controler: false},
+				{id: 10, class: '', name: 'Пусто', fio: [], fio1: [], controler: false}
 			],
 			favorites: [
 				{id: 0, name: 'Беспалов'},
@@ -184,6 +184,7 @@ export default {
 			form.fio = this.fio
 			form.fio1 = this.fio1
 			form.type = this.type
+			form.controler = this.controler
 			form.theme = this.theme
 			form.description = this.description
 			form.name = this.name
@@ -220,8 +221,14 @@ export default {
 			let e = this.currentSlot
 			let b = this.slot0
 			this.stars[e].name = b.name
+			this.stars[e].theme = b.theme
+			this.stars[e].type = b.type
+			this.stars[e].controler = b.controler
+			this.stars[e].fio.push(...b.fio)
+			this.stars[e].fio1.push(...b.fio1)
+			this.stars[e].description = b.description
 			this.save = false
-			console.log(this.slot0)
+			console.log(this.stars[e])
 		},
 		setSlot (e) {
 			this.currentSlot = e
@@ -262,6 +269,7 @@ export default {
 			this.name = this.stars[e].name
 			this.currentSlot = e
 			console.log(this.currentSlot)
+			console.log(this.stars[e])
 		},
 		plus () {
 			this.days++
