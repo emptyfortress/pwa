@@ -13,12 +13,14 @@ v-autocomplete(:loading="personloading"
 			v-avatar
 				img(:src="require('@/assets/img/user0.svg')").dark
 			span {{ data.item }}
+
 	template( slot="item" slot-scope="{ item, tile }" )
 		v-list-tile-avatar
 			img(:src="require('@/assets/img/user0.svg')").av
 		v-list-tile-content
 			v-list-tile-title {{ item }}
 			v-list-tile-sub-title.small отдел, департамент
+
 </template>
 
 <script>
@@ -294,7 +296,7 @@ export default {
 	methods: {
 		onChange () {
 			this.$emit('input', this.selected)
-			console.log('component ' + this.selected)
+			// console.log('component ' + this.selected)
 		},
 		querySelections (v) {
 			this.personloading = true

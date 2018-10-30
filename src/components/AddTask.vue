@@ -7,7 +7,8 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 		v-icon(v-if="expanded !==2" @click="expand") call_made
 		v-icon(v-if='expanded === 2' @click="expand") call_received
 		v-icon(@click="closePop").close close
-	v-layout(column fill-height justify-start ).add
+	<!-- v&#45;layout(column fill&#45;height justify&#45;start ).mainpop -->
+	v-layout(column justify-start ).mainpop
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
 				v-flex(xs6)
@@ -75,8 +76,8 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 		v-layout( column )
 			v-tooltip(left v-for="(star, index) in stars" :key="index")
 				div(slot="activator" :class="star.class")
-					i.icon-star-full(v-if="star.name !=='Пусто'" @click="loadSlot(index)" v-longpress="saveSlot")
-					i.icon-star-empty(v-if="star.name ==='Пусто'" @click="resetForm(index)" v-longpress="saveSlot")
+					i.icon-star-full(v-if="star.name !=='Пусто'" @mouseup="loadSlot(index)" v-longpress="saveSlot")
+					i.icon-star-empty(v-if="star.name ==='Пусто'" @mousedown='setSlot(index)' v-longpress="saveSlot")
 				span {{star.name}}
 	v-fade-transition
 		.save(v-if="save")
@@ -85,9 +86,9 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 					div
 						h2 Сохранить предустановки?
 						p Все значения в {{ currentSlot + 1 }} слоте будут перезаписаны.
-						v-text-field(label="Название" solo :placeholder="placeholder" v-model='name')
+						v-text-field(label="Название" solo placeholder="Введите название" v-model='name')
 						v-btn(flat dark @click="save = false") Отмена
-						v-btn(flat dark) Сохранить
+						v-btn(flat dark @click="saving") Сохранить
 
 </template>
 
@@ -95,7 +96,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 import DragItDude from 'vue-drag-it-dude'
 import UserSelect from '@/components/UserSelect'
 // import Longpress from 'vue-longpress'
-import Longpress from '@/directives/longpress-directive'
+import * as Longpress from '@/directives/longpress-directive'
 
 export default {
 	data () {
@@ -120,7 +121,7 @@ export default {
 			value: '',
 			types: [
 				'На исполнение',
-				'На исполнение с контролем',
+				'На исполнение c контролем',
 				'На ознакомление',
 				'На согласование',
 				'Группа заданий',
@@ -132,7 +133,10 @@ export default {
 					class: '',
 					name: 'На исполнение',
 					type: 'На исполнение',
-					fio: ['Волков']
+					theme: 'Подготовить презентацию',
+					description: 'Прошу подготовить презентацию для показа клиентам',
+					fio: ['Волков'],
+					fio1: ''
 				},
 				{
 					id: 1,
@@ -140,10 +144,21 @@ export default {
 					name: 'На ознакомление',
 					type: 'На ознакомление',
 					fio: ['Попов', 'Рябов', 'Титов', 'Шарапов'],
+					fio1: '',
 					theme: 'Квартальный отчет',
 					description: 'Прошу подготовить отчет за текущий квартал'
 				},
-				{id: 2, class: '', name: 'Пусто'},
+				{
+					id: 2,
+					class: '',
+					name: 'Контроль',
+					controler: true,
+					type: 'На исполнение c контролем',
+					fio: ['Аксёнов', 'Денисов'],
+					fio1: ['Маслов'],
+					theme: 'Цели сотрудников по отделам',
+					description: 'Промежуточные цели, уточнение формулировок'
+				},
 				{id: 3, class: '', name: 'Пусто'},
 				{id: 4, class: '', name: 'Пусто'},
 				{id: 5, class: '', name: 'Пусто'},
@@ -163,15 +178,7 @@ export default {
 			]
 		}
 	},
-	created () {
-		// this.setForm()
-	},
 	computed: {
-		placeholder () {
-			if (this.name === '') {
-				return 'Введите название'
-			} else return this.name
-		},
 		slot0 () {
 			let form = {}
 			form.fio = this.fio
@@ -207,13 +214,21 @@ export default {
 		DragItDude,
 		UserSelect,
 		Longpress
-		// Longpress
 	},
 	methods: {
+		saving () {
+			let e = this.currentSlot
+			let b = this.slot0
+			this.stars[e].name = b.name
+			this.save = false
+			console.log(this.slot0)
+		},
+		setSlot (e) {
+			this.currentSlot = e
+		},
 		saveSlot () {
 			this.save = true
 			console.log(this.currentSlot)
-			console.log(this.slot0)
 		},
 		setForm () {
 			let obj = this.$store.getters.slot0
@@ -241,6 +256,7 @@ export default {
 			this.type = this.stars[e].type
 			this.controler = this.stars[e].controler
 			this.fio.push(...this.stars[e].fio)
+			this.fio1.push(...this.stars[e].fio1)
 			this.theme = this.stars[e].theme
 			this.description = this.stars[e].description
 			this.name = this.stars[e].name
@@ -417,5 +433,15 @@ export default {
 		}
 	}
 }
-
+.rr {
+	width: 300px;
+	height: 200px;
+	background: red;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.mainpop {
+	overflow: auto;
+}
 </style>
