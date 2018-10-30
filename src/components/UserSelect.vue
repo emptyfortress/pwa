@@ -1,26 +1,32 @@
 <template lang="pug">
-v-autocomplete(:loading="personloading"
-		:items="persons"
-		:search-input.sync="search"
-		:label="label"
-		background-color="transparent" cache-items
-		v-model="selected"
-		@change="onChange"
-		class="mx-3" flat hide-no-data hide-details multiple chips deletable-chips
-		)
-	template(slot="selection" slot-scope="data")
-		v-chip(:selected="data.selected"  close class="chip--select-multi" @input="remove(data.item)")
-			v-avatar
-				img(:src="require('@/assets/img/user0.svg')").dark
-			span {{ data.item }}
-
-	template( slot="item" slot-scope="{ item, tile }")
-		v-list-tile-avatar
-			img(:src="require('@/assets/img/user0.svg')").av
-		v-list-tile-content
-			v-list-tile-title {{ item }}
-			v-list-tile-sub-title.small отдел, департамент
-
+div.rel
+	v-autocomplete(:loading="personloading"
+			:items="persons"
+			:search-input.sync="search"
+			:label="label"
+			background-color="transparent" cache-items
+			v-model="selected"
+			@change="onChange"
+			class="mx-3" flat hide-no-data hide-details multiple chips deletable-chips
+			)
+		template(slot="selection" slot-scope="data")
+			v-chip(:selected="data.selected"  close class="chip--select-multi" @input="remove(data.item)")
+				v-avatar
+					img(:src="require('@/assets/img/user0.svg')").dark
+				span {{ data.item }}
+		template( slot="item" slot-scope="{ item, tile }")
+			v-list-tile-avatar
+				img(:src="require('@/assets/img/user0.svg')").av
+			v-list-tile-content
+				v-list-tile-title {{ item }}
+				v-list-tile-sub-title.small отдел, департамент
+	.list(v-if="role")
+		.pop
+			v-list
+				v-list-tile(v-for="role in roles")
+					v-list-tile-avatar
+						img(:src="require('@/assets/img/role.svg')").av
+					v-list-tile-content {{ role }}
 </template>
 
 <script>
@@ -30,8 +36,19 @@ export default {
 		return {
 			personloading: false,
 			search: null,
+			tree: false,
+			role: false,
 			items: [],
 			selected: this.value,
+			roles: [
+				'Инициатор',
+				'Исполнитель',
+				'Согласующий',
+				'Контролер',
+				'Регистратор',
+				'Автор',
+				'Все руководители'
+			],
 			persons: [
 				'Абрамов',
 				'Авдеев',
@@ -289,6 +306,12 @@ export default {
 	watch: {
 		search (val) {
 			val && val !== this.select && this.querySelections(val)
+			if (val === '\\') {
+				this.tree = true
+			} else this.tree = false
+			if (val === '=') {
+				this.role = true
+			} else this.role = false
 		}
 	},
 	computed: {
@@ -296,8 +319,8 @@ export default {
 	methods: {
 		onChange () {
 			this.$emit('input', this.selected)
-			// console.log('component ' + this.selected)
 		},
+
 		querySelections (v) {
 			this.personloading = true
 			// Simulated ajax query
@@ -328,6 +351,7 @@ export default {
 	background: #333;
 }
 
+.rel { position: relative; }
 .av {
 	background: $grey;
 }
@@ -348,4 +372,35 @@ export default {
 	font-style: italic;
 }
 
+.tree {
+	z-index: 2;
+	position: absolute;
+	top: 44px;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	background: red;
+}
+.list {
+	z-index: 2;
+	position: absolute;
+	top: 44px;
+	left: 0;
+	width: 100%;
+	padding: .5rem 0;
+	.pop {
+		z-index: 35;
+		background: #fff;
+		margin: 0 1rem;
+		box-shadow: 0 5px 10px #00000033;
+		height: 250px;
+		overflow: auto;
+		.v-list {
+			cursor: pointer;
+			div:hover {
+				background: #eee;
+			}
+		}
+	}
+}
 </style>

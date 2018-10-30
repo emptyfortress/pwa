@@ -7,8 +7,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 		v-icon(v-if="expanded !==2" @click="expand") call_made
 		v-icon(v-if='expanded === 2' @click="expand") call_received
 		v-icon(@click="closePop").close close
-	<!-- v&#45;layout(column fill&#45;height justify&#45;start ).mainpop -->
-	v-layout(column justify-start ).mainpop
+	v-layout(column justify-start )
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
 				v-flex(xs6)
@@ -53,6 +52,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
+				v-btn(flat color="orange" @click="resetForm") Сбросить
 				v-btn(flat color="orange") Отправить
 
 	.favusers
@@ -226,14 +226,12 @@ export default {
 			this.stars[e].fio1.push(...b.fio1)
 			this.stars[e].description = b.description
 			this.save = false
-			console.log(this.stars[e])
 		},
 		setSlot (e) {
 			this.currentSlot = e
 		},
 		saveSlot () {
 			this.save = true
-			console.log(this.currentSlot)
 		},
 		setForm () {
 			let obj = this.$store.getters.slot0
@@ -266,8 +264,6 @@ export default {
 			this.description = this.stars[e].description
 			this.name = this.stars[e].name
 			this.currentSlot = e
-			console.log(this.currentSlot)
-			console.log(this.stars[e])
 		},
 		plus () {
 			this.days++
@@ -285,7 +281,6 @@ export default {
 			this.$store.commit('setSlot0', this.slot0)
 			this.$store.commit('closeAddTask')
 			this.$store.commit('toggleMin')
-			console.log(this.slot0)
 		},
 		handleDrop (data, event) {
 			if (Array.isArray(data)) {
@@ -439,9 +434,7 @@ export default {
 		}
 	}
 }
-.mainpop {
-	overflow: auto;
-}
+
 .del {
 	position: absolute;
 	bottom: 2rem;
