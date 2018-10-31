@@ -1,7 +1,7 @@
 <template lang="pug">
 div.rel
 	v-autocomplete(:loading="personloading"
-			:items="persons"
+			:items="pers"
 			:search-input.sync="search"
 			:label="label"
 			background-color="transparent" cache-items
@@ -20,13 +20,13 @@ div.rel
 			v-list-tile-content
 				v-list-tile-title {{ item }}
 				v-list-tile-sub-title.small отдел, департамент
-	.list(v-if="role")
-		.pop
-			v-list
-				v-list-tile(v-for="(role, index) in roles" :key='index')
-					v-list-tile-avatar
-						img(:src="require('@/assets/img/role.svg')").av
-					v-list-tile-content {{ role }}
+	<!-- .list(v&#45;if="role") -->
+	<!-- 	.pop -->
+	<!-- 		v&#45;list -->
+	<!-- 			v&#45;list&#45;tile(v&#45;for="(role, index) in roles" :key='index') -->
+	<!-- 				v&#45;list&#45;tile&#45;avatar -->
+	<!-- 					img(:src="require('@/assets/img/role.svg')").av -->
+	<!-- 				v&#45;list&#45;tile&#45;content {{ role }} -->
 </template>
 
 <script>
@@ -311,10 +311,16 @@ export default {
 			} else this.tree = false
 			if (val === '=') {
 				this.role = true
-			} else this.role = false
+			}
+			// else this.role = false
 		}
 	},
 	computed: {
+		pers () {
+			if (this.role) {
+				return this.roles
+			} else return this.persons
+		}
 	},
 	methods: {
 		onChange () {

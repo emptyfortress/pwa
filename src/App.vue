@@ -109,6 +109,9 @@ export default {
 	methods: {
 		toggleTask () {
 			this.$store.commit('toggleAddTask')
+			if (this.addTask) {
+				return this.$store.commit('unsetRestore')
+			}
 		},
 		back () {
 			this.$router.go(-1)
