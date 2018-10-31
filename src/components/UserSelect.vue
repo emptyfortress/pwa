@@ -16,10 +16,11 @@ div.rel
 				span {{ data.item }}
 		template( slot="item" slot-scope="{ item, tile }")
 			v-list-tile-avatar
-				img(:src="require('@/assets/img/user0.svg')").av
+				img(:src="require('@/assets/img/role.svg')" v-if="role").av
+				img(:src="require('@/assets/img/user0.svg')" v-if="!role").av
 			v-list-tile-content
 				v-list-tile-title {{ item }}
-				v-list-tile-sub-title.small отдел, департамент
+				v-list-tile-sub-title(v-if="!role").small отдел, департамент
 	<!-- .list(v&#45;if="role") -->
 	<!-- 	.pop -->
 	<!-- 		v&#45;list -->
