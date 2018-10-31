@@ -1,5 +1,5 @@
 <template lang="pug">
-drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
+drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 	.top
 		span создать:
 		span(v-if="true") {{ type }}
@@ -52,7 +52,7 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
-				v-btn(flat color="orange" @click="resetForm") Сбросить
+				v-btn(flat color="orange" @click="resetForm") Очистить
 				v-btn(flat color="orange") Отправить
 
 	.favusers
@@ -88,8 +88,8 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 						h2 Сохранить шаблон?
 						p Все значения в слоте будут обновлены.
 						v-text-field(label="Название" solo placeholder="Введите название" v-model='name' autofocus)
-						v-btn(flat dark @click="saving") Сохранить
 						v-btn(flat dark @click="save = false") Отмена
+						v-btn(flat dark @click="saving") Сохранить
 
 						v-btn(flat icon dark).del
 							v-icon delete
@@ -98,7 +98,6 @@ drag-it-dude(v-if="addTask" v-on:dblclick.native="expand" :class="assignClass")
 <script>
 import DragItDude from 'vue-drag-it-dude'
 import UserSelect from '@/components/UserSelect'
-// import Longpress from 'vue-longpress'
 import * as Longpress from '@/directives/longpress-directive'
 
 export default {
@@ -122,7 +121,6 @@ export default {
 			save: false,
 			currentSlot: null,
 			name: '',
-			value: '',
 			types: [
 				'На исполнение',
 				'На исполнение c контролем',
@@ -182,7 +180,15 @@ export default {
 			]
 		}
 	},
+	created () {
+		if (this.restore) {
+			this.setForm()
+		}
+	},
 	computed: {
+		restore () {
+			return this.$store.getters.restore
+		},
 		slot0 () {
 			let form = {}
 			form.fio = this.fio
@@ -275,12 +281,15 @@ export default {
 			if (this.expanded === 0) { this.expanded = 1 } else if (this.expanded === 1) { this.expanded = 2 } else if (this.expanded === 2) { this.expanded = 0 }
 		},
 		closePop () {
+			this.$store.commit('unsetRestore')
 			this.$store.commit('closeAddTask')
 		},
 		minimize () {
+			this.$store.commit('setRestore')
 			this.$store.commit('setSlot0', this.slot0)
-			this.$store.commit('closeAddTask')
+			this.$store.commit('toggleAddTask')
 			this.$store.commit('toggleMin')
+			console.log(this.slot0)
 		},
 		handleDrop (data, event) {
 			if (Array.isArray(data)) {

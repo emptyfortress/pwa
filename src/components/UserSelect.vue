@@ -23,7 +23,7 @@ div.rel
 	.list(v-if="role")
 		.pop
 			v-list
-				v-list-tile(v-for="role in roles")
+				v-list-tile(v-for="(role, index) in roles" :key='index')
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/role.svg')").av
 					v-list-tile-content {{ role }}
@@ -41,13 +41,13 @@ export default {
 			items: [],
 			selected: this.value,
 			roles: [
-				'Инициатор',
-				'Исполнитель',
-				'Согласующий',
-				'Контролер',
-				'Регистратор',
-				'Автор',
-				'Все руководители'
+				'= Автор',
+				'= Инициатор',
+				'= Исполнитель',
+				'= Согласующий',
+				'= Контролер',
+				'= Регистратор',
+				'= Все руководители'
 			],
 			persons: [
 				'Абрамов',

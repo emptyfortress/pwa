@@ -21,7 +21,8 @@ export default new Vuex.Store({
 		addTask: false,
 		selected: false,
 		min: false,
-		slot0: []
+		slot0: [],
+		restore: false
 	},
 	mutations: {
 		setCurrentFolder (state, payload) { state.currentFolder = payload },
@@ -41,18 +42,12 @@ export default new Vuex.Store({
 				state.night = true
 			} else state.night = false
 		},
-		toggleView (state, payload) {
-			state.view = payload
-		},
-		toggleAddTask (state) {
-			state.addTask = !state.addTask
-		},
-		closeAddTask (state) {
-			state.addTask = false
-		},
-		setFilter (state, payload) {
-			state.filter = payload
-		},
+		toggleView (state, payload) { state.view = payload },
+		toggleAddTask (state) { state.addTask = !state.addTask },
+		setRestore (state) { state.restore = true },
+		unsetRestore (state) { state.restore = false },
+		closeAddTask (state) { state.addTask = false },
+		setFilter (state, payload) { state.filter = payload },
 		updateItem (state, payload) {
 			const item = state.items.find(item => {
 				return item.id === payload.id
@@ -68,6 +63,7 @@ export default new Vuex.Store({
 	},
 
 	getters: {
+		restore (state) { return state.restore },
 		theme (state) { return state.night },
 		view (state) { return state.view },
 		currentFolder (state) { return state.currentFolder },

@@ -16,6 +16,9 @@ export default {
 		}
 	},
 	computed: {
+		slot0 () {
+			return this.$store.getters.slot0
+		}
 	},
 	methods: {
 		restore () {
