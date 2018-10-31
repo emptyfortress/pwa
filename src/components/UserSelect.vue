@@ -312,8 +312,7 @@ export default {
 			} else this.tree = false
 			if (val === '=') {
 				this.role = true
-			}
-			// else this.role = false
+			} else this.role = false
 		}
 	},
 	computed: {

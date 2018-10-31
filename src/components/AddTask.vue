@@ -51,7 +51,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 				v-btn(flat ) Конец квартала
 			v-btn(flat) Файлы
 			v-card-actions
-				v-btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена
+				<!-- v&#45;btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена -->
 				v-btn(flat color="orange" @click="resetForm") Очистить
 				v-btn(flat color="orange") Отправить
 
