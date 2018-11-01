@@ -36,12 +36,14 @@ new Vue({
 		// cat: firebase.database.ref('cat').orderByChild('created_at'),
 		tree: firebase.database.ref('tree'),
 		folders: firebase.database.ref('folders'),
-		items: firebase.database.ref('items')
+		items: firebase.database.ref('items'),
+		users: firebase.database.ref('users')
 	},
 	render: h => h(App),
 	created () {
 		this.$store.dispatch('loadTree')
 		this.$store.dispatch('loadFolders')
 		this.$store.dispatch('loadItems')
+		this.$store.dispatch('loadUsers')
 	}
 }).$mount('#app')

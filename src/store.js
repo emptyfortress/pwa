@@ -17,6 +17,7 @@ export default new Vuex.Store({
 		folders: [],
 		tree: [],
 		items: [],
+		users: [],
 		headers: [],
 		addTask: false,
 		selected: false,
@@ -33,6 +34,7 @@ export default new Vuex.Store({
 		setTree (state, payload) { state.tree = payload },
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
+		setUsers (state, payload) { state.users = payload },
 		setSelected (state, payload) { state.selected = payload },
 		toggleMin (state) { state.min = !state.min },
 		closeMin (state) { state.min = false },
@@ -73,6 +75,7 @@ export default new Vuex.Store({
 		tree (state) { return state.tree },
 		folders (state) { return state.folders },
 		items (state) { return state.items },
+		users (state) { return state.users },
 		headers (state) { return state.headers },
 		filter (state) { return state.filter },
 		selected (state) { return state.selected },
@@ -192,6 +195,28 @@ export default new Vuex.Store({
 						})
 					}
 					commit('setItems', items)
+					commit('setLoading', false)
+				})
+				.catch((error) => {
+					console.log(error)
+					commit('setLoading', false)
+				})
+		},
+		loadUsers ({commit}) {
+			commit('setLoading', true)
+			firebase.database().ref('users').once('value')
+				.then((data) => {
+					const users = []
+					const obj = data.val()
+
+					for (let key in obj) {
+						users.push({
+							id: obj[key].id,
+							img: obj[key].img,
+							name: obj[key].name
+						})
+					}
+					commit('setUsers', users)
 					commit('setLoading', false)
 				})
 				.catch((error) => {
