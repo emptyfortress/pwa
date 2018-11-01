@@ -21,13 +21,9 @@ div.rel
 			v-list-tile-content
 				v-list-tile-title {{ item }}
 				v-list-tile-sub-title(v-if="!role").small отдел, департамент
-	<!-- .list(v&#45;if="role") -->
-	<!-- 	.pop -->
-	<!-- 		v&#45;list -->
-	<!-- 			v&#45;list&#45;tile(v&#45;for="(role, index) in roles" :key='index') -->
-	<!-- 				v&#45;list&#45;tile&#45;avatar -->
-	<!-- 					img(:src="require('@/assets/img/role.svg')").av -->
-	<!-- 				v&#45;list&#45;tile&#45;content {{ role }} -->
+	.list(v-if="tree")
+		.pop
+			tree(:data="deps" :options="treeOptions")
 </template>
 
 <script>
@@ -301,6 +297,24 @@ export default {
 				'Юдин',
 				'Яковлев',
 				'Якушев'
+			],
+			deps: [
+				{id: 0,
+					text: 'Руководство',
+					'image': '',
+					children: [
+						{id: 10, text: 'Производство', 'image': ''},
+						{id: 11, text: 'Производство', 'image': ''},
+						{id: 12, text: 'Производство', 'image': ''}
+					]
+				},
+				{id: 1, text: 'Производство', 'image': ''},
+				{id: 2, text: 'Логистика', 'image': ''},
+				{id: 3, text: 'Сервис', 'image': ''},
+				{id: 4, text: 'НИО', 'image': ''},
+				{id: 5, text: 'Отдел внедрений', 'image': ''},
+				{id: 6, text: 'Отдел АСУ', 'image': ''},
+				{id: 7, text: 'Корпоративные продажи', 'image': ''}
 			]
 		}
 	},
@@ -309,7 +323,8 @@ export default {
 			val && val !== this.select && this.querySelections(val)
 			if (val === '\\') {
 				this.tree = true
-			} else this.tree = false
+			}
+			// else this.tree = false
 			if (val === '=') {
 				this.role = true
 			} else this.role = false
@@ -378,19 +393,10 @@ export default {
 	font-style: italic;
 }
 
-.tree {
-	z-index: 2;
-	position: absolute;
-	top: 44px;
-	left: 0;
-	width: 100%;
-	height: 100px;
-	background: red;
-}
 .list {
 	z-index: 2;
 	position: absolute;
-	top: 44px;
+	top: 35px;
 	left: 0;
 	width: 100%;
 	padding: .5rem 0;
