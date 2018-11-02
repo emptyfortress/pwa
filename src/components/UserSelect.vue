@@ -24,7 +24,7 @@ div.rel
 				v-list-tile-sub-title(v-if="state === 'name'").small отдел, департамент
 	.list(v-if="state === 'tree'")
 		.pop
-			tree(:data="deps" :filter="search")
+			tree(:data="deps" :filter="filter")
 				span(slot-scope="{ node }")
 					template(v-if="!node.data.icon")
 						span {{ node.text }}
@@ -50,6 +50,7 @@ export default {
 		}
 		return {
 			search: null,
+			filter: '',
 			state: 'name',
 			items: [],
 			selected: this.value,
@@ -66,20 +67,16 @@ export default {
 	},
 	watch: {
 		search (val) {
-			if (val === '\\') {
+			if (val.length > 0 && val[0] === '\\') {
 				this.state = 'tree'
+				this.filter = val.slice(1)
 			}
-			if (val === '=') {
+			if (val.length > 0 && val[0] === '=') {
 				this.state = 'role'
 			}
 		}
 	},
 	computed: {
-		chipClass (e) {
-			if (e.class) {
-				return e.class
-			} else return 'chip--select-multi'
-		},
 		deps () {
 			return this.$store.getters.departments
 		},
@@ -97,6 +94,12 @@ export default {
 		}
 	},
 	methods: {
+		// setF () {
+		// 	setTimeout(function () {
+		// 		console.log('fuck')
+		// 		this.filter = 'бл'
+		// 	}, 500)
+		// },
 		addSelection (e) {
 			this.selected.push('Блохин')
 			this.state = 'name'
