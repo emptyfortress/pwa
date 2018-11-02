@@ -29,7 +29,7 @@ div.rel
 					template(v-if="!node.data.icon")
 						span {{ node.text }}
 					template(v-else)
-						v-layout(row align-center).foo
+						v-layout(row align-center @click="addSelection(node)").foo
 							v-avatar(size="32")
 								img(src="/img/user0.svg").av
 							v-flex
@@ -92,6 +92,10 @@ export default {
 		}
 	},
 	methods: {
+		addSelection (e) {
+			this.selected.push(e.text)
+			this.state = 'name'
+		},
 		onChange () {
 			this.$emit('input', this.selected)
 		},
@@ -171,4 +175,5 @@ export default {
 		margin-top: 0;
 	}
 }
+
 </style>
