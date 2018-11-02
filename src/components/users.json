@@ -35,7 +35,7 @@
 	{"img": "/img/user0.svg", "name": "Вишняков"},
 	{"img": "/img/user0.svg", "name": "Владимиров"},
 	{"img": "/img/user0.svg", "name": "Власов"},
-	{"img": "/img/user0.svg", "name": "Волков"},
+	{"class": "my", "img": "/img/user0.svg", "name": "Волков"},
 	{"img": "/img/user0.svg", "name": "Воробьёв"},
 	{"img": "/img/user0.svg", "name": "Воронов"},
 	{"img": "/img/user0.svg", "name": "Воронцов"},

@@ -240,7 +240,8 @@ export default new Vuex.Store({
 						users.push({
 							id: obj[key].id,
 							img: obj[key].img,
-							name: obj[key].name
+							name: obj[key].name,
+							class: obj[key].class
 						})
 					}
 					commit('setUsers', users)

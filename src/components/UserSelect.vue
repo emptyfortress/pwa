@@ -12,7 +12,7 @@ div.rel
 			class="mx-3" flat hide-no-data hide-details multiple chips
 			)
 		template(slot="selection" slot-scope="data")
-			v-chip(:selected="data.selected" close class="chip--select-multi" @input="remove(data.item)")
+			v-chip(:selected="data.selected" close :class="data.item.class ? data.item.class : 'chip--select-multi'" @input="remove(data.item)")
 				v-avatar
 					img(:src="data.item.img").dark
 				span {{ data.item.name }}
@@ -24,7 +24,7 @@ div.rel
 				v-list-tile-sub-title(v-if="state === 'name'").small отдел, департамент
 	.list(v-if="state === 'tree'")
 		.pop
-			tree(:data="deps")
+			tree(:data="deps" :filter="search")
 				span(slot-scope="{ node }")
 					template(v-if="!node.data.icon")
 						span {{ node.text }}
@@ -54,13 +54,13 @@ export default {
 			items: [],
 			selected: this.value,
 			roles: [
-				{img: src[3], name: '=Автор'},
-				{img: src[3], name: '=Инициатор'},
-				{img: src[3], name: '=Исполнитель'},
-				{img: src[3], name: '=Согласующий'},
-				{img: src[3], name: '=Контролер'},
-				{img: src[3], name: '=Регистратор'},
-				{img: src[3], name: '=Все руководители'}
+				{class: 'role', img: src[3], name: '=Автор'},
+				{class: 'role', img: src[3], name: '=Инициатор'},
+				{class: 'role', img: src[3], name: '=Исполнитель'},
+				{class: 'role', img: src[3], name: '=Согласующий'},
+				{class: 'role', img: src[3], name: '=Контролер'},
+				{class: 'role', img: src[3], name: '=Регистратор'},
+				{class: 'role', img: src[3], name: '=Все руководители'}
 			]
 		}
 	},
@@ -75,6 +75,11 @@ export default {
 		}
 	},
 	computed: {
+		chipClass (e) {
+			if (e.class) {
+				return e.class
+			} else return 'chip--select-multi'
+		},
 		deps () {
 			return this.$store.getters.departments
 		},
@@ -93,11 +98,12 @@ export default {
 	},
 	methods: {
 		addSelection (e) {
-			this.selected.push(e.text)
+			this.selected.push('Блохин')
 			this.state = 'name'
 		},
 		onChange () {
 			this.$emit('input', this.selected)
+			console.log(this.selected)
 		},
 
 		remove (item) {
@@ -134,6 +140,17 @@ export default {
 .chip--select-multi {
 	background: #d1e3f7;
 	border: 1px solid #99bee8;
+}
+.my {
+	background: #b50000;
+	color: #fff;
+}
+.role {
+	background: #fff4a2;
+	border: 1px solid #e8c599;
+	.dark {
+		background: #efc735;
+	}
 }
 .small {
 	font-size: .8rem;

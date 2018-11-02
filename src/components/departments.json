@@ -3,34 +3,34 @@
 		"children": [
 			{"text": "Кадры", "img": "",
 				"children": [
-					{"text": "Блохин", "data": { "icon": "account_circle" }},
-					{"text": "Гришин", "data": { "icon": "account_circle" }},
-					{"text": "Голубев", "data": { "icon": "account_circle" }},
-					{"text": "Андреев", "data": { "icon": "account_circle" }}
+					{"text": "Блохин", "data": { "icon": "f"}},
+					{"text": "Гришин", "data": { "icon": "f" }},
+					{"text": "Голубев", "data": { "icon": "f" }},
+					{"text": "Андреев", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Финансовый отдел", "img": "",
 				"children": [
-					{"text": "Емельянов", "data": { "icon": "account_circle" }},
-					{"text": "Гущин", "data": { "icon": "account_circle" }},
-					{"text": "Исаев", "data": { "icon": "account_circle" }},
-					{"text": "Колобов", "data": { "icon": "account_circle" }},
-					{"text": "Карпов", "data": { "icon": "account_circle" }},
-					{"text": "Дементьев", "data": { "icon": "account_circle" }},
-					{"text": "Кондратьев", "data": { "icon": "account_circle" }}
+					{"text": "Емельянов", "data": { "icon": "f" }},
+					{"text": "Гущин", "data": { "icon": "f" }},
+					{"text": "Исаев", "data": { "icon": "f" }},
+					{"text": "Колобов", "data": { "icon": "f" }},
+					{"text": "Карпов", "data": { "icon": "f" }},
+					{"text": "Дементьев", "data": { "icon": "f" }},
+					{"text": "Кондратьев", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Бухгалтерия", "img": "",
 				"children": [
-					{"text": "Фролов", "data": { "icon": "account_circle" }},
-					{"text": "Шарапов", "data": { "icon": "account_circle" }},
-					{"text": "Сорокин", "data": { "icon": "account_circle" }}
+					{"text": "Фролов", "data": { "icon": "f" }},
+					{"text": "Шарапов", "data": { "icon": "f" }},
+					{"text": "Сорокин", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Безопасность", "img": "",
 				"children": [
-					{"text": "Титов", "data": { "icon": "account_circle" }},
-					{"text": "Суханов", "data": { "icon": "account_circle" }}
+					{"text": "Титов", "data": { "icon": "f" }},
+					{"text": "Суханов", "data": { "icon": "f" }}
 				]
 			}
 		]
@@ -39,36 +39,36 @@
 		"children": [
 			{"text": "Веб-разработка", "img": "",
 				"children": [
-					{"text": "Ларионов", "data": { "icon": "account_circle" }},
-					{"text": "Некрасов", "data": { "icon": "account_circle" }},
-					{"text": "Макаров", "data": { "icon": "account_circle" }},
-					{"text": "Мишин", "data": { "icon": "account_circle" }},
-					{"text": "Кудрявцев", "data": { "icon": "account_circle" }},
-					{"text": "Лукин", "data": { "icon": "account_circle" }},
-					{"text": "Сорокин", "data": { "icon": "account_circle" }},
-					{"text": "Орлов", "data": { "icon": "account_circle" }},
-					{"text": "Панов", "data": { "icon": "account_circle" }}
+					{"text": "Ларионов", "data": { "icon": "f" }},
+					{"text": "Некрасов", "data": { "icon": "f" }},
+					{"text": "Макаров", "data": { "icon": "f" }},
+					{"text": "Мишин", "data": { "icon": "f" }},
+					{"text": "Кудрявцев", "data": { "icon": "f" }},
+					{"text": "Лукин", "data": { "icon": "f" }},
+					{"text": "Сорокин", "data": { "icon": "f" }},
+					{"text": "Орлов", "data": { "icon": "f" }},
+					{"text": "Панов", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Базы данных", "img": "",
 				"children": [
-					{"text": "Мясников", "data": { "icon": "account_circle" }},
-					{"text": "Рогов", "data": { "icon": "account_circle" }},
-					{"text": "Романов", "data": { "icon": "account_circle" }},
-					{"text": "Сергеев", "data": { "icon": "account_circle" }}
+					{"text": "Мясников", "data": { "icon": "f" }},
+					{"text": "Рогов", "data": { "icon": "f" }},
+					{"text": "Романов", "data": { "icon": "f" }},
+					{"text": "Сергеев", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Мобильные приложения", "img": "",
 				"children": [
-					{"text": "Осипов", "data": { "icon": "account_circle" }},
-					{"text": "Прохоров", "data": { "icon": "account_circle" }}
+					{"text": "Осипов", "data": { "icon": "f" }},
+					{"text": "Прохоров", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Отдел тестирования", "img": "",
 				"children": [
-					{"text": "Сергеев", "data": { "icon": "account_circle" }},
-					{"text": "Сафонов", "data": { "icon": "account_circle" }},
-					{"text": "Селезнёв", "data": { "icon": "account_circle" }}
+					{"text": "Сергеев", "data": { "icon": "f" }},
+					{"text": "Сафонов", "data": { "icon": "f" }},
+					{"text": "Селезнёв", "data": { "icon": "f" }}
 				]
 			}
 		]
@@ -77,25 +77,25 @@
 		"children": [
 			{"text": "Корпоративные продажи", "img": "",
 				"children": [
-					{"text": "Фролов", "data": { "icon": "account_circle" }},
-					{"text": "Шарапов", "data": { "icon": "account_circle" }},
-					{"text": "Сорокин", "data": { "icon": "account_circle" }}
+					{"text": "Фролов", "data": { "icon": "f" }},
+					{"text": "Шарапов", "data": { "icon": "f" }},
+					{"text": "Сорокин", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Розница", "img": "",
 				"children": [
-					{"text": "Мишин", "data": { "icon": "account_circle" }},
-					{"text": "Кудрявцев", "data": { "icon": "account_circle" }},
-					{"text": "Лукин", "data": { "icon": "account_circle" }},
-					{"text": "Сорокин", "data": { "icon": "account_circle" }}
+					{"text": "Мишин", "data": { "icon": "f" }},
+					{"text": "Кудрявцев", "data": { "icon": "f" }},
+					{"text": "Лукин", "data": { "icon": "f" }},
+					{"text": "Сорокин", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "SMM", "img": "",
 				"children": [
-					{"text": "Блохин", "data": { "icon": "account_circle" }},
-					{"text": "Гришин", "data": { "icon": "account_circle" }},
-					{"text": "Голубев", "data": { "icon": "account_circle" }},
-					{"text": "Андреев", "data": { "icon": "account_circle" }}
+					{"text": "Блохин", "data": { "icon": "f" }},
+					{"text": "Гришин", "data": { "icon": "f" }},
+					{"text": "Голубев", "data": { "icon": "f" }},
+					{"text": "Андреев", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Интернет-магазин", "img": "",
@@ -108,33 +108,33 @@
 		"children": [
 			{"text": "Логистика", "img": "",
 				"children": [
-					{"text": "Никонов", "data": { "icon": "account_circle" }},
-					{"text": "Овчинников", "data": { "icon": "account_circle" }},
-					{"text": "Молчанов", "data": { "icon": "account_circle" }},
-					{"text": "Николаев", "data": { "icon": "account_circle" }},
-					{"text": "Орехов", "data": { "icon": "account_circle" }}
+					{"text": "Никонов", "data": { "icon": "f" }},
+					{"text": "Овчинников", "data": { "icon": "f" }},
+					{"text": "Молчанов", "data": { "icon": "f" }},
+					{"text": "Николаев", "data": { "icon": "f" }},
+					{"text": "Орехов", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "НИО", "img": "",
 				"children": [
-					{"text": "Козлов", "data": { "icon": "account_circle" }},
-					{"text": "Киселев", "data": { "icon": "account_circle" }}
+					{"text": "Козлов", "data": { "icon": "f" }},
+					{"text": "Киселев", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Отдел внедрений", "img": "",
 				"children": [
-					{"text": "Крылов", "data": { "icon": "account_circle" }},
-					{"text": "Кулаков", "data": { "icon": "account_circle" }},
-					{"text": "Лазарев", "data": { "icon": "account_circle" }},
-					{"text": "Мамонтов", "data": { "icon": "account_circle" }},
-					{"text": "Мартыновов", "data": { "icon": "account_circle" }}
+					{"text": "Крылов", "data": { "icon": "f" }},
+					{"text": "Кулаков", "data": { "icon": "f" }},
+					{"text": "Лазарев", "data": { "icon": "f" }},
+					{"text": "Мамонтов", "data": { "icon": "f" }},
+					{"text": "Мартыновов", "data": { "icon": "f" }}
 				]
 			},
 			{"text": "Отдел АСУ", "img": "",
 				"children": [
-					{"text": "Лыткин", "data": { "icon": "account_circle" }},
-					{"text": "Красильников", "data": { "icon": "account_circle" }},
-					{"text": "Куликов", "data": { "icon": "account_circle" }}
+					{"text": "Лыткин", "data": { "icon": "f" }},
+					{"text": "Красильников", "data": { "icon": "f" }},
+					{"text": "Куликов", "data": { "icon": "f" }}
 				]
 			}
 		]
