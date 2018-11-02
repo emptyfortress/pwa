@@ -37,7 +37,8 @@ new Vue({
 		tree: firebase.database.ref('tree'),
 		folders: firebase.database.ref('folders'),
 		items: firebase.database.ref('items'),
-		users: firebase.database.ref('users')
+		users: firebase.database.ref('users'),
+		departments: firebase.database.ref('departments')
 	},
 	render: h => h(App),
 	created () {
@@ -45,5 +46,6 @@ new Vue({
 		this.$store.dispatch('loadFolders')
 		this.$store.dispatch('loadItems')
 		this.$store.dispatch('loadUsers')
+		this.$store.dispatch('loadDepartments')
 	}
 }).$mount('#app')

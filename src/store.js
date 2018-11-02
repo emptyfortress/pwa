@@ -16,6 +16,7 @@ export default new Vuex.Store({
 		filter: '',
 		folders: [],
 		tree: [],
+		departments: [],
 		items: [],
 		users: [],
 		headers: [],
@@ -32,6 +33,7 @@ export default new Vuex.Store({
 		setError (state, payload) { state.error = payload },
 		clearError (state) { state.error = null },
 		setTree (state, payload) { state.tree = payload },
+		setDepartments (state, payload) { state.departments = payload },
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
 		setUsers (state, payload) { state.users = payload },
@@ -73,6 +75,7 @@ export default new Vuex.Store({
 		loading (state) { return state.loading },
 		error (state) { return state.error },
 		tree (state) { return state.tree },
+		departments (state) { return state.departments },
 		folders (state) { return state.folders },
 		items (state) { return state.items },
 		users (state) { return state.users },
@@ -133,6 +136,30 @@ export default new Vuex.Store({
 						})
 					}
 					commit('setTree', tree)
+					commit('setLoading', false)
+				})
+				.catch((error) => {
+					console.log(error)
+					commit('setLoading', false)
+				})
+		},
+		loadDepartments ({commit}) {
+			commit('setLoading', true)
+			firebase.database().ref('departments').once('value')
+				.then((data) => {
+					const departments = []
+					const obj = data.val()
+
+					for (let key in obj) {
+						departments.push({
+							id: obj[key].id,
+							text: obj[key].text,
+							img: obj[key].img,
+							children: obj[key].children,
+							data: obj[key].data
+						})
+					}
+					commit('setDepartments', departments)
 					commit('setLoading', false)
 				})
 				.catch((error) => {

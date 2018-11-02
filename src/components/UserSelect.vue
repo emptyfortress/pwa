@@ -22,9 +22,21 @@ div.rel
 			v-list-tile-content
 				v-list-tile-title {{ data.item.name }}
 				v-list-tile-sub-title(v-if="state === 'name'").small отдел, департамент
-	<!-- .list(v&#45;if="tree") -->
-	<!-- 	.pop -->
-	<!-- 		tree(:data="deps" :options="treeOptions") -->
+	.list(v-if="state === 'tree'")
+		.pop
+			tree(:data="deps")
+				span(slot-scope="{ node }")
+					template(v-if="!node.data.icon")
+						span {{ node.text }}
+					template(v-else)
+						v-layout(row align-center).foo
+							v-avatar(size="32")
+								img(src="/img/user0.svg").av
+							v-flex
+								.name {{ node.text }}
+								.descr должность
+					</template>
+				</span>
 </template>
 
 <script>
@@ -39,8 +51,6 @@ export default {
 		return {
 			search: null,
 			state: 'name',
-			// tree: false,
-			// role: false,
 			items: [],
 			selected: this.value,
 			roles: [
@@ -51,24 +61,6 @@ export default {
 				{img: src[3], name: '=Контролер'},
 				{img: src[3], name: '=Регистратор'},
 				{img: src[3], name: '=Все руководители'}
-			],
-			deps: [
-				{id: 0,
-					text: 'Руководство',
-					'image': '',
-					children: [
-						{id: 10, text: 'Производство', 'image': ''},
-						{id: 11, text: 'Производство', 'image': ''},
-						{id: 12, text: 'Производство', 'image': ''}
-					]
-				},
-				{id: 1, text: 'Производство', 'image': ''},
-				{id: 2, text: 'Логистика', 'image': ''},
-				{id: 3, text: 'Сервис', 'image': ''},
-				{id: 4, text: 'НИО', 'image': ''},
-				{id: 5, text: 'Отдел внедрений', 'image': ''},
-				{id: 6, text: 'Отдел АСУ', 'image': ''},
-				{id: 7, text: 'Корпоративные продажи', 'image': ''}
 			]
 		}
 	},
@@ -83,6 +75,9 @@ export default {
 		}
 	},
 	computed: {
+		deps () {
+			return this.$store.getters.departments
+		},
 		persons () {
 			return this.$store.getters.users
 		},
@@ -162,6 +157,18 @@ export default {
 				background: #eee;
 			}
 		}
+	}
+}
+.foo {
+	margin-left: -30px;
+	padding: 0;
+	.v-avatar { margin-right: .5rem; }
+	.name { line-height: 100%; }
+	.descr {
+		font-size: .9rem;
+		font-style: italic;
+		color: $grey2;
+		margin-top: 0;
 	}
 }
 </style>
