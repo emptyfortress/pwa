@@ -46,7 +46,8 @@ export default {
 		let src = {
 			1: '/img/user0.svg',
 			2: '/img/user1.svg',
-			3: '/img/role.svg'
+			3: '/img/role.svg',
+			4: '/img/user2.svg'
 		}
 		return {
 			search: null,
@@ -62,6 +63,13 @@ export default {
 				{class: 'role', img: src[3], name: '=Контролер'},
 				{class: 'role', img: src[3], name: '=Регистратор'},
 				{class: 'role', img: src[3], name: '=Все руководители'}
+			],
+			words: [
+				{class: 'word', img: src[4], name: '+Я'},
+				{class: 'word', img: src[4], name: '+Мои заместители'},
+				{class: 'word', img: src[4], name: '+Мои коллеги'},
+				{class: 'word', img: src[4], name: '+Мой отдел'},
+				{class: 'word', img: src[4], name: '+Мои подчиненные'}
 			]
 		}
 	},
@@ -73,6 +81,9 @@ export default {
 			}
 			if (val.length > 0 && val[0] === '=') {
 				this.state = 'role'
+			}
+			if (val.length > 0 && val[0] === '+') {
+				this.state = 'word'
 			}
 		}
 	},
@@ -90,16 +101,12 @@ export default {
 			if (this.state === 'role') {
 				return this.roles
 			}
-			// else return this.persons
+			if (this.state === 'word') {
+				return this.words
+			}
 		}
 	},
 	methods: {
-		// setF () {
-		// 	setTimeout(function () {
-		// 		console.log('fuck')
-		// 		this.filter = 'бл'
-		// 	}, 500)
-		// },
 		addSelection (e) {
 			this.selected.push('Блохин')
 			this.state = 'name'
@@ -153,6 +160,13 @@ export default {
 	border: 1px solid #e8c599;
 	.dark {
 		background: #efc735;
+	}
+}
+.word {
+	background: #ffc1ff;
+	border: 1px solid #ff9cff;
+	.dark {
+		background: #ffc1ff;
 	}
 }
 .small {
