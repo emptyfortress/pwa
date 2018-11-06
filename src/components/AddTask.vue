@@ -52,25 +52,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 				v-btn(flat ) Конец квартала
 
 			v-switch(label="Последовательное исполнение" v-model="sequence" v-if="fio.length > 1").mt-0.mx-3
-			div(@mousedown.native.stop)
-				SlickList(lockAxis="y" :value="fio" helperClass="moving" :distance=2 @input="newArr" @mousedown.native.stop )
-					transition-group(name="sort" )
-						SlickItem(v-for="(item, index) in fio" :index="index" :key="index" :item="item" )
-							v-card(flat).desktope
-								.card-content
-									v-layout(row wrap)
-										v-flex
-											.head {{item}}
-										v-flex
-											.head {{item}}
-									<!-- .some some staff goes here -->
-									<!-- .fio {{ item.author }} -->
-									<!-- .date {{item.created}} -->
-									<!-- .state В работе -->
-							<!-- div {{ item }} -->
-			<!-- v&#45;data&#45;table(v&#45;model="users") -->
-			<!-- 	template(slot="items" slot&#45;scope="props") -->
-			<!-- 		tr(:key="") -->
+			userTable( :items="fio" )/
 
 			v-btn(flat) Файлы
 			v-card-actions
@@ -118,9 +100,10 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 </template>
 
 <script>
-import { SlickList, SlickItem } from 'vue-slicksort'
+// import Sortable from 'sortablejs'
 import DragItDude from 'vue-drag-it-dude'
 import UserSelect from '@/components/UserSelect'
+import userTable from '@/components/userTable'
 import * as Longpress from '@/directives/longpress-directive'
 
 export default {
@@ -240,11 +223,10 @@ export default {
 		}
 	},
 	components: {
-		SlickItem,
-		SlickList,
 		DragItDude,
 		UserSelect,
-		Longpress
+		Longpress,
+		userTable
 	},
 	methods: {
 		saving () {
@@ -334,11 +316,6 @@ export default {
 				this.fio1.push(data)
 				this.over1 = false
 			}
-		},
-		newArr (e) {
-			// console.log(e)
-			// this.$store.commit('setItems', e)
-			this.fio = e
 		}
 	}
 }
