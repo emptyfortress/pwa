@@ -19,8 +19,9 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 			drop(v-if="controler" @drop="handleDrop1" @mousedown.native.stop @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
 				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
 			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
-			v-textarea(v-if="expanded === 0" class="mx-3 mt-0" label="Содержание" @mousedown.native.stop v-model="description" height="30")
-			v-textarea(v-else class="mx-3 mt-0" label="Содержание"  height="100" v-model="description")
+			v-textarea(v-if="expanded === 0" class="mx-3 my-0" label="Содержание" @mousedown.native.stop v-model="description" height="30")
+			v-textarea(v-else class="mx-3 my-0" label="Содержание"  height="100" v-model="description")
+
 			v-layout( row align-center class="mx-3" )
 				.rel.mr-5
 					.label Дней на исполнение
@@ -49,9 +50,30 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 				v-btn(flat ) След.понедельник
 				v-btn(flat ) Конец месяца
 				v-btn(flat ) Конец квартала
+
+			v-switch(label="Последовательное исполнение" v-model="sequence" v-if="fio.length > 1").mt-0.mx-3
+			div(@mousedown.native.stop)
+				SlickList(lockAxis="y" :value="fio" helperClass="moving" :distance=2 @input="newArr" @mousedown.native.stop )
+					transition-group(name="sort" )
+						SlickItem(v-for="(item, index) in fio" :index="index" :key="index" :item="item" )
+							v-card(flat).desktope
+								.card-content
+									v-layout(row wrap)
+										v-flex
+											.head {{item}}
+										v-flex
+											.head {{item}}
+									<!-- .some some staff goes here -->
+									<!-- .fio {{ item.author }} -->
+									<!-- .date {{item.created}} -->
+									<!-- .state В работе -->
+							<!-- div {{ item }} -->
+			<!-- v&#45;data&#45;table(v&#45;model="users") -->
+			<!-- 	template(slot="items" slot&#45;scope="props") -->
+			<!-- 		tr(:key="") -->
+
 			v-btn(flat) Файлы
 			v-card-actions
-				<!-- v&#45;btn(flat color="orange" @click="$store.commit('closeAddTask')") Отмена -->
 				v-btn(flat color="orange" @click="resetForm") Очистить
 				v-btn(flat color="orange") Отправить
 
@@ -96,6 +118,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 </template>
 
 <script>
+import { SlickList, SlickItem } from 'vue-slicksort'
 import DragItDude from 'vue-drag-it-dude'
 import UserSelect from '@/components/UserSelect'
 import * as Longpress from '@/directives/longpress-directive'
@@ -112,6 +135,7 @@ export default {
 			days: 3,
 			over: false,
 			over1: false,
+			sequence: false,
 			draggable: 'Drag me',
 			type: 'На исполнение',
 			fio: [],
@@ -216,6 +240,8 @@ export default {
 		}
 	},
 	components: {
+		SlickItem,
+		SlickList,
 		DragItDude,
 		UserSelect,
 		Longpress
@@ -308,6 +334,11 @@ export default {
 				this.fio1.push(data)
 				this.over1 = false
 			}
+		},
+		newArr (e) {
+			// console.log(e)
+			// this.$store.commit('setItems', e)
+			this.fio = e
 		}
 	}
 }
@@ -455,5 +486,41 @@ export default {
 	i {
 		font-size: 3rem;
 	}
+}
+
+.desktope .card-content {
+	margin: 1rem;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	.head {
+		font-size: 1rem;
+		flex-grow: 1;
+		/* color: $secondary; */
+	}
+	.fio {
+		width: 130px;
+		overflow: hidden;
+	}
+	.date {
+		margin: 0 1.5rem;
+		overflow: hidden;
+	}
+	.state {
+		color: orange;
+		text-transform: uppercase;
+		font-size: .8rem;
+		overflow: hidden;
+	}
+	.some { display: none; }
+}
+
+.moving {
+	background: #fff;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	font-family: Roboto;
+	color: #000;
+	line-height: 170%;
+	z-index: 5;
 }
 </style>

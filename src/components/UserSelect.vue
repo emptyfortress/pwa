@@ -108,7 +108,7 @@ export default {
 	},
 	methods: {
 		addSelection (e) {
-			this.selected.push('Блохин')
+			this.selected.push(e.text)
 			this.state = 'name'
 		},
 		onChange () {
