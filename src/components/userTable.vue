@@ -1,9 +1,16 @@
 <template lang="pug">
 table.users
 	draggable
-		tr(v-for="item in items")
+		tr
+			th
+			th Исп.
+			th Дней
+			th Срок
+		tr(v-for="(item, index) in items" :key="item").item
+			td {{index+1}}
 			td {{item}}
-			td laksd
+			td 1
+			td 13 апр
 
 </template>
 
@@ -22,6 +29,28 @@ export default {
 		draggable
 	},
 	methods: {
+		checkMove (e) {
+			return false
+		}
 	}
 }
 </script>
+
+<style scoped lang="scss">
+@import '@/assets/css/colors.scss';
+
+.users {
+	/* font-size: 1.0rem; */
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	margin: 0 1rem;
+	border-collapse: collapse;
+	tr:hover {
+		background: #eee;
+	}
+	td {
+		padding: .5rem;
+	}
+}
+
+</style>
