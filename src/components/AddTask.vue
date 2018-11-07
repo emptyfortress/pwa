@@ -1,4 +1,5 @@
 <template lang="pug">
+<!-- .ddr -->
 drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 	.top
 		span создать:
@@ -20,7 +21,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
 			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
 			v-textarea(v-if="expanded === 0" class="mx-3 my-0" label="Содержание" @mousedown.native.stop v-model="description" height="30")
-			v-textarea(v-else class="mx-3 my-0" label="Содержание"  height="100" v-model="description")
+			v-textarea(v-else class="mx-3 my-0" label="Содержание"  height="80" v-model="description")
 
 			v-layout( row align-center class="mx-3" )
 				.rel.mr-5
@@ -52,7 +53,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 				v-btn(flat ) Конец квартала
 
 			v-switch(label="Последовательное исполнение" v-model="sequence" v-if="fio.length > 1").mt-0.mx-3
-			userTable( :items="fio" )/
+			userTable( :items="fio" @mousedown.native.stop )/
 
 			v-btn(flat) Файлы
 			v-card-actions
@@ -324,6 +325,43 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
+.ddr {
+	width: var(--sm);
+	height: var(--sm);
+	background: #fff;
+	z-index: 3;
+	position: fixed;
+	left: initial;
+	top: initial;
+	right: 0;
+	bottom: 0;
+	box-shadow: 0 0 15px #00000033;
+	.top {
+		position: ablsolute;
+		top: 0;
+		right: 0;
+		text-align: right;
+		background: $info;
+		span {
+			font-size: .9rem;
+			text-transform: uppercase;
+			float: left;
+			color: #fff;
+			padding: .2rem .5rem;
+			background: $info;
+		}
+		i {
+			color: #fff;
+			cursor: pointer;
+			padding: .5rem;
+			display: inline-block;
+			font-size: .97rem;
+			&:hover {
+				background: lighten($info, 20%);
+			}
+		}
+	}
+}
 .drag-it-dude {
 	width: var(--sm);
 	height: var(--sm);

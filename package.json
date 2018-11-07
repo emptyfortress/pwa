@@ -22,6 +22,8 @@
     "vue-responsive-components": "^0.2.3",
     "vue-router": "^3.0.1",
     "vue-slicksort": "^0.1.10",
+    "vue-sortable": "^0.1.3",
+    "vuedraggable": "^2.16.0",
     "vuefire": "^1.4.5",
     "vuetify": "^1.0.19",
     "vuetrend": "^0.3.2",
