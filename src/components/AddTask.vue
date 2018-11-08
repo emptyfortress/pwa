@@ -52,7 +52,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 				v-btn(flat ) Конец квартала
 
 			v-switch(label="Последовательное исполнение" v-model="sequence" v-if="fio.length > 1").mt-0.mx-3.myswitch
-			userTable( :items="fio" @mousedown.native.stop )/
+			userTable( :items="fio" @mousedown.native.stop )
 
 			v-btn(flat) Файлы
 			v-card-actions
