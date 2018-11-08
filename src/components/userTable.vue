@@ -1,23 +1,24 @@
 <template lang="pug">
-table.users
-	thead
-		tr
-			th
-			th ФИО
-			th Длительность (ч.)
-			th Срок
-			th Доп. описание
-			th Ответств.
-	tbody(id='table')
-		tr(v-for="(item, index) in items" :key="item").item
-			td
-				v-btn(icon).handle
-					v-icon drag_handle
-			td {{item}}
-			td 1
-			td 13 апр
-			td 13 апр
-			td 13 апр
+div.mx-3
+	table.users
+		thead
+			tr
+				th.sm
+				th.text-xs-left ФИО
+				th.text-xs-center Длит. (ч.)
+				th.text-xs-center Срок
+				th.text-xs-left Доп. описание
+				th.text-xs-center Ответств.
+		tbody(id='table')
+			tr(v-for="(item, index) in items" :key="item").item
+				td.sm
+					v-btn(icon).handle
+						v-icon drag_handle
+				td.text-xs-left {{item}}
+				td.text-xs-center.md 1
+				td.text-xs-center 13 апр
+				td.text-xs-left 13 апр
+				td.text-xs-center 13 апр
 
 </template>
 
@@ -48,19 +49,20 @@ export default {
 @import '@/assets/css/colors.scss';
 
 .users {
-	/* font-size: 1.0rem; */
-	border-top: 1px solid #eee;
-	border-bottom: 1px solid #eee;
-	margin: 0 1rem;
-	border-collapse: collapse;
+	/* margin: 0 1rem; */
+	/* border-collapse: collapse; */
 	width: 100%;
+	th { font-size: .85rem; border-bottom: 1px solid #eee; font-weight: 500; }
 	tr:hover {
 		background: #eee;
 	}
 	td {
 		padding: .5rem;
+		/* border: 1px solid red; */
 	}
 }
+.sm { width: 40px; }
+.md { width: 80px; }
 
 .handle {
 	margin: 0;
