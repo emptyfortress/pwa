@@ -1,6 +1,6 @@
 <template lang="pug">
 table.users
-	draggable(:options="{draggable: '.item', handle: '.handle'}")
+	thead
 		tr
 			th
 			th ФИО
@@ -8,6 +8,7 @@ table.users
 			th Срок
 			th Доп. описание
 			th Ответств.
+	tbody(id='table')
 		tr(v-for="(item, index) in items" :key="item").item
 			td
 				v-btn(icon).handle
@@ -21,7 +22,7 @@ table.users
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import Sortable from 'sortablejs'
 
 export default {
 	props: [ 'items' ],
@@ -31,13 +32,14 @@ export default {
 	},
 	computed: {
 	},
-	components: {
-		draggable
+	mounted () {
+		let table = document.getElementById('table')
+		Sortable.create(table, {
+			draggable: '.item',
+			handle: '.handle'
+		})
 	},
 	methods: {
-		checkMove (e) {
-			return false
-		}
 	}
 }
 </script>
