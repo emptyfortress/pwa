@@ -1,13 +1,15 @@
 <template lang="pug">
 table.users
-	draggable
+	draggable(:options="{draggable: '.item', handle: '.handle'}")
 		tr
 			th
 			th Исп.
 			th Дней
 			th Срок
 		tr(v-for="(item, index) in items" :key="item").item
-			td {{index+1}}
+			td
+				v-btn(icon).handle
+					v-icon drag_handle
 			td {{item}}
 			td 1
 			td 13 апр
@@ -53,4 +55,7 @@ export default {
 	}
 }
 
+.handle {
+	margin: 0;
+}
 </style>
