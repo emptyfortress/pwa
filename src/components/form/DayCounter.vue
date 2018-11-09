@@ -1,11 +1,11 @@
 <template lang="pug">
-v-layout(row).dlit
+v-layout(row @dblclick="doNothing").dlit
 	v-text-field(v-model="mydays" type="number" label="Дней" v-if="dday").mx-2
 	v-text-field(v-model="hours" type="number" label="Часов" v-else).mx-2
 	v-layout(column).counter
 		i(@click="plus" @dblclick="doNothing").icon-nup
-		i(@click="dday = !dday" @dblclick="doNothing" :class="ifHour").icon-nmiddle
-		i(@click="minus" @dblclick="doNothing").icon-ndown
+		i(@click="dday = !dday" :class="ifHour").icon-nmiddle
+		i(@click="minus").icon-ndown
 
 </template>
 

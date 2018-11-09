@@ -23,8 +23,8 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 
 			v-layout( row ).mx-3
 				.mr-5
-					<!-- DayCounter(days="startDays") -->
-					DayCounter(days="3")
+					DayCounter(days="days")
+					<!-- DayCounter(days="3") -->
 
 				.mr-5
 					v-menu(ref="menu"
@@ -34,7 +34,8 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 					max-width="290px" min-width="290px"
 					offset-y full-width )
 						v-text-field(slot="activator" v-model="date" label="Дата завершения" prepend-icon="event" readonly)
-						v-date-picker(v-model="date" @input="$refs.menu.save(date)" scrollable locale="ru-ru")
+						v-date-picker(v-model="date1" @input="saveDate" scrollable locale="ru-ru")
+						<!-- v&#45;date&#45;picker(v&#45;model="date" @input="$refs.menu.save(date)" scrollable locale="ru&#45;ru") -->
 				v-flex(mx-4 v-if="fio.length > 1")
 					v-text-field(type="number" label="Hours")
 
@@ -120,10 +121,10 @@ export default {
 		return {
 			expanded: 2,
 			selected: null,
-			date: null,
+			// date: null,
 			menu: null,
 			menu2: false,
-			startDays: 3,
+			// startDays: 3,
 			time: '19:00',
 			theme: null,
 			search: '',
@@ -132,6 +133,7 @@ export default {
 			sequence: '1',
 			draggable: 'Drag me',
 			type: 'На исполнение',
+			date1: null,
 			// fio: ['Иванов', 'Петров'],
 			fio: [],
 			fio1: [],
@@ -203,13 +205,19 @@ export default {
 		if (this.restore) {
 			this.setForm()
 		}
-		this.setDeadline()
+		this.date1 = this.date
 	},
 	computed: {
-		// date () {
-		// 	let now = new Date()
-		// 	let formatted = now.getFullYear() + '-' + ( now.getMonth() +1 ) + '-' + ( now.getDate() + 3)
-		// 	return formatted.toString()
+		days () {
+			return this.$store.getters.duration
+		},
+		date () {
+			let now = new Date()
+			let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + (now.getDate() + this.days)
+			return formatted
+		},
+		// date1 () {
+		// 	return this.date
 		// },
 		restore () {
 			return this.$store.getters.restore
@@ -254,10 +262,15 @@ export default {
 		doNothing (evt) {
 			evt.stopPropagation()
 		},
-		setDeadline () {
+		saveDate () {
+			// console.log(this.date1)
 			let now = new Date()
-			let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + (now.getDate() + this.startDays)
-			this.date = formatted
+			let nowDays = now.getDate()
+			let toDays = this.date1.split('-')[2]
+			let days = toDays - nowDays
+			this.$store.commit('setDuration', days)
+			this.$refs.menu.save(this.date1)
+			// console.log(days)
 		},
 		saving () {
 			let e = this.currentSlot
