@@ -4,7 +4,7 @@ v-layout(row).dlit
 	v-text-field(v-model="hours" type="number" label="Часов" v-else).mx-2
 	v-layout(column).counter
 		i(@click="plus" @dblclick="doNothing").icon-nup
-		i(@click="dday = !dday" @dblclick="doNothing").icon-nmiddle
+		i(@click="dday = !dday" @dblclick="doNothing" :class="ifHour").icon-nmiddle
 		i(@click="minus" @dblclick="doNothing").icon-ndown
 
 </template>
@@ -23,6 +23,9 @@ export default {
 		},
 		hours () {
 			return this.mydays * 8
+		},
+		ifHour () {
+			return this.dday ? '' : 'rd'
 		}
 	},
 	methods: {
@@ -48,6 +51,7 @@ export default {
 	cursor: pointer;
 	i {
 		color: #ccc;
+		&.rd { color: red; }
 		&:hover {
 			color: #222;
 		}
