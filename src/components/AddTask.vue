@@ -23,13 +23,8 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 
 			v-layout( row ).mx-3
 				.mr-5
-					v-layout(row).dlit
-						v-text-field(v-model="days" type="number" label="Дней" v-if="dday").mx-2
-						v-text-field(v-model="hours" type="number" label="Часов" v-else).mx-2
-						v-layout(column).counter
-							i(@click="plus").icon-nup
-							i(@click="dday = !dday").icon-nmiddle
-							i(@click="minus").icon-ndown
+					<!-- DayCounter(days="startDays") -->
+					DayCounter(days="3")
 
 				.mr-5
 					v-menu(ref="menu"
@@ -118,6 +113,7 @@ import DragItDude from 'vue-drag-it-dude'
 import UserSelect from '@/components/UserSelect'
 import userTable from '@/components/userTable'
 import * as Longpress from '@/directives/longpress-directive'
+import DayCounter from '@/components/form/DayCounter'
 
 export default {
 	data () {
@@ -127,11 +123,10 @@ export default {
 			date: null,
 			menu: null,
 			menu2: false,
+			startDays: 3,
 			time: '19:00',
-			dday: true,
 			theme: null,
 			search: '',
-			days: 3,
 			over: false,
 			over1: false,
 			sequence: '1',
@@ -216,9 +211,6 @@ export default {
 		// 	let formatted = now.getFullYear() + '-' + ( now.getMonth() +1 ) + '-' + ( now.getDate() + 3)
 		// 	return formatted.toString()
 		// },
-		hours () {
-			return this.days * 8
-		},
 		restore () {
 			return this.$store.getters.restore
 		},
@@ -252,7 +244,8 @@ export default {
 		DragItDude,
 		UserSelect,
 		Longpress,
-		userTable
+		userTable,
+		DayCounter
 	},
 	methods: {
 		textareaResize () {
@@ -263,7 +256,7 @@ export default {
 		},
 		setDeadline () {
 			let now = new Date()
-			let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + (now.getDate() + this.days)
+			let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + (now.getDate() + this.startDays)
 			this.date = formatted
 		},
 		saving () {
@@ -315,12 +308,6 @@ export default {
 			this.description = this.stars[e].description
 			this.name = this.stars[e].name
 			this.currentSlot = e
-		},
-		plus () {
-			this.days++
-		},
-		minus () {
-			this.days--
 		},
 		expand () {
 			if (this.expanded === 0) { this.expanded = 1 } else if (this.expanded === 1) { this.expanded = 2 } else if (this.expanded === 2) { this.expanded = 0 }
