@@ -19,40 +19,53 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 			drop(v-if="controler" @drop="handleDrop1" @mousedown.native.stop @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
 				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
 			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
-			v-textarea(v-if="expanded === 0" class="mx-3 my-0" label="Содержание" @mousedown.native.stop v-model="description" height="30")
-			v-textarea(v-else class="mx-3 my-0" label="Содержание"  height="80" v-model="description")
+			v-textarea(class="mx-3 my-0" label="Содержание" auto-grow @mousedown.native.stop v-model="description" rows=1)
 
-			v-layout( row align-center class="mx-3" )
-				.rel.mr-5
-					.label Дней на исполнение
-					v-layout(row align-center )
-						v-btn( flat icon @click="minus" )
-							v-icon remove
-						input(type="text" size="25" :value="days" id="count" placeholder="Дни")
-						v-btn( flat icon  @click="plus")
-							v-icon add
-				v-flex
+			v-layout( row ).mx-3
+				.mr-5
+					v-layout(row).dlit
+						v-text-field(v-model="days" type="number" label="Дней" v-if="dday").mx-2
+						v-text-field(v-model="hours" type="number" label="Часов" v-else).mx-2
+						v-layout(column).counter
+							i(@click="plus").icon-nup
+							i(@click="dday = !dday").icon-nmiddle
+							i(@click="minus").icon-ndown
+
+				.mr-5
 					v-menu(ref="menu"
 					:close-on-content-click="true"
 					v-model="menu" :nudge-right="30"
 					:return-value.sync="date" lazy transition="scale-transition"
 					max-width="290px" min-width="290px"
 					offset-y full-width )
-						v-text-field(slot="activator" v-model="date" label="Срок исполнения" prepend-icon="event" readonly)
+						v-text-field(slot="activator" v-model="date" label="Дата завершения" prepend-icon="event" readonly)
 						v-date-picker(v-model="date" @input="$refs.menu.save(date)" scrollable locale="ru-ru")
-				template(v-if="expanded === 2")
-					v-btn(flat ) Конец недели
-					v-btn(flat ) След.понедельник
-					v-btn(flat ) Конец месяца
-					v-btn(flat ) Конец квартала
-			div(v-if="expanded === 1")
-				v-btn(flat ) Конец недели
-				v-btn(flat ) След.понедельник
-				v-btn(flat ) Конец месяца
-				v-btn(flat ) Конец квартала
+				v-flex(mx-4 v-if="fio.length > 1")
+					v-text-field(type="number" label="Hours")
 
-			v-switch(label="Последовательное исполнение" v-model="sequence" v-if="fio.length > 1").mt-0.mx-3.myswitch
-			userTable( :items="fio" @mousedown.native.stop )
+				v-flex(v-if="fio.length > 1")
+					v-menu(ref="menu2"
+					:close-on-content-click="false"
+					v-model="menu2" :nudge-right="40"
+					:return-value.sync="time" lazy transition="scale-transition"
+					offset-y full-width max-width="290px" min-width="290px")
+						v-text-field(slot="activator"
+						v-model="time"
+						label="Picker in menu"
+						prepend-icon="access_time"
+						readonly)
+						v-time-picker( v-if="menu2"
+						v-model="time"
+						full-width
+						@change="$refs.menu2.save(time)")
+
+				v-layout(row v-if="fio.length > 1")
+					.mx-3
+						v-btn-toggle(v-model="sequence" )
+							v-btn(flat value="1") Параллельно
+							v-btn(flat value="2" ) Последовательно
+
+			userTable( :items="fio" v-if="fio.length > 1")
 
 			v-btn(flat) Файлы
 			v-card-actions
@@ -109,19 +122,23 @@ import * as Longpress from '@/directives/longpress-directive'
 export default {
 	data () {
 		return {
-			expanded: 0,
+			expanded: 2,
 			selected: null,
-			date: '2018-11-12',
+			date: null,
 			menu: null,
+			menu2: false,
+			time: '19:00',
+			dday: true,
 			theme: null,
 			search: '',
 			days: 3,
 			over: false,
 			over1: false,
-			sequence: false,
+			sequence: '1',
 			draggable: 'Drag me',
 			type: 'На исполнение',
-			fio: ['Иванов', 'Петров'],
+			// fio: ['Иванов', 'Петров'],
+			fio: [],
 			fio1: [],
 			description: '',
 			controler: false,
@@ -191,8 +208,17 @@ export default {
 		if (this.restore) {
 			this.setForm()
 		}
+		this.setDeadline()
 	},
 	computed: {
+		// date () {
+		// 	let now = new Date()
+		// 	let formatted = now.getFullYear() + '-' + ( now.getMonth() +1 ) + '-' + ( now.getDate() + 3)
+		// 	return formatted.toString()
+		// },
+		hours () {
+			return this.days * 8
+		},
 		restore () {
 			return this.$store.getters.restore
 		},
@@ -229,6 +255,17 @@ export default {
 		userTable
 	},
 	methods: {
+		textareaResize () {
+			this.$refs.textarea.style.minHeight = this.$refs.textarea.scrollHeight + 'px'
+		},
+		doNothing (evt) {
+			evt.stopPropagation()
+		},
+		setDeadline () {
+			let now = new Date()
+			let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + (now.getDate() + this.days)
+			this.date = formatted
+		},
 		saving () {
 			let e = this.currentSlot
 			let b = this.slot0
@@ -536,5 +573,23 @@ export default {
 	color: #000;
 	line-height: 170%;
 	z-index: 5;
+}
+.v-btn-toggle--selected {
+	box-shadow: none;
+}
+.counter {
+	font-size: .8rem;
+	line-height: 0;
+	margin-top: 1rem;
+	cursor: pointer;
+	i {
+		color: #ccc;
+		&:hover {
+			color: #222;
+		}
+	}
+}
+.dlit {
+	width: 100px;
 }
 </style>

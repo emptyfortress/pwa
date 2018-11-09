@@ -12,9 +12,11 @@ div.mx-3
 		tbody(id='table')
 			tr(v-for="(item, index) in items" :key="item").item
 				td.sm
-					v-btn(icon).handle
+					v-btn(icon @mousedown.native.stop).handle
 						v-icon drag_handle
-				td.text-xs-left {{item}}
+				td.text-xs-left {{ item }}
+					<!-- v&#45;edit&#45;dialog(:return&#45;value.sync="props.item" lazy @save="save" @cancel="cancel" @open="open" @close="close") {{ props.item }} -->
+					<!-- 	v&#45;text&#45;field(slot="input" v&#45;model="props.item.name" :rules="[max25chars]" label="Edit" single&#45;line counter) -->
 				td.text-xs-center.md 1
 				td.text-xs-center 13 апр
 				td.text-xs-left 13 апр
@@ -49,10 +51,8 @@ export default {
 @import '@/assets/css/colors.scss';
 
 .users {
-	/* margin: 0 1rem; */
-	/* border-collapse: collapse; */
 	width: 100%;
-	th { font-size: .85rem; border-bottom: 1px solid #eee; font-weight: 500; }
+	th { color: $grey1; font-size: .85rem; border-bottom: 1px solid #eee; font-weight: 500; }
 	tr:hover {
 		background: #eee;
 	}
