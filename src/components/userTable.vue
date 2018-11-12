@@ -19,8 +19,9 @@ div.mx-3
 					<!-- 	v&#45;text&#45;field(slot="input" v&#45;model="props.item.name" :rules="[max25chars]" label="Edit" single&#45;line counter) -->
 				td.text-xs-center.md 1
 				td.text-xs-center 13 апр
-				td.text-xs-left 13 апр
-				td.text-xs-center 13 апр
+				td.text-xs-left
+				td.text-xs-center.sm
+					input(type="checkbox")
 
 </template>
 
