@@ -21,17 +21,29 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
 			v-textarea(class="mx-3 my-0" label="Содержание" auto-grow @mousedown.native.stop v-model="description" rows=1)
 
-			v-layout( row ).mx-3
+			v-layout( row align-center ).mx-3
 				.mr-0(v-if="expanded === 2")
 					v-menu(ref="menu3"
 					:close-on-content-click="true"
 					v-model="menu3" :nudge-right="30"
-					:return-value.sync="date2" lazy transition="scale-transition"
+					lazy transition="scale-transition"
 					max-width="290px" min-width="290px"
 					offset-y full-width )
-						v-text-field(slot="activator" :value="date2" label="Начать" prepend-icon="event" readonly).month
-						v-date-picker(v-model="date2" scrollable locale="ru-Ru" first-day-of-week=1)
-						<!-- v&#45;date&#45;picker(v&#45;model="startDate" @input="saveStart" scrollable locale="ru&#45;Ru" first&#45;day&#45;of&#45;week=1) -->
+						v-text-field(slot="activator" :value="startDate" label="Начать" prepend-icon="event" readonly).month
+						v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
+				.mr-4(v-if="expanded == 2")
+					v-menu(ref="menu4"
+					:close-on-content-click="false"
+					v-model="menu4" :nudge-right="0"
+					:return-value.sync="time0" lazy transition="scale-transition"
+					offset-y full-width max-width="290px" min-width="290px")
+						v-text-field(slot="activator"
+						v-model="time0"
+						readonly).hour
+						v-time-picker( v-if="menu4"
+						v-model="time0"
+						full-width
+						@change="$refs.menu4.save(time0)")
 
 				.mr-5
 					DayCounter(days="days")
@@ -60,13 +72,13 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 						full-width
 						@change="$refs.menu2.save(time)")
 
-				v-layout(row v-if="fio.length > 1")
+				v-layout(row v-if="fio.length > 1 && expanded === 2")
 					.mx-3
 						v-btn-toggle(v-model="sequence" )
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
 
-			userTable( :items="fio" v-if="fio.length > 1")
+			userTable( :items="fio" v-if="fio.length > 1 && sequence === '2'").my-3
 
 			v-btn(flat) Файлы
 			v-card-actions
@@ -125,10 +137,13 @@ export default {
 	data () {
 		return {
 			expanded: 2,
-			selected: null,
+			// selected: null,
 			menu: null,
 			menu2: false,
+			menu3: false,
+			menu4: false,
 			time: '19:00',
+			time0: '10:00',
 			theme: null,
 			search: '',
 			over: false,
@@ -137,9 +152,9 @@ export default {
 			draggable: 'Drag me',
 			type: 'На исполнение',
 			date1: null,
-			date2: new Date().toISOString().substr(0, 10),
-			// fio: ['Иванов', 'Петров'],
-			fio: [],
+			startDate: new Date().toISOString().substr(0, 10),
+			fio: ['Иванов', 'Петров'],
+			// fio: [],
 			fio1: [],
 			description: '',
 			controler: false,
@@ -147,12 +162,7 @@ export default {
 			currentSlot: null,
 			name: '',
 			types: [
-				'На исполнение',
-				'На исполнение c контролем',
-				'На ознакомление',
-				'На согласование',
-				'Группа заданий',
-				'Документ'
+				'На исполнение', 'На исполнение c контролем', 'На ознакомление', 'На согласование', 'Группа заданий', 'Документ'
 			],
 			stars: [
 				{
@@ -210,25 +220,10 @@ export default {
 			this.setForm()
 		}
 		this.date1 = this.endDate
-		// this.date2: new Date().toISOString().substr(0, 10)
-		// this.date2 = this.startDate
-		// this.startDate = new Date()
 	},
 	computed: {
 		days () {
 			return this.$store.getters.duration
-		},
-		startDate: {
-			get: function () {
-				let now = new Date()
-				let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate()
-				// eslint-disable-next-line
-				// this.date1 = formatted
-				return formatted
-			},
-			set: function () {
-				return false
-			}
 		},
 		endDate: {
 			get: function () {
@@ -285,8 +280,6 @@ export default {
 		doNothing (evt) {
 			evt.stopPropagation()
 		},
-		// saveStart () {
-		// },
 		saveDate () {
 			let now = new Date()
 			let nowDays = now.getDate()
@@ -294,7 +287,6 @@ export default {
 			let days = toDays - nowDays
 			this.$store.commit('setDuration', days)
 			this.$refs.menu.save(this.date1)
-			// this.date = this.date1
 		},
 		saving () {
 			let e = this.currentSlot

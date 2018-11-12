@@ -57,12 +57,11 @@ export default {
 		background: #eee;
 	}
 	td {
-		padding: .5rem;
-		/* border: 1px solid red; */
+		padding: 0 .5rem;
 	}
+	.sm { width: 30px; padding: 0;}
+	.md { width: 80px; }
 }
-.sm { width: 40px; }
-.md { width: 80px; }
 
 .handle {
 	margin: 0;
