@@ -74,11 +74,11 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 
 				v-layout(row v-if="fio.length > 1 && expanded === 2")
 					.mx-3
-						v-btn-toggle(v-model="sequence" )
+						v-btn-toggle(v-model="sequence" ).switch
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
 
-			userTable( :items="fio" v-if="fio.length > 1 && sequence === '2'").my-3
+			userTable( :items="fio" v-if="fio.length > 1" @mousedown.native.stop).my-3
 
 			v-btn(flat) Файлы
 			v-card-actions
@@ -613,5 +613,10 @@ export default {
 }
 .hour {
 	width: 60px;
+}
+.switch {
+	border: 1px solid #133C60;
+	.v-btn--active { background: #133C60; color: #fff; }
+
 }
 </style>

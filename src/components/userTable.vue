@@ -10,16 +10,28 @@ div.mx-3
 				th.text-xs-left Доп. описание
 				th.text-xs-center Ответств.
 		tbody(id='table')
-			tr(v-for="(item, index) in items" :key="item").item
+			tr(v-for="(item, index) in items" :key="index").item
 				td.sm
 					v-btn(icon @mousedown.native.stop).handle
 						v-icon drag_handle
 				td.text-xs-left {{ item }}
-					<!-- v&#45;edit&#45;dialog(:return&#45;value.sync="props.item" lazy @save="save" @cancel="cancel" @open="open" @close="close") {{ props.item }} -->
-					<!-- 	v&#45;text&#45;field(slot="input" v&#45;model="props.item.name" :rules="[max25chars]" label="Edit" single&#45;line counter) -->
 				td.text-xs-center.md 1
-				td.text-xs-center 13 апр
-				td.text-xs-left
+				td.text-xs-center.rel
+					v-menu(ref="menu"
+					:close-on-content-click="false"
+					v-model="menu[index]" :return-value.sync="date[index]"
+					lazy transition="scale-transition"
+					offset-y full-width )
+						div(slot="activator" v-model="date[index]")
+							span.mr-3 {{ date[index] }}
+							span {{ time[index] }}
+						v-layout( row )
+							v-date-picker(v-model="date[index]" scrollable locale="ru-Ru" first-day-of-week=1)
+							v-time-picker(v-model="time[index]")
+						v-layout( row justify-center)
+							v-btn(flat color="success") Отмена
+							v-btn(flat color="success") OK
+				td.text-xs-left(contenteditable ) Отсутствует
 				td.text-xs-center.sm
 					input(type="checkbox")
 
@@ -32,6 +44,9 @@ export default {
 	props: [ 'items' ],
 	data () {
 		return {
+			date: [ '2018-11-16', '2018-11-17' ],
+			time: [ '19:00', '10:15' ],
+			menu: false
 		}
 	},
 	computed: {
@@ -44,6 +59,9 @@ export default {
 		})
 	},
 	methods: {
+		doNothing (evt) {
+			evt.stopPropagation()
+		}
 	}
 }
 </script>
@@ -66,5 +84,12 @@ export default {
 
 .handle {
 	margin: 0;
+}
+.v-time-picker-title__time .v-picker__title__btn, .v-time-picker-title__time span {
+	height: auto;
+	font-size: 56px;
+}
+.v-menu__content {
+	background: #fff;
 }
 </style>
