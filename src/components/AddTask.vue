@@ -34,7 +34,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 							v-time-picker(v-model="time0")
 						v-layout( row justify-center)
 							v-btn(flat color="success" @click="menu3 = false") Отмена
-							v-btn(flat color="success" @click="") OK
+							v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
 
 				.mr-5
 					DayCounter(days="days")

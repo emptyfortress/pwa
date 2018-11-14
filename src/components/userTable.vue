@@ -15,7 +15,7 @@ div.mx-3
 					v-btn(icon @mousedown.native.stop).handle
 						v-icon drag_handle
 				td.text-xs-left {{ item.name }}
-				td.text-xs-center.md 1
+				td.text-xs-center.md {{ item.duration }}
 				td.text-xs-center.rel
 					v-menu(ref="menu"
 					:close-on-content-click="false"
@@ -52,7 +52,7 @@ export default {
 	computed: {
 		users () {
 			let u = this.items.map(function (item) {
-				return { name: item, date: '2018-11-16', time: '19:00' }
+				return { name: item, date: '2018-11-16', time: '19:00', duration: 24 }
 			})
 			return u
 		}
