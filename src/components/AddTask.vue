@@ -49,7 +49,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 						v-layout( row )
 							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1)
 							v-time-picker(v-model="time" v-if="hours")
-						v-layout( row justify-center v-if="hours")
+						v-layout( row justify-center  v-if="hours")
 							v-btn(flat color="success" @click="menu = false") Отмена
 							v-btn(flat color="success" @click="saveDate") OK
 
