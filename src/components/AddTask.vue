@@ -22,55 +22,30 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 			v-textarea(class="mx-3 my-0" label="Содержание" auto-grow @mousedown.native.stop v-model="description" rows=1)
 
 			v-layout( row align-center ).mx-3
-				.mr-0(v-if="expanded === 2")
+				.mr-5(v-if="expanded === 2")
 					v-menu(ref="menu3"
-					:close-on-content-click="true"
+					:close-on-content-click="false"
 					v-model="menu3" :nudge-right="30"
 					lazy transition="scale-transition"
-					max-width="290px" min-width="290px"
 					offset-y full-width )
 						v-text-field(slot="activator" :value="startDate" label="Начать" prepend-icon="event" readonly).month
-						v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
-				.mr-4(v-if="expanded == 2")
-					v-menu(ref="menu4"
-					:close-on-content-click="false"
-					v-model="menu4" :nudge-right="0"
-					:return-value.sync="time0" lazy transition="scale-transition"
-					offset-y full-width max-width="290px" min-width="290px")
-						v-text-field(slot="activator"
-						v-model="time0"
-						readonly).hour
-						v-time-picker( v-if="menu4"
-						v-model="time0"
-						full-width
-						@change="$refs.menu4.save(time0)")
+						v-layout( row )
+							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
+							v-time-picker(v-model="time0")
 
 				.mr-5
 					DayCounter(days="days")
 
-				.mr-0
+				.mr-5
 					v-menu(ref="menu"
-					:close-on-content-click="true"
+					:close-on-content-click="false"
 					v-model="menu" :nudge-right="30"
 					:return-value.sync="endDate" lazy transition="scale-transition"
-					max-width="290px" min-width="290px"
 					offset-y full-width )
 						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly).month
-						v-date-picker(v-model="date1" @input="saveDate" scrollable locale="ru-Ru" first-day-of-week=1)
-
-				.mr-4
-					v-menu(ref="menu2"
-					:close-on-content-click="false"
-					v-model="menu2" :nudge-right="0"
-					:return-value.sync="time" lazy transition="scale-transition"
-					offset-y full-width max-width="290px" min-width="290px")
-						v-text-field(slot="activator"
-						v-model="time"
-						readonly).hour
-						v-time-picker( v-if="menu2"
-						v-model="time"
-						full-width
-						@change="$refs.menu2.save(time)")
+						v-layout( row )
+							v-date-picker(v-model="date1" @input="saveDate" scrollable locale="ru-Ru" first-day-of-week=1)
+							v-time-picker(v-model="time")
 
 				v-layout(row v-if="fio.length > 1 && expanded === 2")
 					.mx-3
@@ -152,7 +127,7 @@ export default {
 			draggable: 'Drag me',
 			type: 'На исполнение',
 			date1: null,
-			startDate: new Date().toISOString().substr(0, 10),
+			startDate: new Date().toISOString().substr(0, 10) + '   10:00',
 			fio: ['Иванов', 'Петров'],
 			// fio: [],
 			fio1: [],
@@ -225,13 +200,14 @@ export default {
 		days () {
 			return this.$store.getters.duration
 		},
+		// startDate: new Date().toISOString().substr(0, 10) + '   ' + this.time0,
 		endDate: {
 			get: function () {
 				let now = new Date()
 				let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + (now.getDate() + this.days)
 				// eslint-disable-next-line
 				this.date1 = formatted
-				return formatted
+				return formatted + '   ' + this.time
 			},
 			set: function () {
 				return false
@@ -609,7 +585,7 @@ export default {
 	width: 100px;
 }
 .month {
-	width: 160px;
+	/* width: 160px; */
 }
 .hour {
 	width: 60px;
@@ -618,5 +594,10 @@ export default {
 	border: 1px solid #133C60;
 	.v-btn--active { background: #133C60; color: #fff; }
 
+}
+
+/deep/ .v-time-picker-title__time .v-picker__title__btn, /deep/ .v-time-picker-title__time  span {
+	font-size: 56px;
+	height: 56px;
 }
 </style>
