@@ -1,10 +1,10 @@
 <template lang="pug">
 v-layout(row @dblclick="doNothing").dlit
-	v-text-field(v-model="mydays" type="number" label="Дней" v-if="dday").mx-2
+	v-text-field(v-model="mydays" type="number" label="Дней" v-if="!hhours").mx-2
 	v-text-field(v-model="hours" type="number" label="Часов" v-else).mx-2
 	v-layout(column).counter
 		i(@click="plus" @dblclick="doNothing").icon-nup
-		i(@click="dday = !dday" :class="ifHour").icon-nmiddle
+		i(@click="toggleHours" :class="ifHour").icon-nmiddle
 		i(@click="minus").icon-ndown
 
 </template>
@@ -14,10 +14,12 @@ export default {
 	props: [ 'days' ],
 	data () {
 		return {
-			dday: true
 		}
 	},
 	computed: {
+		hhours () {
+			return this.$store.getters.hours
+		},
 		mydays () {
 			return this.$store.getters.duration
 		},
@@ -25,10 +27,13 @@ export default {
 			return this.mydays * 8
 		},
 		ifHour () {
-			return this.dday ? '' : 'rd'
+			return this.hhours ? 'rd' : ''
 		}
 	},
 	methods: {
+		toggleHours () {
+			this.$store.commit('toggleHours')
+		},
 		doNothing (evt) {
 			evt.stopPropagation()
 		},

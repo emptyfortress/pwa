@@ -41,15 +41,15 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 
 				.mr-5
 					v-menu(ref="menu"
-					:close-on-content-click="false"
+					:close-on-content-click="!hours"
 					v-model="menu" :nudge-right="30"
 					:return-value.sync="endDate" lazy transition="scale-transition"
 					offset-y full-width )
 						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly).month
 						v-layout( row )
 							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1)
-							v-time-picker(v-model="time")
-						v-layout( row justify-center)
+							v-time-picker(v-model="time" v-if="hours")
+						v-layout( row justify-center v-if="hours")
 							v-btn(flat color="success" @click="menu = false") Отмена
 							v-btn(flat color="success" @click="saveDate") OK
 
@@ -119,7 +119,7 @@ export default {
 		return {
 			expanded: 2,
 			// selected: null,
-			menu: null,
+			menu: false,
 			menu2: false,
 			menu3: false,
 			menu4: false,
@@ -205,6 +205,9 @@ export default {
 		}, 100)
 	},
 	computed: {
+		hours () {
+			return this.$store.getters.hours
+		},
 		displayDate () {
 			return this.startDate + '   ' + this.time0
 		},
@@ -217,10 +220,10 @@ export default {
 				let formatted = now[0] + '-' + now[1] + '-' + (parseInt(now[2]) + this.days)
 				// eslint-disable-next-line
 				this.date1 = formatted
-				return formatted + '   ' + this.time
+				return this.hours ? formatted + '   ' + this.time : formatted
 			},
 			set: function () {
-				return false
+				return this.date1
 			}
 		},
 		restore () {
@@ -260,6 +263,11 @@ export default {
 		DayCounter
 	},
 	methods: {
+		hrsReturn () {
+			if (this.hours) {
+				return null
+			} else return this.saveDate
+		},
 		textareaResize () {
 			this.$refs.textarea.style.minHeight = this.$refs.textarea.scrollHeight + 'px'
 		},
