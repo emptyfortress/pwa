@@ -28,10 +28,13 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 					v-model="menu3" :nudge-right="30"
 					lazy transition="scale-transition"
 					offset-y full-width )
-						v-text-field(slot="activator" :value="startDate" label="Начать" prepend-icon="event" readonly).month
+						v-text-field(slot="activator" :value="displayDate" label="Начать" prepend-icon="event" readonly).month
 						v-layout( row )
 							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
 							v-time-picker(v-model="time0")
+						v-layout( row justify-center)
+							v-btn(flat color="success" @click="menu3 = false") Отмена
+							v-btn(flat color="success" @click="") OK
 
 				.mr-5
 					DayCounter(days="days")
@@ -44,8 +47,11 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 					offset-y full-width )
 						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly).month
 						v-layout( row )
-							v-date-picker(v-model="date1" @input="saveDate" scrollable locale="ru-Ru" first-day-of-week=1)
+							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1)
 							v-time-picker(v-model="time")
+						v-layout( row justify-center)
+							v-btn(flat color="success" @click="menu = false") Отмена
+							v-btn(flat color="success" @click="saveDate") OK
 
 				v-layout(row v-if="fio.length > 1 && expanded === 2")
 					.mx-3
@@ -127,7 +133,7 @@ export default {
 			draggable: 'Drag me',
 			type: 'На исполнение',
 			date1: null,
-			startDate: new Date().toISOString().substr(0, 10) + '   10:00',
+			startDate: new Date().toISOString().substr(0, 10),
 			fio: ['Иванов', 'Петров'],
 			// fio: [],
 			fio1: [],
@@ -190,21 +196,25 @@ export default {
 			]
 		}
 	},
-	created () {
+	mounted () {
 		if (this.restore) {
 			this.setForm()
 		}
-		this.date1 = this.endDate
+		setTimeout(function () {
+			this.date1 = this.endDate
+		}, 100)
 	},
 	computed: {
+		displayDate () {
+			return this.startDate + '   ' + this.time0
+		},
 		days () {
 			return this.$store.getters.duration
 		},
-		// startDate: new Date().toISOString().substr(0, 10) + '   ' + this.time0,
 		endDate: {
 			get: function () {
-				let now = new Date()
-				let formatted = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + (now.getDate() + this.days)
+				let now = this.startDate.split('-')
+				let formatted = now[0] + '-' + now[1] + '-' + (parseInt(now[2]) + this.days)
 				// eslint-disable-next-line
 				this.date1 = formatted
 				return formatted + '   ' + this.time
@@ -257,8 +267,7 @@ export default {
 			evt.stopPropagation()
 		},
 		saveDate () {
-			let now = new Date()
-			let nowDays = now.getDate()
+			let nowDays = this.startDate.split('-')[2]
 			let toDays = this.date1.split('-')[2]
 			let days = toDays - nowDays
 			this.$store.commit('setDuration', days)
@@ -581,19 +590,14 @@ export default {
 		}
 	}
 }
-.dlit {
-	width: 100px;
-}
-.month {
-	/* width: 160px; */
-}
-.hour {
-	width: 60px;
-}
 .switch {
 	border: 1px solid #133C60;
 	.v-btn--active { background: #133C60; color: #fff; }
 
+}
+
+.v-menu__content {
+	background: #fff;
 }
 
 /deep/ .v-time-picker-title__time .v-picker__title__btn, /deep/ .v-time-picker-title__time  span {

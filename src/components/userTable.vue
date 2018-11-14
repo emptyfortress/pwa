@@ -23,11 +23,11 @@ div.mx-3
 					lazy transition="scale-transition"
 					offset-y full-width )
 						div(slot="activator" v-model="date[index]")
-							span.mr-3 {{ date[index] }}
-							span {{ time[index] }}
+							span.mr-3 {{ item.date }}
+							span {{ item.time }}
 						v-layout( row )
-							v-date-picker(v-model="date[index]" scrollable locale="ru-Ru" first-day-of-week=1)
-							v-time-picker(v-model="time[index]")
+							v-date-picker(v-model="item.date" scrollable locale="ru-Ru" first-day-of-week=1)
+							v-time-picker(v-model="item.time")
 						v-layout( row justify-center)
 							v-btn(flat color="success" @click="menu[index] = false") Отмена
 							v-btn(flat color="success") OK
@@ -72,10 +72,6 @@ export default {
 	}
 }
 </script>
-
-[ 'Иванов', 'Петров' ]
-[ {name: 'Иванов'}, {name: 'Петров'} ]
-
 
 <style scoped lang="scss">
 
