@@ -15,22 +15,21 @@ div.mx-3
 					v-btn(icon @mousedown.native.stop).handle
 						v-icon drag_handle
 				td.text-xs-left {{ item.name }}
-				td.text-xs-center.md {{ item.duration }}
-				td.text-xs-center.rel
+				td.text-xs-center {{ item.duration }}
+				td.text-xs-center.rel.date
 					v-menu(ref="menu"
-					:close-on-content-click="false"
-					v-model="menu[index]" :return-value.sync="date[index]"
-					lazy transition="scale-transition"
+					:close-on-content-click="!hours"
+					v-model="item.menu" :nudge-right="30"
+					transition="scale-transition"
 					offset-y full-width )
-						div(slot="activator" v-model="date[index]")
-							span.mr-3 {{ item.date }}
-							span {{ item.time }}
+						span(slot="activator") {{ datetime }}
 						v-layout( row )
-							v-date-picker(v-model="item.date" scrollable locale="ru-Ru" first-day-of-week=1)
-							v-time-picker(v-model="item.time")
-						v-layout( row justify-center)
-							v-btn(flat color="success" @click="menu[index] = false") Отмена
-							v-btn(flat color="success") OK
+							v-date-picker(v-model="date" scrollable locale="ru-Ru" first-day-of-week=1 @input="item.menu=false" )
+							v-time-picker(v-model="time" v-if="hours")
+						v-layout( row justify-center v-if="hours")
+							v-btn(flat color="success" @click="") Отмена
+							v-btn(flat color="success" @click="") OK
+
 				td.text-xs-left(contenteditable ) Отсутствует
 				td.text-xs-center.sm
 					input(type="checkbox")
@@ -41,20 +40,24 @@ div.mx-3
 import Sortable from 'sortablejs'
 
 export default {
-	props: [ 'items' ],
+	props: [ 'items', 'hours' ],
+
 	data () {
 		return {
-			date: [ '2018-11-16', '2018-11-17' ],
-			time: [ '19:00', '10:15' ],
-			menu: [false]
+			date: '2018-11-16',
+			time: '19:00',
+			menu: false
 		}
 	},
 	computed: {
 		users () {
 			let u = this.items.map(function (item) {
-				return { name: item, date: '2018-11-16', time: '19:00', duration: 24 }
+				return { name: item, date: '2018-11-16', time: '19:00', duration: 24, menu: false }
 			})
 			return u
+		},
+		datetime () {
+			return this.hours ? this.date + ' --- ' + this.time : this.date
 		}
 	},
 	mounted () {
@@ -63,7 +66,6 @@ export default {
 			draggable: '.item',
 			handle: '.handle'
 		})
-		console.log(this.items)
 	},
 	methods: {
 		doNothing (evt) {
@@ -86,6 +88,7 @@ export default {
 	}
 	.sm { width: 30px; padding: 0;}
 	.md { width: 80px; }
+	.date { width: 150px; }
 }
 
 .handle {

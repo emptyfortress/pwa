@@ -60,7 +60,7 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
 
-			userTable( :items="fio" v-if="fio.length > 1" @mousedown.native.stop).my-3
+			userTable( :items="fio" :hours="hours" v-if="fio.length > 1" @mousedown.native.stop).my-3
 
 			v-btn(flat) Файлы
 			v-card-actions
