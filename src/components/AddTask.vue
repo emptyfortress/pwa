@@ -24,15 +24,15 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 			v-layout( row align-center ).mx-3
 				.mr-5(v-if="expanded === 2")
 					v-menu(ref="menu3"
-					:close-on-content-click="false"
+					:close-on-content-click="!hours"
 					v-model="menu3" :nudge-right="30"
 					lazy transition="scale-transition"
 					offset-y full-width )
 						v-text-field(slot="activator" :value="displayDate" label="Начать" prepend-icon="event" readonly).month
 						v-layout( row )
 							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
-							v-time-picker(v-model="time0")
-						v-layout( row justify-center)
+							v-time-picker(v-model="time0" v-if="hours")
+						v-layout( row justify-center v-if="hours")
 							v-btn(flat color="success" @click="menu3 = false") Отмена
 							v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
 
@@ -43,15 +43,16 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 					v-menu(ref="menu"
 					:close-on-content-click="!hours"
 					v-model="menu" :nudge-right="30"
-					:return-value.sync="endDate" lazy transition="scale-transition"
+					:return-value.sync="endDate"
+					lazy transition="scale-transition"
 					offset-y full-width )
 						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly).month
 						v-layout( row )
-							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1)
+							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1 @input="saveDate")
 							v-time-picker(v-model="time" v-if="hours")
 						v-layout( row justify-center  v-if="hours")
 							v-btn(flat color="success" @click="menu = false") Отмена
-							v-btn(flat color="success" @click="saveDate") OK
+							v-btn(flat color="success" @click="menu = false") OK
 
 				v-layout(row v-if="fio.length > 1 && expanded === 2")
 					.mx-3
@@ -133,7 +134,8 @@ export default {
 			draggable: 'Drag me',
 			type: 'На исполнение',
 			date1: null,
-			startDate: new Date().toISOString().substr(0, 10),
+			// startDate: new Date().toISOString().substr(0, 10),
+			startDate: '2018-11-12',
 			fio: ['Иванов', 'Петров'],
 			// fio: [],
 			fio1: [],
@@ -200,16 +202,13 @@ export default {
 		if (this.restore) {
 			this.setForm()
 		}
-		setTimeout(function () {
-			this.date1 = this.endDate
-		}, 100)
 	},
 	computed: {
 		hours () {
 			return this.$store.getters.hours
 		},
 		displayDate () {
-			return this.startDate + '   ' + this.time0
+			return this.hours ? this.startDate + '   ' + this.time0 : this.startDate
 		},
 		days () {
 			return this.$store.getters.duration
@@ -222,9 +221,7 @@ export default {
 				this.date1 = formatted
 				return this.hours ? formatted + '   ' + this.time : formatted
 			},
-			set: function () {
-				return this.date1
-			}
+			set: function (newValue) { }
 		},
 		restore () {
 			return this.$store.getters.restore
@@ -263,11 +260,6 @@ export default {
 		DayCounter
 	},
 	methods: {
-		hrsReturn () {
-			if (this.hours) {
-				return null
-			} else return this.saveDate
-		},
 		textareaResize () {
 			this.$refs.textarea.style.minHeight = this.$refs.textarea.scrollHeight + 'px'
 		},
@@ -279,7 +271,7 @@ export default {
 			let toDays = this.date1.split('-')[2]
 			let days = toDays - nowDays
 			this.$store.commit('setDuration', days)
-			this.$refs.menu.save(this.date1)
+			this.endDate = this.date1 + '   ' + this.time
 		},
 		saving () {
 			let e = this.currentSlot
