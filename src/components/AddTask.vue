@@ -1,17 +1,20 @@
 <template lang="pug">
 vue-draggable-resizable( v-on:resizing="onResize"
 	v-on:dragging="onDrag"
-	:parent="true"
-	:w="450" :h="450"
+	:active="active"
+	:z="3"
+	:w="startW" :h="startH"
 	:x="startX" :y="startY"
+	:draggable="draggable"
 	).add
-	<!-- .top -->
-	<!-- 	span создать: -->
-	<!-- 	span(v&#45;if="true") {{ type }} -->
-	<!-- 	v&#45;icon(@click="minimize") minimize -->
-	<!-- 	v&#45;icon(v&#45;if="expanded !==2" @click="expand") call_made -->
-	<!-- 	v&#45;icon(v&#45;if='expanded === 2' @click="expand") call_received -->
-	<!-- 	v&#45;icon(@click="closePop").close close -->
+	.top
+		span создать:
+		span(v-if="true") {{ type }}
+		v-icon(@click="minimize") minimize
+		v-icon(v-if="expanded !==1" @click="expand") call_made
+		v-icon(v-if='expanded === 1' @click="expand") call_received
+		v-icon(@click="closePop").close close
+	h1 {{ expanded }}
 	<!-- v&#45;layout(column justify&#45;start ) -->
 	<!-- 	v&#45;flex(xs12) -->
 	<!-- 		v&#45;layout(row v&#45;if="expanded !==0" ) -->
@@ -127,6 +130,11 @@ export default {
 			height: 0,
 			x: 0,
 			y: 0,
+			startW: 450,
+			startH: 450,
+			active: true,
+			draggable: true,
+			expanded: 0,
 			menu: false,
 			menu2: false,
 			menu3: false,
@@ -280,6 +288,30 @@ export default {
 			this.x = x
 			this.y = y
 		},
+		expand () {
+			if (this.expanded === 0) {
+				this.expanded = 1
+				let box = document.querySelector('.add')
+				box.style.top = '60px'
+				box.style.height = (window.innerHeight - 60) + 'px'
+				box.style.width = '93%'
+				box.style.left = '5%'
+				box.style.right = '2%'
+				this.active = false
+				this.draggable = false
+			} else {
+				this.expanded = 0
+				let box = document.querySelector('.add')
+				box.style.height = '450px'
+				box.style.width = '450px'
+				box.style.left = 'initial'
+				box.style.top = 'initial'
+				box.style.right = '0'
+				box.style.bottom = '0'
+				this.active = false
+				this.draggable = true
+			}
+		},
 		textareaResize () {
 			this.$refs.textarea.style.minHeight = this.$refs.textarea.scrollHeight + 'px'
 		},
@@ -343,9 +375,6 @@ export default {
 			this.name = this.stars[e].name
 			this.currentSlot = e
 		},
-		expand () {
-			if (this.expanded === 0) { this.expanded = 1 } else if (this.expanded === 1) { this.expanded = 2 } else if (this.expanded === 2) { this.expanded = 0 }
-		},
 		closePop () {
 			this.$store.commit('unsetRestore')
 			this.$store.commit('closeAddTask')
@@ -382,13 +411,9 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
-.vdr {
+.add {
 	background: #fff;
 	position: fixed;
-	/* left: initial; */
-	/* top: initial; */
-	/* right: 0; */
-	/* bottom: 0; */
 	box-shadow: 0 0 15px #00000033;
 	.top {
 		position: ablsolute;
