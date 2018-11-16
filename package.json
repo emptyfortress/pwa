@@ -17,6 +17,7 @@
     "vue-drag-drop": "^1.1.4",
     "vue-drag-it-dude": "^1.1.1",
     "vue-drag-zone": "^2.0.0-rc1",
+    "vue-draggable-resizable": "^1.7.3",
     "vue-flip": "^0.2.4",
     "vue-resource": "^1.5.1",
     "vue-responsive-components": "^0.2.3",

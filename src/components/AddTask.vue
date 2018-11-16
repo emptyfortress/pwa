@@ -1,124 +1,120 @@
 <template lang="pug">
-drag-it-dude(v-on:dblclick.native="expand" :class="assignClass" :width="960" @activated="test")
-	.top
-		span создать:
-		span(v-if="true") {{ type }}
-		v-icon(@click="minimize") minimize
-		v-icon(v-if="expanded !==2" @click="expand") call_made
-		v-icon(v-if='expanded === 2' @click="expand") call_received
-		v-icon(@click="closePop").close close
-	v-layout(column justify-start )
-		v-flex(xs12)
-			v-layout(row v-if="expanded !==0" )
-				v-flex(xs6)
-					v-select(label="Тип" :items="types" v-model="type" ).mx-3
-				v-flex(xs4)
-					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details )
-			drop(@drop="handleDrop" @dragover="over = true" @mousedown.native.stop @dragleave="over = false" class="drop" :class="{ over }")
-				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
-			drop(v-if="controler" @drop="handleDrop1" @mousedown.native.stop @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
-				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
-			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
-			v-textarea(class="mx-3 my-0" label="Содержание" auto-grow @mousedown.native.stop v-model="description" rows=1)
-
-			v-layout( row align-center ).mx-3
-				.mr-5(v-if="expanded === 2")
-					v-menu(ref="menu3"
-					:close-on-content-click="!hours"
-					v-model="menu3" :nudge-right="30"
-					lazy transition="scale-transition"
-					offset-y full-width )
-						v-text-field(slot="activator" :value="displayDate" label="Начать" prepend-icon="event" readonly).month
-						v-layout( row )
-							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
-							v-time-picker(v-model="time0" v-if="hours")
-						v-layout( row justify-center v-if="hours")
-							v-btn(flat color="success" @click="menu3 = false") Отмена
-							v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
-
-				.mr-5
-					DayCounter(days="days")
-
-				.mr-5
-					v-menu(ref="menu"
-					:close-on-content-click="!hours"
-					v-model="menu" :nudge-right="30"
-					:return-value.sync="endDate"
-					lazy transition="scale-transition"
-					offset-y full-width )
-						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly).month
-						v-layout( row )
-							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1 @input="saveDate")
-							v-time-picker(v-model="time" v-if="hours")
-						v-layout( row justify-center  v-if="hours")
-							v-btn(flat color="success" @click="menu = false") Отмена
-							v-btn(flat color="success" @click="menu = false") OK
-
-				v-layout(row v-if="fio.length > 1 && expanded === 2")
-					.mx-3
-						v-btn-toggle(v-model="sequence" ).switch
-							v-btn(flat value="1") Параллельно
-							v-btn(flat value="2" ) Последовательно
-
-			userTable( :items="fio" :hours="hours" v-if="fio.length > 1" @mousedown.native.stop).my-3
-			v-slider(@mousedown.native.stop)
-			v-layout(row @mousedown.native.stop)
-				drag-zone.zone
-					drag-content.content.c1
-						.item item 1
-					drag-handle.handle(@mousedown.native.stop)
-						div
-					drag-content.content.c2
-						.item item 2
-
-			v-btn(flat) Файлы
-			v-card-actions
-				v-btn(flat color="orange" @click="resetForm") Очистить
-				v-btn(flat color="orange") Отправить
-
-	.favusers
-		v-layout(row)
-			v-tooltip(left v-for="user in favorites" :key="user.id" )
-				drag(class="drag" :transfer-data="user.name" @mousedown.native.stop slot="activator")
-					v-list-tile-avatar
-						img(:src="require('@/assets/img/user0.svg')").av
-				span {{ user.name }}
-			v-tooltip(left)
-				drag(@mousedown.native.stop slot="activator" :transfer-data="group1")
-					v-list-tile-avatar
-						img(:src="require('@/assets/img/users.svg')").av
-				span Бухгалтерия
-			v-tooltip(left)
-				drag(@mousedown.native.stop slot="activator" :transfer-data="group2")
-					v-list-tile-avatar
-						img(:src="require('@/assets/img/users.svg')").av
-				span Кадры
-	.favstars
-		v-layout( column )
-			v-tooltip(left v-for="(star, index) in stars" :key="index")
-				div(slot="activator" :class="star.class")
-					i.icon-star-full(v-if="star.name !=='Пусто'" @mouseup="loadSlot(index)" v-longpress="saveSlot")
-					i.icon-star-empty(v-if="star.name ==='Пусто'" @mousedown='setSlot(index)' v-longpress="saveSlot")
-				span {{star.name}}
-	v-fade-transition
-		.save(v-if="save")
-			v-container( fill-height )
-				v-layout(flex align-center justify-center)
-					div
-						h1 Слот {{  currentSlot + 1  }}
-						h2 Сохранить шаблон?
-						p Все значения в слоте будут обновлены.
-						v-text-field(label="Название" solo placeholder="Введите название" v-model='name' autofocus)
-						v-btn(flat dark @click="save = false") Отмена
-						v-btn(flat dark @click="saving") Сохранить
-
-						v-btn(flat icon dark).del
-							v-icon delete
+vue-draggable-resizable( v-on:resizing="onResize"
+	v-on:dragging="onDrag"
+	:parent="true"
+	:w="450" :h="450"
+	:x="startX" :y="startY"
+	).add
+	<!-- .top -->
+	<!-- 	span создать: -->
+	<!-- 	span(v&#45;if="true") {{ type }} -->
+	<!-- 	v&#45;icon(@click="minimize") minimize -->
+	<!-- 	v&#45;icon(v&#45;if="expanded !==2" @click="expand") call_made -->
+	<!-- 	v&#45;icon(v&#45;if='expanded === 2' @click="expand") call_received -->
+	<!-- 	v&#45;icon(@click="closePop").close close -->
+	<!-- v&#45;layout(column justify&#45;start ) -->
+	<!-- 	v&#45;flex(xs12) -->
+	<!-- 		v&#45;layout(row v&#45;if="expanded !==0" ) -->
+	<!-- 			v&#45;flex(xs6) -->
+	<!-- 				v&#45;select(label="Тип" :items="types" v&#45;model="type" ).mx&#45;3 -->
+	<!-- 			v&#45;flex(xs4) -->
+	<!-- 				v&#45;checkbox( v&#45;model="controler" label="На контроле" color="primary" hide&#45;details ) -->
+	<!-- 		drop(@drop="handleDrop" @dragover="over = true" @mousedown.native.stop @dragleave="over = false" class="drop" :class="{ over }") -->
+	<!-- 			UserSelect(label="Исполнители" v&#45;on:dblclick.native.stop  v&#45;model="fio" ) -->
+	<!-- 		drop(v&#45;if="controler" @drop="handleDrop1" @mousedown.native.stop @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }") -->
+	<!-- 			UserSelect(label="Контролер" v&#45;on:dblclick.native.stop  v&#45;model="fio1" ) -->
+	<!-- 		v&#45;text&#45;field(type='text' class="mx&#45;3" label="Тема" @mousedown.native.stop v&#45;model='theme' required ) -->
+	<!-- 		v&#45;textarea(class="mx&#45;3 my&#45;0" label="Содержание" auto&#45;grow @mousedown.native.stop v&#45;model="description" rows=1) -->
+	<!-- 		v&#45;layout( row align&#45;center ).mx&#45;3 -->
+	<!-- 			.mr&#45;5(v&#45;if="expanded === 2") -->
+	<!-- 				v&#45;menu(ref="menu3" -->
+	<!-- 				:close&#45;on&#45;content&#45;click="!hours" -->
+	<!-- 				v&#45;model="menu3" :nudge&#45;right="30" -->
+	<!-- 				lazy transition="scale&#45;transition" -->
+	<!-- 				offset&#45;y full&#45;width ) -->
+	<!-- 					v&#45;text&#45;field(slot="activator" :value="displayDate" label="Начать" prepend&#45;icon="event" readonly).month -->
+	<!-- 					v&#45;layout( row ) -->
+	<!-- 						v&#45;date&#45;picker(v&#45;model="startDate" scrollable locale="ru&#45;Ru" first&#45;day&#45;of&#45;week=1) -->
+	<!-- 						v&#45;time&#45;picker(v&#45;model="time0" v&#45;if="hours") -->
+	<!-- 					v&#45;layout( row justify&#45;center v&#45;if="hours") -->
+	<!-- 						v&#45;btn(flat color="success" @click="menu3 = false") Отмена -->
+	<!-- 						v&#45;btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK -->
+	<!-- 			.mr&#45;5 -->
+	<!-- 				DayCounter(days="days") -->
+	<!-- 			.mr&#45;5 -->
+	<!-- 				v&#45;menu(ref="menu" -->
+	<!-- 				:close&#45;on&#45;content&#45;click="!hours" -->
+	<!-- 				v&#45;model="menu" :nudge&#45;right="30" -->
+	<!-- 				:return&#45;value.sync="endDate" -->
+	<!-- 				lazy transition="scale&#45;transition" -->
+	<!-- 				offset&#45;y full&#45;width ) -->
+	<!-- 					v&#45;text&#45;field(slot="activator" :value="endDate" label="Завершить" prepend&#45;icon="event" readonly).month -->
+	<!-- 					v&#45;layout( row ) -->
+	<!-- 						v&#45;date&#45;picker(v&#45;model="date1" scrollable locale="ru&#45;Ru" first&#45;day&#45;of&#45;week=1 @input="saveDate") -->
+	<!-- 						v&#45;time&#45;picker(v&#45;model="time" v&#45;if="hours") -->
+	<!-- 					v&#45;layout( row justify&#45;center  v&#45;if="hours") -->
+	<!-- 						v&#45;btn(flat color="success" @click="menu = false") Отмена -->
+	<!-- 						v&#45;btn(flat color="success" @click="menu = false") OK -->
+	<!-- 			v&#45;layout(row v&#45;if="fio.length > 1 &#38;&#38; expanded === 2") -->
+	<!-- 				.mx&#45;3 -->
+	<!-- 					v&#45;btn&#45;toggle(v&#45;model="sequence" ).switch -->
+	<!-- 						v&#45;btn(flat value="1") Параллельно -->
+	<!-- 						v&#45;btn(flat value="2" ) Последовательно -->
+	<!-- 		userTable( :items="fio" :hours="hours" v&#45;if="fio.length > 1" @mousedown.native.stop).my&#45;3 -->
+	<!-- 		v&#45;slider(@mousedown.native.stop) -->
+	<!-- 		v&#45;layout(row @mousedown.native.stop) -->
+	<!-- 			drag&#45;zone.zone -->
+	<!-- 				drag&#45;content.content.c1 -->
+	<!-- 					.item item 1 -->
+	<!-- 				drag&#45;handle.handle(@mousedown.native.stop) -->
+	<!-- 					div -->
+	<!-- 				drag&#45;content.content.c2 -->
+	<!-- 					.item item 2 -->
+	<!-- 		v&#45;btn(flat) Файлы -->
+	<!-- 		v&#45;card&#45;actions -->
+	<!-- 			v&#45;btn(flat color="orange" @click="resetForm") Очистить -->
+	<!-- 			v&#45;btn(flat color="orange") Отправить -->
+	<!-- .favusers -->
+	<!-- 	v&#45;layout(row) -->
+	<!-- 		v&#45;tooltip(left v&#45;for="user in favorites" :key="user.id" ) -->
+	<!-- 			drag(class="drag" :transfer&#45;data="user.name" @mousedown.native.stop slot="activator") -->
+	<!-- 				v&#45;list&#45;tile&#45;avatar -->
+	<!-- 					img(:src="require('@/assets/img/user0.svg')").av -->
+	<!-- 			span {{ user.name }} -->
+	<!-- 		v&#45;tooltip(left) -->
+	<!-- 			drag(@mousedown.native.stop slot="activator" :transfer&#45;data="group1") -->
+	<!-- 				v&#45;list&#45;tile&#45;avatar -->
+	<!-- 					img(:src="require('@/assets/img/users.svg')").av -->
+	<!-- 			span Бухгалтерия -->
+	<!-- 		v&#45;tooltip(left) -->
+	<!-- 			drag(@mousedown.native.stop slot="activator" :transfer&#45;data="group2") -->
+	<!-- 				v&#45;list&#45;tile&#45;avatar -->
+	<!-- 					img(:src="require('@/assets/img/users.svg')").av -->
+	<!-- 			span Кадры -->
+	<!-- .favstars -->
+	<!-- 	v&#45;layout( column ) -->
+	<!-- 		v&#45;tooltip(left v&#45;for="(star, index) in stars" :key="index") -->
+	<!-- 			div(slot="activator" :class="star.class") -->
+	<!-- 				i.icon&#45;star&#45;full(v&#45;if="star.name !=='Пусто'" @mouseup="loadSlot(index)" v&#45;longpress="saveSlot") -->
+	<!-- 				i.icon&#45;star&#45;empty(v&#45;if="star.name ==='Пусто'" @mousedown='setSlot(index)' v&#45;longpress="saveSlot") -->
+	<!-- 			span {{star.name}} -->
+	<!-- v&#45;fade&#45;transition -->
+	<!-- 	.save(v&#45;if="save") -->
+	<!-- 		v&#45;container( fill&#45;height ) -->
+	<!-- 			v&#45;layout(flex align&#45;center justify&#45;center) -->
+	<!-- 				div -->
+	<!-- 					h1 Слот {{  currentSlot + 1  }} -->
+	<!-- 					h2 Сохранить шаблон? -->
+	<!-- 					p Все значения в слоте будут обновлены. -->
+	<!-- 					v&#45;text&#45;field(label="Название" solo placeholder="Введите название" v&#45;model='name' autofocus) -->
+	<!-- 					v&#45;btn(flat dark @click="save = false") Отмена -->
+	<!-- 					v&#45;btn(flat dark @click="saving") Сохранить -->
+	<!-- 					v&#45;btn(flat icon dark).del -->
+	<!-- 						v&#45;icon delete -->
 </template>
 
 <script>
-// import Sortable from 'sortablejs'
-import DragItDude from 'vue-drag-it-dude'
+import VueDraggableResizable from 'vue-draggable-resizable'
 import UserSelect from '@/components/UserSelect'
 import userTable from '@/components/userTable'
 import * as Longpress from '@/directives/longpress-directive'
@@ -127,8 +123,10 @@ import DayCounter from '@/components/form/DayCounter'
 export default {
 	data () {
 		return {
-			expanded: 2,
-			// selected: null,
+			width: 0,
+			height: 0,
+			x: 0,
+			y: 0,
 			menu: false,
 			menu2: false,
 			menu3: false,
@@ -140,10 +138,8 @@ export default {
 			over: false,
 			over1: false,
 			sequence: '1',
-			draggable: 'Drag me',
 			type: 'На исполнение',
 			date1: null,
-			// startDate: new Date().toISOString().substr(0, 10),
 			startDate: '2018-11-12',
 			fio: ['Иванов', 'Петров'],
 			// fio: [],
@@ -213,6 +209,14 @@ export default {
 		}
 	},
 	computed: {
+		startX () {
+			let w = window.innerWidth
+			return (w - 450)
+		},
+		startY () {
+			let w = window.innerHeight
+			return (w - 450)
+		},
 		hours () {
 			return this.$store.getters.hours
 		},
@@ -256,25 +260,25 @@ export default {
 		},
 		addTask () {
 			return this.$store.getters.addTask
-		},
-		assignClass () {
-			if (this.expanded === 1) { return 'tall' } else if (this.expanded === 2) { return 'centr' }
 		}
 	},
 	components: {
-		DragItDude,
+		VueDraggableResizable,
 		UserSelect,
 		Longpress,
 		userTable,
 		DayCounter
 	},
 	methods: {
-		test (evt) {
-			if (evt) {
-				evt.preventDefault()
-				evt.stopPropagation()
-			}
-			console.log(1234)
+		onResize: function (x, y, width, height) {
+			this.x = x
+			this.y = y
+			this.width = width
+			this.height = height
+		},
+		onDrag: function (x, y) {
+			this.x = x
+			this.y = y
 		},
 		textareaResize () {
 			this.$refs.textarea.style.minHeight = this.$refs.textarea.scrollHeight + 'px'
@@ -378,53 +382,13 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
-.ddr {
-	width: var(--sm);
-	height: var(--sm);
+.vdr {
 	background: #fff;
-	z-index: 3;
 	position: fixed;
-	left: initial;
-	top: initial;
-	right: 0;
-	bottom: 0;
-	box-shadow: 0 0 15px #00000033;
-	.top {
-		position: ablsolute;
-		top: 0;
-		right: 0;
-		text-align: right;
-		background: $info;
-		span {
-			font-size: .9rem;
-			text-transform: uppercase;
-			float: left;
-			color: #fff;
-			padding: .2rem .5rem;
-			background: $info;
-		}
-		i {
-			color: #fff;
-			cursor: pointer;
-			padding: .5rem;
-			display: inline-block;
-			font-size: .97rem;
-			&:hover {
-				background: lighten($info, 20%);
-			}
-		}
-	}
-}
-.drag-it-dude {
-	width: var(--sm);
-	height: var(--sm);
-	background: #fff;
-	z-index: 3;
-	position: fixed;
-	left: initial;
-	top: initial;
-	right: 0;
-	bottom: 0;
+	/* left: initial; */
+	/* top: initial; */
+	/* right: 0; */
+	/* bottom: 0; */
 	box-shadow: 0 0 15px #00000033;
 	.top {
 		position: ablsolute;
@@ -453,18 +417,18 @@ export default {
 	}
 }
 
-.tall {
-	height: 93vh;
-}
-.centr {
-	position: ablsolute;
-	top: 7%;
-	bottom: 5%;
-	left: 10%;
-	right: 10%;
-	width: 80%;
-	height: 88%;
-}
+/* .tall { */
+/* 	height: 93vh; */
+/* } */
+/* .centr { */
+/* 	position: ablsolute; */
+/* 	top: 7%; */
+/* 	bottom: 5%; */
+/* 	left: 10%; */
+/* 	right: 10%; */
+/* 	width: 80%; */
+/* 	height: 88%; */
+/* } */
 
 .favusers {
 	position: absolute;
@@ -644,8 +608,5 @@ export default {
 		overflow: auto;
 		background: #ccc;
 	}
-}
-.abs {
-	position: relative;
 }
 </style>
