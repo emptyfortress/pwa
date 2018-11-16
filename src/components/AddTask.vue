@@ -14,7 +14,6 @@ vue-draggable-resizable( v-on:resizing="onResize"
 		v-icon(v-if="expanded !==1" @click="expand") call_made
 		v-icon(v-if='expanded === 1' @click="expand") call_received
 		v-icon(@click="closePop").close close
-	h1 {{ expanded }}
 	v-layout(column justify-start )
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
@@ -29,7 +28,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
 			v-textarea(class="mx-3 my-0" label="Содержание" auto-grow @mousedown.native.stop v-model="description" rows=1)
 			v-layout( row align-center ).mx-3
-				.mr-5(v-if="expanded === 2")
+				.mr-5(v-if="expanded === 1")
 					v-menu(ref="menu3"
 					:close-on-content-click="!hours"
 					v-model="menu3" :nudge-right="30"
@@ -58,14 +57,13 @@ vue-draggable-resizable( v-on:resizing="onResize"
 						v-layout( row justify-center  v-if="hours")
 							v-btn(flat color="success" @click="menu = false") Отмена
 							v-btn(flat color="success" @click="menu = false") OK
-				v-layout(row v-if="fio.length > 1 && expanded === 2")
+				v-layout(row v-if="fio.length > 1 && expanded === 1")
 					.mx-3
 						v-btn-toggle(v-model="sequence" ).switch
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
 			userTable( :items="fio" :hours="hours" v-if="fio.length > 1" @mousedown.native.stop).my-3
-			v-slider(@mousedown.native.stop)
-			v-layout(row @mousedown.native.stop)
+			v-layout(row)
 				drag-zone.zone
 					drag-content.content.c1
 						.item item 1
@@ -98,11 +96,12 @@ vue-draggable-resizable( v-on:resizing="onResize"
 
 	.favstars
 		v-layout( column )
-			v-tooltip(left v-for="(star, index) in stars" :key="index")
-				div(slot="activator" :class="star.class")
+			.slots(left v-for="(star, index) in stars" :key="index")
+				div(ref="tip" slot="activator" :class="star.class" @mouseenter="showTip(star.name)" @mouseleave='hideTip')
 					i.icon-star-full(v-if="star.name !=='Пусто'" @mouseup="loadSlot(index)" v-longpress="saveSlot")
 					i.icon-star-empty(v-if="star.name ==='Пусто'" @mousedown='setSlot(index)' v-longpress="saveSlot")
-				span {{star.name}}
+
+	#tip
 
 	v-fade-transition
 		.save(v-if="save")
@@ -285,6 +284,15 @@ export default {
 		DayCounter
 	},
 	methods: {
+		showTip (e) {
+			let tip = document.querySelector('#tip')
+			tip.innerHTML = e
+			tip.style.display = 'block'
+		},
+		hideTip () {
+			let tip = document.querySelector('#tip')
+			tip.style.display = 'none'
+		},
 		onResize: function (x, y, width, height) {
 			this.x = x
 			this.y = y
@@ -509,6 +517,7 @@ export default {
 	position: absolute;
 	top: 0;
 	left: -39px;
+	width: 38px;
 	height: 100%;
 	background: #000000aa;
 	.active {
@@ -640,5 +649,15 @@ export default {
 		overflow: auto;
 		background: #ccc;
 	}
+}
+#tip {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 4;
+	font-size: 40px;
+	display: none;
 }
 </style>
