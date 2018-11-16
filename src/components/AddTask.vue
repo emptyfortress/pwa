@@ -1,5 +1,5 @@
 <template lang="pug">
-drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
+drag-it-dude(v-on:dblclick.native="expand" :class="assignClass" :width="960" @activated="test")
 	.top
 		span создать:
 		span(v-if="true") {{ type }}
@@ -61,6 +61,15 @@ drag-it-dude(v-on:dblclick.native="expand" :class="assignClass")
 							v-btn(flat value="2" ) Последовательно
 
 			userTable( :items="fio" :hours="hours" v-if="fio.length > 1" @mousedown.native.stop).my-3
+			v-slider(@mousedown.native.stop)
+			v-layout(row @mousedown.native.stop)
+				drag-zone.zone
+					drag-content.content.c1
+						.item item 1
+					drag-handle.handle(@mousedown.native.stop)
+						div
+					drag-content.content.c2
+						.item item 2
 
 			v-btn(flat) Файлы
 			v-card-actions
@@ -260,6 +269,13 @@ export default {
 		DayCounter
 	},
 	methods: {
+		test (evt) {
+			if (evt) {
+				evt.preventDefault()
+				evt.stopPropagation()
+			}
+			console.log(1234)
+		},
 		textareaResize () {
 			this.$refs.textarea.style.minHeight = this.$refs.textarea.scrollHeight + 'px'
 		},
@@ -603,5 +619,33 @@ export default {
 /deep/ .v-time-picker-title__time .v-picker__title__btn, /deep/ .v-time-picker-title__time  span {
 	font-size: 56px;
 	height: 56px;
+}
+
+.zone {
+	width: 100%;
+	height: 30px;
+	margin: 0 auto;
+	position: relative;
+	clear: both;
+	display: flex;
+	.handle {
+		width: 10px;
+		div {
+			width:8px;
+			height: 100%;
+			transform: translateX(3px);
+		}
+		&:hover {
+			div { border-left: 3px dotted #333; }
+		}
+	}
+	.content {
+		width: calc((100% - 17px)/2);
+		overflow: auto;
+		background: #ccc;
+	}
+}
+.abs {
+	position: relative;
 }
 </style>
