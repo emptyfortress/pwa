@@ -6,6 +6,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 	:w="startW" :h="startH"
 	:x="startX" :y="startY"
 	:draggable="draggable"
+	:resizable="resizable"
 	).add
 	.top
 		span создать:
@@ -18,14 +19,29 @@ vue-draggable-resizable( v-on:resizing="onResize"
 	v-layout(column justify-start ).mt-5
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
-				v-flex(xs6)
+				.topform
 					v-select(label="Тип" :items="types" v-model="type" ).mx-3
-				v-flex(xs4)
-					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details )
+					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details)
+					v-checkbox( v-model="priem" label="Требуется приемка" color="primary" hide-details )
 			drop(@drop="handleDrop" @dragover="over = true" @mousedown.native.stop @dragleave="over = false" class="drop" :class="{ over }")
 				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
-			drop(v-if="controler" @drop="handleDrop1" @mousedown.native.stop @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
-				UserSelect(label="Контролер" v-on:dblclick.native.stop  v-model="fio1" )
+			v-layout( row align-center v-if="controler" )
+				drop(@drop="handleDrop1" @mousedown.native.stop @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
+					UserSelect(label="Контролер"  v-model="fio1" )
+				.ml-3
+					v-menu(ref="menu4"
+					:close-on-content-click="!hours"
+					v-model="menu4" :nudge-right="30"
+					lazy transition="scale-transition"
+					offset-y full-width )
+						v-text-field(slot="activator" :value="endDate" label="Срок контроля" prepend-icon="event" readonly).pt-4
+						v-layout( row )
+							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
+							v-time-picker(v-model="time0" v-if="hours")
+						v-layout( row justify-center v-if="hours")
+							v-btn(flat color="success" @click="menu3 = false") Отмена
+							v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
+
 			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
 			v-textarea(class="mx-3 my-0" label="Содержание" auto-grow @mousedown.native.stop v-model="description" rows=1)
 			v-layout( row align-center ).mx-3
@@ -35,7 +51,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 					v-model="menu3" :nudge-right="30"
 					lazy transition="scale-transition"
 					offset-y full-width )
-						v-text-field(slot="activator" :value="displayDate" label="Начать" prepend-icon="event" readonly).month
+						v-text-field(slot="activator" :value="displayDate" label="Начать" prepend-icon="event" readonly)
 						v-layout( row )
 							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
 							v-time-picker(v-model="time0" v-if="hours")
@@ -51,7 +67,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 					:return-value.sync="endDate"
 					lazy transition="scale-transition"
 					offset-y full-width )
-						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly).month
+						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly)
 						v-layout( row )
 							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1 @input="saveDate")
 							v-time-picker(v-model="time" v-if="hours")
@@ -135,6 +151,7 @@ export default {
 			startH: 450,
 			active: true,
 			draggable: true,
+			resizable: true,
 			expanded: 0,
 			menu: false,
 			menu2: false,
@@ -154,7 +171,7 @@ export default {
 			// fio: [],
 			fio1: [],
 			description: '',
-			controler: false,
+			controler: true,
 			save: false,
 			currentSlot: null,
 			name: '',
@@ -313,6 +330,7 @@ export default {
 				box.style.right = '1%'
 				this.active = false
 				this.draggable = false
+				this.resizable = false
 			} else {
 				this.expanded = 0
 				let box = document.querySelector('.add')
@@ -324,6 +342,7 @@ export default {
 				box.style.bottom = '0'
 				this.active = false
 				this.draggable = true
+				this.resizable = true
 			}
 		},
 		textareaResize () {
@@ -660,6 +679,16 @@ export default {
 		width: calc((100% - 17px)/2);
 		overflow: auto;
 		background: #ccc;
+	}
+}
+.topform {
+	display: flex;
+	.v-select {
+		/* background: red; */
+		width: auto;
+	}
+	.v-input {
+		margin-right: 3rem;
 	}
 }
 </style>
