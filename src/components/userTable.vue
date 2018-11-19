@@ -16,10 +16,27 @@ div.mx-3
 					v-btn(icon @mousedown.native.stop).handle1
 						v-icon drag_handle
 				td.text-xs-left {{ item.name }}
-				td(v-if="hours").text-xs-center
-					.drag.resize {{ item.duration }}
-				td(v-if="!hours").text-xs-center
-					.drag.resize {{ item.days }}
+				td(v-if="hours" width="40%").text-xs-center
+					drag-zone.zone
+						drag-content.content.c1
+							.item item 1
+						drag-handle.handle(@mousedown.native.stop)
+							div
+						drag-content.content.c2
+							.item item 2
+
+				td(v-if="!hours" width="40%" @click="test").text-xs-center
+					drag-zone.zone
+						drag-content.content.c0
+							.item
+						drag-handle.handle(@mousedown.native.stop)
+							div
+						drag-content.content.c1( :class="assignClass" )
+							.item {{ item.days }}
+						drag-handle.handle(@mousedown.native.stop)
+							div
+						drag-content.content.c2
+
 				td.text-xs-center.rel.date
 					v-menu(ref="menu"
 					:close-on-content-click="!hours"
@@ -34,16 +51,9 @@ div.mx-3
 							v-btn(flat color="success" @click="") Отмена
 							v-btn(flat color="success" @click="") OK
 
-				td.text-xs-left(contenteditable ) Отсутствует
+				td(contenteditable ).text-xs-left Отсутствует
 				td.text-xs-center.sm
 					input(type="checkbox")
-	<!-- drag&#45;zone.zone -->
-	<!-- 	drag&#45;content.content.c1 -->
-	<!-- 		.item item 1 -->
-	<!-- 	drag&#45;handle.handle(@mousedown.native.stop) -->
-	<!-- 		div -->
-	<!-- 	drag&#45;content.content.c2 -->
-	<!-- 		.item item 2 -->
 
 </template>
 
@@ -51,7 +61,7 @@ div.mx-3
 import Sortable from 'sortablejs'
 
 export default {
-	props: [ 'items', 'hours' ],
+	props: [ 'items', 'hours', 'sequence' ],
 
 	data () {
 		return {
@@ -61,6 +71,14 @@ export default {
 		}
 	},
 	computed: {
+		assignClass () {
+			if (this.sequence === '1') {
+				return 'par'
+			} else return ''
+		},
+		duration () {
+			return this.$store.getters.duration
+		},
 		users () {
 			let u = this.items.map(function (item) {
 				return {
@@ -86,8 +104,9 @@ export default {
 		})
 	},
 	methods: {
-		doNothing (evt) {
-			evt.stopPropagation()
+		test () {
+			console.log(this.users.length)
+			console.log(this.sequence)
 		}
 	}
 }
@@ -116,23 +135,6 @@ export default {
 .v-menu__content {
 	background: #fff;
 }
-.drag {
-	width: 50%;
-	display: flex;
-	background: red;
-	resize: horizontal;
-}
-
-.resize {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 5px;
-	/* +box(100px); */
-	overflow: hidden;
-	resize: both;
-	background-color: #C3E2CE;
-}
 
 /deep/ .v-time-picker-title__time .v-picker__title__btn, /deep/ .v-time-picker-title__time  span {
 	font-size: 56px;
@@ -141,11 +143,12 @@ export default {
 
 .zone {
 	width: 100%;
-	height: 30px;
+	height: 25px;
 	margin: 0 auto;
 	position: relative;
 	clear: both;
 	display: flex;
+	line-height: 25px;
 	.handle {
 		width: 10px;
 		div {
@@ -161,7 +164,14 @@ export default {
 		width: calc((100% - 17px)/2);
 		overflow: auto;
 		background: #ccc;
+		&.c2, &.c0 {
+			/* background: transparent; */
+			/* width: 1px; */
+		}
+		&.c1.par {
+			/* background: $success; */
+			width: 100%;
+		}
 	}
 }
-
 </style>

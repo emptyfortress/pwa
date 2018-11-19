@@ -22,7 +22,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 				.topform
 					v-select(label="Тип" :items="types" v-model="type" ).mx-3
 					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details)
-					v-checkbox( v-model="priem" label="Требуется приемка" color="primary" hide-details )
+					v-checkbox( label="Требуется приемка" color="primary" hide-details )
 			drop(@drop="handleDrop" @dragover="over = true" @mousedown.native.stop @dragleave="over = false" class="drop" :class="{ over }")
 				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
 			v-layout( row align-center v-if="controler" )
@@ -79,15 +79,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 						v-btn-toggle(v-model="sequence" ).switch
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
-			userTable( :items="fio" :hours="hours" v-if="fio.length > 1" @mousedown.native.stop).my-3
-			v-layout(row)
-				drag-zone.zone
-					drag-content.content.c1
-						.item item 1
-					drag-handle.handle(@mousedown.native.stop)
-						div
-					drag-content.content.c2
-						.item item 2
+			userTable( :items="fio" :hours="hours" :sequence="sequence" v-if="fio.length > 1" @mousedown.native.stop).my-3
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="resetForm") Очистить
