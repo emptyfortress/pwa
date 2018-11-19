@@ -14,7 +14,8 @@ vue-draggable-resizable( v-on:resizing="onResize"
 		v-icon(v-if="expanded !==1" @click="expand") call_made
 		v-icon(v-if='expanded === 1' @click="expand") call_received
 		v-icon(@click="closePop").close close
-	v-layout(column justify-start )
+	#tip(v-show="hint")
+	v-layout(column justify-start ).mt-5
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
 				v-flex(xs6)
@@ -97,11 +98,9 @@ vue-draggable-resizable( v-on:resizing="onResize"
 	.favstars
 		v-layout( column )
 			.slots(left v-for="(star, index) in stars" :key="index")
-				div(ref="tip" slot="activator" :class="star.class" @mouseenter="showTip(star.name)" @mouseleave='hideTip')
-					i.icon-star-full(v-if="star.name !=='Пусто'" @mouseup="loadSlot(index)" v-longpress="saveSlot")
-					i.icon-star-empty(v-if="star.name ==='Пусто'" @mousedown='setSlot(index)' v-longpress="saveSlot")
-
-	#tip
+				div(ref="tip" slot="activator" :class="star.class" @mouseover="showTip(star.name)" @mouseleave='hideTip')
+					i.icon-star-full(v-if="star.name !=='<Пусто>'" @mouseup="loadSlot(index)" v-longpress="saveSlot")
+					i.icon-star-empty(v-if="star.name ==='<Пусто>'" @mousedown='setSlot(index)' v-longpress="saveSlot")
 
 	v-fade-transition
 		.save(v-if="save")
@@ -159,6 +158,7 @@ export default {
 			save: false,
 			currentSlot: null,
 			name: '',
+			hint: false,
 			types: [
 				'На исполнение', 'На исполнение c контролем', 'На ознакомление', 'На согласование', 'Группа заданий', 'Документ'
 			],
@@ -194,14 +194,14 @@ export default {
 					theme: 'Цели сотрудников по отделам',
 					description: 'Промежуточные цели, уточнение формулировок'
 				},
-				{id: 3, class: '', name: 'Пусто', fio: [], fio1: []},
-				{id: 4, class: '', name: 'Пусто', fio: [], fio1: []},
-				{id: 5, class: '', name: 'Пусто', fio: [], fio1: []},
-				{id: 6, class: '', name: 'Пусто', fio: [], fio1: []},
-				{id: 7, class: '', name: 'Пусто', fio: [], fio1: []},
-				{id: 8, class: '', name: 'Пусто', fio: [], fio1: []},
-				{id: 9, class: '', name: 'Пусто', fio: [], fio1: []},
-				{id: 10, class: '', name: 'Пусто', fio: [], fio1: []}
+				{id: 3, class: '', name: '<Пусто>', fio: [], fio1: []},
+				{id: 4, class: '', name: '<Пусто>', fio: [], fio1: []},
+				{id: 5, class: '', name: '<Пусто>', fio: [], fio1: []},
+				{id: 6, class: '', name: '<Пусто>', fio: [], fio1: []},
+				{id: 7, class: '', name: '<Пусто>', fio: [], fio1: []},
+				{id: 8, class: '', name: '<Пусто>', fio: [], fio1: []},
+				{id: 9, class: '', name: '<Пусто>', fio: [], fio1: []},
+				{id: 10, class: '', name: '<Пусто>', fio: [], fio1: []}
 			],
 			favorites: [
 				{id: 0, name: 'Беспалов'},
@@ -287,11 +287,10 @@ export default {
 		showTip (e) {
 			let tip = document.querySelector('#tip')
 			tip.innerHTML = e
-			tip.style.display = 'block'
+			this.hint = true
 		},
 		hideTip () {
-			let tip = document.querySelector('#tip')
-			tip.style.display = 'none'
+			this.hint = false
 		},
 		onResize: function (x, y, width, height) {
 			this.x = x
@@ -378,7 +377,7 @@ export default {
 		loadSlot (e) {
 			this.resetForm()
 			this.stars.map((star) => { star.class = '' })
-			if (this.stars[e].name !== 'Пусто') {
+			if (this.stars[e].name !== '<Пусто>') {
 				this.stars[e].class = 'active'
 			}
 			this.type = this.stars[e].type
@@ -430,10 +429,23 @@ export default {
 	background: #fff;
 	position: fixed;
 	box-shadow: 0 0 15px #00000033;
+	#tip {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 210px;
+		background: $secondary;
+		height: 30px;
+		line-height: 30px;
+		font-size: 17px;
+		color: #fff;
+		padding-left: 1rem;
+	}
 	.top {
-		position: ablsolute;
+		position: absolute;
 		top: 0;
 		right: 0;
+		left: 0;
 		text-align: right;
 		background: $info;
 		span {
@@ -441,7 +453,8 @@ export default {
 			text-transform: uppercase;
 			float: left;
 			color: #fff;
-			padding: .2rem .5rem;
+			line-height: 30px;
+			padding: 0 .5rem;
 			background: $info;
 		}
 		i {
@@ -614,7 +627,6 @@ export default {
 .switch {
 	border: 1px solid #133C60;
 	.v-btn--active { background: #133C60; color: #fff; }
-
 }
 
 .v-menu__content {
@@ -649,15 +661,5 @@ export default {
 		overflow: auto;
 		background: #ccc;
 	}
-}
-#tip {
-	position: absolute;
-	top: 20px;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 4;
-	font-size: 40px;
-	display: none;
 }
 </style>
