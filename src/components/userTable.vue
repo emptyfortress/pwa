@@ -21,16 +21,11 @@ div.mx-3
 
 				td(v-if="!hours").text-xs-center#rel
 					.rel(v-if="expanded === 1")
-						VueDragResize(
-							:w="myW" :h="26" v-on:resizing="resize"
-							:sticks="['ml', 'mr']"
-							:isActive="rectActive"
-							v-on:dragging="resize" parentLimitation axis="x"
-							v-on:activated="activateEv()"
-							v-on:deactivated="deactivateEv()"
+						vue-draggable-resizable( :w="100" :h="26" :x="0" :y="0"
+							:minh="26"
+							:parent="true"
+							@click="test"
 							).dragon
-							p {{ top }} х {{ left }}
-							p {{ width }} х {{ height }}
 
 				td.text-xs-center.date
 					v-menu(ref="menu"
@@ -67,8 +62,7 @@ export default {
 			width: 0,
 			height: 0,
 			top: 0,
-			left: 0,
-			rectActive: false
+			left: 0
 		}
 	},
 	computed: {
@@ -86,11 +80,7 @@ export default {
 					time: '19:00',
 					duration: 24,
 					days: 3,
-					menu: false,
-					width: 0,
-					height: 0,
-					top: 0,
-					left: 0
+					menu: false
 				}
 			})
 			return u
@@ -107,6 +97,10 @@ export default {
 		})
 	},
 	methods: {
+		test () {
+			this.left = 100
+			console.log(12345)
+		},
 		resize (newRect) {
 			this.width = newRect.width
 			this.height = newRect.height
@@ -165,7 +159,7 @@ export default {
 }
 .rel {
 	position: relative;
-	background: red;
+	background: #eee;
 	height: 26px;
 	width: 100%;
 }
@@ -177,24 +171,24 @@ export default {
 }
 
 /* hide drag handle  */
-/deep/ .handle {
-  background-color: transparent !important;
-  border-width: 0px !important;
-	&.handle-tm {
-		width: 100% !important;
-		left: 5px !important;
-	}
-	&.handle-bm {
-		width: 100% !important;
-		left: 5px !important;
-	}
-	&.handle-mr {
-		height: 100% !important;
-		top: 5px !important;
-	}
-	&.handle-ml {
-		height: 100% !important;
-		top: 5px !important;
-	}
-}
+/* /deep/ .handle { */
+/*   background-color: transparent !important; */
+/*   border-width: 0px !important; */
+/* 	&.handle-tm { */
+/* 		width: 100% !important; */
+/* 		left: 5px !important; */
+/* 	} */
+/* 	&.handle-bm { */
+/* 		width: 100% !important; */
+/* 		left: 5px !important; */
+/* 	} */
+/* 	&.handle-mr { */
+/* 		height: 100% !important; */
+/* 		top: 5px !important; */
+/* 	} */
+/* 	&.handle-ml { */
+/* 		height: 100% !important; */
+/* 		top: 5px !important; */
+/* 	} */
+/* } */
 </style>
