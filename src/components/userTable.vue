@@ -21,7 +21,7 @@ div.mx-3
 
 				td(v-if="!hours").text-xs-center#rel
 					.rel(v-if="expanded === 1")
-						vue-draggable-resizable( :w="100" :h="26" :x="0" :y="0"
+						vue-draggable-resizable( :w="100" :h="26" :x="left" :y="0"
 							:minh="26"
 							:parent="true"
 							@click="test"
@@ -80,7 +80,8 @@ export default {
 					time: '19:00',
 					duration: 24,
 					days: 3,
-					menu: false
+					menu: false,
+					left: 0
 				}
 			})
 			return u
