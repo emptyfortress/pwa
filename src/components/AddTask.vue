@@ -79,7 +79,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 						v-btn-toggle(v-model="sequence" ).switch
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
-			userTable( :items="fio" :hours="hours" :sequence="sequence" v-if="fio.length > 1" @mousedown.native.stop).my-3
+			userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="resetForm") Очистить

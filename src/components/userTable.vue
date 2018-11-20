@@ -17,27 +17,22 @@ div.mx-3
 						v-icon drag_handle
 				td.text-xs-left {{ item.name }}
 				td(v-if="hours" width="40%").text-xs-center
-					drag-zone.zone
-						drag-content.content.c1
-							.item item 1
-						drag-handle.handle(@mousedown.native.stop)
-							div
-						drag-content.content.c2
-							.item item 2
+					span foo
 
-				td(v-if="!hours" width="40%" @click="test").text-xs-center
-					drag-zone.zone
-						drag-content.content.c0
-							.item
-						drag-handle.handle(@mousedown.native.stop)
-							div
-						drag-content.content.c1( :class="assignClass" )
-							.item {{ item.days }}
-						drag-handle.handle(@mousedown.native.stop)
-							div
-						drag-content.content.c2
+				td(v-if="!hours").text-xs-center#rel
+					.rel(v-if="expanded === 1")
+						VueDragResize(
+							:w="myW" :h="26" v-on:resizing="resize"
+							:sticks="['ml', 'mr']"
+							:isActive="rectActive"
+							v-on:dragging="resize" parentLimitation axis="x"
+							v-on:activated="activateEv()"
+							v-on:deactivated="deactivateEv()"
+							).dragon
+							p {{ top }} х {{ left }}
+							p {{ width }} х {{ height }}
 
-				td.text-xs-center.rel.date
+				td.text-xs-center.date
 					v-menu(ref="menu"
 					:close-on-content-click="!hours"
 					v-model="item.menu" :nudge-right="30"
@@ -54,27 +49,31 @@ div.mx-3
 				td(contenteditable ).text-xs-left Отсутствует
 				td.text-xs-center.sm
 					input(type="checkbox")
-
 </template>
 
 <script>
+import VueDragResize from 'vue-drag-resize'
+import VueDraggableResizable from 'vue-draggable-resizable'
 import Sortable from 'sortablejs'
 
 export default {
-	props: [ 'items', 'hours', 'sequence' ],
+	props: [ 'items', 'hours', 'sequence', 'expanded' ],
 
 	data () {
 		return {
 			date: '2018-11-16',
 			time: '19:00',
-			menu: false
+			menu: false,
+			width: 0,
+			height: 0,
+			top: 0,
+			left: 0,
+			rectActive: false
 		}
 	},
 	computed: {
-		assignClass () {
-			if (this.sequence === '1') {
-				return 'par'
-			} else return ''
+		myW () {
+			return 200
 		},
 		duration () {
 			return this.$store.getters.duration
@@ -87,7 +86,11 @@ export default {
 					time: '19:00',
 					duration: 24,
 					days: 3,
-					menu: false
+					menu: false,
+					width: 0,
+					height: 0,
+					top: 0,
+					left: 0
 				}
 			})
 			return u
@@ -104,15 +107,29 @@ export default {
 		})
 	},
 	methods: {
-		test () {
-			console.log(this.users.length)
-			console.log(this.sequence)
+		resize (newRect) {
+			this.width = newRect.width
+			this.height = newRect.height
+			this.top = newRect.top
+			this.left = newRect.left
+		},
+		activateEv () {
+			this.rectActive = true
+		},
+		deactivateEv () {
+			console.log(12345)
+			this.rectActive = false
 		}
+	},
+	components: {
+		VueDraggableResizable,
+		VueDragResize
 	}
 }
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/css/colors.scss';
 
 .users {
 	width: 100%;
@@ -141,37 +158,43 @@ export default {
 	height: 56px;
 }
 
-.zone {
-	width: 100%;
-	height: 25px;
-	margin: 0 auto;
+#rel {
+	background: #eee;
+	width: 40%;
+	/* display: block; */
+}
+.rel {
 	position: relative;
-	clear: both;
-	display: flex;
-	line-height: 25px;
-	.handle {
-		width: 10px;
-		div {
-			width:8px;
-			height: 100%;
-			transform: translateX(3px);
-		}
-		&:hover {
-			div { border-left: 3px dotted #333; }
-		}
+	background: red;
+	height: 26px;
+	width: 100%;
+}
+
+.dragon {
+	background: $info;
+	color: #fff;
+	line-height: 26px;
+}
+
+/* hide drag handle  */
+/deep/ .handle {
+  background-color: transparent !important;
+  border-width: 0px !important;
+	&.handle-tm {
+		width: 100% !important;
+		left: 5px !important;
 	}
-	.content {
-		width: calc((100% - 17px)/2);
-		overflow: auto;
-		background: #ccc;
-		&.c2, &.c0 {
-			/* background: transparent; */
-			/* width: 1px; */
-		}
-		&.c1.par {
-			/* background: $success; */
-			width: 100%;
-		}
+	&.handle-bm {
+		width: 100% !important;
+		left: 5px !important;
+	}
+	&.handle-mr {
+		height: 100% !important;
+		top: 5px !important;
+	}
+	&.handle-ml {
+		height: 100% !important;
+		top: 5px !important;
 	}
 }
 </style>
