@@ -21,7 +21,7 @@ div.mx-3
 
 				td(v-if="!hours").text-xs-center#rel
 					.rel(v-if="expanded === 1")
-						vue-draggable-resizable( :w="100" :h="26" :x="left" :y="0"
+						vue-drag-resize( :w="100" :h="26" :x="left" :y="0"
 							:minh="26"
 							:parent="true"
 							@click="test"
@@ -48,7 +48,7 @@ div.mx-3
 
 <script>
 import VueDragResize from 'vue-drag-resize'
-import VueDraggableResizable from 'vue-draggable-resizable'
+// import VueDraggableResizable from 'vue-draggable-resizable'
 import Sortable from 'sortablejs'
 
 export default {
@@ -62,12 +62,12 @@ export default {
 			width: 0,
 			height: 0,
 			top: 0,
-			left: 0
+			left: 200
 		}
 	},
 	computed: {
 		myW () {
-			return 200
+			return 300
 		},
 		duration () {
 			return this.$store.getters.duration
@@ -117,7 +117,7 @@ export default {
 		}
 	},
 	components: {
-		VueDraggableResizable,
+		// VueDraggableResizable,
 		VueDragResize
 	}
 }

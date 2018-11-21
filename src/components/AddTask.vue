@@ -1,6 +1,6 @@
 <template lang="pug">
-vue-draggable-resizable( v-on:resizing="onResize"
-	v-on:dragging="onDrag"
+vue-drag-resize( v-on:resizing="resize"
+	v-on:dragging="resize"
 	:active="active"
 	:z="3"
 	:w="startW" :h="startH"
@@ -79,7 +79,7 @@ vue-draggable-resizable( v-on:resizing="onResize"
 						v-btn-toggle(v-model="sequence" ).switch
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
-			userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
+			<!-- userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v&#45;if="fio.length > 1" @mousedown.native.stop).my&#45;3 -->
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="resetForm") Очистить
@@ -126,7 +126,8 @@ vue-draggable-resizable( v-on:resizing="onResize"
 </template>
 
 <script>
-import VueDraggableResizable from 'vue-draggable-resizable'
+// import VueDraggableResizable from 'vue-draggable-resizable'
+import VueDragResize from 'vue-drag-resize'
 import UserSelect from '@/components/UserSelect'
 import userTable from '@/components/userTable'
 import * as Longpress from '@/directives/longpress-directive'
@@ -286,7 +287,8 @@ export default {
 		}
 	},
 	components: {
-		VueDraggableResizable,
+		// VueDraggableResizable,
+		VueDragResize,
 		UserSelect,
 		Longpress,
 		userTable,
@@ -301,11 +303,11 @@ export default {
 		hideTip () {
 			this.hint = false
 		},
-		onResize: function (x, y, width, height) {
-			this.x = x
-			this.y = y
-			this.width = width
-			this.height = height
+		resize (newRect) {
+			this.width = newRect.width
+			this.height = newRect.height
+			this.top = newRect.top
+			this.left = newRect.left
 		},
 		onDrag: function (x, y) {
 			this.x = x
@@ -682,5 +684,8 @@ export default {
 	.v-input {
 		margin-right: 3rem;
 	}
+}
+.vdr.active:before {
+	position: relative;
 }
 </style>
