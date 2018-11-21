@@ -1,12 +1,12 @@
 <template lang="pug">
-vue-drag-resize( v-on:resizing="resize"
-	v-on:dragging="resize"
-	:active="active"
+vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
+	:isActive="true"
 	:z="3"
 	:w="startW" :h="startH"
 	:x="startX" :y="startY"
-	:draggable="draggable"
-	:resizable="resizable"
+	:isDraggable="draggable"
+	:isResizable="resizable"
+	@dblclick.native="expand"
 	).add
 	.top
 		span создать:
@@ -79,7 +79,7 @@ vue-drag-resize( v-on:resizing="resize"
 						v-btn-toggle(v-model="sequence" ).switch
 							v-btn(flat value="1") Параллельно
 							v-btn(flat value="2" ) Последовательно
-			<!-- userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v&#45;if="fio.length > 1" @mousedown.native.stop).my&#45;3 -->
+			userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="resetForm") Очистить
@@ -287,7 +287,6 @@ export default {
 		}
 	},
 	components: {
-		// VueDraggableResizable,
 		VueDragResize,
 		UserSelect,
 		Longpress,
