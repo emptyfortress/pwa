@@ -16,16 +16,20 @@ div.mx-3
 					v-btn(icon @mousedown.native.stop).handle1
 						v-icon drag_handle
 				td.text-xs-left {{ item.name }}
-				td(v-if="hours" width="40%").text-xs-center
-					span foo
 
-				td(v-if="!hours").text-xs-center#rel
-					.rel(v-if="expanded === 1")
-						vue-drag-resize( :w="100" :h="26" :x="left" :y="0"
-							:minh="26"
-							:parent="true"
-							@click="test"
+				td(v-if="expanded === 0").text-xs-center
+					span {{ days }}
+
+				td(ref="parent" v-if="expanded === 1" width="40%").text-xs-center.gant
+					.rel
+						vue-drag-resize( :w="width[index]" :h="26" :x="left[index]" :y="0"
+							:minh="26" :minw="100"
+							:sticks="[ 'ml', 'mr' ]" axis="x"
+							:parentLimitation="true"
+							@dragging="onDrag(index)"
+							@resizing="onResize(index)"
 							).dragon
+							span {{ days / users.length }}
 
 				td.text-xs-center.date
 					v-menu(ref="menu"
@@ -48,7 +52,6 @@ div.mx-3
 
 <script>
 import VueDragResize from 'vue-drag-resize'
-// import VueDraggableResizable from 'vue-draggable-resizable'
 import Sortable from 'sortablejs'
 
 export default {
@@ -59,32 +62,34 @@ export default {
 			date: '2018-11-16',
 			time: '19:00',
 			menu: false,
-			width: 0,
-			height: 0,
-			top: 0,
-			left: 200
+			// left: [0],
+			width: [100]
 		}
 	},
 	computed: {
-		myW () {
-			return 300
+		days () {
+			return this.$store.getters.duration
 		},
 		duration () {
 			return this.$store.getters.duration
 		},
 		users () {
-			let u = this.items.map(function (item) {
+			let u = this.items.map(function (item, index) {
 				return {
 					name: item,
 					date: '2018-11-16',
 					time: '19:00',
 					duration: 24,
 					days: 3,
-					menu: false,
-					left: 0
+					menu: false
 				}
 			})
 			return u
+		},
+		left () {
+			return this.items.map(function (item, index) {
+				return 100 * index
+			})
 		},
 		datetime () {
 			return this.hours ? this.date + ' --- ' + this.time : this.date
@@ -97,28 +102,38 @@ export default {
 			handle: '.handle1'
 		})
 	},
+	updated () {
+	},
 	methods: {
-		test () {
-			this.left = 100
-			console.log(12345)
+		setPos () {
+			console.log(this.items)
+			// let tmp = this.users.length - 1
+
 		},
-		resize (newRect) {
-			this.width = newRect.width
-			this.height = newRect.height
-			this.top = newRect.top
-			this.left = newRect.left
+		setPar () {
+			console.log(this.$refs.parent.length)
 		},
-		activateEv () {
-			this.rectActive = true
+		onResize (index) {
+			// this.users
 		},
-		deactivateEv () {
-			console.log(12345)
-			this.rectActive = false
+		onDrag (index) {
+			console.log('drag ' + index)
+			// console.log('drag')
+			// this.x = x
+			// this.y = y
 		}
 	},
 	components: {
-		// VueDraggableResizable,
 		VueDragResize
+	},
+	watch: {
+		sequence (value) {
+			if (value === '1') {
+				this.setPar()
+			} else if (value === '2') {
+				this.setPos()
+			}
+		}
 	}
 }
 </script>
@@ -138,6 +153,9 @@ export default {
 	.sm { width: 30px; padding: 0;}
 	.md { width: 80px; }
 	.date { width: 150px; }
+	.gant {
+		padding: 0;
+	}
 }
 
 .handle1 {

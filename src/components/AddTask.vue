@@ -12,7 +12,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 		span создать:
 		span(v-if="true") {{ type }}
 		v-icon(@click="minimize") minimize
-		v-icon(v-if="expanded !==1" @click="expand") call_made
+		v-icon(v-if="expanded !== 1" @click="expand") call_made
 		v-icon(v-if='expanded === 1' @click="expand") call_received
 		v-icon(@click="closePop").close close
 	#tip(v-show="hint")
