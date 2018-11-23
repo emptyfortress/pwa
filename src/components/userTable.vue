@@ -22,8 +22,8 @@ div.mx-3
 
 				td(ref="parent" v-if="expanded === 1" width="40%").text-xs-center.gant
 					.rel
-						vue-drag-resize( :w="width[index]" :h="26" :x="left[index]" :y="0"
-							:minh="26" :minw="100"
+						vue-drag-resize( :w="width[index]" :h="36" :x="left[index]" :y="0"
+							:minh="36" :minw="100"
 							:sticks="[ 'ml', 'mr' ]" axis="x"
 							:parentLimitation="true"
 							@dragging="onDrag(index)"
@@ -155,6 +155,7 @@ export default {
 	.date { width: 150px; }
 	.gant {
 		padding: 0;
+		background: red;
 	}
 }
 
@@ -171,22 +172,17 @@ export default {
 	height: 56px;
 }
 
-#rel {
-	background: #eee;
-	width: 40%;
-	/* display: block; */
-}
 .rel {
 	position: relative;
 	background: #eee;
-	height: 26px;
+	height: 36px;
 	width: 100%;
 }
 
 .dragon {
 	background: $info;
 	color: #fff;
-	line-height: 26px;
+	line-height: 36px;
 }
 
 /* hide drag handle  */

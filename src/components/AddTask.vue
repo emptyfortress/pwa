@@ -77,8 +77,8 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 				v-layout(row v-if="fio.length > 1 && expanded === 1")
 					.mx-3
 						v-btn-toggle(v-model="sequence" ).switch
-							v-btn(flat value="1") Параллельно
-							v-btn(flat value="2" ) Последовательно
+							v-btn(flat value="par") Параллельно
+							v-btn(flat value="pos" ) Последовательно
 			userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
 			v-btn(flat) Файлы
 			v-card-actions
@@ -156,12 +156,12 @@ export default {
 			search: '',
 			over: false,
 			over1: false,
-			sequence: '1',
+			sequence: 'par',
 			type: 'На исполнение',
 			date1: null,
 			startDate: '2018-11-12',
-			fio: ['Иванов', 'Петров'],
-			// fio: [],
+			// fio: ['Иванов', 'Петров'],
+			fio: [],
 			fio1: [],
 			description: '',
 			controler: true,
