@@ -83,7 +83,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="resetForm") Очистить
-				v-btn(flat color="orange") Отправить
+				v-btn(flat color="orange" @click="test") Отправить
 
 	.favusers
 		v-layout(row)
@@ -294,6 +294,9 @@ export default {
 		DayCounter
 	},
 	methods: {
+		test () {
+			console.log(this.fio)
+		},
 		showTip (e) {
 			let tip = document.querySelector('#tip')
 			tip.innerHTML = e

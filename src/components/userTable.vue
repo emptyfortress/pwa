@@ -1,6 +1,6 @@
 <template lang="pug">
 div.mx-3
-	table.users
+	table(ref="tab").users
 		thead
 			tr
 				th.sm
@@ -15,19 +15,19 @@ div.mx-3
 				td.sm
 					v-btn(icon @mousedown.native.stop).handle1
 						v-icon drag_handle
-				td.text-xs-left {{ item.name }}
+				td.text-xs-left(@click="test(index)") {{ item.name }}
 
 				td(v-if="expanded === 0").text-xs-center
 					span {{ days }}
 
-				td(ref="parent" v-if="expanded === 1" width="40%").text-xs-center.gant
+				td(ref="parent" v-if="expanded === 1" width="500").text-xs-center.gant
 					.rel
-						vue-drag-resize( :w="width[index]" :h="36" :x="left[index]" :y="0"
+						vue-drag-resize( :w="width[index].move" :h="36" :x="left[index].pos" :y="0"
 							:minh="36" :minw="100"
 							:sticks="[ 'ml', 'mr' ]" axis="x"
 							:parentLimitation="true"
-							@dragging="onDrag(index)"
-							@resizing="onResize(index)"
+							@dragging="(rect) => resize(index, rect)"
+							@resizing="(rect) => resize(index, rect)"
 							).dragon
 							span {{ days / users.length }}
 
@@ -62,8 +62,14 @@ export default {
 			date: '2018-11-16',
 			time: '19:00',
 			menu: false,
-			// left: [0],
-			width: [100]
+			left: [
+				{ par: 0, pos: this.calc(0), move: 0 },
+				{ par: 0, pos: this.calc(1), move: 0 }
+			],
+			width: [
+				{ start: 100, move: 100 },
+				{ start: 100, move: 100 }
+			]
 		}
 	},
 	computed: {
@@ -86,11 +92,6 @@ export default {
 			})
 			return u
 		},
-		left () {
-			return this.items.map(function (item, index) {
-				return 100 * index
-			})
-		},
 		datetime () {
 			return this.hours ? this.date + ' --- ' + this.time : this.date
 		}
@@ -105,22 +106,16 @@ export default {
 	updated () {
 	},
 	methods: {
-		setPos () {
-			console.log(this.items)
-			// let tmp = this.users.length - 1
-
+		calc (e) {
+			return 50 * e
 		},
-		setPar () {
-			console.log(this.$refs.parent.length)
+		test (e) {
+			this.left[e].pos = 0
+			this.width[e].move = this.width[e].start
 		},
-		onResize (index) {
-			// this.users
-		},
-		onDrag (index) {
-			console.log('drag ' + index)
-			// console.log('drag')
-			// this.x = x
-			// this.y = y
+		resize (index, rect) {
+			this.left[index].pos = rect.left
+			this.width[index].move = rect.width
 		}
 	},
 	components: {

@@ -113,7 +113,7 @@ export default {
 		},
 		onChange () {
 			this.$emit('input', this.selected)
-			console.log(this.selected)
+			// console.log(this.selected)
 		},
 
 		remove (item) {
