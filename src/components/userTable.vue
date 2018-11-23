@@ -15,7 +15,7 @@ div.mx-3
 				td.sm
 					v-btn(icon @mousedown.native.stop).handle1
 						v-icon drag_handle
-				td.text-xs-left(@click="test(index)") {{ item.name }}
+				td.text-xs-left(@click="test") {{ item.name }}
 
 				td(v-if="expanded === 0").text-xs-center
 					span {{ days }}
@@ -109,9 +109,10 @@ export default {
 		calc (e) {
 			return 50 * e
 		},
-		test (e) {
-			this.left[e].pos = 0
-			this.width[e].move = this.width[e].start
+		test () {
+			this.left.map(item => {
+				item.pos = 0
+			})
 		},
 		resize (index, rect) {
 			this.left[index].pos = rect.left
