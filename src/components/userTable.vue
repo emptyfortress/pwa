@@ -22,7 +22,7 @@ div.mx-3
 
 				td(ref="parent" v-if="expanded === 1" width="500").text-xs-center.gant
 					.rel
-						vue-drag-resize( :w="bar[index].width" :h="36" :x="bar[index].left" :y="0"
+						vue-drag-resize( :w="item.width" :h="36" :x="bar[index].left" :y="0"
 							:minh="36" :minw="100"
 							:sticks="[ 'ml', 'mr' ]" axis="x"
 							:parentLimitation="true"
@@ -86,6 +86,7 @@ export default {
 			return this.$store.getters.duration
 		},
 		users () {
+			let a = this.items.length
 			let u = this.items.map(function (item, index) {
 				return {
 					name: item,
@@ -93,7 +94,9 @@ export default {
 					time: '19:00',
 					duration: 24,
 					days: 3,
-					menu: false
+					menu: false,
+					width: 500 / a,
+					left: a * index
 				}
 			})
 			return u
