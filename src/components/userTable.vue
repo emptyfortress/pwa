@@ -22,13 +22,25 @@ div.mx-3
 
 				td(ref="parent" v-if="expanded === 1" width="500").text-xs-center.gant
 					.rel
-						vue-drag-resize( :w="item.width" :h="36" :x="bar[index].left" :y="0"
+						vue-drag-resize( :w="item.width" :h="36" :x="item.left" :y="0"
 							:minh="36" :minw="100"
 							:sticks="[ 'ml', 'mr' ]" axis="x"
 							:parentLimitation="true"
 							:isActive="true"
+							v-show="sequence === 'par'"
 							).dragon
-							span {{ days / users.length }}
+							span(v-if="!hours") {{ days }}
+							spa(v-if="hours") {{ days * 8 }}
+
+						vue-drag-resize( :w="item.width1" :h="36" :x="item.left1" :y="0"
+							:minh="36" :minw="100"
+							:sticks="[ 'ml', 'mr' ]" axis="x"
+							:parentLimitation="true"
+							:isActive="true"
+							v-show="sequence === 'pos'"
+							).dragon
+							span(v-if="!hours") {{ days / users.length }}
+							span(v-if="hours") {{ days * 8 / users.length }}
 
 				td.text-xs-center.date
 					v-menu(ref="menu"
@@ -61,18 +73,7 @@ export default {
 			date: '2018-11-16',
 			time: '19:00',
 			menu: false,
-			limit: true,
-			bar: [
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 },
-				{ left: 0, width: 500 }
-			]
+			limit: true
 		}
 	},
 	computed: {
@@ -95,8 +96,10 @@ export default {
 					duration: 24,
 					days: 3,
 					menu: false,
-					width: 500 / a,
-					left: a * index
+					width: 500,
+					width1: 500 / a,
+					left: 0,
+					left1: 500 / a * index
 				}
 			})
 			return u
@@ -111,25 +114,14 @@ export default {
 			draggable: '.item',
 			handle: '.handle1'
 		})
-		// this.setPos()
 	},
 	updated () {
-		// this.setPos()
-		// this.setPar()
 	},
 	methods: {
 		setPos () {
-			let that = this
-			this.bar.map((item, index) => {
-				item.width = 500 / that.items.length
-				item.left = 500 / that.items.length * index
-			})
+			this.users = []
 		},
 		setPar () {
-			this.bar.map((item, index) => {
-				item.width = 500
-				item.left = 0
-			})
 		},
 		setTrue () {
 			this.limit = true

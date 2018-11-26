@@ -126,7 +126,6 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 </template>
 
 <script>
-// import VueDraggableResizable from 'vue-draggable-resizable'
 import VueDragResize from 'vue-drag-resize'
 import UserSelect from '@/components/UserSelect'
 import userTable from '@/components/userTable'
@@ -160,11 +159,10 @@ export default {
 			type: 'На исполнение',
 			date1: null,
 			startDate: '2018-11-12',
-			// fio: ['Иванов', 'Петров'],
 			fio: [],
 			fio1: [],
 			description: '',
-			controler: true,
+			controler: false,
 			save: false,
 			currentSlot: null,
 			name: '',
