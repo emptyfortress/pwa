@@ -22,7 +22,7 @@ div.mx-3
 
 				td(ref="parent" v-if="expanded === 1" width="500").text-xs-center.gant
 					.rel
-						vue-drag-resize( :w="width[index].move" :h="36" :x="left[index].pos" :y="0"
+						vue-drag-resize( :w="bar[index].width" :h="36" :x="bar[index].left" :y="0"
 							:minh="36" :minw="100"
 							:sticks="[ 'ml', 'mr' ]" axis="x"
 							:parentLimitation="true"
@@ -62,17 +62,23 @@ export default {
 			date: '2018-11-16',
 			time: '19:00',
 			menu: false,
-			left: [
-				{ par: 0, pos: this.calc(0), move: 0 },
-				{ par: 0, pos: this.calc(1), move: 0 }
-			],
-			width: [
-				{ start: 100, move: 100 },
-				{ start: 100, move: 100 }
+			bar: [
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 },
+				{ left: 0, width: 500 }
 			]
 		}
 	},
 	computed: {
+		width () {
+			return 500 / this.items.length
+		},
 		days () {
 			return this.$store.getters.duration
 		},
@@ -106,17 +112,14 @@ export default {
 	updated () {
 	},
 	methods: {
-		calc (e) {
-			return 50 * e
-		},
 		test () {
-			this.left.map(item => {
-				item.pos = 0
+			this.bar.map((item, index) => {
+				item.left = 50 * index
 			})
 		},
 		resize (index, rect) {
-			this.left[index].pos = rect.left
-			this.width[index].move = rect.width
+			this.bar[index].width = rect.width
+			this.bar[index].left = rect.left
 		}
 	},
 	components: {
@@ -124,10 +127,17 @@ export default {
 	},
 	watch: {
 		sequence (value) {
-			if (value === '1') {
-				this.setPar()
-			} else if (value === '2') {
-				this.setPos()
+			if (value === 'par') {
+				this.bar.map((item, index) => {
+					item.width = 500 / 2
+					item.left = 10
+				})
+			} else if (value === 'pos') {
+				let that = this
+				this.bar.map((item, index) => {
+					item.width = 500 / that.users.length
+					item.left = (500 / that.users.length) * index
+				})
 			}
 		}
 	}
