@@ -15,7 +15,7 @@ div.mx-3
 				td.sm
 					v-btn(icon @mousedown.native.stop).handle1
 						v-icon drag_handle
-				td.text-xs-left(@click="test") {{ item.name }}
+				td.text-xs-left {{ item.name }}
 
 				td(v-if="expanded === 0").text-xs-center
 					span {{ days }}
@@ -25,9 +25,8 @@ div.mx-3
 						vue-drag-resize( :w="bar[index].width" :h="36" :x="bar[index].left" :y="0"
 							:minh="36" :minw="100"
 							:sticks="[ 'ml', 'mr' ]" axis="x"
-							:parentLimitation="false"
-							@dragging="(rect) => resize(index, rect)"
-							@resizing="(rect) => resize(index, rect)"
+							:parentLimitation="true"
+							:isActive="true"
 							).dragon
 							span {{ days / users.length }}
 
@@ -109,34 +108,31 @@ export default {
 			draggable: '.item',
 			handle: '.handle1'
 		})
+		// this.setPos()
 	},
 	updated () {
+		// this.setPos()
+		// this.setPar()
 	},
 	methods: {
 		setPos () {
-			this.limit = false
+			let that = this
 			this.bar.map((item, index) => {
-				item.width = 50
-				item.left = 30
+				item.width = 500 / that.items.length
+				item.left = 500 / that.items.length * index
 			})
-			this.limit = true
 		},
 		setPar () {
-			this.limit = false
 			this.bar.map((item, index) => {
 				item.width = 500
 				item.left = 0
 			})
+		},
+		setTrue () {
 			this.limit = true
 		},
-		test () {
-			this.bar.map((item, index) => {
-				item.left = 50 * index
-			})
-		},
-		resize (index, rect) {
-			this.bar[index].width = rect.width
-			this.bar[index].left = rect.left
+		setFalse () {
+			this.limit = false
 		}
 	},
 	components: {
