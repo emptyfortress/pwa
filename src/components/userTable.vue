@@ -25,7 +25,7 @@ div.mx-3
 						vue-drag-resize( :w="bar[index].width" :h="36" :x="bar[index].left" :y="0"
 							:minh="36" :minw="100"
 							:sticks="[ 'ml', 'mr' ]" axis="x"
-							:parentLimitation="true"
+							:parentLimitation="false"
 							@dragging="(rect) => resize(index, rect)"
 							@resizing="(rect) => resize(index, rect)"
 							).dragon
@@ -62,6 +62,7 @@ export default {
 			date: '2018-11-16',
 			time: '19:00',
 			menu: false,
+			limit: true,
 			bar: [
 				{ left: 0, width: 500 },
 				{ left: 0, width: 500 },
@@ -112,6 +113,22 @@ export default {
 	updated () {
 	},
 	methods: {
+		setPos () {
+			this.limit = false
+			this.bar.map((item, index) => {
+				item.width = 50
+				item.left = 30
+			})
+			this.limit = true
+		},
+		setPar () {
+			this.limit = false
+			this.bar.map((item, index) => {
+				item.width = 500
+				item.left = 0
+			})
+			this.limit = true
+		},
 		test () {
 			this.bar.map((item, index) => {
 				item.left = 50 * index
@@ -128,16 +145,9 @@ export default {
 	watch: {
 		sequence (value) {
 			if (value === 'par') {
-				this.bar.map((item, index) => {
-					item.width = 500 / 2
-					item.left = 10
-				})
+				this.setPar()
 			} else if (value === 'pos') {
-				let that = this
-				this.bar.map((item, index) => {
-					item.width = 500 / that.users.length
-					item.left = (500 / that.users.length) * index
-				})
+				this.setPos()
 			}
 		}
 	}

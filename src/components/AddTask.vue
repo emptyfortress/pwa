@@ -156,7 +156,7 @@ export default {
 			search: '',
 			over: false,
 			over1: false,
-			sequence: '',
+			sequence: 'pos',
 			type: 'На исполнение',
 			date1: null,
 			startDate: '2018-11-12',
