@@ -72,14 +72,10 @@ export default {
 		return {
 			date: '2018-11-16',
 			time: '19:00',
-			menu: false,
-			limit: true
+			menu: false
 		}
 	},
 	computed: {
-		width () {
-			return 500 / this.items.length
-		},
 		days () {
 			return this.$store.getters.duration
 		},
@@ -115,32 +111,8 @@ export default {
 			handle: '.handle1'
 		})
 	},
-	updated () {
-	},
-	methods: {
-		setPos () {
-			this.users = []
-		},
-		setPar () {
-		},
-		setTrue () {
-			this.limit = true
-		},
-		setFalse () {
-			this.limit = false
-		}
-	},
 	components: {
 		VueDragResize
-	},
-	watch: {
-		sequence (value) {
-			if (value === 'par') {
-				this.setPar()
-			} else if (value === 'pos') {
-				this.setPos()
-			}
-		}
 	}
 }
 </script>

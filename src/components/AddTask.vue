@@ -16,6 +16,27 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 		v-icon(v-if='expanded === 1' @click="expand") call_received
 		v-icon(@click="closePop").close close
 	#tip(v-show="hint")
+	<!-- drop(@drop="handleFiles" -->
+	<!-- 	@dragover="over = true" -->
+	<!-- 	@dragleave="over = false" -->
+	<!-- 	class="dropFiles" -->
+	<!-- 	:class="{ over }" -->
+	<!-- 	v&#45;if="!userDrag " -->
+	<!-- 	) -->
+	drop(@drop="handleUserDrop"
+		@dragover="over = true"
+		@dragleave="over = false"
+		class="dropUser"
+		:class="{ over }"
+		v-if="userDrag"
+		)
+	drop(@drop="handleControlerDrop"
+		@dragover="over = true"
+		@dragleave="over = false"
+		class="dropUser1"
+		:class="{ over }"
+		v-if="userDrag"
+		)
 	v-layout(column justify-start ).mt-5
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
@@ -23,10 +44,20 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 					v-select(label="Тип" :items="types" v-model="type" ).mx-3
 					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details)
 					v-checkbox( label="Требуется приемка" color="primary" hide-details )
-			drop(@drop="handleDrop" @dragover="over = true" @mousedown.native.stop @dragleave="over = false" class="drop" :class="{ over }")
+			drop(
+				@drop="handleDrop"
+				@dragover="over = true"
+				@dragleave="over = false"
+				@mousedown.native.stop
+				class="drop" :class="{ over }")
 				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
 			v-layout( row align-center v-if="controler" )
-				drop(@drop="handleDrop1" @mousedown.native.stop @dragover="over1 = true" @dragleave="over1 = false" class="drop" :class="{ over1 }")
+				drop(
+					@drop="handleDrop1"
+					@mousedown.native.stop
+					@dragover="over1 = true"
+					@dragleave="over1 = false"
+					class="drop" :class="{ over1 }")
 					UserSelect(label="Контролер"  v-model="fio1" )
 				.ml-3
 					v-menu(ref="menu4"
@@ -83,12 +114,18 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 			v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="resetForm") Очистить
-				v-btn(flat color="orange" @click="test") Отправить
+				v-btn(flat color="orange" ) Отправить
 
 	.favusers
 		v-layout(row)
 			v-tooltip(left v-for="user in favorites" :key="user.id" )
-				drag(class="drag" :transfer-data="user.name" @mousedown.native.stop slot="activator")
+				drag(class="drag"
+					:transfer-data="user.name"
+					@mousedown.native.stop
+					slot="activator"
+					@dragstart="userDrag = 1"
+					@dragend="userDrag = null"
+					)
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/user0.svg')").av
 				span {{ user.name }}
@@ -167,6 +204,7 @@ export default {
 			currentSlot: null,
 			name: '',
 			hint: false,
+			userDrag: null,
 			types: [
 				'На исполнение', 'На исполнение c контролем', 'На ознакомление', 'На согласование', 'Группа заданий', 'Документ'
 			],
@@ -292,8 +330,19 @@ export default {
 		DayCounter
 	},
 	methods: {
-		test () {
-			console.log(this.fio)
+		// handleDragover (dragging, data, event) {
+		// 	if (this.dragging !== 'user') {
+		// 		event.dataTransfer.dropEffect = 'none'
+		// 	}
+		// },
+		handleFiles (data, event) {
+			event.preventDefault()
+			const files = event.dataTransfer.files
+			const filenames = []
+			for (let i = 0; i < files.length; i++) {
+				filenames.push(files.item(i).name)
+			}
+			alert(`You dropped files: ${JSON.stringify(filenames)}`)
 		},
 		showTip (e) {
 			let tip = document.querySelector('#tip')
@@ -413,7 +462,7 @@ export default {
 			this.$store.commit('toggleMin')
 			console.log(this.slot0)
 		},
-		handleDrop (data, event) {
+		handleUserDrop (data, event) {
 			if (Array.isArray(data)) {
 				this.fio.push(...data)
 				this.over = false
@@ -422,7 +471,7 @@ export default {
 				this.over = false
 			}
 		},
-		handleDrop1 (data, event) {
+		handleControlerDrop (data, event) {
 			if (Array.isArray(data)) {
 				this.fio1.push(...data)
 				this.over1 = false
@@ -507,6 +556,46 @@ export default {
 }
 .drop.over, .drop.over1 {
 	background: #eaf9d7;
+}
+.dropFiles {
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: yellow;
+	&.over {
+		background: red;
+	}
+}
+.dropUser {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	background: yellow;
+	&.over {
+		background: green;
+		width: 100%;
+		height: 50%;
+	}
+}
+.dropUser1 {
+	z-index: 10;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	background: yellow;
+	&.over {
+		background: red;
+		width: 100%;
+		height: 50%;
+	}
 }
 
 .av {
