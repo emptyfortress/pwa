@@ -16,13 +16,20 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 		v-icon(v-if='expanded === 1' @click="expand") call_received
 		v-icon(@click="closePop").close close
 	#tip(v-show="hint")
-	<!-- drop(@drop="handleFiles" -->
-	<!-- 	@dragover="over = true" -->
-	<!-- 	@dragleave="over = false" -->
-	<!-- 	class="dropFiles" -->
-	<!-- 	:class="{ over }" -->
-	<!-- 	v&#45;if="!userDrag " -->
-	<!-- 	) -->
+	drop(@drop="handleFiles"
+		@dragover="over = true"
+		@dragleave="over = false"
+		class="dropFiles"
+		:class="{ over }"
+		v-if="!userDrag "
+		)
+	drop(@drop="handleFiles"
+		@dragover="over = true"
+		@dragleave="over = false"
+		class="dropFiles1"
+		:class="{ over }"
+		v-if="!userDrag "
+		)
 	drop(@drop="handleUserDrop"
 		@dragover="over = true"
 		@dragleave="over = false"
@@ -44,20 +51,10 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 					v-select(label="Тип" :items="types" v-model="type" ).mx-3
 					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details)
 					v-checkbox( label="Требуется приемка" color="primary" hide-details )
-			drop(
-				@drop="handleDrop"
-				@dragover="over = true"
-				@dragleave="over = false"
-				@mousedown.native.stop
-				class="drop" :class="{ over }")
+			drop( @dragover="over = true" @dragleave="over = false")
 				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
 			v-layout( row align-center v-if="controler" )
-				drop(
-					@drop="handleDrop1"
-					@mousedown.native.stop
-					@dragover="over1 = true"
-					@dragleave="over1 = false"
-					class="drop" :class="{ over1 }")
+				drop( @dragover="over = true" @dragleave="over = false")
 					UserSelect(label="Контролер"  v-model="fio1" )
 				.ml-3
 					v-menu(ref="menu4"
@@ -74,7 +71,10 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 							v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
 
 			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
-			v-textarea(class="mx-3 my-0" label="Содержание" auto-grow @mousedown.native.stop v-model="description" rows=1)
+			v-textarea(class="mx-3 my-0" label="Содержание"
+				auto-grow @mousedown.native.stop
+				v-model="description" rows=1
+				)
 			v-layout( row align-center ).mx-3
 				.mr-5(v-if="expanded === 1")
 					v-menu(ref="menu3"
@@ -111,7 +111,8 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 							v-btn(flat value="par") Параллельно
 							v-btn(flat value="pos" ) Последовательно
 			userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
-			v-btn(flat) Файлы
+			drop( @dragover="over = true" @dragleave="over = false")
+				v-btn(flat) Файлы
 			v-card-actions
 				v-btn(flat color="orange" @click="resetForm") Очистить
 				v-btn(flat color="orange" ) Отправить
@@ -191,7 +192,6 @@ export default {
 			theme: null,
 			search: '',
 			over: false,
-			over1: false,
 			sequence: 'par',
 			type: 'На исполнение',
 			date1: null,
@@ -474,10 +474,12 @@ export default {
 		handleControlerDrop (data, event) {
 			if (Array.isArray(data)) {
 				this.fio1.push(...data)
-				this.over1 = false
+				this.over = false
+				this.controler = true
 			} else {
 				this.fio1.push(data)
-				this.over1 = false
+				this.over = false
+				this.controler = true
 			}
 		}
 	}
@@ -558,15 +560,29 @@ export default {
 	background: #eaf9d7;
 }
 .dropFiles {
-	z-index: 1;
+	z-index: 10;
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100%;
-	background: yellow;
+	width: 0;
+	height: 0;
 	&.over {
 		background: red;
+		width: 100%;
+		height: 50%;
+	}
+}
+.dropFiles1 {
+	z-index: 10;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	&.over {
+		background: blue;
+		width: 100%;
+		height: 50%;
 	}
 }
 .dropUser {
