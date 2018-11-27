@@ -17,7 +17,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 			v-icon(v-if='expanded === 1' @click="expand") call_received
 			v-icon(@click="closePop").close close
 		#tip(v-show="hint")
-		div(v-if="!userDrag")
+		div(v-if="!userDrag && !tableDrag")
 			drop(@drop="handleFiles"
 				class="dropFiles"
 				:class="{ over }"
@@ -25,7 +25,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 				v-layout( align-center justify-center column fill-height )
 					img(:src="require('@/assets/img/mainfile.svg')")
 					h1 Основные файлы
-		div(v-if="!userDrag")
+		div(v-if="!userDrag && !tableDrag")
 			drop(@drop="handleFiles"
 				class="dropFiles1"
 				:class="{ over }"
@@ -113,7 +113,15 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 							v-btn-toggle(v-model="sequence" ).switch
 								v-btn(flat value="par") Параллельно
 								v-btn(flat value="pos" ) Последовательно
-				userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
+				userTable(
+					:items="fio"
+					:hours="hours"
+					:sequence="sequence"
+					:expanded="expanded"
+					v-if="fio.length > 1"
+					@tableon="tableDrag = 1"
+					@tableoff="tableDrag = null"
+					).my-3
 				v-btn(flat) Файлы
 				v-card-actions
 					v-btn(flat color="orange" @click="resetForm") Очистить
@@ -133,12 +141,18 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 						img(:src="require('@/assets/img/user0.svg')").av
 				span {{ user.name }}
 			v-tooltip(left)
-				drag(@mousedown.native.stop slot="activator" :transfer-data="group1")
+				drag(@mousedown.native.stop slot="activator" :transfer-data="group1"
+					@dragstart="userDrag = 1"
+					@dragend="userDrag = null"
+				)
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/users.svg')").av
 				span Бухгалтерия
 			v-tooltip(left)
-				drag(@mousedown.native.stop slot="activator" :transfer-data="group2")
+				drag(@mousedown.native.stop slot="activator" :transfer-data="group2"
+					@dragstart="userDrag = 1"
+					@dragend="userDrag = null"
+				)
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/users.svg')").av
 				span Кадры
@@ -207,6 +221,7 @@ export default {
 			name: '',
 			hint: false,
 			userDrag: null,
+			tableDrag: null,
 			types: [
 				'На исполнение', 'На исполнение c контролем', 'На ознакомление', 'На согласование', 'Группа заданий', 'Документ'
 			],

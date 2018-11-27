@@ -13,7 +13,10 @@ div.mx-3
 		tbody(id='table')
 			tr(v-for="(item, index) in users" :key="index").item
 				td.sm
-					v-btn(icon @mousedown.native.stop).handle1
+					v-btn(icon @mousedown.native.stop
+						@mousedown="tableon"
+						@mouseup="tableoff"
+						).handle1
 						v-icon drag_handle
 				td.text-xs-left {{ item.name }}
 
@@ -72,7 +75,8 @@ export default {
 		return {
 			date: '2018-11-16',
 			time: '19:00',
-			menu: false
+			menu: false,
+			table: null
 		}
 	},
 	computed: {
@@ -110,6 +114,14 @@ export default {
 			draggable: '.item',
 			handle: '.handle1'
 		})
+	},
+	methods: {
+		tableon () {
+			this.$emit('tableon')
+		},
+		tableoff () {
+			this.$emit('tableoff')
+		}
 	},
 	components: {
 		VueDragResize
