@@ -8,127 +8,116 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 	:isResizable="resizable"
 	@dblclick.native="expand"
 	).add
-	.top
-		span создать:
-		span(v-if="true") {{ type }}
-		v-icon(@click="minimize") minimize
-		v-icon(v-if="expanded !== 1" @click="expand") call_made
-		v-icon(v-if='expanded === 1' @click="expand") call_received
-		v-icon(@click="closePop").close close
-	#tip(v-show="hint")
-	drop(@drop="handleFiles"
-		@dragover="over = true"
-		@dragleave="over = false"
-		class="dropFiles"
-		:class="{ over }"
-		v-if="!userDrag "
-		)
-	drop(@drop="handleFiles"
-		@dragover="over = true"
-		@dragleave="over = false"
-		class="dropFiles1"
-		:class="{ over }"
-		v-if="!userDrag "
-		)
-	div(v-if="userDrag")
-		drop(@drop="handleUserDrop"
-			@dragover="over = true"
-			@dragleave="over = false"
-			class="dropUser"
-			:class="{ over }"
-			)
-			v-layout( align-center justify-center column fill-height )
-				img(:src="require('@/assets/img/ispoln.svg')")
-				h1 Исполнители
-	div(v-if="userDrag")
-		drop(@drop="handleControlerDrop"
-			@dragover="over = true"
-			@dragleave="over = false"
-			class="dropUser1"
-			:class="{ over }"
-			)
-			v-layout( align-center justify-center column fill-height )
-				img(:src="require('@/assets/img/controler.svg')")
-				h1 Контролер
-	<!-- drop(@drop="handleControlerDrop" -->
-	<!-- 	@dragover="over = true" -->
-	<!-- 	@dragleave="over = false" -->
-	<!-- 	class="dropUser1" -->
-	<!-- 	:class="{ over }" -->
-	<!-- 	v&#45;if="userDrag" -->
-	<!-- 	) -->
-	v-layout(column justify-start ).mt-5
-		v-flex(xs12)
-			v-layout(row v-if="expanded !==0" )
-				.topform
-					v-select(label="Тип" :items="types" v-model="type" ).mx-3
-					v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details)
-					v-checkbox( label="Требуется приемка" color="primary" hide-details )
-			drop( @dragover="over = true" @dragleave="over = false")
-				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
-			v-layout( row align-center v-if="controler" )
-				drop( @dragover="over = true" @dragleave="over = false")
-					UserSelect(label="Контролер"  v-model="fio1" )
-				.ml-3
-					v-menu(ref="menu4"
-					:close-on-content-click="!hours"
-					v-model="menu4" :nudge-right="30"
-					lazy transition="scale-transition"
-					offset-y full-width )
-						v-text-field(slot="activator" :value="endDate" label="Срок контроля" prepend-icon="event" readonly).pt-4
-						v-layout( row )
-							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
-							v-time-picker(v-model="time0" v-if="hours")
-						v-layout( row justify-center v-if="hours")
-							v-btn(flat color="success" @click="menu3 = false") Отмена
-							v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
-
-			v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
-			v-textarea(class="mx-3 my-0" label="Содержание"
-				auto-grow @mousedown.native.stop
-				v-model="description" rows=1
+	drop( @dragover="over = true" @dragleave="over = false")
+		.top
+			span создать:
+			span(v-if="true") {{ type }}
+			v-icon(@click="minimize") minimize
+			v-icon(v-if="expanded !== 1" @click="expand") call_made
+			v-icon(v-if='expanded === 1' @click="expand") call_received
+			v-icon(@click="closePop").close close
+		#tip(v-show="hint")
+		div(v-if="!userDrag")
+			drop(@drop="handleFiles"
+				class="dropFiles"
+				:class="{ over }"
 				)
-			v-layout( row align-center ).mx-3
-				.mr-5(v-if="expanded === 1")
-					v-menu(ref="menu3"
-					:close-on-content-click="!hours"
-					v-model="menu3" :nudge-right="30"
-					lazy transition="scale-transition"
-					offset-y full-width )
-						v-text-field(slot="activator" :value="displayDate" label="Начать" prepend-icon="event" readonly)
-						v-layout( row )
-							v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
-							v-time-picker(v-model="time0" v-if="hours")
-						v-layout( row justify-center v-if="hours")
-							v-btn(flat color="success" @click="menu3 = false") Отмена
-							v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
-				.mr-5
-					DayCounter(days="days")
-				.mr-5
-					v-menu(ref="menu"
-					:close-on-content-click="!hours"
-					v-model="menu" :nudge-right="30"
-					:return-value.sync="endDate"
-					lazy transition="scale-transition"
-					offset-y full-width )
-						v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly)
-						v-layout( row )
-							v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1 @input="saveDate")
-							v-time-picker(v-model="time" v-if="hours")
-						v-layout( row justify-center  v-if="hours")
-							v-btn(flat color="success" @click="menu = false") Отмена
-							v-btn(flat color="success" @click="menu = false") OK
-				v-layout(row v-if="fio.length > 1 && expanded === 1")
-					.mx-3
-						v-btn-toggle(v-model="sequence" ).switch
-							v-btn(flat value="par") Параллельно
-							v-btn(flat value="pos" ) Последовательно
-			userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
-			drop( @dragover="over = true" @dragleave="over = false")
+				v-layout( align-center justify-center column fill-height )
+					img(:src="require('@/assets/img/mainfile.svg')")
+					h1 Основные файлы
+		div(v-if="!userDrag")
+			drop(@drop="handleFiles"
+				class="dropFiles1"
+				:class="{ over }"
+				)
+				v-layout( align-center justify-center column fill-height )
+					img(:src="require('@/assets/img/dopfile.svg')")
+					h1 Дополнительные файлы
+		div(v-if="userDrag")
+			drop(@drop="handleUserDrop"
+				class="dropUser"
+				:class="{ over }"
+				)
+				v-layout( align-center justify-center column fill-height )
+					img(:src="require('@/assets/img/ispoln.svg')")
+					h1 Исполнители
+		div(v-if="userDrag")
+			drop(@drop="handleControlerDrop"
+				class="dropUser1"
+				:class="{ over }"
+				)
+				v-layout( align-center justify-center column fill-height )
+					img(:src="require('@/assets/img/controler.svg')")
+					h1 Контролер
+		v-layout(column justify-start ).mt-5
+			v-flex(xs12)
+				v-layout(row v-if="expanded !==0" )
+					.topform
+						v-select(label="Тип" :items="types" v-model="type" ).mx-3
+						v-checkbox( v-model="controler" label="На контроле" color="primary" hide-details)
+						v-checkbox( label="Требуется приемка" color="primary" hide-details )
+				UserSelect(label="Исполнители" v-on:dblclick.native.stop  v-model="fio" )
+				v-layout( row align-center v-if="controler" )
+					UserSelect(label="Контролер"  v-model="fio1" )
+					.ml-3
+						v-menu(ref="menu4"
+						:close-on-content-click="!hours"
+						v-model="menu4" :nudge-right="30"
+						lazy transition="scale-transition"
+						offset-y full-width )
+							v-text-field(slot="activator" :value="endDate" label="Срок контроля" prepend-icon="event" readonly).pt-4
+							v-layout( row )
+								v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
+								v-time-picker(v-model="time0" v-if="hours")
+							v-layout( row justify-center v-if="hours")
+								v-btn(flat color="success" @click="menu3 = false") Отмена
+								v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
+
+				v-text-field(type='text' class="mx-3" label="Тема" @mousedown.native.stop v-model='theme' required )
+				v-textarea(class="mx-3 my-0" label="Содержание"
+					auto-grow @mousedown.native.stop
+					v-model="description" rows=1
+					)
+				v-layout( row align-center ).mx-3
+					.mr-5(v-if="expanded === 1")
+						v-menu(ref="menu3"
+						:close-on-content-click="!hours"
+						v-model="menu3" :nudge-right="30"
+						lazy transition="scale-transition"
+						offset-y full-width )
+							v-text-field(slot="activator" :value="displayDate" label="Начать" prepend-icon="event" readonly)
+							v-layout( row )
+								v-date-picker(v-model="startDate" scrollable locale="ru-Ru" first-day-of-week=1)
+								v-time-picker(v-model="time0" v-if="hours")
+							v-layout( row justify-center v-if="hours")
+								v-btn(flat color="success" @click="menu3 = false") Отмена
+								v-btn(flat color="success" @click="$refs.menu3.save(displayDate)") OK
+					.mr-5
+						DayCounter(days="days")
+					.mr-5
+						v-menu(ref="menu"
+						:close-on-content-click="!hours"
+						v-model="menu" :nudge-right="30"
+						:return-value.sync="endDate"
+						lazy transition="scale-transition"
+						offset-y full-width )
+							v-text-field(slot="activator" :value="endDate" label="Завершить" prepend-icon="event" readonly)
+							v-layout( row )
+								v-date-picker(v-model="date1" scrollable locale="ru-Ru" first-day-of-week=1 @input="saveDate")
+								v-time-picker(v-model="time" v-if="hours")
+							v-layout( row justify-center  v-if="hours")
+								v-btn(flat color="success" @click="menu = false") Отмена
+								v-btn(flat color="success" @click="menu = false") OK
+					v-layout(row v-if="fio.length > 1 && expanded === 1")
+						.mx-3
+							v-btn-toggle(v-model="sequence" ).switch
+								v-btn(flat value="par") Параллельно
+								v-btn(flat value="pos" ) Последовательно
+				userTable( :items="fio" :hours="hours" :sequence="sequence" :expanded="expanded" v-if="fio.length > 1" @mousedown.native.stop).my-3
 				v-btn(flat) Файлы
-			v-card-actions
-				v-btn(flat color="orange" @click="resetForm") Очистить
-				v-btn(flat color="orange" ) Отправить
+				v-card-actions
+					v-btn(flat color="orange" @click="resetForm") Очистить
+					v-btn(flat color="orange" ) Отправить
 
 	.favusers
 		v-layout(row)
@@ -343,11 +332,6 @@ export default {
 		DayCounter
 	},
 	methods: {
-		// handleDragover (dragging, data, event) {
-		// 	if (this.dragging !== 'user') {
-		// 		event.dataTransfer.dropEffect = 'none'
-		// 	}
-		// },
 		handleFiles (data, event) {
 			event.preventDefault()
 			const files = event.dataTransfer.files
@@ -355,6 +339,7 @@ export default {
 			for (let i = 0; i < files.length; i++) {
 				filenames.push(files.item(i).name)
 			}
+			this.over = false
 			alert(`You dropped files: ${JSON.stringify(filenames)}`)
 		},
 		showTip (e) {
@@ -579,10 +564,26 @@ export default {
 	left: 0;
 	width: 0;
 	height: 0;
+	background: #2C5459ee;
+	img { display: none; opacity: .5; }
+	h1 {
+		display: none;
+		opacity: .5;
+		text-align: center;
+		font-size: 1.4rem;
+		font-weight: 400;
+		color: #fff;
+	}
 	&.over {
-		background: red;
 		width: 100%;
 		height: 50%;
+		img {
+			height: 70px;
+			display: block;
+		}
+		h1 {
+			display: block;
+		}
 	}
 }
 .dropFiles1 {
@@ -592,10 +593,26 @@ export default {
 	left: 0;
 	width: 0;
 	height: 0;
+	background: #2C4159ee;
+	img { display: none; opacity: .5; }
+	h1 {
+		display: none;
+		opacity: .5;
+		text-align: center;
+		font-size: 1.4rem;
+		font-weight: 400;
+		color: #fff;
+	}
 	&.over {
-		background: blue;
 		width: 100%;
 		height: 50%;
+		img {
+			height: 70px;
+			display: block;
+		}
+		h1 {
+			display: block;
+		}
 	}
 }
 .dropUser {
@@ -620,7 +637,6 @@ export default {
 		height: 50%;
 		img {
 			width: 150px;
-			margin: 50px auto 0;
 			display: block;
 		}
 		h1 {
@@ -650,7 +666,6 @@ export default {
 		height: 50%;
 		img {
 			height: 90px;
-			margin: 50px auto 0;
 			display: block;
 		}
 		h1 {
