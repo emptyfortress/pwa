@@ -30,20 +30,33 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 		:class="{ over }"
 		v-if="!userDrag "
 		)
-	drop(@drop="handleUserDrop"
-		@dragover="over = true"
-		@dragleave="over = false"
-		class="dropUser"
-		:class="{ over }"
-		v-if="userDrag"
-		)
-	drop(@drop="handleControlerDrop"
-		@dragover="over = true"
-		@dragleave="over = false"
-		class="dropUser1"
-		:class="{ over }"
-		v-if="userDrag"
-		)
+	div(v-if="userDrag")
+		drop(@drop="handleUserDrop"
+			@dragover="over = true"
+			@dragleave="over = false"
+			class="dropUser"
+			:class="{ over }"
+			)
+			v-layout( align-center justify-center column fill-height )
+				img(:src="require('@/assets/img/ispoln.svg')")
+				h1 Исполнители
+	div(v-if="userDrag")
+		drop(@drop="handleControlerDrop"
+			@dragover="over = true"
+			@dragleave="over = false"
+			class="dropUser1"
+			:class="{ over }"
+			)
+			v-layout( align-center justify-center column fill-height )
+				img(:src="require('@/assets/img/controler.svg')")
+				h1 Контролер
+	<!-- drop(@drop="handleControlerDrop" -->
+	<!-- 	@dragover="over = true" -->
+	<!-- 	@dragleave="over = false" -->
+	<!-- 	class="dropUser1" -->
+	<!-- 	:class="{ over }" -->
+	<!-- 	v&#45;if="userDrag" -->
+	<!-- 	) -->
 	v-layout(column justify-start ).mt-5
 		v-flex(xs12)
 			v-layout(row v-if="expanded !==0" )
@@ -592,11 +605,27 @@ export default {
 	left: 0;
 	width: 0;
 	height: 0;
-	background: yellow;
+	background: #4F6850ee;
+	img { display: none; opacity: .5; }
+	h1 {
+		display: none;
+		opacity: .5;
+		text-align: center;
+		font-size: 2rem;
+		font-weight: 400;
+		color: #fff;
+	}
 	&.over {
-		background: green;
 		width: 100%;
 		height: 50%;
+		img {
+			width: 150px;
+			margin: 50px auto 0;
+			display: block;
+		}
+		h1 {
+			display: block;
+		}
 	}
 }
 .dropUser1 {
@@ -606,11 +635,27 @@ export default {
 	left: 0;
 	width: 0;
 	height: 0;
-	background: yellow;
+	background: #592C44ee;
+	img { display: none; opacity: .5; }
+	h1 {
+		display: none;
+		opacity: .5;
+		text-align: center;
+		font-size: 2rem;
+		font-weight: 400;
+		color: #fff;
+	}
 	&.over {
-		background: red;
 		width: 100%;
 		height: 50%;
+		img {
+			height: 90px;
+			margin: 50px auto 0;
+			display: block;
+		}
+		h1 {
+			display: block;
+		}
 	}
 }
 
