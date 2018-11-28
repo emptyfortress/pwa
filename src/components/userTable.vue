@@ -14,8 +14,8 @@ div.mx-3
 			tr(v-for="(item, index) in users" :key="index").item
 				td.sm
 					v-btn(icon @mousedown.native.stop
-						@mousedown="tableon"
-						@mouseup="tableoff"
+						@mouseover="tableon"
+						@mouseout="tableoff"
 						).handle1
 						v-icon drag_handle
 				td.text-xs-left {{ item.name }}

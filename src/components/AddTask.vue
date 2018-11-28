@@ -8,7 +8,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 	:isResizable="resizable"
 	@dblclick.native="expand"
 	).add
-	drop( @dragover="over = true" @dragleave="over = false")
+	drop( @dragover="over = true" @dragleave="over = false").scroll
 		.top
 			span создать:
 			span(v-if="true") {{ type }}
@@ -122,8 +122,11 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 					@tableon="tableDrag = 1"
 					@tableoff="tableDrag = null"
 					).my-3
-				v-btn(flat) Файлы
-				v-card-actions
+				v-btn(flat @click="attachFiles" ) Файлы
+				input(ref="file" type="file" style="display: none")
+				v-slide-y-transition
+					contextFiles(v-if="context === true")
+				v-card-actions.act
 					v-btn(flat color="orange" @click="resetForm") Очистить
 					v-btn(flat color="orange" ) Отправить
 
@@ -185,6 +188,7 @@ import UserSelect from '@/components/UserSelect'
 import userTable from '@/components/userTable'
 import * as Longpress from '@/directives/longpress-directive'
 import DayCounter from '@/components/form/DayCounter'
+import contextFiles from '@/components/contextFiles'
 
 export default {
 	data () {
@@ -222,6 +226,7 @@ export default {
 			hint: false,
 			userDrag: null,
 			tableDrag: null,
+			context: false,
 			types: [
 				'На исполнение', 'На исполнение c контролем', 'На ознакомление', 'На согласование', 'Группа заданий', 'Документ'
 			],
@@ -344,9 +349,17 @@ export default {
 		UserSelect,
 		Longpress,
 		userTable,
-		DayCounter
+		DayCounter,
+		contextFiles
 	},
 	methods: {
+		attachFiles () {
+			if (event.shiftKey) {
+				this.$refs.file.click()
+			} else {
+				this.context = !this.context
+			}
+		},
 		handleFiles (data, event) {
 			event.preventDefault()
 			const files = event.dataTransfer.files
@@ -525,6 +538,7 @@ export default {
 		left: 0;
 		text-align: right;
 		background: $info;
+		z-index: 3;
 		span {
 			font-size: .9rem;
 			text-transform: uppercase;
@@ -545,6 +559,12 @@ export default {
 			}
 		}
 	}
+}
+.scroll {
+	width: 100%;
+	height: 100%;
+	padding-bottom: 150px;
+	overflow: scroll;
 }
 
 /* .tall { */
@@ -867,5 +887,11 @@ export default {
 }
 .vdr.active:before {
 	position: relative;
+}
+
+.act {
+	background: #fff;
+	width: 100%;
+	bottom: 0;
 }
 </style>
