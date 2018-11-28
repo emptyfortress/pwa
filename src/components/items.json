@@ -4,13 +4,13 @@
 		"folder": "",
 		"unread": false,
 		"files": 2,
+		"filenames": [
+			{"name": "Archive.txt", "size": "-- kB", "type": ""},
+			{"name": "router.js", "size": "-- kB", "type": ""}
+		],
 		"author": "Гусев П.И.",
 		"executor": "<Я>",
 		"title": "Тестовый нулевой объект",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB"
-		],
 		"created": "2018-09-05",
 		"modified": "",
 		"deadline": "2018-09-25",
@@ -21,13 +21,13 @@
 		"folder": "",
 		"unread": false,
 		"files": 2,
+		"filenames": [
+			{"name": "basket.doc", "size": "-- kB", "type": ""},
+			{"name": "logo.png", "size": "-- kB", "type": ""}
+		],
 		"author": "Гусев П.И.",
 		"executor": "<Я>",
 		"title": "Использование маски в атрибутивном поиске",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB"
-		],
 		"created": "2018-09-01",
 		"modified": "",
 		"deadline": "2018-09-25",
@@ -38,6 +38,7 @@
 		"folder": "",
 		"unread": true,
 		"files": null,
+		"filenames": [],
 		"author": "Воробьев К.А.",
 		"executor": "<Я>",
 		"title": "Интеграция с адресными системами (КЛАДР)",
@@ -51,30 +52,30 @@
 		"folder": "",
 		"unread": false,
 		"files": 3,
+		"filenames": [
+			{"name": "mainfile.doc", "size": "-- kB", "type": ""},
+			{"name": "store.js", "size": "-- kB", "type": ""},
+			{"name": "assets.pdf", "size": "-- kB", "type": ""}
+		],
 		"author": "Синичкина Г.И.",
 		"executor": "<Я>",
 		"title": "Название вида - локализация, отображаемое название и комментарии",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls"
-		],
-		"created": "2018-09-12",
-		"modified": "2018-09-12",
+		"created": "2018-09-08",
+		"modified": "2018-09-08",
 		"deadline": "2018-09-25",
-		"descr": "Воображение вызывает гений."
+		"descr": "Здесь описание здесь описание"
 	},
 	{
 		"id": 4,
 		"folder": "",
 		"unread": true,
 		"files": 1,
+		"filenames": [
+			{"name": "absentFile.doc", "size": "-- kB", "type": ""}
+		],
 		"author": "Соловьева А.П.",
 		"executor": "<Я>",
 		"title": "Настройка момента проверки обязательности полей",
-		"attach": [
-			"Price.xls"
-		],
 		"created": "2018-09-13",
 		"modified": "2018-09-13",
 		"deadline": "2018-09-25",
@@ -85,18 +86,18 @@
 		"folder": "",
 		"unread": true,
 		"files": 7,
+		"filenames": [
+			{"name": "dopfile.doc", "size": "-- kB", "type": ""},
+			{"name": "filter-active.doc", "size": "-- kB", "type": ""},
+			{"name": "maindoc.doc", "size": "-- kB", "type": ""},
+			{"name": "main.js", "size": "-- kB", "type": ""},
+			{"name": "folder.doc", "size": "-- kB", "type": ""},
+			{"name": "Sound.txt", "size": "-- kB", "type": ""},
+			{"name": "Home.txt", "size": "-- kB", "type": ""}
+		],
 		"author": "Соловьева А.П.",
 		"executor": "<Я>",
 		"title": "Настройка условий нумератора - И, ИЛИ",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"File.txt"
-		],
 		"created": "2018-09-21",
 		"modified": "",
 		"deadline": "2018-09-25",
@@ -107,6 +108,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Жаворонков К.К.",
 		"executor": "<Я>",
 		"title": "Настройка прав на отдельные нумераторы",
@@ -120,6 +122,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Уткин И.И",
 		"executor": "<Я>",
 		"title": "Создание Заданий и ГЗ по документам. Шаблоны",
@@ -133,13 +136,13 @@
 		"folder": "",
 		"unread": false,
 		"files": 2,
+		"filenames": [
+			{"name": "directives.pdf", "size": "-- kB", "type": ""},
+			{"name": "filter-remove.doc", "size": "-- kB", "type": ""}
+		],
 		"author": "Орлов П.П.",
 		"executor": "<Я>",
 		"title": "Использование url в папках - отключение проверки соответствия формата",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Price.xls"
-		],
 		"created": "2018-09-21",
 		"modified": "2018-09-21",
 		"deadline": "2018-09-25",
@@ -150,12 +153,12 @@
 		"folder": "",
 		"unread": false,
 		"files": 1,
+		"filenames": [
+			{"name": "refresh.doc", "size": "-- kB", "type": ""}
+		],
 		"author": "Синичкина Г.И.",
 		"executor": "<Я>",
 		"title": "Настройка риббона Навигатора",
-		"attach": [
-			"Dogovor.doc, 34 kB"
-		],
 		"created": "2018-09-28",
 		"modified": "2018-09-28",
 		"deadline": "2018-09-25",
@@ -166,6 +169,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Уткин И.И",
 		"executor": "<Я>",
 		"title": "Регулярная прецессия трансформирует гирогоризонт",
@@ -179,13 +183,13 @@
 		"folder": "",
 		"unread": false,
 		"files": 2,
+		"filenames": [
+			{"name": "microphone.doc", "size": "-- kB", "type": ""},
+			{"name": "nmiddle.doc", "size": "-- kB", "type": ""}
+		],
 		"author": "Воробьев К.А.",
 		"executor": "<Я>",
 		"title": "Период апериодичен",
-		"attach": [
-			"Смета.txt, 5 kB",
-			"Price.xls"
-		],
 		"created": "2018-09-15",
 		"modified": "2018-09-15",
 		"deadline": "2018-09-25",
@@ -196,6 +200,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Синичкина Г.И.",
 		"executor": "<Я>",
 		"title": "Прибор даёт большую проекцию",
@@ -209,18 +214,18 @@
 		"folder": "",
 		"unread": false,
 		"files": 7,
+		"filenames": [
+			{"name": "user1.doc", "size": "-- kB", "type": ""},
+			{"name": "moon.doc", "size": "-- kB", "type": ""},
+			{"name": "settings.doc", "size": "-- kB", "type": ""},
+			{"name": "AddTask.txt", "size": "-- kB", "type": ""},
+			{"name": "done.doc", "size": "-- kB", "type": ""},
+			{"name": "views.pdf", "size": "-- kB", "type": ""},
+			{"name": "headers.json", "size": "-- kB", "type": ""}
+		],
 		"author": "Жаворонков К.К.",
 		"executor": "<Я>",
 		"title": "Математический маятник",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"File.txt"
-		],
 		"created": "2018-09-11",
 		"modified": "2018-09-11",
 		"deadline": "2018-09-25",
@@ -231,12 +236,12 @@
 		"folder": "",
 		"unread": false,
 		"files": 1,
+		"filenames": [
+			{"name": "ExpandItem.txt", "size": "-- kB", "type": ""}
+		],
 		"author": "Гусев П.И.",
 		"executor": "<Я>",
 		"title": "Вектор угловой скорости преобразует небольшой стабилизатор",
-		"attach": [
-			"Dogovor.doc, 34 kB"
-		],
 		"created": "2018-09-31",
 		"modified": "2018-09-31",
 		"deadline": "2018-09-25",
@@ -247,6 +252,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Орлов П.П.",
 		"executor": "<Я>",
 		"title": "Астатическая система координат Булгакова",
@@ -260,16 +266,16 @@
 		"folder": "",
 		"unread": false,
 		"files": 5,
+		"filenames": [
+			{"name": "Alert.txt", "size": "-- kB", "type": ""},
+			{"name": "Attr.txt", "size": "-- kB", "type": ""},
+			{"name": "BottomShe", "size": "-- kB", "type": ""},
+			{"name": "contextFi", "size": "-- kB", "type": ""},
+			{"name": "Data.txt", "size": "-- kB", "type": ""}
+		],
 		"author": "Уткин И.И",
 		"executor": "<Я>",
 		"title": "заставляет перейти к более сложной системе",
-		"attach": [
-			"Price.xls",
-			"Dogovor.doc, 34 kB",
-			"Price.xls",
-			"File.txt",
-			"test.doc"
-		],
 		"created": "2018-09-08",
 		"modified": "2018-09-08",
 		"deadline": "2018-09-25",
@@ -280,6 +286,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Орлов П.П.",
 		"executor": "<Я>",
 		"title": "Механическая система проецирует момент сил",
@@ -293,18 +300,18 @@
 		"folder": "",
 		"unread": false,
 		"files": 7,
+		"filenames": [
+			{"name": "HelloWorld.txt", "size": "-- kB", "type": ""},
+			{"name": "items.json", "size": "-- kB", "type": ""},
+			{"name": "Min.txt", "size": "-- kB", "type": ""},
+			{"name": "MultiSelect.doc", "size": "-- kB", "type": ""},
+			{"name": "Split.txt", "size": "-- kB", "type": ""},
+			{"name": "Tiles.txt", "size": "-- kB", "type": ""},
+			{"name": "titles.json", "size": "-- kB", "type": ""}
+		],
 		"author": "Воробьев К.А.",
 		"executor": "<Я>",
 		"title": "Кристалл притягивает торсионный экситон",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"File.txt"
-		],
 		"created": "2018-09-02",
 		"modified": "2018-09-02",
 		"deadline": "2018-09-25",
@@ -315,15 +322,15 @@
 		"folder": "",
 		"unread": false,
 		"files": 4,
+		"filenames": [
+			{"name": "DataTable.txt", "size": "-- kB", "type": ""},
+			{"name": "star-full.doc", "size": "-- kB", "type": ""},
+			{"name": "DrawerRightContent.txt", "size": "-- kB", "type": ""},
+			{"name": "Min.txt", "size": "-- kB", "type": ""}
+		],
 		"author": "Соловьева А.П.",
 		"executor": "<Я>",
 		"title": "Магнит индуцирует ускоряющийся солитон",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"Dogovor.doc, 34 kB"
-		],
 		"created": "2018-09-09",
 		"modified": "2018-09-09",
 		"deadline": "2018-09-25",
@@ -333,19 +340,11 @@
 		"id": 20,
 		"folder": "",
 		"unread": false,
-		"files": 7,
+		"files": null,
+		"filenames": [],
 		"author": "Синичкина Г.И.",
 		"executor": "<Я>",
 		"title": "Xимическое соединение отталкивает элементарный кристалл",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"File.txt"
-		],
 		"created": "2018-09-05",
 		"modified": "2018-09-05",
 		"deadline": "2018-09-25",
@@ -356,6 +355,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Жаворонков К.К.",
 		"executor": "<Я>",
 		"title": "отклоняет барионный экситон",
@@ -369,19 +369,19 @@
 		"folder": "",
 		"unread": false,
 		"files": 8,
+		"filenames": [
+			{"name": "role.doc", "size": "-- kB", "type": ""},
+			{"name": "dopdoc.doc", "size": "-- kB", "type": ""},
+			{"name": "fingerprint.doc", "size": "-- kB", "type": ""},
+			{"name": "departments.json", "size": "-- kB", "type": ""},
+			{"name": "dv-64.png", "size": "-- kB", "type": ""},
+			{"name": "components.pdf", "size": "-- kB", "type": ""},
+			{"name": "MultiSelect.txt", "size": "-- kB", "type": ""},
+			{"name": "contextFiles.txt", "size": "-- kB", "type": ""}
+		],
 		"author": "Гусев П.И.",
 		"executor": "<Я>",
 		"title": "Любое возмущение затухает, если объект немагнитен",
-		"attach": [
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"Dogovor.doc, 34 kB",
-			"Смета.txt, 5 kB",
-			"Price.xls",
-			"File.txt",
-			"test.doc"
-		],
 		"created": "2018-09-18",
 		"modified": "2018-09-18",
 		"deadline": "2018-09-25",
@@ -392,12 +392,12 @@
 		"folder": "",
 		"unread": false,
 		"files": 1,
+		"filenames": [
+			{"name": "users.doc", "size": "-- kB", "type": ""}
+		],
 		"author": "Соловьева А.П.",
 		"executor": "<Я>",
 		"title": "Структурализм, конечно, абстрактен",
-		"attach": [
-			"Dogovor.doc, 34 kB"
-		],
 		"created": "2018-09-17",
 		"modified": "2018-09-17",
 		"deadline": "2018-09-25",
@@ -408,6 +408,7 @@
 		"folder": "",
 		"unread": false,
 		"files": null,
+		"filenames": [],
 		"author": "Уткин И.И",
 		"executor": "<Я>",
 		"title": "Суждение представляет собой позитивизм",

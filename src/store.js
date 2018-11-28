@@ -221,11 +221,11 @@ export default new Vuex.Store({
 							files: obj[key].files,
 							focus: obj[key].focus,
 							unread: obj[key].unread,
-							attach: obj[key].attach,
 							created: obj[key].created,
 							modified: obj[key].modified,
 							deadline: obj[key].deadline,
 							executor: obj[key].executor,
+							filenames: obj[key].filenames,
 							selected: false
 						})
 					}

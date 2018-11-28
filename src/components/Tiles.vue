@@ -59,7 +59,6 @@ div
 <script>
 import { SlickList, SlickItem, HandleDirective } from 'vue-slicksort'
 import VueFlip from 'vue-flip'
-import FilesList from '@/components/FilesList'
 import Attr from '@/components/Attr'
 
 export default {
@@ -121,7 +120,6 @@ export default {
 		SlickItem,
 		SlickList,
 		VueFlip,
-		FilesList,
 		Attr
 	},
 	directives: {

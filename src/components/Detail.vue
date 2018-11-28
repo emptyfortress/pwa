@@ -9,12 +9,17 @@
 			li Изменено:
 		ul
 			li {{currentItem.author}}
-			li Исполнитель:
-			li Создано:
-			li Изменено:
+			li {{currentItem.executor}}
+			li {{currentItem.created}}
+			li {{currentItem.modified}}
 	br
+	p Файлов: {{currentItem.files}}
+	br
+	ul
+		li(v-for="file in currentItem.filenames") {{ file.name }}
+
 	v-btn(@click="showme = !showme") show
-	v-btn(@click="toggleUnread(true)") showlaksd
+	v-btn(@click="show") showlaksd
 	br
 	<!-- iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=<span style="color: #3366ff;">https://firebasestorage.googleapis.com/v0/b/docsvision&#45;8d5eb.appspot.com/o/sample.doc?alt=media&#38;token=b94e9ae9&#45;9634&#45;4b02&#45;a1cf&#45;5ecb0e0310a7</span>') -->
 	iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=https://firebasestorage.googleapis.com/v0/b/docsvision-8d5eb.appspot.com/o/sample.doc?alt=media&token=b94e9ae9-9634-4b02-a1cf-5ecb0e0310a7' width='100%' height='500' frameborder='0' scrolling='no' v-if="showme") br
@@ -72,7 +77,7 @@ export default {
 			let cur = this.currentItem
 			cur.unread = e
 			this.$store.dispatch('updateItemReadStatus', cur)
-			console.log(123456)
+			console.log(this.filenames)
 		}
 	}
 }
