@@ -13,11 +13,10 @@
 			li {{currentItem.created}}
 			li {{currentItem.modified}}
 	br
-	p Файлов: {{currentItem.files}}
-	br
+	div Файлов: {{currentItem.files}}
 	ul
 		li(v-for="file in currentItem.filenames") {{ file.name }}
-
+	br
 	v-btn(@click="showme = !showme") show
 	v-btn(@click="show") showlaksd
 	br

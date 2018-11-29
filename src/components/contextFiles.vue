@@ -14,6 +14,10 @@
 			.absent(v-else)
 				v-layout(row align-center justify-space-around fill-height wrap)
 					.file(v-for="item in filenames")
+						v-layout(row align-center justify-center fill-height)
+							.text-xs-center
+								span {{ item.name }}
+								v-checkbox
 
 </template>
 
@@ -63,12 +67,19 @@ export default {
 		overflow: scroll;
 	}
 	.file {
-		width: 100px;
+		width: 120px;
 		min-width: 100px;
 		height: 140px;
 		background: #fff;
 		margin-right: 1rem;
 		margin-bottom: 1rem;
+		overflow: hidden;
+		position: relative;
+		.bt {
+			position: absolute;
+			bottom: 1rem;
+			left: 1rem;
+		}
 	}
 }
 
