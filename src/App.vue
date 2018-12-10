@@ -12,7 +12,7 @@ v-app( :dark="night" ).rel
 			v-toolbar-title( v-text="currentFolder.text" )
 			v-spacer/
 			v-slide-y-transition(mode="out-in")
-				v-btn-toggle( v-model="switchView" class="transparent" v-if="$route.path !== '/' && $route.path !== '/archive'")
+				v-btn-toggle( v-model="switchView" class="transparent" v-if="$route.path !== '/' && $route.path !== '/archive' && $route.path !== '/grid'")
 					v-btn( :value="1" flat @click="toggleView('tile')")
 						v-icon view_carousel
 					v-btn(:value="2" flat  @click="toggleView('split')")
