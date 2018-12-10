@@ -23,7 +23,7 @@ export default new Vuex.Store({
 		addTask: false,
 		selected: false,
 		min: false,
-		slot0: [],
+		slot0: null,
 		restore: false,
 		duration: 3,
 		hours: false

@@ -59,9 +59,10 @@ div.mx-3
 							v-btn(flat color="success" @click="") Отмена
 							v-btn(flat color="success" @click="") OK
 
-				td(contenteditable ).text-xs-left Отсутствует
+				td(contenteditable @mousedown.stop).text-xs-left Отсутствует
 				td.text-xs-center.sm
 					input(type="checkbox")
+
 </template>
 
 <script>
@@ -116,6 +117,9 @@ export default {
 		})
 	},
 	methods: {
+		doNothing (evt) {
+			evt.stopPropagation()
+		},
 		tableon () {
 			this.$emit('tableon')
 		},

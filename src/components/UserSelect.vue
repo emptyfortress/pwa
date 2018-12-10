@@ -24,7 +24,7 @@ div.rel
 				v-list-tile-sub-title(v-if="state === 'name'").small отдел, департамент
 	.list(v-if="state === 'tree'")
 		.pop
-			tree(:data="deps" :filter="filter")
+			tree(:data="deps" :filter="filter" @mousedown.native.stop)
 				span(slot-scope="{ node }")
 					template(v-if="!node.data.icon")
 						span {{ node.text }}

@@ -122,6 +122,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 					@tableon="tableDrag = 1"
 					@tableoff="tableDrag = null"
 					).my-3
+
 				v-btn(flat @click="attachFiles" ) Файлы
 				input(ref="file" type="file" style="display: none")
 				v-slide-y-transition
@@ -221,7 +222,7 @@ export default {
 			description: '',
 			controler: false,
 			save: false,
-			currentSlot: null,
+			currentSlot: {},
 			name: '',
 			hint: false,
 			userDrag: null,
@@ -353,6 +354,10 @@ export default {
 		contextFiles
 	},
 	methods: {
+		test (evt) {
+			evt.stopPropagation()
+			console.log(111)
+		},
 		attachFiles () {
 			if (event.shiftKey) {
 				this.$refs.file.click()
@@ -482,8 +487,8 @@ export default {
 			this.$store.commit('closeAddTask')
 		},
 		minimize () {
-			this.$store.commit('setRestore')
 			this.$store.commit('setSlot0', this.slot0)
+			this.$store.commit('setRestore')
 			this.$store.commit('toggleAddTask')
 			this.$store.commit('toggleMin')
 			console.log(this.slot0)
@@ -520,6 +525,7 @@ export default {
 	position: fixed;
 	box-shadow: 0 0 15px #00000033;
 	#tip {
+		z-index: 4;
 		position: absolute;
 		top: 0;
 		left: 0;
