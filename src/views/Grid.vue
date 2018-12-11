@@ -2,7 +2,7 @@
 .grid
 	v-layout(row justify-space-between)
 		.zag Grid grouping
-		v-btn(@click="grouping = !grouping") Группировка
+		v-btn(@click="toggleGrouping") Группировка
 	v-layout( row )
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs3 v-if="grouping")
@@ -10,21 +10,13 @@
 					v-card.group
 						div(v-if="len === 0") Перетащите сюда колонку для группировки
 						tree(v-if="len > 0" ref="filtr" :data="group" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
-		v-flex
-			DataTable /
-			<!-- .tabl -->
-			<!-- 	drag(class="drag" -->
-			<!-- 		transfer&#45;data="column" -->
-			<!-- 		@mousedown.native.stop -->
-			<!-- 		slot="activator" -->
-			<!-- 		@dragstart="userDrag = 1" -->
-			<!-- 		@dragend="userDrag = null" -->
-			<!-- 		) laksjdlak -->
+		v-flex(:class="grouping ? 'xs9' : 'xs12'").tabl
+			DataTable1 /
 
 </template>
 
 <script>
-import DataTable from '@/components/DataTable'
+import DataTable1 from '@/components/DataTable1'
 
 export default {
 	data () {
@@ -47,10 +39,13 @@ export default {
 			let obj = {}
 			obj.text = data
 			this.group.push(obj)
+		},
+		toggleGrouping () {
+			this.grouping = !this.grouping
 		}
 	},
 	components: {
-		DataTable
+		DataTable1
 	}
 }
 </script>
@@ -66,11 +61,13 @@ export default {
 	line-height: 200%;
 }
 .tabl {
-	background: yellow;
+	transition: all .3s ease;
 }
 .group {
 	padding: 1rem;
 	min-height: 10rem;
+	margin-top: 57px;
+	margin-right: 1rem;
 }
 .drag {
 	cursor: move;
