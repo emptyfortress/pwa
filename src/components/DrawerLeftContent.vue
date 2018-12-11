@@ -66,7 +66,6 @@ export default {
 		onNodeSelected (node) {
 			let toFolder = this.folders.filter(folder => folder.text === node.text)[0]
 			this.$router.push(toFolder.path)
-			// this.$router.push(node.path)
 			this.$store.commit('setCurrentFolder', toFolder)
 		}
 	}

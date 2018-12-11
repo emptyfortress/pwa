@@ -100,7 +100,9 @@ html, body {
 .application.theme--dark .text--disabled {
   color: rgba(255,255,255,0.5) !important;
 }
-// pivot table style ********************
+
+
+//****************************** pivot table style ********************
 .btn.btn-outline-primary {
 	width: 130px;
 	text-transform: uppercase;
@@ -124,27 +126,21 @@ html, body {
 	background: #fff;
 	border-collapse: collapse;
 	tbody {
-		// border: 1px solid #ccc;
 	}
 	th {
-		// border-bottom: 1px solid #ccc;
 		text-align: center;
 		border: 1px solid #ccc;
 	}
 	td {
-		// border: 1px solid #ccc;
 		text-align: center;
 		padding: .5rem 1rem;
-		// text-align: right;
 		&.font-weight-bold {
 			border: 1px solid #ccc;
 		}
 	}
 }
 .col {
-	-ms-flex-preferred-size: 0;
 	flex-basis: 0;
-	-ms-flex-positive: 1;
 	flex-grow: 1;
 	max-width: 100%;
 }
@@ -154,9 +150,55 @@ html, body {
 .drag-area {
 	min-width: 10rem;
 }
+.drag-area > div {
+	cursor: move !important;
+	flex: none !important;
+	// background: yellow;
+	.btn {
+		width: 100%;
+		background: $cool;
+	}
+}
+
+.drag-area-label {
+	position: absolute;
+	padding: 0.75rem 1rem;
+}
+
+.d-flex > * {
+	flex: none !important;
+}
 .flex-row {
 	flex-direction: row!important;
 }
 .flex-column {
 	flex-direction: column!important;
+}
+
+.btn {
+	display: inline-block;
+	font-weight: 400;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	border-radius: .25rem;
+	transition: color .15s;
+	// background: red;
+}
+
+.btn-draggable {
+	white-space: normal;
+	text-align: left;
+}
+
+.btn.btn-draggable.btn-primary {
+	// background: red;
 }
