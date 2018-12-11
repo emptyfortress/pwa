@@ -109,12 +109,17 @@ html, body {
 	padding: 3px 1rem;
 	outline: none;
 	text-align: center;
+	background: $info;
+	color: #fff;
 	&:hover {
-		background: #ccc;
+		box-shadow: 0 1px 3px #333;
+		// background: #ccc;
 	}
 	&:active {
 		outline: none;
-		background: #eee;
+		box-shadow: none;
+
+		// background: #dedede;
 	}
 }
 .table-responsive {
@@ -208,6 +213,3 @@ html, body {
 	text-align: left;
 }
 
-.btn.btn-draggable.btn-primary {
-	// background: red;
-}

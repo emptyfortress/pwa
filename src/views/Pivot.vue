@@ -81,10 +81,6 @@ export default {
 					getter: item => item.country,
 					label: 'Страна'
 				}
-				// {
-				// 	getter: item => item.gender,
-				// 	label: 'Пол'
-				// }
 			],
 			colFields: [{
 				getter: item => item.year,
