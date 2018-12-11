@@ -11,18 +11,21 @@
 						div(v-if="len === 0") Перетащите сюда колонку для группировки
 						tree(v-if="len > 0" ref="filtr" :data="group" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
 		v-flex
-			.tabl
-				drag(class="drag"
-					transfer-data="column"
-					@mousedown.native.stop
-					slot="activator"
-					@dragstart="userDrag = 1"
-					@dragend="userDrag = null"
-					) laksjdlak
+			DataTable /
+			<!-- .tabl -->
+			<!-- 	drag(class="drag" -->
+			<!-- 		transfer&#45;data="column" -->
+			<!-- 		@mousedown.native.stop -->
+			<!-- 		slot="activator" -->
+			<!-- 		@dragstart="userDrag = 1" -->
+			<!-- 		@dragend="userDrag = null" -->
+			<!-- 		) laksjdlak -->
 
 </template>
 
 <script>
+import DataTable from '@/components/DataTable'
+
 export default {
 	data () {
 		return {
@@ -44,8 +47,10 @@ export default {
 			let obj = {}
 			obj.text = data
 			this.group.push(obj)
-			// console.log(data)
 		}
+	},
+	components: {
+		DataTable
 	}
 }
 </script>
