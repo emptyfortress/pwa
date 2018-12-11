@@ -9,7 +9,11 @@
 				drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup")
 					v-card.group
 						div(v-if="len === 0") Перетащите сюда колонку для группировки
-						tree(v-if="len > 0" ref="filtr" :data="group" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
+						tree(v-if="len > 0" ref="tree"
+							:data="group"
+							:options="treeOptions"
+							@node:selected="onNodeSelected").tree-highlights
+					v-btn(flat @click="reset").mt-2 Сброс
 		v-flex(:class="grouping ? 'xs9' : 'xs12'").tabl
 			DataTable1 /
 
@@ -22,7 +26,23 @@ export default {
 	data () {
 		return {
 			grouping: true,
-			group: []
+			group: [],
+			grou: [
+				{ text: 'one' },
+				{ text: 'two' },
+				{ text: 'three' },
+				{ text: 'four' }
+			],
+			treeOptions: {
+				checkbox: false,
+				parentSelect: true,
+				multiple: false,
+				filter: {
+					emptyText: 'Aaaaa! Где мои папки?!!',
+					plainList: 0
+				}
+			}
+
 		}
 	},
 	computed: {
@@ -34,14 +54,21 @@ export default {
 		}
 	},
 	methods: {
+		onNodeSelected (node) {
+			console.log(this.group)
+		},
 		handleGroup (data, event) {
 			event.preventDefault()
 			let obj = {}
-			obj.text = data
+			obj.text = data.toString()
 			this.group.push(obj)
+			this.$refs.tree.tree.setModel(this.group)
 		},
 		toggleGrouping () {
 			this.grouping = !this.grouping
+		},
+		reset () {
+			this.group = []
 		}
 	},
 	components: {

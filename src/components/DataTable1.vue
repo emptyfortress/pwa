@@ -24,8 +24,12 @@ div
 					th(v-if="selectMode").px-0.pl-2
 						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
 					th(v-for="header in props.headers" v-if="header.active" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
-						span {{ header.text }}
-						v-icon( small v-if="header.sortable") arrow_upward
+						<!-- drag(class="drag" -->
+						<!-- 	:transfer&#45;data="header.text" -->
+						<!-- 	) -->
+						drag(:transfer-data="header.text")
+							span {{ header.text }}
+							v-icon( small v-if="header.sortable") arrow_upward
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
 				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
