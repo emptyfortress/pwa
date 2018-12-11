@@ -1,115 +1,45 @@
 <template lang="pug">
-div
-	.zag Grid example with pivot
+.grid
+	v-layout(row justify-space-between)
+		.zag Grid grouping
+		v-btn(@click="grouping = !grouping") Группировка
+	v-layout( row )
+		v-slide-x-transition(mode="out-in")
+			v-flex(xs3 v-if="grouping")
+				v-card
+					tree(ref="filtr" :data="treeData" :options="treeOptions" @node:selected="onNodeSelected").tree-highlights
+		v-flex
+			.tabl alskdjlaskdj
 
-	pivot(
-		:data="data"
-		:fields="fields"
-		:row-fields="rowFields"
-		:col-fields="colFields"
-		:reducer="reducer"
-		:default-show-settings="defaultShowSettings"
-		show-settings-text="Настройки"
-		hide-settings-text="Скрыть"
-		available-fields-label-text="Поля"
-		rows-label-text="Строки"
-		cols-label-text="Колонки"
-		)
-		template( slot="value" slot-scope="{ value }" ) {{ value.toLocaleString() }}
 </template>
 
 <script>
-import Pivot from '@marketconnect/vue-pivot-table'
-
 export default {
 	data () {
 		return {
-			data: [
-				{'country': 'США', 'year': 2010, 'gender': 'муж.', 'count': 153295220},
-				{'country': 'США', 'year': 2010, 'gender': 'жен.', 'count': 156588400},
-				{'country': 'США', 'year': 2011, 'gender': 'муж.', 'count': 154591960},
-				{'country': 'США', 'year': 2011, 'gender': 'жен.', 'count': 157800200},
-				{'country': 'США', 'year': 2012, 'gender': 'муж.', 'count': 155851840},
-				{'country': 'США', 'year': 2012, 'gender': 'жен.', 'count': 158944800},
-				{'country': 'США', 'year': 2013, 'gender': 'муж.', 'count': 155351842},
-				{'country': 'США', 'year': 2013, 'gender': 'жен.', 'count': 158954803},
-				{'country': 'Китай', 'year': 2010, 'gender': 'муж.', 'count': 690256342},
-				{'country': 'Китай', 'year': 2010, 'gender': 'жен.', 'count': 650712406},
-				{'country': 'Китай', 'year': 2011, 'gender': 'муж.', 'count': 694106441},
-				{'country': 'Китай', 'year': 2011, 'gender': 'жен.', 'count': 654068030},
-				{'country': 'Китай', 'year': 2012, 'gender': 'муж.', 'count': 697964288},
-				{'country': 'Китай', 'year': 2012, 'gender': 'жен.', 'count': 657422649},
-				{'country': 'Китай', 'year': 2013, 'gender': 'муж.', 'count': 697964405},
-				{'country': 'Китай', 'year': 2013, 'gender': 'жен.', 'count': 657422752},
-				{'country': 'Индия', 'year': 2010, 'gender': 'муж.', 'count': 638354751},
-				{'country': 'Индия', 'year': 2010, 'gender': 'жен.', 'count': 592629727},
-				{'country': 'Индия', 'year': 2011, 'gender': 'муж.', 'count': 646873890},
-				{'country': 'Индия', 'year': 2011, 'gender': 'жен.', 'count': 600572093},
-				{'country': 'Индия', 'year': 2012, 'gender': 'муж.', 'count': 655193693},
-				{'country': 'Индия', 'year': 2012, 'gender': 'жен.', 'count': 608395922},
-				{'country': 'Индия', 'year': 2013, 'gender': 'муж.', 'count': 655193491},
-				{'country': 'Индия', 'year': 2013, 'gender': 'жен.', 'count': 608335918},
-				{'country': 'Япония', 'year': 2010, 'gender': 'муж.', 'count': 153295220},
-				{'country': 'Япония', 'year': 2010, 'gender': 'жен.', 'count': 156588400},
-				{'country': 'Япония', 'year': 2011, 'gender': 'муж.', 'count': 154591960},
-				{'country': 'Япония', 'year': 2011, 'gender': 'жен.', 'count': 157800200},
-				{'country': 'Япония', 'year': 2012, 'gender': 'муж.', 'count': 155851840},
-				{'country': 'Япония', 'year': 2012, 'gender': 'жен.', 'count': 158944800},
-				{'country': 'Япония', 'year': 2013, 'gender': 'муж.', 'count': 155851591},
-				{'country': 'Япония', 'year': 2013, 'gender': 'жен.', 'count': 158944696},
-				{'country': 'Франция', 'year': 2010, 'gender': 'муж.', 'count': 30675773},
-				{'country': 'Франция', 'year': 2010, 'gender': 'жен.', 'count': 32285363},
-				{'country': 'Франция', 'year': 2011, 'gender': 'муж.', 'count': 30815839},
-				{'country': 'Франция', 'year': 2011, 'gender': 'жен.', 'count': 32452566},
-				{'country': 'Франция', 'year': 2012, 'gender': 'муж.', 'count': 30948916},
-				{'country': 'Франция', 'year': 2012, 'gender': 'жен.', 'count': 32612882},
-				{'country': 'Франция', 'year': 2013, 'gender': 'муж.', 'count': 30948828},
-				{'country': 'Франция', 'year': 2013, 'gender': 'жен.', 'count': 32612824}
-			],
-			fields: [
-				{
-					getter: item => item.gender,
-					label: 'Пол'
-				}
-			],
-			rowFields: [
-				{
-					getter: item => item.country,
-					label: 'Страна'
-				}
-				// {
-				// 	getter: item => item.gender,
-				// 	label: 'Пол'
-				// }
-			],
-			colFields: [{
-				getter: item => item.year,
-				label: 'Год'
-			}],
-			reducer: (sum, item) => sum + item.count,
-			defaultShowSettings: false
-
+			grouping: false
 		}
 	},
-	components: {
-		Pivot
-	},
 	computed: {
+		treeData () {
+			return this.$store.getters.tree
+		}
 	},
 	methods: {
 	}
 }
 </script>
-
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
+.grid {
+	padding: 0 2rem;
+}
 .zag {
 	font-size: 1.5rem;
 	line-height: 200%;
 }
-
-.btn.btn-draggable.btn-primary {
-	background: red;
+.tabl {
+	background: yellow;
 }
 </style>

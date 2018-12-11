@@ -43,7 +43,8 @@
 		]
 	},
 	{"id": 25, "name": "archive", "text": "Архив", "data": {"path": "/archive"}},
-	{"id": 46, "name": "grid", "text": "Grid", "data": {"path": "/grid"}},
+	{"id": 46, "name": "pivot", "text": "Pivot", "data": {"path": "/pivot"}},
+	{"id": 47, "name": "grid", "text": "Grid", "data": {"path": "/grid"}},
 	{"id": 26, "name": "my-folders", "text": "Мои папки", "data": {"path": "/my-folders"}, "state": {"expanded": true },
 		"children": [
 			{"id": 27, "name": "5", "text": "Папка 5", "data": {"path": "/5"},

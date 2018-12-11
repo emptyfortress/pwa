@@ -123,13 +123,19 @@ html, body {
 }
 .table.table-bordered {
 	width: 100%;
-	background: #fff;
+	// background: #fff;
 	border-collapse: collapse;
 	tbody {
 	}
 	th {
 		text-align: center;
 		border: 1px solid #ccc;
+	}
+	tr {
+		background: #fff;
+		&:hover { 
+			background: #eee;
+		}
 	}
 	td {
 		text-align: center;
@@ -138,6 +144,7 @@ html, body {
 			border: 1px solid #ccc;
 		}
 	}
+
 }
 .col {
 	flex-basis: 0;
@@ -149,6 +156,8 @@ html, body {
 }
 .drag-area {
 	min-width: 10rem;
+	border: 1px dashed $info !important;
+
 }
 .drag-area > div {
 	cursor: move !important;

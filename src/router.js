@@ -8,6 +8,7 @@ import Sound from '@/views/Sound'
 // import DetailView from '@/views/DetailView'
 import Folder from '@/views/Folder'
 import Archive from '@/views/Archive'
+import Pivot from '@/views/Pivot'
 import Grid from '@/views/Grid'
 import Detail from '@/components/Detail'
 
@@ -35,6 +36,11 @@ export default new Router({
 			path: '/about',
 			name: 'about',
 			component: About
+		},
+		{
+			path: '/pivot',
+			name: 'pivot',
+			component: Pivot
 		},
 		{
 			path: '/grid',
