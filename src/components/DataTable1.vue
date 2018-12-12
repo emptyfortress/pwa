@@ -27,7 +27,7 @@ div
 						<!-- drag(class="drag" -->
 						<!-- 	:transfer&#45;data="header.text" -->
 						<!-- 	) -->
-						drag(:transfer-data="header.text")
+						drag(:transfer-data="header").drag1
 							span {{ header.text }}
 							v-icon( small v-if="header.sortable") arrow_upward
 			v-progress-linear(slot="progress" color="blue" indeterminate)
@@ -99,15 +99,17 @@ export default {
 			currentItemKey: 0,
 			pagination: { sortBy: '' },
 			headers: [
-				{ 'id': 0, 'active': true, 'class': 'px-0', 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
-				{ 'id': 1, 'active': true, 'class': 'px-0', 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
-				{ 'id': 2, 'active': true, 'class': 'nowrap', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
-				{ 'id': 3, 'active': true, 'class': 'nowrap', 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
-				{ 'id': 4, 'active': true, 'class': 'nowrap', 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
-				{ 'id': 5, 'active': true, 'class': 'nowrap', 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
-				{ 'id': 6, 'active': true, 'class': 'nowrap', 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
-				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
-				{ 'id': 8, 'active': false, 'class': '', 'text': null, 'value': '', sortable: false }
+
+				{ 'id': 0, 'active': true, 'class': 'px-0', 'name': null, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
+				{ 'id': 1, 'active': true, 'class': 'px-0', 'name': 'title', 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
+				{ 'id': 2, 'active': true, 'class': 'nowrap', 'name': 'author', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
+				{ 'id': 3, 'active': true, 'class': 'nowrap', 'name': 'executor', 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
+				{ 'id': 4, 'active': true, 'class': 'nowrap', 'name': 'deadline', 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
+				{ 'id': 5, 'active': true, 'class': 'nowrap', 'name': 'created', 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
+				{ 'id': 6, 'active': true, 'class': 'nowrap', 'name': 'modified', 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
+				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'name': 'files', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
+				{ 'id': 8, 'active': false, 'class': '', 'name': '', 'text': null, 'value': '', sortable: false }
+
 			]
 		}
 	},
@@ -263,6 +265,7 @@ export default {
 }
 .drag {
 	border-left: 8px solid transparent;
+
 }
 .expand {
 	height: 300px;
@@ -330,5 +333,9 @@ tr.wide {
 	display: block;
 	font-family: Roboto;
 	line-height: 150%;
+}
+.drag1 {
+	/* background: red; */
+	/* padding: 1rem; */
 }
 </style>
