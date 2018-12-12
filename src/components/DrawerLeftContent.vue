@@ -19,9 +19,11 @@ export default {
 	data () {
 		return {
 			filterTree: '',
+			myTree: [],
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
+				dnd: true,
 				multiple: false,
 				filter: {
 					emptyText: 'Aaaaa! Где мои папки?!!',
@@ -73,7 +75,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tree-node.selected > .tree-content {
-    background-color: #ccc;
-	}
+
+/* .tree-node.selected > .tree-content { */
+/*    background-color: #ccc; */
+/* } */
+
 </style>

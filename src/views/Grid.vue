@@ -6,16 +6,19 @@
 	v-layout( row )
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs2 v-if="grouping")
-				drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup")
-					.group
-						h3 Панель группировки
-						.inf(v-if="len === 0")
-							p Перетащите сюда колонку для группировки
-						tree(v-if="len > 0" ref="tree"
-							:data="group"
-							:options="treeOptions"
-							@node:selected="onNodeSelected").tree-highlights
-					v-btn(flat @click="reset" v-if="len").mt-2 Сброс
+				drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup").group
+					v-btn(flat @click="reset" v-if="len").reset Сброс
+					h3 Панель группировки
+					.inf(v-if="len === 0")
+						p Перетащите сюда колонку для группировки
+					tree(v-if="len > 0" ref="group"
+						:data="group"
+						:options="treeOptions"
+						).tree-group
+				tree(v-if="len > 0" ref="tree"
+					:data="groupItems"
+					:options="treeOptions"
+					@node:selected="onNodeSelected").tree-group
 		v-flex(:class="grouping ? 'xs10' : 'xs12'").tabl
 			DataTable1 /
 
@@ -29,22 +32,13 @@ export default {
 		return {
 			grouping: true,
 			group: [],
-			grou: [
-				{ text: 'one' },
-				{ text: 'two' },
-				{ text: 'three' },
-				{ text: 'four' }
-			],
+			groupItems: [],
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
-				multiple: false,
-				filter: {
-					emptyText: 'Aaaaa! Где мои папки?!!',
-					plainList: 0
-				}
+				dnd: true,
+				multiple: false
 			}
-
 		}
 	},
 	computed: {
@@ -63,28 +57,72 @@ export default {
 			console.log(this.group)
 		},
 
-		handleGroup (data, event) {
-			event.preventDefault()
+		handleGroup (data) {
+			let obj = {}
+			obj.text = data.text
+			if (this.group.length === 0) {
+				this.group.push(obj)
+			} else {
+				 this.$refs.group.append(
+					{ text: data.text}
+				)
+			}
+			this.handleItems(data)
+		},
+		handleItems (data) {
 			let obj = {}
 			let child = []
+			let childs = []
 			this.items.forEach(function (item) {
-				let node = item[data.name]
+				let node = {}
+				node.text = item[data.name]
 				child.push(node)
 			})
-			console.log(child)
-			obj.text = data.text
-			obj.children = child
-			this.group.push(obj)
-			let that = this
-			setTimeout(function () {
-				that.$refs.tree.tree.setModel(that.group)
-			}, 0)
+			let uniqChild = [ ...new Set(child.map(x => x.text)) ]
+			uniqChild.forEach(function (item) {
+				let node = {}
+				node.text = item
+				childs.push(node)
+			})
+			obj.text = data.text + ' - ' + childs.length
+			obj.children = childs
+			this.groupItems.push(obj)
+		// 	let that = this
+		// 	setTimeout(function () {
+		// 		that.$refs.tree.tree.setModel(that.group)
+		// 	}, 0)
 		},
+
+		// handleGroup (data, event) {
+		// 	let obj = {}
+		// 	let child = []
+		// 	let childs = []
+		// 	this.items.forEach(function (item) {
+		// 		let node = {}
+		// 		node.text = item[data.name]
+		// 		child.push(node)
+		// 	})
+		// 	let uniqChild = [ ...new Set(child.map(x => x.text)) ]
+		// 	uniqChild.forEach(function (item) {
+		// 		let node = {}
+		// 		node.text = item
+		// 		childs.push(node)
+		// 	})
+		// 	obj.text = data.text
+		// 	obj.children = childs
+		// 	this.group.push(obj)
+		// 	let that = this
+		// 	setTimeout(function () {
+		// 		that.$refs.tree.tree.setModel(that.group)
+		// 	}, 0)
+		// },
+
 		toggleGrouping () {
 			this.grouping = !this.grouping
 		},
 		reset () {
 			this.group = []
+			this.groupItems = []
 		}
 	},
 	components: {
@@ -108,10 +146,11 @@ export default {
 }
 .group {
 	padding: 1rem;
-	min-height: 10rem;
+	/* min-height: 10rem; */
 	margin-top: 57px;
 	margin-right: 1rem;
 	border: 1px dashed $info;
+	position: relative;
 }
 .drag {
 	cursor: move;
@@ -121,6 +160,17 @@ export default {
 	font-style: italic;
 	margin-top: 1rem;
 	color: #666;
+}
+.tree-children {
+	background: red;
+}
+.reset {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: -50px;
+	margin-left: 0;
 
 }
+
 </style>

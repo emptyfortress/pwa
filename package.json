@@ -10,7 +10,7 @@
   "dependencies": {
     "@marketconnect/vue-pivot-table": "0.0.1",
     "firebase": "^5.2.0",
-    "liquor-tree": "^0.2.30",
+    "liquor-tree": "^0.2.46",
     "lodash": "^4.17.10",
     "register-service-worker": "^1.0.0",
     "sortablejs": "^1.7.0",
