@@ -3,28 +3,26 @@
 	v-layout(row justify-space-between)
 		.zag Проверка группировки в таблицах
 		v-btn(@click="toggleGrouping") Группировка
+	v-slide-y-transition(mode="out-in")
+		drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup").group-top(v-if="grouping")
+			.inf(v-if="len === 0") Перетащите сюда заголовок колонки для группировки
+			SlickList( :value="group" axis="x" @input="newGroup"  v-else).crumbs
+				SlickItem(v-for="(item, index) in group" :index="index" :key="index" :item="item")
+					.crumb(@click.right="test(index)") {{ item.text }}
+				.delete
+					v-icon delete
+					v-icon(@click="reset") close
 	v-layout( row )
 		v-slide-x-transition(mode="out-in")
-			v-flex(xs2 v-if="grouping")
+			v-flex(xs2 v-if="group.length")
 				.group
-					v-btn(flat @click="reset" v-if="len").reset Сброс
-					h3 Фильтры
-					<!-- tree(v&#45;if="len > 0" ref="group" -->
-					<!-- 	:data="group" -->
-					<!-- 	:options="treeOptions" -->
-					<!-- 	).tree&#45;group -->
-				<!-- tree(v&#45;if="len > 0" ref="tree" -->
-				<!-- 	:data="groupItems" -->
-				<!-- 	:options="treeOptions" -->
-				<!-- 	@node:selected="onNodeSelected").tree&#45;group -->
-		v-flex(:class="grouping ? 'xs10' : 'xs12'").tabl
-			v-slide-y-transition(mode="out-in")
-				drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup").group-top(v-if="grouping")
-					.inf(v-if="len === 0") Перетащите сюда колонку для группировки
-					SlickList( :value="group" axis="x" @input="newGroup"  v-else).crumbs
-						SlickItem(v-for="(item, index) in group" :index="index" :key="index" :item="item")
-							.crumb(@click.right="test(index)") {{ item.text }}
-						v-icon.delete delete
+					h3 Группы:
+					div(v-for="item in list")
+						span {{ item.text }}
+						div(v-for="e in item.children") {{ e.text }}
+
+					div(v-for="item in list2") {{ item.text }}
+		v-flex(:class="group.length ? 'xs10' : 'xs12'").tabl
 			DataTable1(:filter="filter") /
 
 </template>
@@ -36,16 +34,11 @@ import DataTable1 from '@/components/DataTable1'
 export default {
 	data () {
 		return {
+			filter: '',
 			grouping: true,
 			group: [],
-			groupItems: [],
-			filter: '',
-			treeOptions: {
-				checkbox: false,
-				parentSelect: true,
-				dnd: true,
-				multiple: false
-			}
+			list: [],
+			list2: []
 		}
 	},
 	computed: {
@@ -65,6 +58,7 @@ export default {
 		},
 		newGroup (e) {
 			this.group = e
+			console.log(this.group)
 		},
 		removeCrumb (index) {
 			console.log(index)
@@ -79,9 +73,10 @@ export default {
 			obj.text = data.text
 			obj.children = []
 			this.group.push(obj)
-			// this.handleItems(data)
+			this.handleItems(data)
 		},
-		handleItems (data) {
+
+		uniqList (data, arr) {
 			let obj = {}
 			let child = []
 			let childs = []
@@ -97,44 +92,29 @@ export default {
 				childs.push(node)
 			})
 			obj.text = data.text + ' - ' + childs.length
-			obj.children = childs
-			this.groupItems.push(obj)
-		// 	let that = this
-		// 	setTimeout(function () {
-		// 		that.$refs.tree.tree.setModel(that.group)
-		// 	}, 0)
+			arr.push(...childs)
+			return arr
 		},
 
-		// handleGroup (data, event) {
-		// 	let obj = {}
-		// 	let child = []
-		// 	let childs = []
-		// 	this.items.forEach(function (item) {
-		// 		let node = {}
-		// 		node.text = item[data.name]
-		// 		child.push(node)
-		// 	})
-		// 	let uniqChild = [ ...new Set(child.map(x => x.text)) ]
-		// 	uniqChild.forEach(function (item) {
-		// 		let node = {}
-		// 		node.text = item
-		// 		childs.push(node)
-		// 	})
-		// 	obj.text = data.text
-		// 	obj.children = childs
-		// 	this.group.push(obj)
-		// 	let that = this
-		// 	setTimeout(function () {
-		// 		that.$refs.tree.tree.setModel(that.group)
-		// 	}, 0)
-		// },
+		handleItems (data) {
+			if (this.group.length === 1) {
+				this.uniqList(data, this.list)
+			} else if (this.group.length === 2) {
+				let temp = this.uniqList(data, this.list2)
+				this.list.forEach(function (item) {
+					item.children = [...temp]
+				})
+				console.log(this.list)
+			}
+		},
 
 		toggleGrouping () {
 			this.grouping = !this.grouping
 		},
 		reset () {
 			this.group = []
-			this.groupItems = []
+			this.list = []
+			this.list2 = []
 		}
 	},
 	components: {
@@ -159,12 +139,10 @@ export default {
 	transition: all .3s ease;
 }
 .group {
-	padding: 1rem;
-	min-height: 10rem;
-	margin-top: 57px;
-	margin-right: 1rem;
-	border: 1px dashed $info;
-	position: relative;
+	margin-top: .4rem;
+	h3 {
+		margin-bottom: 1rem;
+	}
 }
 .group-top {
 	padding: 1rem;
@@ -174,9 +152,8 @@ export default {
 	cursor: move;
 	background: red;
 }
-.inf p {
+.inf {
 	font-style: italic;
-	margin-top: 1rem;
 	color: #666;
 }
 .reset {
