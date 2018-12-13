@@ -16,13 +16,9 @@
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs2 v-if="group.length")
 				.group
-					h3 Группы:
-					tree(ref="tree" :data="treeData" :options="treeOptions" @node:selected="onNodeSelected")
-					<!-- div(v&#45;for="item in list") -->
-					<!-- 	span {{ item.text }} -->
-					<!-- 	div(v&#45;for="e in item.children") {{ e.text }} -->
-
-					<!-- div(v&#45;for="item in list2") {{ item.text }} -->
+					h3 Группы
+						span {{par}}
+					tree(ref="tree" :data="list" :options="treeOptions" @node:selected="onNodeSelected").tree-group
 		v-flex(:class="group.length ? 'xs10' : 'xs12'").tabl
 			DataTable1(:filter="filter") /
 
@@ -40,7 +36,7 @@ export default {
 			group: [],
 			list: [],
 			list2: [],
-			treeData: this.list,
+			par: null,
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
@@ -53,18 +49,10 @@ export default {
 			}
 		}
 	},
-	watch: {
-		list (newData) {
-			this.treeData = newData
-		}
-	},
 	computed: {
 		len () {
 			return this.group.length
 		},
-		// treeData () {
-		// 	return this.$store.getters.tree
-		// },
 		items () {
 			return this.$store.getters.items
 		}
@@ -90,11 +78,11 @@ export default {
 			obj.children = []
 			this.group.push(obj)
 			this.handleItems(data)
-			console.log(this.treeData)
+			this.$refs.tree.tree.setModel(this.list)
 		},
 
 		uniqList (data, arr) {
-			let obj = {}
+			// let obj = {}
 			let child = []
 			let childs = []
 			this.items.forEach(function (item) {
@@ -108,8 +96,10 @@ export default {
 				node.text = item
 				childs.push(node)
 			})
-			obj.text = data.text + ' - ' + childs.length
+			this.par = childs.length
+			// obj.text = data.text + ' - ' + childs.length
 			arr.push(...childs)
+			console.log(childs.length)
 			return arr
 		},
 
@@ -156,9 +146,19 @@ export default {
 	transition: all .3s ease;
 }
 .group {
-	margin-top: .4rem;
+	margin-top: .6rem;
 	h3 {
-		margin-bottom: 1rem;
+		background: white;
+		padding: .5rem 1rem;
+		span {
+			margin-left: 1rem;
+			font-size: .9rem;
+			background: $info;
+			color: white;
+			padding: .1rem .5rem;
+			border-radius: 3rem;
+		}
+		/* margin-bottom: 1rem; */
 	}
 }
 .group-top {
