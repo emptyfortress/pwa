@@ -23,7 +23,8 @@
 					.inf(v-if="len === 0") Перетащите сюда колонку для группировки
 					SlickList( :value="group" axis="x" @input="newGroup"  v-else).crumbs
 						SlickItem(v-for="(item, index) in group" :index="index" :key="index" :item="item")
-							.crumb {{ item.text }}
+							.crumb(@click.right="test(index)") {{ item.text }}
+						v-icon.delete delete
 			DataTable1(:filter="filter") /
 
 </template>
@@ -59,6 +60,9 @@ export default {
 		}
 	},
 	methods: {
+		test (e) {
+			console.log(e)
+		},
 		newGroup (e) {
 			this.group = e
 		},
@@ -184,6 +188,7 @@ export default {
 }
 .crumbs {
 	display: flex;
+	position: relative;
 	.crumb {
 		margin-right: 1rem;
 		&:after {
@@ -191,6 +196,10 @@ export default {
 			margin-left: 1rem;
 		}
 	}
+}
+.delete {
+	position: absolute;
+	right: 0
 }
 
 </style>
