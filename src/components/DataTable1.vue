@@ -18,7 +18,7 @@ div
 	v-card(flat).mt-2.rel
 		.set( @click="dialog = true" )
 			i.icon-settings
-		v-data-table(v-model="selected" :headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
+		v-data-table(v-model="selected" :headers="headers" :items="items" :search="filter" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			template(slot="headers" slot-scope="props")
 				tr
 					th(v-if="selectMode").px-0.pl-2
@@ -84,12 +84,13 @@ import ExpandItem from '@/components/ExpandItem'
 import { SlickList, SlickItem } from 'vue-slicksort'
 
 export default {
+	props: [ 'filter' ],
 	data () {
 		return {
 			expandRow: null,
 			row: 'Строк на странице',
 			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
-			search: '',
+			// search: this.filter,
 			selected: [],
 			snackbar: false,
 			dialog: false,

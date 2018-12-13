@@ -20,7 +20,7 @@
 					:options="treeOptions"
 					@node:selected="onNodeSelected").tree-group
 		v-flex(:class="grouping ? 'xs10' : 'xs12'").tabl
-			DataTable1 /
+			DataTable1(:filter="filter") /
 
 </template>
 
@@ -33,6 +33,7 @@ export default {
 			grouping: true,
 			group: [],
 			groupItems: [],
+			filter: '',
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
@@ -54,18 +55,20 @@ export default {
 	},
 	methods: {
 		onNodeSelected (node) {
-			console.log(this.group)
+			this.filter = node.text
+			console.log(node.text)
 		},
 
 		handleGroup (data) {
 			let obj = {}
 			obj.text = data.text
+			obj.children = []
 			if (this.group.length === 0) {
 				this.group.push(obj)
 			} else {
-				 this.$refs.group.append(
-					{ text: data.text}
-				)
+				this.group.push({ text: 'cool' })
+				this.$refs.group.append('cool')
+				console.log(this.group)
 			}
 			this.handleItems(data)
 		},
