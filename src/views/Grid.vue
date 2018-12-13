@@ -17,11 +17,12 @@
 			v-flex(xs2 v-if="group.length")
 				.group
 					h3 Группы:
-					div(v-for="item in list")
-						span {{ item.text }}
-						div(v-for="e in item.children") {{ e.text }}
+					tree(ref="tree" :data="treeData" :options="treeOptions" @node:selected="onNodeSelected")
+					<!-- div(v&#45;for="item in list") -->
+					<!-- 	span {{ item.text }} -->
+					<!-- 	div(v&#45;for="e in item.children") {{ e.text }} -->
 
-					div(v-for="item in list2") {{ item.text }}
+					<!-- div(v&#45;for="item in list2") {{ item.text }} -->
 		v-flex(:class="group.length ? 'xs10' : 'xs12'").tabl
 			DataTable1(:filter="filter") /
 
@@ -38,16 +39,32 @@ export default {
 			grouping: true,
 			group: [],
 			list: [],
-			list2: []
+			list2: [],
+			treeData: this.list,
+			treeOptions: {
+				checkbox: false,
+				parentSelect: true,
+				dnd: true,
+				multiple: false,
+				filter: {
+					emptyText: 'Aaaaa! Где мои папки?!!',
+					plainList: 0
+				}
+			}
+		}
+	},
+	watch: {
+		list (newData) {
+			this.treeData = newData
 		}
 	},
 	computed: {
 		len () {
 			return this.group.length
 		},
-		treeData () {
-			return this.$store.getters.tree
-		},
+		// treeData () {
+		// 	return this.$store.getters.tree
+		// },
 		items () {
 			return this.$store.getters.items
 		}
@@ -65,7 +82,6 @@ export default {
 		},
 		onNodeSelected (node) {
 			this.filter = node.text
-			console.log(node.text)
 		},
 
 		handleGroup (data) {
@@ -74,6 +90,7 @@ export default {
 			obj.children = []
 			this.group.push(obj)
 			this.handleItems(data)
+			console.log(this.treeData)
 		},
 
 		uniqList (data, arr) {
