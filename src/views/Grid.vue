@@ -17,7 +17,7 @@
 			v-flex(xs2 v-if="group.length")
 				.group
 					h3 Группы
-						span {{par}}
+						span(v-if="len === 1") {{par}}
 					tree(ref="tree" :data="list" :options="treeOptions" @node:selected="onNodeSelected").tree-group
 		v-flex(:class="group.length ? 'xs10' : 'xs12'").tabl
 			DataTable1(:filter="filter") /
