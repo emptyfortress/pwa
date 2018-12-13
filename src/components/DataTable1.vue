@@ -1,20 +1,5 @@
 <template lang="pug">
 div
-	<!-- .panel -->
-	<!-- 		v&#45;layout(row) -->
-	<!-- 			v&#45;slide&#45;y&#45;transition(mode="out&#45;in") -->
-	<!-- 				v&#45;btn(flat @click="clearUnread" v&#45;if="allRead" color="info") Сбросить новые -->
-	<!-- 			v&#45;slide&#45;y&#45;transition -->
-	<!-- 				.selectionPanel(v&#45;if="selectMode") -->
-	<!-- 					v&#45;btn(flat @click="closeSelection").mx&#45;0.mt&#45;2 -->
-	<!-- 						i.icon&#45;prev Назад -->
-	<!-- 					.quantity Выбрано -->
-	<!-- 						<!&#45;&#45; span {{quantity}} &#45;&#45;> -->
-	<!-- 						span 0 -->
-	<!-- 			v&#45;spacer -->
-	<!-- 			v&#45;flex(xs2) -->
-	<!-- 				v&#45;text&#45;field(v&#45;model="search" label="Фильтр" hide&#45;details).filter -->
-
 	v-card(flat).mt-2.rel
 		.set( @click="dialog = true" )
 			i.icon-settings

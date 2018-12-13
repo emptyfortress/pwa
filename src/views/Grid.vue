@@ -6,25 +6,30 @@
 	v-layout( row )
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs2 v-if="grouping")
-				drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup").group
+				.group
 					v-btn(flat @click="reset" v-if="len").reset Сброс
-					h3 Панель группировки
-					.inf(v-if="len === 0")
-						p Перетащите сюда колонку для группировки
-					tree(v-if="len > 0" ref="group"
-						:data="group"
-						:options="treeOptions"
-						).tree-group
-				tree(v-if="len > 0" ref="tree"
-					:data="groupItems"
-					:options="treeOptions"
-					@node:selected="onNodeSelected").tree-group
+					h3 Фильтры
+					<!-- tree(v&#45;if="len > 0" ref="group" -->
+					<!-- 	:data="group" -->
+					<!-- 	:options="treeOptions" -->
+					<!-- 	).tree&#45;group -->
+				<!-- tree(v&#45;if="len > 0" ref="tree" -->
+				<!-- 	:data="groupItems" -->
+				<!-- 	:options="treeOptions" -->
+				<!-- 	@node:selected="onNodeSelected").tree&#45;group -->
 		v-flex(:class="grouping ? 'xs10' : 'xs12'").tabl
+			v-slide-y-transition(mode="out-in")
+				drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup").group-top(v-if="grouping")
+					.inf(v-if="len === 0") Перетащите сюда колонку для группировки
+					SlickList( :value="group" axis="x" @input="newGroup"  v-else).crumbs
+						SlickItem(v-for="(item, index) in group" :index="index" :key="index" :item="item")
+							.crumb {{ item.text }}
 			DataTable1(:filter="filter") /
 
 </template>
 
 <script>
+import { SlickList, SlickItem } from 'vue-slicksort'
 import DataTable1 from '@/components/DataTable1'
 
 export default {
@@ -54,6 +59,12 @@ export default {
 		}
 	},
 	methods: {
+		newGroup (e) {
+			this.group = e
+		},
+		removeCrumb (index) {
+			console.log(index)
+		},
 		onNodeSelected (node) {
 			this.filter = node.text
 			console.log(node.text)
@@ -63,14 +74,8 @@ export default {
 			let obj = {}
 			obj.text = data.text
 			obj.children = []
-			if (this.group.length === 0) {
-				this.group.push(obj)
-			} else {
-				this.group.push({ text: 'cool' })
-				this.$refs.group.append('cool')
-				console.log(this.group)
-			}
-			this.handleItems(data)
+			this.group.push(obj)
+			// this.handleItems(data)
 		},
 		handleItems (data) {
 			let obj = {}
@@ -129,6 +134,8 @@ export default {
 		}
 	},
 	components: {
+		SlickList,
+		SlickItem,
 		DataTable1
 	}
 }
@@ -149,11 +156,15 @@ export default {
 }
 .group {
 	padding: 1rem;
-	/* min-height: 10rem; */
+	min-height: 10rem;
 	margin-top: 57px;
 	margin-right: 1rem;
 	border: 1px dashed $info;
 	position: relative;
+}
+.group-top {
+	padding: 1rem;
+	border: 1px dashed $info;
 }
 .drag {
 	cursor: move;
@@ -164,16 +175,22 @@ export default {
 	margin-top: 1rem;
 	color: #666;
 }
-.tree-children {
-	background: red;
-}
 .reset {
 	width: 100%;
 	position: absolute;
 	left: 0;
 	top: -50px;
 	margin-left: 0;
-
+}
+.crumbs {
+	display: flex;
+	.crumb {
+		margin-right: 1rem;
+		&:after {
+			content: "\2192";
+			margin-left: 1rem;
+		}
+	}
 }
 
 </style>
