@@ -63,7 +63,10 @@ export default {
 		},
 		newGroup (e) {
 			this.group = e
-			console.log(this.group)
+			let test = { text: 'laskdj' }
+			this.list2.map(item => item.children = test )
+			this.$refs.tree.tree.setModel(this.list2)
+			// console.log(this.list2)
 		},
 		removeCrumb (index) {
 			console.log(index)
@@ -122,6 +125,7 @@ export default {
 			this.group = []
 			this.list = []
 			this.list2 = []
+			this.filter = ''
 		}
 	},
 	components: {
