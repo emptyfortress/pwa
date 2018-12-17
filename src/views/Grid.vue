@@ -25,20 +25,9 @@
 						span {{par}}
 						v-icon(@click="chart = !chart") insert_chart_outlined
 					tree(ref="tree" :data="list" :options="treeOptions" @node:selected="onNodeSelected").tree-group
-						span(slot-scope="{node}") {{ node.text }} : {{ node.data.number }}
-
-						<!-- <span slot&#45;scope="{ node }"> -->
-						<!-- 	<span v&#45;if="node.hasChildren()">{{ node.text }} -->
-						<!-- 		<span v&#45;if="node.collapsed()"> -->
-						<!-- 			<template>{ {{ node.children.length }} }</template> -->
-						<!-- 		</span> -->
-						<!-- 	</span> -->
-						<!-- 	<!&#45;&#45; <span v&#38;#45;else class="viewer&#38;#45;item__prop"> &#45;&#45;> -->
-						<!-- 	<!&#45;&#45; 	<span class="viewer&#38;#45;item__key">{{ node.text }}</span> &#45;&#45;> -->
-						<!-- 	<!&#45;&#45; 	: &#45;&#45;> -->
-						<!-- 	<!&#45;&#45; 	<span class="viewer&#38;#45;item__value">{{ node.data.objectKey }}</span> &#45;&#45;> -->
-						<!-- 	<!&#45;&#45; </span> &#45;&#45;> -->
-						<!-- </span> -->
+						span(slot-scope="{node}").treenode
+							span.text {{ node.text }}
+							span.num {{ node.data.number }}
 
 		v-flex(:class="group.length ? 'xs10' : 'xs12'").tabl
 			.canva
@@ -264,9 +253,23 @@ export default {
 	background: white;
 	.chart {
 		.apexcharts-canvas {
-			/* margin: 0 auto; */
 		}
 	}
+}
+.treenode {
+	width: 100%;
+}
+.num {
+	/* background: $grey1; */
+	background: white;
+	color: #999;
+	float: right;
+	/* font-weight: bold; */
+	padding: 0 .5rem;
+	font-size: .9rem;
+	line-height: 150%;
+	margin-top: .2rem;
+	border-radius: 3px;
 }
 
 </style>
