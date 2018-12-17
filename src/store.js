@@ -18,6 +18,7 @@ export default new Vuex.Store({
 		tree: [],
 		departments: [],
 		items: [],
+		// goals: [],
 		users: [],
 		headers: [],
 		addTask: false,
@@ -38,6 +39,7 @@ export default new Vuex.Store({
 		setDepartments (state, payload) { state.departments = payload },
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
+		// setGoals (state, payload) { state.goals = payload },
 		setUsers (state, payload) { state.users = payload },
 		setSelected (state, payload) { state.selected = payload },
 		toggleMin (state) { state.min = !state.min },
@@ -84,6 +86,7 @@ export default new Vuex.Store({
 		departments (state) { return state.departments },
 		folders (state) { return state.folders },
 		items (state) { return state.items },
+		// goals (state) { return state.goals },
 		users (state) { return state.users },
 		headers (state) { return state.headers },
 		filter (state) { return state.filter },
@@ -204,13 +207,13 @@ export default new Vuex.Store({
 					commit('setLoading', false)
 				})
 		},
+
 		loadItems ({commit}) {
 			commit('setLoading', true)
 			firebase.database().ref('items').once('value')
 				.then((data) => {
 					const items = []
 					const obj = data.val()
-
 					for (let key in obj) {
 						items.push({
 							id: obj[key].id,
@@ -226,6 +229,7 @@ export default new Vuex.Store({
 							deadline: obj[key].deadline,
 							executor: obj[key].executor,
 							filenames: obj[key].filenames,
+							status: obj[key].status,
 							selected: false
 						})
 					}
@@ -237,6 +241,31 @@ export default new Vuex.Store({
 					commit('setLoading', false)
 				})
 		},
+
+		// loadGoal ({commit}) {
+		// 	commit('setLoading', true)
+		// 	firebase.database().ref('goals').once('value')
+		// 		.then((data) => {
+		// 			const goals = []
+		// 			const obj = data.val()
+		// 			for (let key in obj) {
+		// 				goals.push({
+		// 					id: obj[key].id,
+		// 					title: obj[key].title,
+		// 					author: obj[key].author,
+		// 					descr: obj[key].descr,
+		// 					deadline: obj[key].deadline
+		// 				})
+		// 			}
+		// 			commit('setGoals', goals)
+		// 			commit('setLoading', false)
+		// 		})
+		// 		.catch((error) => {
+		// 			console.log(error)
+		// 			commit('setLoading', false)
+		// 		})
+		// },
+
 		loadUsers ({commit}) {
 			commit('setLoading', true)
 			firebase.database().ref('users').once('value')

@@ -16,6 +16,7 @@ import LiquorTree from 'liquor-tree'
 import Alert from './components/Alert'
 import VueDragZone from 'vue-drag-zone'
 import VueDragDrop from 'vue-drag-drop'
+import VueApexCharts from 'vue-apexcharts'
 
 // import longpress from 'vue-long-press-directive'
 
@@ -28,7 +29,10 @@ Vue.use(LiquorTree)
 Vue.use(VueDragDrop)
 Vue.component('Alert', Alert)
 Vue.use(VueDragZone)
+Vue.use(VueApexCharts)
 Vue.config.productionTip = false
+
+Vue.component('apexchart', VueApexCharts)
 
 new Vue({
 	router,

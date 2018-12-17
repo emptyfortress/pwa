@@ -1,9 +1,24 @@
 <template lang="pug">
 div
+	.panel
+			v-layout(row)
+				v-slide-y-transition(mode="out-in")
+					v-btn(flat @click="clearUnread" v-if="allRead" color="info") Сбросить новые
+				v-slide-y-transition
+					.selectionPanel(v-if="selectMode")
+						v-btn(flat @click="closeSelection").mx-0.mt-2
+							i.icon-prev Назад
+						.quantity Выбрано
+							<!-- span {{quantity}} -->
+							span 0
+				v-spacer
+				v-flex(xs2)
+					v-text-field(v-model="search" label="Фильтр" hide-details).filter
+
 	v-card(flat).mt-2.rel
 		.set( @click="dialog = true" )
 			i.icon-settings
-		v-data-table(v-model="selected" :headers="headers" :items="items" :search="filter" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
+		v-data-table(v-model="selected" :headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			template(slot="headers" slot-scope="props")
 				tr
 					th(v-if="selectMode").px-0.pl-2
@@ -75,6 +90,7 @@ export default {
 			expandRow: null,
 			row: 'Строк на странице',
 			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
+			// search: '',
 			// search: this.filter,
 			selected: [],
 			snackbar: false,
@@ -88,11 +104,11 @@ export default {
 
 				{ 'id': 0, 'active': true, 'class': 'px-0', 'name': null, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
 				{ 'id': 1, 'active': true, 'class': 'px-0', 'name': 'title', 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
-				{ 'id': 2, 'active': true, 'class': 'nowrap', 'name': 'author', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
 				{ 'id': 3, 'active': true, 'class': 'nowrap', 'name': 'executor', 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
+				{ 'id': 2, 'active': true, 'class': 'nowrap', 'name': 'author', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
 				{ 'id': 4, 'active': true, 'class': 'nowrap', 'name': 'deadline', 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
-				{ 'id': 5, 'active': true, 'class': 'nowrap', 'name': 'created', 'text': 'Создано', 'align': 'left', 'sortable': true, 'value': 'created' },
-				{ 'id': 6, 'active': true, 'class': 'nowrap', 'name': 'modified', 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
+				{ 'id': 5, 'active': true, 'class': 'nowrap', 'name': 'created', 'text': 'Дата отправки', 'align': 'left', 'sortable': true, 'value': 'created' },
+				{ 'id': 6, 'active': true, 'class': 'nowrap', 'name': 'status', 'text': 'Статус', 'align': 'left', 'sortable': true, 'value': 'status' },
 				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'name': 'files', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
 				{ 'id': 8, 'active': false, 'class': '', 'name': '', 'text': null, 'value': '', sortable: false }
 
@@ -100,6 +116,9 @@ export default {
 		}
 	},
 	computed: {
+		search () {
+			return this.filter
+		},
 		items () {
 			return this.$store.getters.items
 		},

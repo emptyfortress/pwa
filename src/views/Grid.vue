@@ -8,19 +8,32 @@
 			.inf(v-if="len === 0") Перетащите сюда заголовок колонки для группировки
 			SlickList( :value="group" axis="x" @input="newGroup"  v-else).crumbs
 				SlickItem(v-for="(item, index) in group" :index="index" :key="index" :item="item")
-					.crumb(@click.right="test(index)") {{ item.text }}
+					.crumb {{ item.text }}
 				.delete
 					v-icon delete
 					v-icon(@click="reset") close
+
+	<!-- v&#45;layout( column v&#45;if="loading" align&#45;center justify&#45;center) -->
+	<!-- 	v&#45;flex.mt&#45;5 -->
+	<!-- 		v&#45;progress&#45;circular( indeterminate color="primary" ) -->
+
 	v-layout( row )
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs2 v-if="group.length")
 				.group
-					h3 Группы
-						span(v-if="len === 1") {{par}}
+					h3(@click="removeFilter") Группы
+						span {{par}}
+						v-icon(@click="chart = !chart") insert_chart_outlined
 					tree(ref="tree" :data="list" :options="treeOptions" @node:selected="onNodeSelected").tree-group
 		v-flex(:class="group.length ? 'xs10' : 'xs12'").tabl
-			DataTable1(:filter="filter") /
+			.canva
+				v-slide-y-transition(mode="out-in")
+					.chart(v-if="chart")
+						v-layout(row)
+							v-flex(xs6)
+								apexchart( type="bar" :options="chartOption" :series="series" )
+				v-slide-y-transition(mode="out-in")
+					DataTable1(:filter="filter" ) /
 
 </template>
 
@@ -33,10 +46,11 @@ export default {
 		return {
 			filter: '',
 			grouping: true,
+			chart: false,
+			table: true,
 			group: [],
 			list: [],
 			list2: [],
-			par: null,
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
@@ -46,10 +60,30 @@ export default {
 					emptyText: 'Aaaaa! Где мои папки?!!',
 					plainList: 0
 				}
-			}
+			},
+			chartOption: {
+				chart: {
+					id: 'vuechart-example'
+				},
+				xaxis: {
+					// categories: this.fio
+					categories: ['Гусев', 'Воробьев', 'Синичкина', 'Соловьева', 'Жаворонков', 'Уткин', 'Орлов']
+				}
+			},
+			series: [{
+				name: 'series-1',
+				data: [40, 45, 50, 49, 60, 70, 91]
+			}]
 		}
 	},
 	computed: {
+		fio () {
+			return ['one', 'two', 'two', 'two', 'two', 'two', 'two', 'two']
+			// return this.list.map(item => { item = item.text })
+		},
+		par () {
+			return this.list2.length ? this.list.length * this.list2.length : this.list.length
+		},
 		len () {
 			return this.group.length
 		},
@@ -58,13 +92,21 @@ export default {
 		}
 	},
 	methods: {
-		test (e) {
-			console.log(e)
+		// loadGoal () {
+		// 	this.$store.dispatch('loadGoal')
+		// 	console.log(this.goals)
+		// },
+		removeFilter () {
+			this.filter = ''
+			let selection = this.$refs.tree.find({
+				state: { selected: true }
+			})
+			selection.unselect()
 		},
 		newGroup (e) {
 			this.group = e
-			let test = { text: 'laskdj' }
-			this.list2.map(item => item.children = test )
+			this.list.map(item => { item.children = [] })
+			this.list2.map(item => { item.children = this.list })
 			this.$refs.tree.tree.setModel(this.list2)
 			// console.log(this.list2)
 		},
@@ -72,7 +114,10 @@ export default {
 			console.log(index)
 		},
 		onNodeSelected (node) {
+			// this.chart = false
+			// this.table = true
 			this.filter = node.text
+			console.log(this.filter)
 		},
 
 		handleGroup (data) {
@@ -81,11 +126,13 @@ export default {
 			obj.children = []
 			this.group.push(obj)
 			this.handleItems(data)
-			this.$refs.tree.tree.setModel(this.list)
+			setTimeout(() => this.$refs.tree.tree.setModel(this.list), 0)
+			// this.chart = true
+			// this.table = false
+			// console.log(this.fio)
 		},
 
 		uniqList (data, arr) {
-			// let obj = {}
 			let child = []
 			let childs = []
 			this.items.forEach(function (item) {
@@ -99,10 +146,7 @@ export default {
 				node.text = item
 				childs.push(node)
 			})
-			this.par = childs.length
-			// obj.text = data.text + ' - ' + childs.length
 			arr.push(...childs)
-			console.log(childs.length)
 			return arr
 		},
 
@@ -114,7 +158,7 @@ export default {
 				this.list.forEach(function (item) {
 					item.children = [...temp]
 				})
-				console.log(this.list)
+				// console.log(this.list)
 			}
 		},
 
@@ -154,6 +198,7 @@ export default {
 	h3 {
 		background: white;
 		padding: .5rem 1rem;
+		cursor: pointer;
 		span {
 			margin-left: 1rem;
 			font-size: .9rem;
@@ -162,7 +207,11 @@ export default {
 			padding: .1rem .5rem;
 			border-radius: 3rem;
 		}
-		/* margin-bottom: 1rem; */
+		.v-icon {
+			margin-left: 2rem;
+			vertical-align: bottom;
+			color: $info;
+		}
 	}
 }
 .group-top {
@@ -198,6 +247,16 @@ export default {
 .delete {
 	position: absolute;
 	right: 0
+}
+
+.canva {
+	margin-top: 8px;
+	background: white;
+	.chart {
+		.apexcharts-canvas {
+			/* margin: 0 auto; */
+		}
+	}
 }
 
 </style>
