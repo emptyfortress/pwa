@@ -25,6 +25,21 @@
 						span {{par}}
 						v-icon(@click="chart = !chart") insert_chart_outlined
 					tree(ref="tree" :data="list" :options="treeOptions" @node:selected="onNodeSelected").tree-group
+						span(slot-scope="{node}") {{ node.text }} : {{ node.data.number }}
+
+						<!-- <span slot&#45;scope="{ node }"> -->
+						<!-- 	<span v&#45;if="node.hasChildren()">{{ node.text }} -->
+						<!-- 		<span v&#45;if="node.collapsed()"> -->
+						<!-- 			<template>{ {{ node.children.length }} }</template> -->
+						<!-- 		</span> -->
+						<!-- 	</span> -->
+						<!-- 	<!&#45;&#45; <span v&#38;#45;else class="viewer&#38;#45;item__prop"> &#45;&#45;> -->
+						<!-- 	<!&#45;&#45; 	<span class="viewer&#38;#45;item__key">{{ node.text }}</span> &#45;&#45;> -->
+						<!-- 	<!&#45;&#45; 	: &#45;&#45;> -->
+						<!-- 	<!&#45;&#45; 	<span class="viewer&#38;#45;item__value">{{ node.data.objectKey }}</span> &#45;&#45;> -->
+						<!-- 	<!&#45;&#45; </span> &#45;&#45;> -->
+						<!-- </span> -->
+
 		v-flex(:class="group.length ? 'xs10' : 'xs12'").tabl
 			.canva
 				v-slide-y-transition(mode="out-in")
@@ -66,7 +81,6 @@ export default {
 					id: 'vuechart-example'
 				},
 				xaxis: {
-					// categories: this.fio
 					categories: ['Гусев', 'Воробьев', 'Синичкина', 'Соловьева', 'Жаворонков', 'Уткин', 'Орлов']
 				}
 			},
@@ -77,10 +91,6 @@ export default {
 		}
 	},
 	computed: {
-		fio () {
-			return ['one', 'two', 'two', 'two', 'two', 'two', 'two', 'two']
-			// return this.list.map(item => { item = item.text })
-		},
 		par () {
 			return this.list2.length ? this.list.length * this.list2.length : this.list.length
 		},
@@ -92,10 +102,6 @@ export default {
 		}
 	},
 	methods: {
-		// loadGoal () {
-		// 	this.$store.dispatch('loadGoal')
-		// 	console.log(this.goals)
-		// },
 		removeFilter () {
 			this.filter = ''
 			let selection = this.$refs.tree.find({
@@ -118,6 +124,7 @@ export default {
 			// this.table = true
 			this.filter = node.text
 			console.log(this.filter)
+			console.log(this.list)
 		},
 
 		handleGroup (data) {
@@ -129,7 +136,6 @@ export default {
 			setTimeout(() => this.$refs.tree.tree.setModel(this.list), 0)
 			// this.chart = true
 			// this.table = false
-			// console.log(this.fio)
 		},
 
 		uniqList (data, arr) {
@@ -141,9 +147,13 @@ export default {
 				child.push(node)
 			})
 			let uniqChild = [ ...new Set(child.map(x => x.text)) ]
+			let that = this
 			uniqChild.forEach(function (item) {
 				let node = {}
 				node.text = item
+				node.data = {}
+				let num = that.items.filter(e => e[data.name] === item).length
+				node.data.number = num
 				childs.push(node)
 			})
 			arr.push(...childs)
@@ -158,7 +168,7 @@ export default {
 				this.list.forEach(function (item) {
 					item.children = [...temp]
 				})
-				// console.log(this.list)
+				console.log(this.list)
 			}
 		},
 

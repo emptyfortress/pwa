@@ -1,20 +1,5 @@
 <template lang="pug">
 div
-	.panel
-			v-layout(row)
-				v-slide-y-transition(mode="out-in")
-					v-btn(flat @click="clearUnread" v-if="allRead" color="info") Сбросить новые
-				v-slide-y-transition
-					.selectionPanel(v-if="selectMode")
-						v-btn(flat @click="closeSelection").mx-0.mt-2
-							i.icon-prev Назад
-						.quantity Выбрано
-							<!-- span {{quantity}} -->
-							span 0
-				v-spacer
-				v-flex(xs2)
-					v-text-field(v-model="search" label="Фильтр" hide-details).filter
-
 	v-card(flat).mt-2.rel
 		.set( @click="dialog = true" )
 			i.icon-settings
@@ -91,7 +76,6 @@ export default {
 			row: 'Строк на странице',
 			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
 			// search: '',
-			// search: this.filter,
 			selected: [],
 			snackbar: false,
 			dialog: false,
