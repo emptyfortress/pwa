@@ -13,11 +13,11 @@
 					v-icon delete
 					v-icon(@click="reset") close
 
-	<!-- v&#45;layout( column v&#45;if="loading" align&#45;center justify&#45;center) -->
-	<!-- 	v&#45;flex.mt&#45;5 -->
-	<!-- 		v&#45;progress&#45;circular( indeterminate color="primary" ) -->
+	v-layout( column v-if="loading" align-center justify-center)
+		v-flex.mt-5
+			v-progress-circular( indeterminate color="primary" )
 
-	v-layout( row )
+	v-layout( row v-if="!loading")
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs2 v-if="group.length")
 				.group
@@ -79,7 +79,13 @@ export default {
 			}]
 		}
 	},
+	created () {
+		this.$store.dispatch('loadMetro')
+	},
 	computed: {
+		loading () {
+			return this.$store.getters.loading
+		},
 		par () {
 			return this.list2.length ? this.list.length * this.list2.length : this.list.length
 		},

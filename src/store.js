@@ -18,6 +18,7 @@ export default new Vuex.Store({
 		tree: [],
 		departments: [],
 		items: [],
+		metro: [],
 		// goals: [],
 		users: [],
 		headers: [],
@@ -39,6 +40,7 @@ export default new Vuex.Store({
 		setDepartments (state, payload) { state.departments = payload },
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
+		setMetro (state, payload) { state.metro = payload },
 		// setGoals (state, payload) { state.goals = payload },
 		setUsers (state, payload) { state.users = payload },
 		setSelected (state, payload) { state.selected = payload },
@@ -86,6 +88,7 @@ export default new Vuex.Store({
 		departments (state) { return state.departments },
 		folders (state) { return state.folders },
 		items (state) { return state.items },
+		metro (state) { return state.metro },
 		// goals (state) { return state.goals },
 		users (state) { return state.users },
 		headers (state) { return state.headers },
@@ -178,13 +181,13 @@ export default new Vuex.Store({
 					commit('setLoading', false)
 				})
 		},
+
 		loadFolders ({commit}) {
 			commit('setLoading', true)
 			firebase.database().ref('folders').once('value')
 				.then((data) => {
 					const folders = []
 					const obj = data.val()
-
 					for (let key in obj) {
 						folders.push({
 							id: obj[key].id,
@@ -200,6 +203,35 @@ export default new Vuex.Store({
 						})
 					}
 					commit('setFolders', folders)
+					commit('setLoading', false)
+				})
+				.catch((error) => {
+					console.log(error)
+					commit('setLoading', false)
+				})
+		},
+
+		loadMetro ({commit}) {
+			commit('setLoading', true)
+			firebase.database().ref('metro').once('value')
+				.then((data) => {
+					const metro = []
+					const obj = data.val()
+					for (let key in obj) {
+						metro.push({
+							id: obj[key].id,
+							number: obj[key].number,
+							unread: obj[key].unread,
+							author: obj[key].author,
+							executor: obj[key].executor,
+							status: obj[key].status,
+							deadline: obj[key].deadline,
+							created: obj[key].created,
+							title: obj[key].title,
+							files: obj[key].files
+						})
+					}
+					commit('setMetro', metro)
 					commit('setLoading', false)
 				})
 				.catch((error) => {
