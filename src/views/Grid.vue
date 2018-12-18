@@ -86,6 +86,9 @@ export default {
 		loading () {
 			return this.$store.getters.loading
 		},
+		metro () {
+			return this.$store.getters.metro
+		},
 		par () {
 			return this.list2.length ? this.list.length * this.list2.length : this.list.length
 		},
@@ -136,7 +139,7 @@ export default {
 		uniqList (data, arr) {
 			let child = []
 			let childs = []
-			this.items.forEach(function (item) {
+			this.metro.forEach(function (item) {
 				let node = {}
 				node.text = item[data.name]
 				child.push(node)
@@ -147,7 +150,7 @@ export default {
 				let node = {}
 				node.text = item
 				node.data = {}
-				let num = that.items.filter(e => e[data.name] === item).length
+				let num = that.metro.filter(e => e[data.name] === item).length
 				node.data.number = num
 				childs.push(node)
 			})

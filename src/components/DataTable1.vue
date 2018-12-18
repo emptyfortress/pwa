@@ -34,9 +34,9 @@ div
 						span {{ props.item[header.value] }}
 					td
 						i.icon-new-window
-			template(slot="expand" slot-scope="props")
-				v-card(flat :key="itemKey(props.item) + '_expand'").expand
-					ExpandItem(:props="props")
+			<!-- template(slot="expand" slot&#45;scope="props") -->
+			<!-- 	v&#45;card(flat :key="itemKey(props.item) + '_expand'").expand -->
+			<!-- 		ExpandItem(:props="props") -->
 			template(slot="no-results")
 				v-alert(:value="true" color="warning" icon="warning")
 					span Сорян, ничего подходящего не нашел :(
@@ -65,7 +65,7 @@ div
 
 <script>
 import Sortable from 'sortablejs'
-import ExpandItem from '@/components/ExpandItem'
+// import ExpandItem from '@/components/ExpandItem'
 import { SlickList, SlickItem } from 'vue-slicksort'
 
 export default {
@@ -104,7 +104,10 @@ export default {
 			return this.filter
 		},
 		items () {
-			return this.$store.getters.items
+			return this.$store.getters.metro
+		},
+		metro () {
+			return this.$store.getters.metro
 		},
 		allRead () {
 			let items = this.$store.getters.items
@@ -127,7 +130,7 @@ export default {
 		)
 	},
 	components: {
-		ExpandItem,
+		// ExpandItem,
 		SlickList,
 		SlickItem
 	},
@@ -204,10 +207,11 @@ export default {
 			if (i.shiftKey) {
 				this.selectMode = true
 				console.log('shift')
-			} else {
-				e.expanded = !e.expanded
-				e.item.unread = false
 			}
+			// else {
+			// 	e.expanded = !e.expanded
+			// 	e.item.unread = false
+			// }
 		},
 		closeSelection () {
 			this.selectMode = false
