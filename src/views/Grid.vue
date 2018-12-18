@@ -13,11 +13,7 @@
 					v-icon delete
 					v-icon(@click="reset") close
 
-	v-layout( column v-if="loading" align-center justify-center)
-		v-flex.mt-5
-			v-progress-circular( indeterminate color="primary" )
-
-	v-layout( row v-if="!loading")
+	v-layout( row )
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs2 v-if="group.length")
 				.group
@@ -83,9 +79,6 @@ export default {
 		this.$store.dispatch('loadMetro')
 	},
 	computed: {
-		loading () {
-			return this.$store.getters.loading
-		},
 		metro () {
 			return this.$store.getters.metro
 		},
@@ -112,14 +105,11 @@ export default {
 			this.list.map(item => { item.children = [] })
 			this.list2.map(item => { item.children = this.list })
 			this.$refs.tree.tree.setModel(this.list2)
-			// console.log(this.list2)
 		},
 		removeCrumb (index) {
 			console.log(index)
 		},
 		onNodeSelected (node) {
-			// this.chart = false
-			// this.table = true
 			this.filter = node.text
 			console.log(this.filter)
 			console.log(this.list)
@@ -132,8 +122,6 @@ export default {
 			this.group.push(obj)
 			this.handleItems(data)
 			setTimeout(() => this.$refs.tree.tree.setModel(this.list), 0)
-			// this.chart = true
-			// this.table = false
 		},
 
 		uniqList (data, arr) {

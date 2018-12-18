@@ -43,6 +43,7 @@ div
 			template(slot="no-data")
 				v-alert(:value="true" color="warning" icon="warning")
 					span Sorry, nothing to display here :(
+
 	v-dialog(v-model="dialog" width="350")
 		v-card
 			v-card-title(class="headline grey lighten-2" primary-title) Настроить колонки
@@ -89,10 +90,10 @@ export default {
 				{ 'id': 0, 'active': true, 'class': 'px-0', 'name': null, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
 				{ 'id': 1, 'active': true, 'class': 'px-0', 'name': 'title', 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
 				{ 'id': 3, 'active': true, 'class': 'nowrap', 'name': 'executor', 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
+				{ 'id': 6, 'active': true, 'class': 'nowrap', 'name': 'status', 'text': 'Статус', 'align': 'left', 'sortable': true, 'value': 'status' },
 				{ 'id': 2, 'active': true, 'class': 'nowrap', 'name': 'author', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
 				{ 'id': 4, 'active': true, 'class': 'nowrap', 'name': 'deadline', 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
 				{ 'id': 5, 'active': true, 'class': 'nowrap', 'name': 'created', 'text': 'Дата отправки', 'align': 'left', 'sortable': true, 'value': 'created' },
-				{ 'id': 6, 'active': true, 'class': 'nowrap', 'name': 'status', 'text': 'Статус', 'align': 'left', 'sortable': true, 'value': 'status' },
 				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'name': 'files', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
 				{ 'id': 8, 'active': false, 'class': '', 'name': '', 'text': null, 'value': '', sortable: false }
 
