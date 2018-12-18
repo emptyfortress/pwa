@@ -19,9 +19,9 @@ export default new Vuex.Store({
 		departments: [],
 		items: [],
 		metro: [],
+		headers: [],
 		// goals: [],
 		users: [],
-		headers: [],
 		addTask: false,
 		selected: false,
 		min: false,
@@ -41,6 +41,7 @@ export default new Vuex.Store({
 		setFolders (state, payload) { state.folders = payload },
 		setItems (state, payload) { state.items = payload },
 		setMetro (state, payload) { state.metro = payload },
+		setHeaders (state, payload) { state.headers = payload },
 		// setGoals (state, payload) { state.goals = payload },
 		setUsers (state, payload) { state.users = payload },
 		setSelected (state, payload) { state.selected = payload },
@@ -133,13 +134,13 @@ export default new Vuex.Store({
 		clearError ({commit}) {
 			commit('clearError')
 		},
+
 		loadTree ({commit}) {
 			commit('setLoading', true)
 			firebase.database().ref('tree').once('value')
 				.then((data1) => {
 					const tree = []
 					const obj = data1.val()
-
 					for (let key in obj) {
 						tree.push({
 							id: obj[key].id,
@@ -157,6 +158,34 @@ export default new Vuex.Store({
 					commit('setLoading', false)
 				})
 		},
+
+		loadHeaders ({commit}) {
+			commit('setLoading', true)
+			firebase.database().ref('headers').once('value')
+				.then((data) => {
+					const headers = []
+					const obj = data.val()
+					for (let key in obj) {
+						headers.push({
+							active: obj[key].active,
+							align: obj[key].align,
+							class: obj[key].class,
+							id: obj[key].id,
+							name: obj[key].name,
+							sortable: obj[key].sortable,
+							text: obj[key].text,
+							value: obj[key].value
+						})
+					}
+					commit('setHeaders', headers)
+					commit('setLoading', false)
+				})
+				.catch((error) => {
+					console.log(error)
+					commit('setLoading', false)
+				})
+		},
+
 		loadDepartments ({commit}) {
 			commit('setLoading', true)
 			firebase.database().ref('departments').once('value')

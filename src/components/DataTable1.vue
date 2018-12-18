@@ -8,7 +8,10 @@ div
 				tr
 					th(v-if="selectMode").px-0.pl-2
 						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
-					th(v-for="header in props.headers" v-if="header.active" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
+					th(v-for="header in props.headers"
+						v-if="header.active" :key="header.text"
+						:class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+						@click="changeSort(header.value)")
 						<!-- drag(class="drag" -->
 						<!-- 	:transfer&#45;data="header.text" -->
 						<!-- 	) -->
@@ -30,7 +33,7 @@ div
 					td(@click="props.item.unread = !props.item.unread").px-0.drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
-					td(v-for="header in headers" :key="header.value" v-if="header.text !== null && header.active" @click="clickRow(props, $event)" :class="header.class" )
+					td(v-for="header in headers" :key="header.value" v-if="header.text !== '' && header.active" @click="clickRow(props, $event)" :class="header.class" )
 						span {{ props.item[header.value] }}
 					td
 						i.icon-new-window
@@ -42,7 +45,7 @@ div
 					span Сорян, ничего подходящего не нашел :(
 			template(slot="no-data")
 				v-alert(:value="true" color="warning" icon="warning")
-					span Sorry, nothing to display here :(
+						span Sorry, nothing to display here :(
 
 	v-dialog(v-model="dialog" width="350")
 		v-card
@@ -78,29 +81,31 @@ export default {
 			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
 			// search: '',
 			selected: [],
+			over: false,
 			snackbar: false,
 			dialog: false,
 			columnSetup: false,
 			selectMode: false,
 			itemKeys: new WeakMap(),
 			currentItemKey: 0,
-			pagination: { sortBy: '' },
-			headers: [
-
-				{ 'id': 0, 'active': true, 'class': 'px-0', 'name': null, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
-				{ 'id': 1, 'active': true, 'class': 'px-0', 'name': 'title', 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
-				{ 'id': 3, 'active': true, 'class': 'nowrap', 'name': 'executor', 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
-				{ 'id': 6, 'active': true, 'class': 'nowrap', 'name': 'status', 'text': 'Статус', 'align': 'left', 'sortable': true, 'value': 'status' },
-				{ 'id': 2, 'active': true, 'class': 'nowrap', 'name': 'author', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
-				{ 'id': 4, 'active': true, 'class': 'nowrap', 'name': 'deadline', 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
-				{ 'id': 5, 'active': true, 'class': 'nowrap', 'name': 'created', 'text': 'Дата отправки', 'align': 'left', 'sortable': true, 'value': 'created' },
-				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'name': 'files', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
-				{ 'id': 8, 'active': false, 'class': '', 'name': '', 'text': null, 'value': '', sortable: false }
-
-			]
+			pagination: { sortBy: '' }
+			// headers: [
+			// 	{ 'id': 0, 'active': true, 'class': 'px-0', 'name': null, 'text': null, 'align': 'left', 'sortable': true, 'value': 'unread' },
+			// 	{ 'id': 1, 'active': true, 'class': 'px-0', 'name': 'title', 'text': 'Название', 'align': 'left', 'sortable': true, 'value': 'title' },
+			// 	{ 'id': 3, 'active': true, 'class': 'nowrap', 'name': 'executor', 'text': 'Исп.', 'align': 'left', 'sortable': true, 'value': 'executor' },
+			// 	{ 'id': 6, 'active': true, 'class': 'nowrap', 'name': 'status', 'text': 'Статус', 'align': 'left', 'sortable': true, 'value': 'status' },
+			// 	{ 'id': 2, 'active': true, 'class': 'nowrap', 'name': 'author', 'text': 'Автор', 'align': 'left', 'sortable': true, 'value': 'author' },
+			// 	{ 'id': 4, 'active': true, 'class': 'nowrap', 'name': 'deadline', 'text': 'Срок', 'align': 'left', 'sortable': true, 'value': 'deadline' },
+			// 	{ 'id': 5, 'active': true, 'class': 'nowrap', 'name': 'created', 'text': 'Дата отправки', 'align': 'left', 'sortable': true, 'value': 'created' },
+			// 	{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'name': 'files', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
+			// 	{ 'id': 8, 'active': false, 'class': '', 'name': '', 'text': null, 'value': '', sortable: false }
+			// ]
 		}
 	},
 	computed: {
+		headers () {
+			return this.$store.getters.headers
+		},
 		search () {
 			return this.filter
 		},
@@ -136,6 +141,9 @@ export default {
 		SlickItem
 	},
 	methods: {
+		handleDrop () {
+			console.log('dddd')
+		},
 		newColumn (e) {
 			this.headers = e
 		},
@@ -327,9 +335,5 @@ tr.wide {
 	display: block;
 	font-family: Roboto;
 	line-height: 150%;
-}
-.drag1 {
-	/* background: red; */
-	/* padding: 1rem; */
 }
 </style>

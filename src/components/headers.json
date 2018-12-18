@@ -1,10 +1,11 @@
 [
-	{ "id": 0, "text": "Название", "align": "left", "sortable": false, "value": "title" },
-	{ "id": 1, "text": "Автор", "align": "left", "sortable": true, "value": "author" },
-	{ "id": 2, "text": "Исполнитель", "align": "left", "sortable": true, "value": "executor" },
-	{ "id": 3, "text": "Срок", "align": "left", "sortable": true, "value": "deadline" },
-	{ "id": 4, "text": "Создано", "align": "left", "sortable": true, "value": "created" },
-	{ "id": 5, "text": "Изменено", "align": "left", "sortable": true, "value": "modified" },
-	{ "id": 6, "text": "Вложения", "align": "left", "sortable": true, "value": "files" },
-	{ "id": 7, "text": "Описание", "align": "left", "sortable": false, "value": "descr" }
+	{ "id": 0, "active": true, "class": "px-0", "align": "left", "sortable": true, "value": "unread" },
+	{ "id": 1, "active": true, "class": "px-0", "name": "title", "text": "Название", "align": "left", "sortable": true, "value": "title" },
+	{ "id": 3, "active": true, "class": "nowrap", "name": "executor", "text": "Исп.", "align": "left", "sortable": true, "value": "executor" },
+	{ "id": 6, "active": true, "class": "nowrap", "name": "status", "text": "Статус", "align": "left", "sortable": true, "value": "status" },
+	{ "id": 2, "active": true, "class": "nowrap", "name": "author", "text": "Автор", "align": "left", "sortable": true, "value": "author" },
+	{ "id": 4, "active": true, "class": "nowrap", "name": "deadline", "text": "Срок", "align": "left", "sortable": true, "value": "deadline" },
+	{ "id": 5, "active": true, "class": "nowrap", "name": "created", "text": "Дата отправки", "align": "left", "sortable": true, "value": "created" },
+	{ "id": 7, "active": true, "class": "text-xs-center", "name": "files", "text": "Файлы", "align": "left", "sortable": true, "value": "files" },
+	{ "id": 8, "active": false, "class": "", "value": "", "sortable": false }
 ]

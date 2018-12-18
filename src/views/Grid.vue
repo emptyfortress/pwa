@@ -4,13 +4,16 @@
 		.zag Проверка группировки в таблицах
 		v-btn(@click="toggleGrouping") Группировка
 	v-slide-y-transition(mode="out-in")
-		drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup").group-top(v-if="grouping")
+		<!-- drop.group&#45;top -->
+		<!-- 	drag(:transfer&#45;data="foo") -->
+		<!-- 		span test -->
+
+		drop(@dragover="over = true" @dragleave="over = false" @drop="handleGroup" v-if="grouping" class="group-top" :class="{ over }")
 			.inf(v-if="len === 0") Перетащите сюда заголовок колонки для группировки
 			SlickList( :value="group" axis="x" @input="newGroup"  v-else).crumbs
 				SlickItem(v-for="(item, index) in group" :index="index" :key="index" :item="item")
-					.crumb {{ item.text }}
+					.crumb() {{ item.text }}
 				.delete
-					v-icon delete
 					v-icon(@click="reset") close
 
 	v-layout( row )
@@ -51,6 +54,7 @@ export default {
 			group: [],
 			list: [],
 			list2: [],
+			over: false,
 			treeOptions: {
 				checkbox: false,
 				parentSelect: true,
@@ -88,8 +92,8 @@ export default {
 		len () {
 			return this.group.length
 		},
-		items () {
-			return this.$store.getters.items
+		headers () {
+			return this.$store.getters.headers
 		}
 	},
 	methods: {
@@ -122,6 +126,14 @@ export default {
 			this.group.push(obj)
 			this.handleItems(data)
 			setTimeout(() => this.$refs.tree.tree.setModel(this.list), 0)
+			this.hideColumn(data)
+			this.over = false
+		},
+
+		hideColumn (e) {
+			let col = this.headers.filter(item => item.text === e.text)[0]
+			col.active = false
+			console.log(col)
 		},
 
 		uniqList (data, arr) {
@@ -213,6 +225,9 @@ export default {
 .group-top {
 	padding: 1rem;
 	border: 1px dashed $info;
+	&.over {
+		background: #E4FEEB;
+	}
 }
 .drag {
 	cursor: move;
@@ -269,4 +284,10 @@ export default {
 	border-radius: 3px;
 }
 
+.alltab {
+	background: red;
+	&.over {
+		background: green;
+	}
+}
 </style>

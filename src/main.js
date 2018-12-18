@@ -52,5 +52,7 @@ new Vue({
 		this.$store.dispatch('loadItems')
 		this.$store.dispatch('loadUsers')
 		this.$store.dispatch('loadDepartments')
+		this.$store.dispatch('loadMetro')
+		this.$store.dispatch('loadHeaders')
 	}
 }).$mount('#app')
