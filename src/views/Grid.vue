@@ -118,7 +118,6 @@ export default {
 
 			// console.log(group1)
 			this.group = [...group1]
-
 		},
 		removeFilter () {
 			this.filter = ''
@@ -185,8 +184,12 @@ export default {
 				let temp = this.uniqList(data, this.list2)
 				this.list.forEach(function (item) {
 					item.children = [...temp]
+					item.state = {}
+					// item.state.expanded = true
 				})
 				console.log(this.list)
+				this.list[0].state.expanded = true
+				this.$refs.tree.tree.setModel(this.list)
 			}
 		},
 
