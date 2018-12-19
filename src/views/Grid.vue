@@ -1,5 +1,11 @@
 <template lang="pug">
 .grid
+
+	vue-context( ref="menu" )
+		ul(slot-scope="child" v-if="child.data").context
+			<!-- li( @click="onClick($event.target.innerText)" ) Option 1 -->
+			li( @click="removeGroup(child.data.name.text)" ) Удалить {{ child.data.name.text }} из группировки
+
 	v-layout(row justify-space-between)
 		.zag Проверка группировки в таблицах
 		v-btn(@click="toggleGrouping") Группировка
@@ -12,7 +18,7 @@
 			.inf(v-if="len === 0") Перетащите сюда заголовок колонки для группировки
 			SlickList( :value="group" axis="x" @input="newGroup"  v-else).crumbs
 				SlickItem(v-for="(item, index) in group" :index="index" :key="index" :item="item")
-					.crumb() {{ item.text }}
+					.crumb(@contextmenu.prevent="$refs.menu.open($event, {name: item, index})") {{ item.text }}
 				.delete
 					v-icon(@click="reset") close
 
@@ -43,6 +49,7 @@
 <script>
 import { SlickList, SlickItem } from 'vue-slicksort'
 import DataTable1 from '@/components/DataTable1'
+import { VueContext } from 'vue-context'
 
 export default {
 	data () {
@@ -97,6 +104,21 @@ export default {
 		}
 	},
 	methods: {
+		removeGroup (e) {
+			// console.log(this.group)
+			let group1 = this.group.filter(item => item.text !== e)
+			// this.$refs.tree.tree.setModel(this.list)
+			// this.newGroup(this.group)
+			let that = this
+			this.group = []
+			this.list = []
+			this.list2 = []
+			// this.$refs.tree.tree.remove(Node.enabled(), true)
+
+			console.log(group1)
+			this.group = [...group1]
+
+		},
 		removeFilter () {
 			this.filter = ''
 			let selection = this.$refs.tree.find({
@@ -109,9 +131,6 @@ export default {
 			this.list.map(item => { item.children = [] })
 			this.list2.map(item => { item.children = this.list })
 			this.$refs.tree.tree.setModel(this.list2)
-		},
-		removeCrumb (index) {
-			console.log(index)
 		},
 		onNodeSelected (node) {
 			this.filter = node.text
@@ -178,12 +197,14 @@ export default {
 			this.list = []
 			this.list2 = []
 			this.filter = ''
+			this.$store.dispatch('loadHeaders')
 		}
 	},
 	components: {
 		SlickList,
 		SlickItem,
-		DataTable1
+		DataTable1,
+		VueContext
 	}
 }
 </script>
@@ -226,7 +247,7 @@ export default {
 	padding: 1rem;
 	border: 1px dashed $info;
 	&.over {
-		background: #E4FEEB;
+		background: #D9F9FF;
 	}
 }
 .drag {
@@ -289,5 +310,8 @@ export default {
 	&.over {
 		background: green;
 	}
+}
+.v-context {
+	outline: none;
 }
 </style>
