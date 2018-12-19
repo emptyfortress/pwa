@@ -109,13 +109,14 @@ export default {
 			let group1 = this.group.filter(item => item.text !== e)
 			// this.$refs.tree.tree.setModel(this.list)
 			// this.newGroup(this.group)
-			let that = this
-			this.group = []
-			this.list = []
-			this.list2 = []
+			// let that = this
+			// this.group = []
+			// this.list = []
+			// this.list2 = []
+			// this.reset()
 			// this.$refs.tree.tree.remove(Node.enabled(), true)
 
-			console.log(group1)
+			// console.log(group1)
 			this.group = [...group1]
 
 		},
