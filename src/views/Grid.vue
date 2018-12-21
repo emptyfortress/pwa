@@ -23,6 +23,7 @@
 					v-icon(@click="reset") close
 
 	v-layout( row )
+
 		v-slide-x-transition(mode="out-in")
 			v-flex(xs2 v-if="group.length")
 				.group
