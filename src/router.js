@@ -10,6 +10,7 @@ import Folder from '@/views/Folder'
 import Archive from '@/views/Archive'
 import Pivot from '@/views/Pivot'
 import Grid from '@/views/Grid'
+import Newtask from '@/views/Newtask'
 import Detail from '@/components/Detail'
 
 Vue.use(Router)
@@ -51,6 +52,11 @@ export default new Router({
 			path: '/archive',
 			name: 'archive',
 			component: Archive
+		},
+		{
+			path: '/new',
+			name: 'new',
+			component: Newtask
 		},
 		{
 			path: '/m/:id',
