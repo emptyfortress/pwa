@@ -12,6 +12,7 @@ import Pivot from '@/views/Pivot'
 import Grid from '@/views/Grid'
 import Newtask from '@/views/Newtask'
 import Detail from '@/components/Detail'
+import Test from '@/views/Test'
 
 Vue.use(Router)
 
@@ -34,9 +35,19 @@ export default new Router({
 			component: Sound
 		},
 		{
+			path: '/test',
+			name: 'test',
+			component: Test
+		},
+		{
 			path: '/about',
 			name: 'about',
 			component: About
+		},
+		{
+			path: '/create',
+			name: 'create',
+			component: Create
 		},
 		{
 			path: '/pivot',
@@ -71,11 +82,6 @@ export default new Router({
 			children: [
 				{ path: '/:section/:id', props: true, component: Detail }
 			]
-		},
-		{
-			path: '/create',
-			name: 'create',
-			component: Create
 		}
 	]
 })

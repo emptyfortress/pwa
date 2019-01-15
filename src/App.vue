@@ -1,12 +1,12 @@
 <template lang="pug" >
 v-app( :dark="night" ).rel
 	template( v-if="userLogged" )
-		v-navigation-drawer( v-model="leftDrawer" clipped floating app :mini-variant="miniVariant" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
+		v-navigation-drawer( v-model="leftDrawer" clipped floating app :mini-variant="miniVariant" v-if="$route.path !=='/test'" v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerLeftContent /
 		v-navigation-drawer( v-model="drawer1" temporary clipped right floating app v-bind:style="$vuetify.breakpoint.mdAndDown ? styleObject : ''" )
 			DrawerRightContent /
 
-		v-toolbar( app flat clipped-left clipped-right v-if="$vuetify.breakpoint.lgAndUp"  )
+		v-toolbar( app flat clipped-left clipped-right v-if="$route.path !== '/test' && $vuetify.breakpoint.lgAndUp"  )
 			v-btn( icon @click.stop="leftDrawer = !leftDrawer")
 				i.icon-ham-d
 			v-toolbar-title( v-text="currentFolder.text" )
@@ -47,7 +47,7 @@ v-app( :dark="night" ).rel
 		AddTask(v-if="addTask")
 
 	v-slide-y-reverse-transition
-		v-btn( fab dark large color="info" v-if="!min" @click="toggleTask" :class="addTask ? 'rotate' : ''" ).fab
+		v-btn( fab dark large color="info" v-if="$route.path !== '/test' && !min" @click="toggleTask" :class="addTask ? 'rotate' : ''" ).fab
 			v-icon(dark) add
 
 	v-slide-y-reverse-transition
