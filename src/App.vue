@@ -24,7 +24,7 @@ v-app( :dark="night" ).rel
 			v-btn( icon @click.stop="drawer1 = !drawer1" )
 				v-icon menu
 
-		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 v-if="$vuetify.breakpoint.mdAndDown" )
+		v-toolbar( app flat scroll-off-screen :scroll-threshold=100 v-if="$vuetify.breakpoint.mdAndDown && $route.path !== '/test'" )
 			v-btn( icon @click="back"  v-if="$route.path !== '/'" )
 				v-icon arrow_back
 			v-toolbar-title( v-text="$route.path !== '/' ? currentFolder.text : 'Сводка'" )
@@ -33,7 +33,7 @@ v-app( :dark="night" ).rel
 			v-slide-y-transition(mode="out-in")
 				router-view
 
-		v-toolbar(v-if="$vuetify.breakpoint.mdAndDown"  flat ).my
+		v-toolbar(v-if="$vuetify.breakpoint.mdAndDown && $route.path !== '/test'"  flat ).my
 			v-toolbar-side-icon( @click.stop="leftDrawer = !leftDrawer" )
 			v-spacer
 			BottomSheet/
