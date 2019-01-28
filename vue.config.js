@@ -1,6 +1,6 @@
 module.exports = {
-  pwa: {
-    name: 'Docsvision',
-    themeColor: '#133C60'
-  }
+	pwa: {
+		name: 'Docsvision',
+		themeColor: '#133C60'
+	}
 }
