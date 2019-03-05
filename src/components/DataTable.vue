@@ -18,7 +18,7 @@ div
 	v-card(flat).mt-2.rel
 		.set( @click="dialog = true" )
 			i.icon-settings
-		v-data-table(v-model="selected" :headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
+		v-data-table(v-model="selected" select-all :headers="headers" :items="items" :search="search" :pagination.sync="pagination" :loading="false" ref="sortableTable" item-key="title" expand :rows-per-page-text="row" :rows-per-page-items="rowsPerPageItems").mytable
 			template(slot="headers" slot-scope="props")
 				tr
 					th(v-if="selectMode").px-0.pl-2
@@ -37,7 +37,8 @@ div
 				<!-- tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow -->
 				tr(:key="itemKey(props.item)" :class="setClass(props)").sortableRow
 					td(v-if="selectMode").px-0.pl-2
-						v-checkbox(:input-value="props.selected" primary hide-details)
+						<!-- v&#45;checkbox(:input&#45;value="props.selected" primary hide&#45;details ) -->
+						v-checkbox(:input-value="props.selected" primary hide-details )
 					td(@click="props.item.unread = !props.item.unread").px-0.drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
@@ -84,7 +85,7 @@ export default {
 		return {
 			expandRow: null,
 			row: 'Строк на странице',
-			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
+			rowsPerPageItems: [10, 25, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 }],
 			search: '',
 			selected: [],
 			snackbar: false,
@@ -137,6 +138,9 @@ export default {
 		SlickItem
 	},
 	methods: {
+		test () {
+			console.log('oooo')
+		},
 		newColumn (e) {
 			this.headers = e
 		},
@@ -151,7 +155,7 @@ export default {
 			else this.selected = this.items.slice()
 			this.snackbar = !this.snackbar
 		},
-		dragStart ({item}) {
+		dragStart ({ item }) {
 			const nextSib = item.nextSibling
 			if (nextSib &&
 				nextSib.classList.contains('datatable__expand-row')) {
@@ -160,7 +164,7 @@ export default {
 				this.expandRow = null
 			}
 		},
-		dragReorder ({item, oldIndex, newIndex}) {
+		dragReorder ({ item, oldIndex, newIndex }) {
 			let newItems = this.items.sort(this.predicateBy(this.pagination.sortBy))
 			if (this.pagination.descending === true) {
 				newItems = newItems.reverse()
@@ -206,9 +210,12 @@ export default {
 			}
 		},
 		clickRow (e, i) {
-			if (i.shiftKey) {
+			if (i.shiftKey && !this.selectMode) {
 				this.selectMode = true
-				console.log('shift')
+				console.log('shiftttttt')
+			} else if (i.shiftKey && this.selectMode) {
+				this.selectMode = false
+				console.log('fffff')
 			} else {
 				e.expanded = !e.expanded
 				e.item.unread = false
@@ -326,5 +333,8 @@ tr.wide {
 	display: block;
 	font-family: Roboto;
 	line-height: 150%;
+}
+.sortableRow {
+	user-select: none;
 }
 </style>

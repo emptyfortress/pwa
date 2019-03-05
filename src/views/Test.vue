@@ -16,12 +16,12 @@
 							.linkadd Ссылку добавил: Воробьев К.Г.
 								br
 								| 05.12.18 <span>16:03</span>
-							v-textarea( v-model="link.dopoln" auto-grow label="Текстовое описание ссылки" rows="1.5")
-							hr
+							v-textarea( v-model="link.dopoln" auto-grow label="Описание ссылки" rows="1.5")
 							.opis {{ link.info }}
 							.head
 								img(:src="require('@/assets/img/test/' + link.img + '.png')")
-								span {{ link.title }}
+								a(href="#") {{ link.title }}
+								<!-- span {{ link.title }} -->
 							.attr( v-if="!link.show" )
 								.label
 									| Автор:
@@ -183,9 +183,11 @@ table {
 	white-space: nowrap;
 }
 
-.inf {
+td.inf {
 	cursor: pointer;
 	width: 30px;
+	padding-right: 0;
+	img { margin-right: 0; }
 }
 .attr {
 	display: flex;
