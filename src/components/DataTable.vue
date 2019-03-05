@@ -10,7 +10,6 @@ div
 							i.icon-prev Назад
 						.quantity Выбрано
 							<!-- span {{quantity}} -->
-							<!-- span {{quantity}} -->
 							span 0
 				v-spacer
 				v-flex(xs2)
