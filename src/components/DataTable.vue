@@ -2,14 +2,14 @@
 div
 	.panel
 			v-layout(row)
-				v-slide-x-transition
+				v-slide-y-reverse-transition
 					.selectionPanel(v-if="selectMode")
 						v-btn(flat @click="closeSelection").mx-0.mt-2.close
 							i.icon-close
 						.quantity.mx-0
 							span {{selected.length}}
-				v-slide-x-transition(mode="out-in")
-					v-btn(flat @click="clearUnread" v-if="allRead" color="info") Сбросить новые
+				v-slide-y-transition(mode="out-in")
+					v-btn(flat @click="clearUnread" v-if="allRead && !selectMode" color="info") Сбросить новые
 				v-spacer
 				v-flex(xs2)
 					v-text-field(v-model="search" label="Фильтр" hide-details).filter
@@ -63,6 +63,7 @@ div
 		v-btn(color="info" @click="snackbar = false").but В работу
 		v-btn(color="accent" @click="snackbar = false").but Делегировать
 		v-btn(color="success" @click="snackbar = false").but Согласовать
+		v-btn(color="success" @click="snackbar = false").but Согласовать
 		v-btn(flat  @click="snackbar = false") Close
 </template>
 
@@ -79,7 +80,7 @@ export default {
 			rowsPerPageItems: [10, 25, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 }],
 			search: '',
 			selected: [],
-			snackbar: false,
+			// snackbar: false,
 			dialog: false,
 			columnSetup: false,
 			selectMode: false,
@@ -109,6 +110,9 @@ export default {
 			if (unreadItems.length === 0) {
 				return false
 			} else return true
+		},
+		snackbar () {
+			return (this.selected.length ? 1 : 0)
 		}
 	},
 	mounted () {
@@ -129,8 +133,6 @@ export default {
 		SlickItem
 	},
 	methods: {
-		test () {
-		},
 		newColumn (e) {
 			this.headers = e
 		},
@@ -214,6 +216,7 @@ export default {
 		closeSelection () {
 			this.selectMode = false
 			this.selected = []
+			this.snackbar = false
 		}
 	}
 }
