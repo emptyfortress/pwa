@@ -2,15 +2,14 @@
 div
 	.panel
 			v-layout(row)
-				v-slide-y-transition(mode="out-in")
-					v-btn(flat @click="clearUnread" v-if="allRead" color="info") Сбросить новые
-				v-slide-y-transition
+				v-slide-x-transition
 					.selectionPanel(v-if="selectMode")
-						v-btn(flat @click="closeSelection").mx-0.mt-2
-							i.icon-prev Назад
-						.quantity Выбрано
-							<!-- span {{quantity}} -->
-							span 0
+						v-btn(flat @click="closeSelection").mx-0.mt-2.close
+							i.icon-close
+						.quantity.mx-0
+							span {{selected.length}}
+				v-slide-x-transition(mode="out-in")
+					v-btn(flat @click="clearUnread" v-if="allRead" color="info") Сбросить новые
 				v-spacer
 				v-flex(xs2)
 					v-text-field(v-model="search" label="Фильтр" hide-details).filter
@@ -22,23 +21,15 @@ div
 			template(slot="headers" slot-scope="props")
 				tr
 					th(v-if="selectMode").px-0.pl-2
-						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.native="toggleAll")
+						v-checkbox(:input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.stop="toggleAll")
 					th(v-for="header in props.headers" v-if="header.active" :key="header.text" :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']" @click="changeSort(header.value)")
 						span {{ header.text }}
 						v-icon( small v-if="header.sortable") arrow_upward
 			v-progress-linear(slot="progress" color="blue" indeterminate)
 			template(slot="items" slot-scope="props")
-				<!-- You'll need a unique ID, that is specific to the given item, for the key. -->
-				<!-- 	Not providing a unique key that's bound to the item object will break drag and drop sorting. -->
-				<!-- 	The itemKey method will return a uid for a given object using WeakMap. -->
-				<!-- 	You could just use a property in the object with a unique value, like "props.item.name" in this case, -->
-				<!-- 	but often getting a unique value from the object's properties can be difficult, like when adding new rows, -->
-				<!-- 	or when the unique field is open to editing, etc. -->
-				<!-- tr(:key="itemKey(props.item)" @click="props.expanded = !props.expanded" :class="props.expanded ? 'wide' : ''").sortableRow -->
 				tr(:key="itemKey(props.item)" :class="setClass(props)").sortableRow
 					td(v-if="selectMode").px-0.pl-2
-						<!-- v&#45;checkbox(:input&#45;value="props.selected" primary hide&#45;details ) -->
-						v-checkbox(:input-value="props.selected" primary hide-details )
+						v-checkbox(:input-value="props.selected" primary hide-details @click.stop="props.selected = !props.selected")
 					td(@click="props.item.unread = !props.item.unread").px-0.drag
 						v-btn(icon class="sortHandle")
 							v-icon drag_handle
@@ -139,7 +130,6 @@ export default {
 	},
 	methods: {
 		test () {
-			console.log('oooo')
 		},
 		newColumn (e) {
 			this.headers = e
@@ -212,10 +202,10 @@ export default {
 		clickRow (e, i) {
 			if (i.shiftKey && !this.selectMode) {
 				this.selectMode = true
-				console.log('shiftttttt')
+				e.selected = true
+				console.log(this.selected.length)
 			} else if (i.shiftKey && this.selectMode) {
 				this.selectMode = false
-				console.log('fffff')
 			} else {
 				e.expanded = !e.expanded
 				e.item.unread = false
@@ -297,12 +287,11 @@ tr.wide {
 }
 .quantity {
 	font-size: 1.1rem;
-	margin-top: 0.7rem;
+	margin-top: 0.6rem;
 	margin-left: 2rem;
 	font-weight: 300;
 	span {
-		margin-left: 1rem;
-		font-size: 1.5rem;
+		font-size: 1.7rem;
 		font-weight: 600;
 	}
 }
@@ -337,4 +326,5 @@ tr.wide {
 .sortableRow {
 	user-select: none;
 }
+.close { min-width: 10px; }
 </style>
