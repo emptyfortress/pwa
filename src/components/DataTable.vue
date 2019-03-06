@@ -205,7 +205,7 @@ export default {
 				e.selected = true
 				console.log(this.selected.length)
 			} else if (i.shiftKey && this.selectMode) {
-				this.selectMode = false
+				this.closeSelection()
 			} else {
 				e.expanded = !e.expanded
 				e.item.unread = false
@@ -213,6 +213,7 @@ export default {
 		},
 		closeSelection () {
 			this.selectMode = false
+			this.selected = []
 		}
 	}
 }
