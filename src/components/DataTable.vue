@@ -2,14 +2,14 @@
 div
 	.panel
 			v-layout(row)
-				v-slide-y-reverse-transition
-					.selectionPanel(v-if="selectMode")
+				v-slide-x-transition(mode="out-in")
+					div.selectionPanel(v-if="selectMode")
 						v-btn(flat @click="closeSelection").mx-0.mt-2.close
 							i.icon-close
 						.quantity.mx-0
-							span {{selected.length}}
-				v-slide-y-transition(mode="out-in")
-					v-btn(flat @click="clearUnread" v-if="allRead && !selectMode" color="info") Сбросить новые
+							span {{sel.length}}
+					div(v-if="allRead && !selectMode")
+						v-btn(flat @click="clearUnread" color="info") Сбросить новые
 				v-spacer
 				v-flex(xs2)
 					v-text-field(v-model="search" label="Фильтр" hide-details).filter
@@ -59,12 +59,15 @@ div
 				v-btn(color="primary" flat @click="dialog = false") Отмена
 				v-btn(color="primary" flat @click="dialog = false") Сохранить
 
-	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).my
-		v-btn(color="info" @click="snackbar = false").but В работу
-		v-btn(color="accent" @click="snackbar = false").but Делегировать
-		v-btn(color="success" @click="snackbar = false").but Согласовать
-		v-btn(color="success" @click="snackbar = false").but Согласовать
-		v-btn(flat  @click="snackbar = false") Close
+	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).snackbar
+		<!-- v&#45;btn(color="info" @click="snackbar = false").but В работу -->
+		<!-- v&#45;btn(color="accent" @click="snackbar = false").but Делегировать -->
+		<!-- v&#45;btn(color="success" @click="snackbar = false").but Согласовать -->
+		<!-- v&#45;btn(color="success" @click="snackbar = false").but Согласовать -->
+		.packet(v-ripple)
+			i.icon-packet
+			span Потоковая обработка
+		v-btn(flat  @click="snackbar = false") Отмена
 </template>
 
 <script>
@@ -80,7 +83,7 @@ export default {
 			rowsPerPageItems: [10, 25, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 }],
 			search: '',
 			selected: [],
-			// snackbar: false,
+			snackbar: false,
 			dialog: false,
 			columnSetup: false,
 			selectMode: false,
@@ -111,8 +114,15 @@ export default {
 				return false
 			} else return true
 		},
-		snackbar () {
-			return (this.selected.length ? 1 : 0)
+		sel () {
+			return [...new Set(this.selected)]
+		}
+	},
+	watch: {
+		selected (length) {
+			if (length) {
+				this.snackbar = 1
+			}
 		}
 	},
 	mounted () {
@@ -205,7 +215,6 @@ export default {
 			if (i.shiftKey && !this.selectMode) {
 				this.selectMode = true
 				e.selected = true
-				console.log(this.selected.length)
 			} else if (i.shiftKey && this.selectMode) {
 				this.closeSelection()
 			} else {
@@ -214,8 +223,8 @@ export default {
 			}
 		},
 		closeSelection () {
+			// this.selected = []
 			this.selectMode = false
-			this.selected = []
 			this.snackbar = false
 		}
 	}
@@ -331,4 +340,14 @@ tr.wide {
 	user-select: none;
 }
 .close { min-width: 10px; }
+.packet {
+	cursor: pointer;
+	padding: 5px 15px;
+	font-size: 1.2rem;
+	i {
+		font-size: 1.4rem;
+		margin-right: 1rem;
+	}
+}
+
 </style>
