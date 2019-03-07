@@ -31,7 +31,7 @@ div
 										.some some staff goes here
 										.fio {{ item.author }}
 										.date {{item.created}}
-										.state В работе
+										.state(@click="test") В работе
 				.empty(v-if="items.length === 0")
 					img(:src="require('@/assets/img/man.svg')")
 					div {{list}}
@@ -127,6 +127,9 @@ export default {
 		}
 	},
 	methods: {
+		test () {
+			console.log(this.selectedItems)
+		},
 		doNothing (evt) {
 			evt.stopPropagation()
 		},
