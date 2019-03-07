@@ -6,8 +6,11 @@ div
 					div.selectionPanel(v-if="selectMode")
 						v-btn(flat @click="closeSelection").mx-0.mt-2.close
 							i.icon-close
-						.quantity.mx-0
-							span {{sel.length}}
+								span {{sel.length}}
+						.actionBt
+							v-btn(color="info") В работу
+							v-btn(color="accent") Делегировать
+							<!-- v&#45;btn(color="success") Согласовать -->
 					div(v-if="allRead && !selectMode")
 						v-btn(flat @click="clearUnread" color="info") Сбросить новые
 				v-spacer
@@ -60,10 +63,6 @@ div
 				v-btn(color="primary" flat @click="dialog = false") Сохранить
 
 	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).snackbar
-		<!-- v&#45;btn(color="info" @click="snackbar = false").but В работу -->
-		<!-- v&#45;btn(color="accent" @click="snackbar = false").but Делегировать -->
-		<!-- v&#45;btn(color="success" @click="snackbar = false").but Согласовать -->
-		<!-- v&#45;btn(color="success" @click="snackbar = false").but Согласовать -->
 		.packet(v-ripple)
 			i.icon-packet
 			span Потоковая обработка
@@ -298,19 +297,7 @@ tr.wide {
 		.left { margin-left: 1.5rem; margin-right: 2rem; }
 	}
 }
-.quantity {
-	font-size: 1.1rem;
-	margin-top: 0.6rem;
-	margin-left: 2rem;
-	font-weight: 300;
-	span {
-		font-size: 1.7rem;
-		font-weight: 600;
-	}
-}
 .icon-prev { font-style: normal; }
-
-/* td { border: 1px solid grey; } */
 
 .mytable th {
 	text-align: left;
@@ -325,9 +312,6 @@ tr.wide {
 		right: 2.1rem;
 		cursor: pointer;
 	}
-}
-.but {
-	padding: 1rem;
 }
 
 .moving {
@@ -347,6 +331,17 @@ tr.wide {
 	i {
 		font-size: 1.4rem;
 		margin-right: 1rem;
+	}
+}
+.actionBt {
+	margin-left: 5rem;
+}
+.icon-close {
+	font-size: 1.3rem;
+	font-style: normal;
+	span {
+		margin-left: .5rem;
+		font-size: 1.6rem;
 	}
 }
 
