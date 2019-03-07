@@ -4,10 +4,11 @@ div
 		v-slide-y-transition
 			.selectionPanel(v-if="selectMode" key="one")
 				div
-					v-checkbox(id="all" v-model="selectAll" value="select" label="Все" color="success").mt0.left
-					v-checkbox(id="new" v-model="selectNew" label="Новые" color="success").mt0.left
+					v-checkbox(v-model="selectedItems" primary hide-details value="selectAll").mt0.left
+					<!-- v&#45;checkbox(id="all" value="selectAll" label="Все" color="success").mt0.left -->
+					<!-- v&#45;checkbox(id="new" v&#45;model="selectNew" label="Новые" color="success").mt0.left -->
 				.quantity Выбрано
-					span {{quantity}}
+					span {{selectedItems.length}}
 				v-btn(flat @click="closeSelection").mt0
 					i.icon-prev Назад
 			v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
@@ -25,7 +26,7 @@ div
 									v-list-tile-avatar(v-if="!selectMode")
 										img(:src="require('@/assets/img/user0.svg')" v-if="!selectMode").av
 									.check(v-if="selectMode")
-										v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" color="success")
+										v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" )
 									.card-content
 										.head {{item.title}}
 										.some some staff goes here
@@ -60,9 +61,9 @@ export default {
 				small: el => el.width < 800,
 				big: el => el.width > 1000
 			},
-			selectMode: false,
+			selectMode: true,
 			detail: false,
-			selectAll: 'none',
+			selectAll: false,
 			selectNew: false
 		}
 	},
@@ -97,10 +98,10 @@ export default {
 			} else return true
 		},
 		selectedItems () {
-			if (this.selectAll === 'select') {
+			if (this.selectAll) {
 				this.$store.commit('setSelected', true)
 				return this.items.map(item => { item.selected = true })
-			} else if (this.selectAll === 'none') {
+			} else if (!this.selectAll) {
 				let temp = this.items.filter(item => item.selected)
 				if (temp.length > 0) {
 					this.$store.commit('setSelected', true)
