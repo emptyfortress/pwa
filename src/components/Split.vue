@@ -1,7 +1,7 @@
 <template lang="pug">
 div
 	.panel
-		v-slide-y-transition
+		v-slide-x-transition(mode="out-in")
 			.selectionPanel(v-if="selectMode" key="one")
 				div
 					v-checkbox(v-model="selectAll" primary hide-details @click.native="toggleAll").mt0.left
@@ -14,7 +14,7 @@ div
 					v-btn(flat text color="info") Делегировать
 					v-btn(flat text color="info") Завершить
 			v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
-		v-slide-y-transition
+		v-slide-x-transition(mode="out-in")
 			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
 	div.all
 		drag-zone.zone
@@ -25,10 +25,10 @@ div
 							v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="selectCard(item, $event)").desktope
 								.wrap
 									.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
-									v-list-tile-avatar(v-if="!selectMode")
-										img(:src="require('@/assets/img/user0.svg')" v-if="!selectMode").av
 									.check(v-if="selectMode")
 										v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" )
+									v-list-tile-avatar
+										img(:src="require('@/assets/img/user0.svg')").av
 									.card-content
 										.head {{item.title}}
 										.some some staff goes here
@@ -74,7 +74,7 @@ export default {
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
 		filter () { return this.currentFolder.filter },
-		selected () { return this.$store.getters.selected },
+		// selected () { return this.$store.getters.selected },
 		items () {
 			let all = this.$store.getters.items
 			if (this.filter === 'unread') {
@@ -118,6 +118,7 @@ export default {
 	methods: {
 		test () {
 			console.log(this.selectedItems)
+			console.log(this.selected)
 		},
 		toggleAll () {
 			if (this.selectAll) {
@@ -361,8 +362,7 @@ export default {
 }
 
 .panel {
-	padding: .5rem 0;
-	height: 3.5rem;
+	padding: .5rem 1rem 0 0;
 }
 
 .selectionPanel {
