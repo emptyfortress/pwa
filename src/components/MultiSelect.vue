@@ -8,10 +8,10 @@
 		v-layout(column  v-if="selected" key="two")
 			v-card(tile).empty
 				v-window( v-model="onboarding" )
-					v-window-item( v-for="n in length" :key="`card-${n}`" )
+					v-window-item( v-for="item in selItems" :key="item.id" )
 						v-card( color="transparent" height="200" )
 							v-layout( align-center justify-center fill-height tag="v-card-text" )
-								Transparent themed, for background-imaged slides. Background color black added for demonstration purposes.
+								h3 {{ item.title }}
 
 				v-card-actions.justify-space-between
 					v-btn( text @click="prev" )
