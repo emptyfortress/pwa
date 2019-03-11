@@ -4,7 +4,7 @@ div
 		v-slide-y-transition
 			.selectionPanel(v-if="selectMode" key="one")
 				div
-					v-checkbox(primary hide-details value="selectAll").mt0.left
+					v-checkbox(v-model="selectAll" primary hide-details @click.native="toggleAll").mt0.left
 				.quantity
 					v-btn(flat @click="closeSelection").mx-0.mt-0.close
 						i.icon-close
@@ -100,21 +100,7 @@ export default {
 			} else return true
 		},
 		selectedItems () {
-			if (this.selectAll) {
-				this.$store.commit('setSelected', true)
-				return this.items.map(item => { item.selected = true })
-			} else if (!this.selectAll) {
-				let temp = this.items.filter(item => item.selected)
-				if (temp.length > 0) {
-					this.$store.commit('setSelected', true)
-				} else if (temp.length === 0) {
-					this.$store.commit('setSelected', false)
-				}
-				return temp
-			} else {
-				this.$store.commit('setSelected', false)
-				return this.items.map(item => { item.selected = false })
-			}
+			return this.items.filter(item => item.selected)
 		},
 		quantity () {
 			return this.selectedItems.length
@@ -132,6 +118,13 @@ export default {
 	methods: {
 		test () {
 			console.log(this.selectedItems)
+		},
+		toggleAll () {
+			if (this.selectAll) {
+				return this.items.map(item => { item.selected = true })
+			} else {
+				return this.items.map(item => { item.selected = false })
+			}
 		},
 		doNothing (evt) {
 			evt.stopPropagation()
