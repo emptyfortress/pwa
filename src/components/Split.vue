@@ -4,13 +4,15 @@ div
 		v-slide-y-transition
 			.selectionPanel(v-if="selectMode" key="one")
 				div
-					v-checkbox(v-model="selectedItems" primary hide-details value="selectAll").mt0.left
-					<!-- v&#45;checkbox(id="all" value="selectAll" label="Все" color="success").mt0.left -->
-					<!-- v&#45;checkbox(id="new" v&#45;model="selectNew" label="Новые" color="success").mt0.left -->
+					v-checkbox(primary hide-details value="selectAll").mt0.left
 				.quantity
 					v-btn(flat @click="closeSelection").mx-0.mt-0.close
 						i.icon-close
 							span {{selectedItems.length}}
+				.actionBt
+					v-btn(color="info") В работу
+					v-btn(color="accent") Делегировать
+					v-btn(color="success") Завершить
 			v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
 		v-slide-y-transition
 			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
@@ -44,7 +46,7 @@ div
 				v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 					DummyFolder(:folder="currentFolder")
 				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
-					MultiSelect(:quantity="quantity")
+					MultiSelect(:selItems="selectedItems")
 </template>
 
 <script>
@@ -61,7 +63,7 @@ export default {
 				small: el => el.width < 800,
 				big: el => el.width > 1000
 			},
-			selectMode: true,
+			selectMode: false,
 			detail: false,
 			selectAll: false,
 			selectNew: false
@@ -397,6 +399,11 @@ export default {
 		margin-left: .5rem;
 		font-size: 1.6rem;
 	}
+}
+.actionBt {
+	margin-left: 5rem;
+	margin-top: 0;
+	.v-btn { margin-top: 0; }
 }
 
 </style>
