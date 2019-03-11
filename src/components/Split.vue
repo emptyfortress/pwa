@@ -10,9 +10,9 @@ div
 						i.icon-close
 							span {{selectedItems.length}}
 				.actionBt
-					v-btn(color="info") В работу
-					v-btn(color="accent") Делегировать
-					v-btn(color="success") Завершить
+					v-btn(flat text color="info") В работу
+					v-btn(flat text color="info") Делегировать
+					v-btn(flat text color="info") Завершить
 			v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
 		v-slide-y-transition
 			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
