@@ -6,22 +6,23 @@
 				i.icon-basket
 				div Выберите объекты
 		v-layout(column  v-if="selected" key="two")
-			v-card(tile).empty
+			v-card.empty
 				v-window( v-model="onboarding" )
 					v-window-item( v-for="item in selItems" :key="item.id" )
-						v-card( color="transparent" height="200" )
+						div
+						<!-- v&#45;card( color="transparent" height="200" ) -->
 							v-layout( align-center justify-center fill-height tag="v-card-text" )
 								h3 {{ item.title }}
 
 				v-card-actions.justify-space-between
-					v-btn( text @click="prev" )
-						v-icon( mdi-chevron-left )
+					v-btn( icon @click="prev" )
+						i.icon-prev
 					v-item-group( v-model="onboarding" class="text-xs-center" mandatory )
 						v-item( v-for="n in length" :key="`btn-${n}`" )
 							v-btn( slot-scope="{ active, toggle }" :input-value="active" icon @click="toggle" )
 								v-icon mdi-record
-					v-btn( text @click="next")
-						v-icon( mdi-chevron-right )
+					v-btn( icon @click="next")
+						i.icon-next
 
 </template>
 
@@ -35,9 +36,6 @@ export default {
 		}
 	},
 	computed: {
-		length () {
-			return this.selItems.length
-		},
 		selected () { return this.$store.getters.selected }
 	},
 	methods: {
