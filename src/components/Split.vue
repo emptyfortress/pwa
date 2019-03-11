@@ -7,10 +7,10 @@ div
 					v-checkbox(v-model="selectedItems" primary hide-details value="selectAll").mt0.left
 					<!-- v&#45;checkbox(id="all" value="selectAll" label="Все" color="success").mt0.left -->
 					<!-- v&#45;checkbox(id="new" v&#45;model="selectNew" label="Новые" color="success").mt0.left -->
-				.quantity Выбрано
-					span {{selectedItems.length}}
-				v-btn(flat @click="closeSelection").mt0
-					i.icon-prev Назад
+				.quantity
+					v-btn(flat @click="closeSelection").mx-0.mt-0.close
+						i.icon-close
+							span {{selectedItems.length}}
 			v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
 		v-slide-y-transition
 			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
@@ -157,6 +157,7 @@ export default {
 			if (i.shiftKey) {
 				this.selectMode = true
 				this.detail = false
+				e.selected = true
 			} else {
 				this.$router.push(destination)
 				this.detail = true
@@ -378,7 +379,6 @@ export default {
 
 .quantity {
 	font-size: 1.1rem;
-	margin-left: 2rem;
 	font-weight: 300;
 	span {
 		margin-left: 1rem;
@@ -387,5 +387,16 @@ export default {
 	}
 }
 .icon-prev { font-style: normal; }
+
+.close { min-width: 10px; }
+
+.icon-close {
+	font-size: 1.3rem;
+	font-style: normal;
+	span {
+		margin-left: .5rem;
+		font-size: 1.6rem;
+	}
+}
 
 </style>
