@@ -66,7 +66,8 @@ div
 		.packet(v-ripple)
 			i.icon-packet
 			span Потоковая обработка
-		v-btn(flat  @click="snackbar = false") Отмена
+		v-btn(flat icon  @click="snackbar = false")
+			i.icon-close
 </template>
 
 <script>

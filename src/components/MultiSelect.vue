@@ -1,28 +1,28 @@
 <template lang="pug">
 .infolder
-	v-flex(xs2)
-		v-slider(v-model="size" hide-details height="24" min=200 max=1000 @input="changeWidth")
 	v-scale-transition(origin="center center" mode="out-in")
 		v-layout( align-center row justify-center v-if="!selItems.length" key="one")
 			v-flex.text-xs-center
 				i.icon-basket
 				div Выберите объекты
-		v-layout(row fill-height align-start  v-if="selItems.length" key="two")
-			v-btn( icon @click="prev" )
-				i.icon-prev
-			div
-				v-card.empty
-					v-window( v-model="onboarding" )
-						v-window-item( v-for="item in selItems" :key="item.id" )
-							div
-								v-layout( align-center justify-center fill-height tag="v-card-text" )
-									.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-										img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="95%" v-if="item.files")
-										img(:src="require('@/assets/img/docs/empty.png')" width="95%" v-if="!item.files").empty
-										.emptyTitle(v-if="!item.files") {{ item.title }}
-									<!-- h3 {{ item.title }} -->
-			v-btn( icon @click="next")
-				i.icon-next
+		v-layout(column align-start v-if="selItems.length" key="two")
+			v-slider(v-model="size" hide-details min=200 max=1000 @input="changeWidth").slider
+			v-layout(row fill-height align-center )
+				v-btn( icon large @click="prev" ).big
+					i.icon-prev
+				div
+					v-card.empty
+						v-window( v-model="onboarding" )
+							v-window-item( v-for="item in selItems" :key="item.id" )
+								div
+									v-layout( align-center justify-center fill-height tag="v-card-text" )
+										.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
+											img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="item.files")
+											.emptyTitle(v-if="!item.files") {{ item.title }}
+											.dumb
+												img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
+				v-btn( icon large @click="next").big
+					i.icon-next
 
 </template>
 
@@ -31,9 +31,9 @@ export default {
 	props: ['selItems'],
 	data () {
 		return {
-			size: 265,
-			width: 265,
-			height: 350,
+			size: 465,
+			width: 465,
+			height: 651,
 			sel: this.selectMode,
 			onboarding: 0
 		}
@@ -92,10 +92,29 @@ export default {
 }
 
 .empty {
-	/* height: calc(100vh - 160px); */
-	/* width: calc((100vh - 160px)*0.71); */
-	background: #ccc;
-	/* margin: 0 auto; */
+	background: #fff;
+	/* text-align: center; */
+}
+.dumb {
+	height: 90%;
+	display: flex;
+	text-align: center;
+	img {
+		margin: 0 auto;
+		opacity: .4;
+	}
+}
+
+.big {
+	font-size: 2rem;
+}
+.emptyTitle {
+	font-size: 1.4rem;
+	text-align: center;
+	margin-top: 1rem;
+}
+.slider {
+	margin-left: 4.3rem;
 }
 
 </style>

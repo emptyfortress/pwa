@@ -47,6 +47,12 @@ div
 					DummyFolder(:folder="currentFolder")
 				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
 					MultiSelect(:selItems="selectedItems")
+
+	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).snackbar
+		v-btn(flat  @click="snackbar = false") Подписать
+		v-btn(flat  @click="snackbar = false") Делегировать
+		v-btn(flat icon  @click="snackbar = false")
+			i.icon-close
 </template>
 
 <script>
@@ -64,6 +70,7 @@ export default {
 				big: el => el.width > 1000
 			},
 			selectMode: false,
+			snackbar: false,
 			detail: false,
 			selectAll: false,
 			selectNew: false
@@ -113,6 +120,13 @@ export default {
 			} else if (this.items.length === 0 && this.filter === 'important') {
 				return 'Важных нет'
 			}
+		}
+	},
+	watch: {
+		selectedItems (val) {
+			if (val.length > 1) {
+				this.snackbar = true
+			} else this.snackbar = false
 		}
 	},
 	methods: {
