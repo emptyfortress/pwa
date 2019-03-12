@@ -7,22 +7,25 @@
 				div Выберите объекты
 		v-layout(column align-start v-if="selItems.length" key="two")
 			v-slider(v-model="size" hide-details min=200 max=1000 @input="changeWidth").slider
-			v-layout(row fill-height align-center )
-				v-btn( icon large @click="prev" ).big
-					i.icon-prev
+			.parent
 				div
-					v-card.empty
-						v-window( v-model="onboarding" )
-							v-window-item( v-for="item in selItems" :key="item.id" )
-								div
-									v-layout( align-center justify-center fill-height tag="v-card-text" )
-										.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-											img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="item.files")
-											.emptyTitle(v-if="!item.files") {{ item.title }}
-											.dumb
-												img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
-				v-btn( icon large @click="next").big
-					i.icon-next
+					v-layout(row fill-height align-center )
+						v-btn( icon large @click="prev" ).big
+							i.icon-prev
+						div
+							v-card.empty
+								v-window( v-model="onboarding" )
+									v-window-item( v-for="item in selItems" :key="item.id" )
+										div
+											v-layout( align-center justify-center fill-height tag="v-card-text" )
+												.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
+													img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="item.files")
+													.emptyTitle(v-if="!item.files") {{ item.title }}
+													.dumb
+														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
+						v-btn( icon large @click="next").big
+							i.icon-next
+				.attribute Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 </template>
 
@@ -116,5 +119,13 @@ export default {
 .slider {
 	margin-left: 4.3rem;
 }
+.parent {
+	display: flex;
+}
 
+.attribute {
+	flex-grow: 1;
+	height: 300px;
+	margin-right: 3rem;
+}
 </style>
