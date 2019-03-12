@@ -46,13 +46,9 @@ div
 				v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 					DummyFolder(:folder="currentFolder")
 				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
-					MultiSelect(:selItems="selectedItems")
+					<!-- MultiSelect(:selItems="selectedItems") -->
+					MultiSelect
 
-	<!-- v&#45;snackbar(v&#45;model="snackbar" :timeout=0 multi&#45;line ).snackbar -->
-	<!-- 	v&#45;btn(flat  @click="next") Подписать -->
-	<!-- 	v&#45;btn(flat  @click="next") Делегировать -->
-	<!-- 	v&#45;btn(flat icon  @click="snackbar = false") -->
-	<!-- 		i.icon&#45;close -->
 </template>
 
 <script>
@@ -70,7 +66,6 @@ export default {
 				big: el => el.width > 1000
 			},
 			selectMode: false,
-			// snackbar: false,
 			detail: false,
 			selectAll: false,
 			selectNew: false
@@ -125,7 +120,7 @@ export default {
 	methods: {
 		test () {
 			console.log(this.selectedItems)
-			console.log(this.selected)
+			// console.log(this.selected)
 		},
 		toggleAll () {
 			if (this.selectAll) {

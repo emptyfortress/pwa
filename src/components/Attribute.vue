@@ -1,19 +1,20 @@
 <template lang="pug">
 .cont
 	h2 {{ this.currentItem.title }}
+	h3 {{selItems.length}}
+	h3 id: {{ onboarding }}
 </template>
 
 <script>
 export default {
-	props: ['id', 'selItems'],
+	props: ['onboarding', 'selItems'],
 	data () {
 		return {
-
 		}
 	},
 	computed: {
 		currentItem () {
-			return this.selItems[this.id]
+			return this.selItems[this.onboarding]
 		}
 	},
 	methods: {

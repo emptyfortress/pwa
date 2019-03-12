@@ -15,19 +15,20 @@
 						div
 							v-card.empty
 								v-window( v-model="onboarding" )
-									v-window-item( v-for="item in selItems" :key="item.id" )
+									v-window-item( v-for="( item, index ) in selItems" :key="index" )
 										div
 											v-layout( align-center justify-center fill-height tag="v-card-text" )
 												.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-													img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="item.files")
+													img(:src="require('@/assets/img/docs/img' + index + '.jpg')" width="100%" v-if="item.files")
 													.dumb
 														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
 						v-btn( icon large @click="next").big
 							i.icon-next
-				Attribute(:selItems="selItems" :id="onboarding").attribute
+				Attribute(:selItems="selItems" :onboarding="onboarding").attribute
 	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).snackbar
-		v-btn(flat  @click="next") Подписать
-		v-btn(flat  @click="next") Делегировать
+		v-btn(flat dark :loading="loading" :disabled="loading"  @click="decision") Подписать
+		<!-- v&#45;btn(flat dark  @click="decision = !decision") Отклонить -->
+		<!-- v&#45;btn(flat   @click="delegate" ) Делегировать -->
 		v-btn(flat icon  @click="snackbar = false")
 			i.icon-close
 
@@ -37,18 +38,27 @@
 import Attribute from '@/components/Attribute'
 
 export default {
-	props: ['selItems'],
 	data () {
 		return {
+			loader: null,
+			loading: false,
+			loading1: false,
 			size: 465,
 			width: 465,
 			snackbar: false,
+			show: true,
 			height: 651,
 			sel: this.selectMode,
 			onboarding: 0
 		}
 	},
+	mounted () {
+	},
 	computed: {
+		selItems () {
+			const all = this.$store.getters.items
+			return all.filter(item => item.selected === true)
+		},
 		computedWidth () {
 			return this.width + 'px'
 		},
@@ -64,19 +74,22 @@ export default {
 		}
 	},
 	methods: {
+		decision () {
+			this.loading = true
+			setTimeout(() => {
+				this.loading = false
+				this.next()
+			}, 800)
+		},
 		changeWidth () {
 			this.width = this.size
 			this.height = this.width * 1.4
 		},
 		next () {
-			this.onboarding = this.onboarding + 1 === length
-				? 0
-				: this.onboarding + 1
+			this.onboarding = this.onboarding + 1
 		},
 		prev () {
-			this.onboarding = this.onboarding - 1 < 0
-				? this.length - 1
-				: this.onboarding - 1
+			this.onboarding -= 1
 		},
 		clearUnread () {
 			let items = this.$store.getters.items
@@ -144,5 +157,39 @@ export default {
 	flex-grow: 1;
 	/* height: 300px; */
 	margin-right: 3rem;
+}
+.decision {
+	/* bottom: 200px !important; */
+	bottom: 85px;
+	z-index: 1;
+}
+
+
+
+
+.modal {
+	z-index: 1050;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	outline: 0;
+	overflow: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+
+.modal-backdrop {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #000;
+	opacity: 0;
+	transition: all 0.15s;
+}
+.modal-backdrop.modal-opened {
+	opacity: 0.4;
 }
 </style>
