@@ -14,8 +14,8 @@
 							i.icon-prev
 						div
 							v-card.empty
-								v-window( v-model="onboarding" )
-									v-window-item( v-for="( item, index ) in selItems" :key="index" )
+								v-window( v-model="onboarding")
+									v-window-item( v-for="( item, index ) in selItems" :key="index")
 										div
 											v-layout( align-center justify-center fill-height tag="v-card-text" )
 												.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
@@ -68,7 +68,7 @@ export default {
 	},
 	watch: {
 		selItems (val) {
-			if (val.length > 1) {
+			if (val.length > 0) {
 				this.snackbar = true
 			} else this.snackbar = false
 		}
@@ -78,7 +78,7 @@ export default {
 			this.loading = true
 			setTimeout(() => {
 				this.loading = false
-				this.next()
+				this.selItems[this.onboarding].selected = false
 			}, 800)
 		},
 		changeWidth () {
@@ -86,10 +86,14 @@ export default {
 			this.height = this.width * 1.4
 		},
 		next () {
-			this.onboarding = this.onboarding + 1
+			this.onboarding = this.onboarding + 1 === length
+				? 0
+				: this.onboarding + 1
 		},
 		prev () {
-			this.onboarding -= 1
+			this.onboarding = this.onboarding - 1 < 0
+				? this.length - 1
+				: this.onboarding - 1
 		},
 		clearUnread () {
 			let items = this.$store.getters.items

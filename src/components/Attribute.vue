@@ -2,7 +2,7 @@
 .cont
 	h2 {{ this.currentItem.title }}
 	h3 {{selItems.length}}
-	h3 id: {{ onboarding }}
+	h3 index: {{ onboarding }}
 </template>
 
 <script>
