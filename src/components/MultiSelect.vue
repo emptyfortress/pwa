@@ -20,22 +20,29 @@
 											v-layout( align-center justify-center fill-height tag="v-card-text" )
 												.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
 													img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="item.files")
-													.emptyTitle(v-if="!item.files") {{ item.title }}
 													.dumb
 														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
 						v-btn( icon large @click="next").big
 							i.icon-next
-				.attribute Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				Attribute(:selItems="selItems" :id="onboarding").attribute
+	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).snackbar
+		v-btn(flat  @click="next") Подписать
+		v-btn(flat  @click="next") Делегировать
+		v-btn(flat icon  @click="snackbar = false")
+			i.icon-close
 
 </template>
 
 <script>
+import Attribute from '@/components/Attribute'
+
 export default {
 	props: ['selItems'],
 	data () {
 		return {
 			size: 465,
 			width: 465,
+			snackbar: false,
 			height: 651,
 			sel: this.selectMode,
 			onboarding: 0
@@ -47,6 +54,13 @@ export default {
 		},
 		computedHeight () {
 			return this.height + 'px'
+		}
+	},
+	watch: {
+		selItems (val) {
+			if (val.length > 1) {
+				this.snackbar = true
+			} else this.snackbar = false
 		}
 	},
 	methods: {
@@ -75,6 +89,9 @@ export default {
 				return 'disabled'
 			} else return ''
 		}
+	},
+	components: {
+		Attribute
 	}
 }
 </script>
@@ -125,7 +142,7 @@ export default {
 
 .attribute {
 	flex-grow: 1;
-	height: 300px;
+	/* height: 300px; */
 	margin-right: 3rem;
 }
 </style>
