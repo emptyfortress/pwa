@@ -20,7 +20,7 @@
 					v-btn( icon large @click="next").big
 						i.icon-next
 
-			<!-- Attribute(:selItems="selItems" :onboarding="onboarding").attribute -->
+			Attribute(:selItems="items" :onboarding="intId" ).attribute
 
 	<!-- h2 {{ currentItem.title }} -->
 	<!-- .attr -->
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import Attribute from '@/components/Attribute'
+
 export default {
 	props: ['id'],
 	data () {
@@ -61,7 +63,7 @@ export default {
 			showme: false,
 			size: 465,
 			width: 465,
-			height: 651,
+			height: 651
 		}
 	},
 	computed: {
@@ -109,7 +111,7 @@ export default {
 		next () {
 			let total = this.items.length - 1
 			let n = this.intId + 1
-			if ( n <= total ) {
+			if (n <= total) {
 				let destination = this.currentPath + '/' + n
 				this.$router.push(destination)
 			} else {
@@ -120,7 +122,7 @@ export default {
 		prev () {
 			let total = this.items.length - 1
 			let n = this.intId - 1
-			if ( n < 0 ) {
+			if (n < 0) {
 				let destination = this.currentPath + '/' + total
 				this.$router.push(destination)
 			} else {
@@ -134,6 +136,9 @@ export default {
 			this.$store.dispatch('updateItemReadStatus', cur)
 			console.log(this.filenames)
 		}
+	},
+	components: {
+		Attribute
 	}
 }
 </script>
@@ -141,18 +146,13 @@ export default {
 <style scoped lang="scss">
 .detail {
 	height: 100%;
-	h2 {
-		font-size: 2rem;
-		font-weight: 400;
-		line-height: 120%;
-	}
+	background: green;
 }
 .slider {
 	margin-left: 4.3rem;
 }
 .parent {
 	display: flex;
-	/* background: green; */
 }
 .empty {
 	background: #fff;
@@ -160,6 +160,11 @@ export default {
 }
 .big {
 	font-size: 2rem;
+}
+.attribute {
+	background: yellow;
+	flex-grow: 1;
+	margin-right: 1rem;
 }
 
 iframe {

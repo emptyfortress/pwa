@@ -1,8 +1,26 @@
 <template lang="pug">
 .cont
 	h2 {{ this.currentItem.title }}
-	h3 {{selItems.length}}
-	h3 index: {{ onboarding }}
+	.att1
+		v-list-tile
+			v-list-tile-avatar
+				img(:src="require('@/assets/img/user0.svg')").av
+			v-list-tile-content
+				v-list-tile-title Blaksj
+				v-list-tile-sub-title 20 авг 13:10
+		v-list-tile
+			v-list-tile-avatar
+				img(:src="require('@/assets/img/user0.svg')").av
+			v-list-tile-content
+				v-list-tile-title Blaksj
+				v-list-tile-sub-title 20 авг 13:10
+		v-list-tile
+			v-list-tile-avatar
+				img(:src="require('@/assets/img/user0.svg')").av
+			v-list-tile-content
+				v-list-tile-title Blaksj
+				v-list-tile-sub-title 20 авг 13:10
+
 </template>
 
 <script>
@@ -24,9 +42,19 @@ export default {
 
 <style lang="scss">
 .cont {
+	/* background: red; */
 }
 h2 {
-	font-size: 1.6rem;
+	font-size: 2rem;
 	font-weight: 400;
+	line-height: 120%;
+}
+.v-list__tile__sub-title {
+	font-size: .9rem;
+	color: aaa;
+}
+.att1 {
+	display: flex;
+	flex-wrap: wrap;
 }
 </style>
