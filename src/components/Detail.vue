@@ -22,18 +22,6 @@
 
 			Attribute(:items="items" :id="intId" ).attribute
 
-	<!-- h2 {{ currentItem.title }} -->
-	<!-- .attr -->
-	<!-- 	ul.one -->
-	<!-- 		li Автор: -->
-	<!-- 		li Исполнитель: -->
-	<!-- 		li Создано: -->
-	<!-- 		li Изменено: -->
-	<!-- 	ul -->
-	<!-- 		li {{currentItem.author}} -->
-	<!-- 		li {{currentItem.executor}} -->
-	<!-- 		li {{currentItem.created}} -->
-	<!-- 		li {{currentItem.modified}} -->
 	<!-- br -->
 	<!-- div Файлов: {{currentItem.files}} -->
 	<!-- ul -->
@@ -152,6 +140,7 @@ export default {
 }
 .parent {
 	display: flex;
+	align-items: flex-start;
 }
 .empty {
 	background: #fff;
