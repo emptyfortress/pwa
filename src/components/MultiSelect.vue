@@ -24,7 +24,7 @@
 														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
 						v-btn( icon large @click="next").big
 							i.icon-next
-				Attribute(:selItems="selItems" :onboarding="onboarding").attribute
+				Attribute(:items="selItems" :id="onboarding").attribute
 	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).snackbar
 		v-btn(flat dark :loading="loading" :disabled="loading"  @click="decision") Подписать
 		<!-- v&#45;btn(flat dark  @click="decision = !decision") Отклонить -->

@@ -20,7 +20,7 @@
 					v-btn( icon large @click="next").big
 						i.icon-next
 
-			Attribute(:selItems="items" :onboarding="intId" ).attribute
+			Attribute(:items="items" :id="intId" ).attribute
 
 	<!-- h2 {{ currentItem.title }} -->
 	<!-- .attr -->
@@ -146,7 +146,6 @@ export default {
 <style scoped lang="scss">
 .detail {
 	height: 100%;
-	background: green;
 }
 .slider {
 	margin-left: 4.3rem;
@@ -162,9 +161,18 @@ export default {
 	font-size: 2rem;
 }
 .attribute {
-	background: yellow;
+	/* background: yellow; */
 	flex-grow: 1;
 	margin-right: 1rem;
+}
+.dumb {
+	height: 90%;
+	display: flex;
+	text-align: center;
+	img {
+		margin: 0 auto;
+		opacity: .4;
+	}
 }
 
 iframe {

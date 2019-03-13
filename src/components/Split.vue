@@ -46,7 +46,6 @@ div
 				v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 					DummyFolder(:folder="currentFolder")
 				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
-					<!-- MultiSelect(:selItems="selectedItems") -->
 					MultiSelect
 
 </template>
