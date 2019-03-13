@@ -15,11 +15,11 @@
 						div
 							v-card.empty
 								v-window( v-model="onboarding")
-									v-window-item( v-for="( item, index ) in selItems" :key="index")
+									v-window-item( v-for="item in selItems" :key="item.id")
 										div
 											v-layout( align-center justify-center fill-height tag="v-card-text" )
 												.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-													img(:src="require('@/assets/img/docs/img' + index + '.jpg')" width="100%" v-if="item.files")
+													img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="item.files")
 													.dumb
 														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
 						v-btn( icon large @click="next").big
