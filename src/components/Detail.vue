@@ -181,5 +181,8 @@ iframe {
 		background: pink;
 	}
 }
+.vert {
+	overflow: hidden;
+}
 
 </style>
