@@ -1,25 +1,13 @@
 <template lang="pug">
-	.cont
-		h2 {{ this.currentItem.title }}
+.cont
+	h2 {{ this.currentItem.title }}
 		.att1.mt-2
-			v-list-tile
-				v-list-tile-avatar
-					i.icon-deadline.deadline
-				v-list-tile-content
-					v-list-tile-title {{ currentItem.deadline }}
-					v-list-tile-sub-title срок
 			v-list-tile.mx-0
 				v-list-tile-avatar
 					img(:src="require('@/assets/img/user0.svg')").av
 				v-list-tile-content
 					v-list-tile-title {{ currentItem.executor }}
 					v-list-tile-sub-title автор
-			v-list-tile
-				v-list-tile-avatar
-					i.icon-control-date.deadline
-				v-list-tile-content
-					v-list-tile-title {{ currentItem.deadline }}
-					v-list-tile-sub-title срок контроля
 			v-list-tile
 				v-list-tile-avatar.rel
 					img(:src="require('@/assets/img/user0.svg')").av
@@ -28,6 +16,18 @@
 				v-list-tile-content
 					v-list-tile-title Петров А.П.
 					v-list-tile-sub-title контролер
+			v-list-tile
+				v-list-tile-avatar
+					i.icon-deadline.deadline
+				v-list-tile-content
+					v-list-tile-title {{ currentItem.deadline }}
+					v-list-tile-sub-title срок
+			v-list-tile
+				v-list-tile-avatar
+					i.icon-control-date.deadline
+				v-list-tile-content
+					v-list-tile-title {{ currentItem.deadline }}
+					v-list-tile-sub-title срок контроля
 		.descr.mt-3 {{ currentItem.descr }}
 		.descr.mt-3(v-if="currentItem.files === undefined") Файлы отстуствуют
 
@@ -38,21 +38,18 @@
 
 		.att1(v-if="currentItem.files")
 			v-list.files
-				v-list-tile( v-for="item in 3" :key="index" avatar @click="" )
+				v-list-tile( v-for="( item, i ) in 3" :key="i" avatar @click="" )
 					v-list-avatar
 						img(:src="require('@/assets/img/filetype/file-doc.png')" )
-					v-list-tile-content
+					v-list-tile-content.mx-2
 						v-list-tile-title this is title
 					v-list-tile-action
-						i.icon-next
-			v-list.files
-				v-list-tile( v-for="item in 3" :key="index" avatar @click="" )
-					v-list-avatar
-						img(:src="require('@/assets/img/filetype/file-doc.png')" )
-					v-list-tile-content
-						v-list-tile-title this is title laksjd  laskdj
-						v-list-tile-action
-						i.icon-next
+						v-menu(transition="slide-y-transition")
+							v-btn( icon slot="activator" )
+								v-icon more_vert
+							v-list
+								v-list-tile( v-for="(item, index) in actions" :key="index"  @click="")
+									v-list-tile-title {{ item.title }}
 
 </template>
 
@@ -61,6 +58,12 @@ export default {
 	props: ['id', 'items'],
 	data () {
 		return {
+			actions: [
+				{ title: 'Скачать' },
+				{ title: 'Просмотр' },
+				{ title: 'Сделать основным' },
+				{ title: 'Действие' }
+			]
 		}
 	},
 	computed: {
