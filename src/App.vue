@@ -43,8 +43,8 @@ v-app( :dark="night" ).rel
 	template( v-else )
 		Login
 
-	v-scale-transition(origin="bottom right 0")
-		AddTask(v-if="addTask")
+	v-scale-transition(origin="right bottom 0")
+		AddTask(v-if="addTask" style="transform-origin: right bottom")
 
 	v-slide-y-reverse-transition
 		v-btn( fab dark large color="info" v-if="$route.path !== '/test' && !min" @click="toggleTask" :class="addTask ? 'rotate' : ''" ).fab

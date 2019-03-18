@@ -24,9 +24,7 @@
 					v-btn( icon large @click="next").big
 						i.icon-next
 
-			<!-- Attribute(:items="items" :id="intId" ).attribute -->
-	<!-- .action -->
-	<!-- 	v&#45;btn(flat dark) One -->
+			Attribute(:items="items" :id="intId" ).attribute
 
 	<!-- iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=https://firebasestorage.googleapis.com/v0/b/docsvision&#45;8d5eb.appspot.com/o/sample.doc?alt=media&#38;token=b94e9ae9&#45;9634&#45;4b02&#45;a1cf&#45;5ecb0e0310a7' width='100%' height='500' frameborder='0' scrolling='no' v&#45;if="showme") br -->
 	<!-- iframe(src='http://docs.google.com/viewer?url=https://firebasestorage.googleapis.com/v0/b/docsvision&#45;8d5eb.appspot.com/o/automate&#45;the&#45;boring&#45;stuff&#45;with&#45;python&#45;2015&#45;.pdf?alt=media&#38;token=2cd730cf&#45;cdbe&#45;4956&#45;a1c1&#45;6ead413cc248&#38;embedded=true' width='400' height='500' frameborder="0" ) -->
@@ -45,7 +43,7 @@ export default {
 			showme: false,
 			size: 465,
 			width: 465,
-			height: 651
+			height: 651,
 		}
 	},
 	computed: {
@@ -128,15 +126,8 @@ export default {
 <style scoped lang="scss">
 .detail {
 	height: 100%;
-	background: green;
+	/* background: green; */
 	position: relative;
-}
-.action {
-	/* width: 100%; */
-	height: 150px;
-	background: #00000066;
-	position: fixed;
-	bottom: 0;
 }
 .slider {
 	margin-left: 4.3rem;
@@ -153,7 +144,6 @@ export default {
 	font-size: 2rem;
 }
 .attribute {
-	/* background: yellow; */
 	flex-grow: 1;
 	margin-right: 1rem;
 }
@@ -170,7 +160,6 @@ export default {
 iframe {
 	border: 2px dotted red;
 	height: 100%;
-	/* background: red; */
 }
 .read {
 	font-size: 1.6rem;

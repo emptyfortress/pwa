@@ -1,5 +1,13 @@
 <template lang="pug">
 .cont
+	.group
+		v-btn(flat v-for="button in abuttons" ) {{ button.title }}
+		v-menu(transition="slide-y-transition")
+			v-btn( icon slot="activator" )
+				v-icon more_vert
+			v-list
+				v-list-tile( v-for="(item, index) in bbuttons" :key="index"  @click="")
+					v-list-tile-title {{ item.title }}
 	h2 {{ this.currentItem.title }}
 		.att1.mt-2
 			v-list-tile.mx-0
@@ -63,6 +71,15 @@ export default {
 				{ title: 'Просмотр' },
 				{ title: 'Сделать основным' },
 				{ title: 'Действие' }
+			],
+			abuttons: [
+				{ title: 'делегировать' },
+				{ title: 'завершить' },
+				{ title: 'подписать' },
+			],
+			bbuttons: [
+				{ title: 'отклонить' },
+				{ title: 'отозвать' }
 			]
 		}
 	},
@@ -77,7 +94,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/css/colors.scss';
+
 .cont {
+}
+.group {
+	background: $cool;
 }
 .av { background: #fff; }
 .k {
@@ -106,6 +128,7 @@ h2 {
 	font-size: 2rem;
 	font-weight: 400;
 	line-height: 120%;
+	margin-top: 2rem;
 }
 .v-list__tile__sub-title {
 	font-size: .9rem;

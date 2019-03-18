@@ -194,7 +194,7 @@ export default {
 }
 
 .all {
-	height: calc(100vh - 80px);
+	height: calc(100vh - 72px);
 	width: 100%;
 	position: relative;
 	/* margin-top: 3rem; */
