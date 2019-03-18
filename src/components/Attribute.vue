@@ -1,13 +1,15 @@
 <template lang="pug">
 .cont
-	.group
-		v-btn(flat v-for="button in abuttons" ) {{ button.title }}
-		v-menu(transition="slide-y-transition")
-			v-btn( icon slot="activator" )
-				v-icon more_vert
-			v-list
-				v-list-tile( v-for="(item, index) in bbuttons" :key="index"  @click="")
-					v-list-tile-title {{ item.title }}
+	.group(v-sticky="{zIndex: 3}")
+		div.act
+			v-btn(flat v-for="button in abuttons" ) {{ button.title }}
+			v-spacer
+			v-menu(transition="slide-y-transition")
+				v-btn( icon slot="activator" )
+					v-icon more_vert
+				v-list
+					v-list-tile( v-for="(item, index) in bbuttons" :key="index"  @click="")
+						v-list-tile-title {{ item.title }}
 	h2 {{ this.currentItem.title }}
 		.att1.mt-2
 			v-list-tile.mx-0
@@ -58,10 +60,15 @@
 							v-list
 								v-list-tile( v-for="(item, index) in actions" :key="index"  @click="")
 									v-list-tile-title {{ item.title }}
+		div Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		div Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		div Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 </template>
 
 <script>
+import VueSticky from 'vue-sticky'
+
 export default {
 	props: ['id', 'items'],
 	data () {
@@ -89,7 +96,11 @@ export default {
 		}
 	},
 	methods: {
+	},
+	directives: {
+		'sticky': VueSticky
 	}
+
 }
 </script>
 
@@ -101,6 +112,10 @@ export default {
 .group {
 	background: $cool;
 }
+.act {
+	display: flex;
+}
+
 .av { background: #fff; }
 .k {
 	position: absolute;

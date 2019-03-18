@@ -5,6 +5,8 @@
 			v-slider(v-model="size" hide-details min=200 max=1000 @input="changeWidth").slider
 			v-btn(icon large @click="showme = !showme" :class="showme ? 'active' : ''").read
 				i.icon-book
+			v-btn(icon large @click="toggleTree" :class="tree ? 'active' : ''").read
+				i.icon-tree
 		.parent
 			div
 				v-layout(row fill-height align-center )
@@ -41,9 +43,10 @@ export default {
 	data () {
 		return {
 			showme: false,
+			tree: false,
 			size: 465,
 			width: 465,
-			height: 651,
+			height: 651
 		}
 	},
 	computed: {
@@ -115,6 +118,15 @@ export default {
 			cur.unread = e
 			this.$store.dispatch('updateItemReadStatus', cur)
 			console.log(this.filenames)
+		},
+		toggleTree () {
+			if (this.tree === true) {
+				this.tree = false
+				this.showme = false
+			} else {
+				this.tree = true
+				this.showme = false
+			}
 		}
 	},
 	components: {
