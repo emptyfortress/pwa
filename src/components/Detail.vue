@@ -27,7 +27,8 @@
 					v-btn( icon large @click="next").big
 						i.icon-next
 
-			Attribute(:items="items" :id="intId" ).attribute
+			v-fade-transition(mode="out-in")
+				router-view(v-bind:key="intId")
 
 	<!-- iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=https://firebasestorage.googleapis.com/v0/b/docsvision&#45;8d5eb.appspot.com/o/sample.doc?alt=media&#38;token=b94e9ae9&#45;9634&#45;4b02&#45;a1cf&#45;5ecb0e0310a7' width='100%' height='500' frameborder='0' scrolling='no' v&#45;if="showme") br -->
 	<!-- iframe(src='http://docs.google.com/viewer?url=https://firebasestorage.googleapis.com/v0/b/docsvision&#45;8d5eb.appspot.com/o/automate&#45;the&#45;boring&#45;stuff&#45;with&#45;python&#45;2015&#45;.pdf?alt=media&#38;token=2cd730cf&#45;cdbe&#45;4956&#45;a1c1&#45;6ead413cc248&#38;embedded=true' width='400' height='500' frameborder="0" ) -->
@@ -37,7 +38,6 @@
 </template>
 
 <script>
-import Attribute from '@/components/Attribute'
 
 export default {
 	props: ['id'],
@@ -140,7 +140,6 @@ export default {
 		}
 	},
 	components: {
-		Attribute
 	}
 }
 </script>

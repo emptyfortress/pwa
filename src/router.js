@@ -12,6 +12,7 @@ import Pivot from '@/views/Pivot'
 import Grid from '@/views/Grid'
 import Newtask from '@/views/Newtask'
 import Detail from '@/components/Detail'
+import Attribute from '@/components/Attribute'
 import Test from '@/views/Test'
 
 Vue.use(Router)
@@ -80,7 +81,7 @@ export default new Router({
 			name: 'section',
 			component: Folder,
 			children: [
-				{ path: '/:section/:id', props: true, component: Detail }
+				{ path: '/:section/:id', props: true, component: Attribute }
 			]
 		}
 	]

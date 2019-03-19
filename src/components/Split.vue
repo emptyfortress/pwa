@@ -42,7 +42,9 @@ div
 				div
 			drag-content.content
 				v-slide-x-transition(mode="out-in" v-if="detail")
-					router-view
+					Detail(:id="currId")
+					
+					<!-- router&#45;view -->
 				v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 					DummyFolder(:folder="currentFolder")
 				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
@@ -55,6 +57,7 @@ import { SlickList, SlickItem } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import DummyFolder from '@/components/DummyFolder'
 import MultiSelect from '@/components/MultiSelect'
+import Detail from '@/components/Detail'
 
 export default {
 	data () {
@@ -71,6 +74,7 @@ export default {
 		}
 	},
 	computed: {
+		currId () { return this.$route.params.id },
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
@@ -177,7 +181,8 @@ export default {
 		SlickItem,
 		SlickList,
 		DummyFolder,
-		MultiSelect
+		MultiSelect,
+		Detail
 	},
 	directives: {
 		responsive: ResponsiveDirective
