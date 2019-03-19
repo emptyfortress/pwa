@@ -149,8 +149,9 @@ export default {
 
 .detail {
 	height: 100%;
-	/* background: green; */
+	/* background: red; */
 	position: relative;
+	padding-right: 1rem;
 }
 .slider {
 	margin-left: 4.3rem;

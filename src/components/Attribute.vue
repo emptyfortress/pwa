@@ -88,7 +88,7 @@
 import VueSticky from 'vue-sticky'
 
 export default {
-	props: ['id', 'items'],
+	props: ['id'],
 	data () {
 		return {
 			loader: null,
@@ -142,6 +142,7 @@ export default {
 @import '@/assets/css/colors.scss';
 
 .cont {
+	background: green;
 }
 .group {
 	/* background: $cool; */

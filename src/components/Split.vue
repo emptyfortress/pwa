@@ -43,8 +43,6 @@ div
 			drag-content.content
 				v-slide-x-transition(mode="out-in" v-if="detail")
 					Detail(:id="currId")
-					
-					<!-- router&#45;view -->
 				v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 					DummyFolder(:folder="currentFolder")
 				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
