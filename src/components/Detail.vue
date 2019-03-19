@@ -3,7 +3,7 @@
 	v-layout(column align-start)
 		.att1
 			v-slider(v-model="size" hide-details min=200 max=1000 @input="changeWidth").slider
-			v-btn(icon large @click="showme = !showme" :class="showme ? 'active' : ''").read
+			v-btn(icon large @click="toggleShowme" :class="showme ? 'active' : ''").read
 				i.icon-book
 			v-btn(icon large @click="toggleTree" :class="tree ? 'active' : ''").read
 				i.icon-tree
@@ -19,8 +19,9 @@
 									div
 										v-layout( align-center justify-center fill-height )
 											.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-												img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="!showme && item.files")
+												img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="!showme && item.files && !tree")
 												iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=https://firebasestorage.googleapis.com/v0/b/docsvision-8d5eb.appspot.com/o/sample.doc?alt=media&token=b94e9ae9-9634-4b02-a1cf-5ecb0e0310a7' width='100%' frameborder='0' scrolling='no' v-if="showme")
+												h2(v-if="!showme && tree").text-xs-center Здесь будет маршрут согласования
 												.dumb
 													img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
 					v-btn( icon large @click="next").big
@@ -127,6 +128,15 @@ export default {
 				this.tree = true
 				this.showme = false
 			}
+		},
+		toggleShowme () {
+			if (this.showme === false) {
+				this.tree = false
+				this.showme = true
+			} else {
+				this.tree = false
+				this.showme = false
+			}
 		}
 	},
 	components: {
@@ -136,6 +146,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/css/colors.scss';
+
 .detail {
 	height: 100%;
 	/* background: green; */
@@ -179,11 +191,14 @@ iframe {
 		margin-left: -7px;
 	}
 	&.active {
-		background: pink;
+		background: $cool;
 	}
 }
 .vert {
 	overflow: hidden;
+	h2 {
+		color: #ccc;
+	}
 }
 
 </style>
