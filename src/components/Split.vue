@@ -32,9 +32,9 @@ div
 									.card-content
 										.head {{item.title}}
 										.some some staff goes here
-										.fio {{ item.author }}
+										.fio {{ item.executor }}
 										.date {{item.created}}
-										.state(@click="test") В работе
+										.state(@click="test") {{ item.status }}
 				.empty(v-if="items.length === 0")
 					img(:src="require('@/assets/img/man.svg')")
 					div {{list}}
@@ -303,6 +303,8 @@ export default {
 		text-transform: uppercase;
 		font-size: .8rem;
 		overflow: hidden;
+		width: 100px;
+		text-align: right;
 	}
 	.some { display: none; }
 }

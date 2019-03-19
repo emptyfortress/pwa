@@ -45,42 +45,9 @@
 			template( slot="header" )
 				.att-header {{ pan.header }}
 			v-card
-				Att(:id="currentItem" )
+				Att(:current="currentItem" v-if="i === 0" )
 
 	.descr.mt-3(v-if="currentItem.files === undefined") Файлы отстуствуют
-
-	<!-- .attach.mt&#45;4(v&#45;if="currentItem.files") -->
-	<!-- 	i.icon&#45;skrepka -->
-	<!-- 	span.mr&#45;2 Файлы: -->
-	<!-- 	span {{ currentItem.files }} -->
-
-	<!-- .side -->
-	<!-- 	.att2(v&#45;if="currentItem.files") -->
-	<!-- 		v&#45;list.files -->
-	<!-- 			v&#45;list&#45;tile( v&#45;for="( item, i ) in 3" :key="i" avatar @click="" ) -->
-	<!-- 				img(:src="require('@/assets/img/filetype/file&#45;doc.png')" ) -->
-	<!-- 				v&#45;list&#45;tile&#45;content.mx&#45;2 -->
-	<!-- 					v&#45;list&#45;tile&#45;title this is title laskjdl laksjd lkj -->
-	<!-- 				v&#45;list&#45;tile&#45;action -->
-	<!-- 					v&#45;menu(transition="slide&#45;y&#45;transition") -->
-	<!-- 						v&#45;btn( icon slot="activator" ) -->
-	<!-- 							v&#45;icon more_vert -->
-	<!-- 						v&#45;list -->
-	<!-- 							v&#45;list&#45;tile( v&#45;for="(item, index) in actions" :key="index"  @click="") -->
-	<!-- 								v&#45;list&#45;tile&#45;title {{ item.title }} -->
-	<!-- 	.att2(v&#45;if="currentItem.files") -->
-	<!-- 		v&#45;list.files -->
-	<!-- 			v&#45;list&#45;tile( v&#45;for="( item, i ) in 3" :key="i" avatar @click="" ) -->
-	<!-- 				img(:src="require('@/assets/img/filetype/file&#45;doc.png')" ) -->
-	<!-- 				v&#45;list&#45;tile&#45;content.mx&#45;2 -->
-	<!-- 					v&#45;list&#45;tile&#45;title this is title -->
-	<!-- 				v&#45;list&#45;tile&#45;action -->
-	<!-- 					v&#45;menu(transition="slide&#45;y&#45;transition") -->
-	<!-- 						v&#45;btn( icon slot="activator" ) -->
-	<!-- 							v&#45;icon more_vert -->
-	<!-- 						v&#45;list -->
-	<!-- 							v&#45;list&#45;tile( v&#45;for="(item, index) in actions" :key="index"  @click="") -->
-	<!-- 								v&#45;list&#45;tile&#45;title {{ item.title }} -->
 
 </template>
 
