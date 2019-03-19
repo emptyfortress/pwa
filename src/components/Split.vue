@@ -46,7 +46,8 @@ div
 				v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
 					DummyFolder(:folder="currentFolder")
 				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
-					MultiSelect
+					Detail(:id="currId")
+					<!-- MultiSelect -->
 
 </template>
 
@@ -151,16 +152,17 @@ export default {
 		selectCard (e, i) {
 			let destination = this.currentPath + '/' + e.id
 			if (this.selectMode) {
-				return
+				this.$router.push(destination)
+				// return
 			}
 			if (i.shiftKey) {
 				this.selectMode = true
-				this.detail = false
+				// this.detail = false
 				e.selected = true
 			} else {
 				this.$router.push(destination)
 				this.detail = true
-				this.selectMode = false
+				// this.selectMode = false
 			}
 		},
 		newArr (e) {
@@ -172,7 +174,7 @@ export default {
 			if (e.unread && e.id === url && !this.selectMode) return 'unread selected'
 
 			else if (e.unread) return 'unread'
-			else if (e.id === url && !this.selectMode) return 'selected'
+			else if (e.id === url ) return 'selected'
 		}
 	},
 	components: {
