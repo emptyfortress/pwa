@@ -40,52 +40,53 @@
 				v-list-tile-sub-title срок контроля
 	.descr.mt-3 {{ currentItem.descr }}
 
-	v-expansion-panel
-		v-expansion-panel-content
+	v-expansion-panel(v-model="panel" expand).expand.mt-3
+		v-expansion-panel-content(v-for="( pan, i ) in panels" :key="i")
 			template( slot="header" )
-				.att-header Атрибуты
+				.att-header {{ pan.header }}
 			v-card
-				p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				Att(:id="currentItem" )
 
 	.descr.mt-3(v-if="currentItem.files === undefined") Файлы отстуствуют
 
-	.attach.mt-4(v-if="currentItem.files")
-		i.icon-skrepka
-		span.mr-2 Файлы:
-		span {{ currentItem.files }}
+	<!-- .attach.mt&#45;4(v&#45;if="currentItem.files") -->
+	<!-- 	i.icon&#45;skrepka -->
+	<!-- 	span.mr&#45;2 Файлы: -->
+	<!-- 	span {{ currentItem.files }} -->
 
-	.side
-		.att2(v-if="currentItem.files")
-			v-list.files
-				v-list-tile( v-for="( item, i ) in 3" :key="i" avatar @click="" )
-					img(:src="require('@/assets/img/filetype/file-doc.png')" )
-					v-list-tile-content.mx-2
-						v-list-tile-title this is title laskjdl laksjd lkj
-					v-list-tile-action
-						v-menu(transition="slide-y-transition")
-							v-btn( icon slot="activator" )
-								v-icon more_vert
-							v-list
-								v-list-tile( v-for="(item, index) in actions" :key="index"  @click="")
-									v-list-tile-title {{ item.title }}
-		.att2(v-if="currentItem.files")
-			v-list.files
-				v-list-tile( v-for="( item, i ) in 3" :key="i" avatar @click="" )
-					img(:src="require('@/assets/img/filetype/file-doc.png')" )
-					v-list-tile-content.mx-2
-						v-list-tile-title this is title
-					v-list-tile-action
-						v-menu(transition="slide-y-transition")
-							v-btn( icon slot="activator" )
-								v-icon more_vert
-							v-list
-								v-list-tile( v-for="(item, index) in actions" :key="index"  @click="")
-									v-list-tile-title {{ item.title }}
+	<!-- .side -->
+	<!-- 	.att2(v&#45;if="currentItem.files") -->
+	<!-- 		v&#45;list.files -->
+	<!-- 			v&#45;list&#45;tile( v&#45;for="( item, i ) in 3" :key="i" avatar @click="" ) -->
+	<!-- 				img(:src="require('@/assets/img/filetype/file&#45;doc.png')" ) -->
+	<!-- 				v&#45;list&#45;tile&#45;content.mx&#45;2 -->
+	<!-- 					v&#45;list&#45;tile&#45;title this is title laskjdl laksjd lkj -->
+	<!-- 				v&#45;list&#45;tile&#45;action -->
+	<!-- 					v&#45;menu(transition="slide&#45;y&#45;transition") -->
+	<!-- 						v&#45;btn( icon slot="activator" ) -->
+	<!-- 							v&#45;icon more_vert -->
+	<!-- 						v&#45;list -->
+	<!-- 							v&#45;list&#45;tile( v&#45;for="(item, index) in actions" :key="index"  @click="") -->
+	<!-- 								v&#45;list&#45;tile&#45;title {{ item.title }} -->
+	<!-- 	.att2(v&#45;if="currentItem.files") -->
+	<!-- 		v&#45;list.files -->
+	<!-- 			v&#45;list&#45;tile( v&#45;for="( item, i ) in 3" :key="i" avatar @click="" ) -->
+	<!-- 				img(:src="require('@/assets/img/filetype/file&#45;doc.png')" ) -->
+	<!-- 				v&#45;list&#45;tile&#45;content.mx&#45;2 -->
+	<!-- 					v&#45;list&#45;tile&#45;title this is title -->
+	<!-- 				v&#45;list&#45;tile&#45;action -->
+	<!-- 					v&#45;menu(transition="slide&#45;y&#45;transition") -->
+	<!-- 						v&#45;btn( icon slot="activator" ) -->
+	<!-- 							v&#45;icon more_vert -->
+	<!-- 						v&#45;list -->
+	<!-- 							v&#45;list&#45;tile( v&#45;for="(item, index) in actions" :key="index"  @click="") -->
+	<!-- 								v&#45;list&#45;tile&#45;title {{ item.title }} -->
 
 </template>
 
 <script>
 import VueSticky from 'vue-sticky'
+import Att from '@/components/Att'
 
 export default {
 	props: ['id'],
@@ -108,7 +109,12 @@ export default {
 			bbuttons: [
 				{ title: 'отклонить' },
 				{ title: 'отозвать' }
-			]
+			],
+			panels: [
+				{ header: 'Атрибуты' },
+				{ header: 'Файлы' }
+			],
+			panel: [ false, true ]
 		}
 	},
 	computed: {
@@ -131,6 +137,9 @@ export default {
 			}, 800)
 		}
 	},
+	components: {
+		Att
+	},
 	directives: {
 		'sticky': VueSticky
 	}
@@ -142,7 +151,7 @@ export default {
 @import '@/assets/css/colors.scss';
 
 .cont {
-	background: green;
+	/* background: green; */
 }
 .group {
 	/* background: $cool; */
@@ -204,8 +213,15 @@ h2 {
 	background: transparent;
 }
 .att-header {
-	color: red;
-	font-size: 1rem;
-	line-height: 100%;
+}
+.theme--light.v-expansion-panel .v-expansion-panel__container {
+	background: transparent;
+}
+.expand {
+	box-shadow: none;
+	border-bottom: 1px solid #ccc;
+	.theme--light.v-card {
+		background: transparent;
+	}
 }
 </style>
