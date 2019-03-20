@@ -13,8 +13,11 @@
 					i.icon-tree
 				v-spacer
 				.status [ {{ currentItem.status }} ]
-					<!-- v&#45;chip(color="info" dark) {{ currentItem.status }} -->
 				v-spacer
+				v-btn(icon large @click="prev")
+					i.icon-prev
+				v-btn(icon large @click="next")
+					i.icon-next
 				v-btn(icon large @click="back")
 					i.icon-close
 
@@ -34,7 +37,7 @@
 													iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=https://firebasestorage.googleapis.com/v0/b/docsvision-8d5eb.appspot.com/o/sample.doc?alt=media&token=b94e9ae9-9634-4b02-a1cf-5ecb0e0310a7' width='100%' frameborder='0' scrolling='no' v-if="showme")
 													h2(v-if="!showme && tree").text-xs-center Здесь будет маршрут согласования
 													.dumb
-														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files")
+														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files && !tree")
 						v-btn( icon large @click="next").big
 							i.icon-next
 
@@ -228,12 +231,11 @@ iframe {
 	flex-grow: 1;
 }
 .icon-close {
-	font-size: 1.8rem;
+	font-size: 1.5rem;
 }
 .status {
 	font-size: 1.7rem;
 	line-height: 3.4rem;
-	/* color: $secondary; */
 	color: $grey2;
 
 	/* border: 3px solid #000; */
