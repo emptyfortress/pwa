@@ -16,6 +16,7 @@
 				v-spacer
 				v-btn(icon large @click="prev")
 					i.icon-prev
+				.quant {{ intId + 1 }} / {{ items.length }}
 				v-btn(icon large @click="next")
 					i.icon-next
 				v-btn(icon large @click="back")
@@ -237,10 +238,10 @@ iframe {
 	font-size: 1.7rem;
 	line-height: 3.4rem;
 	color: $grey2;
-
-	/* border: 3px solid #000; */
-	/* background: #ccc; */
-	/* height: 30px; */
+}
+.quant {
+	line-height: 4.0rem;
+	color: $grey2;
 }
 
 </style>
