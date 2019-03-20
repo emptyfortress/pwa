@@ -2,7 +2,7 @@
 	.cont
 		.group(v-sticky="{zIndex: 3}")
 			div.act
-				v-btn(color="info" v-for="button in abuttons" :loading="loading" :disabled="loading"  @click="decision") {{ button.title }}
+				v-btn(:color="button.color" v-for="( button, index ) in buttons" :loading="loading" :disabled="loading"  @click="decision") {{ button.button }}
 				v-spacer
 				v-menu(transition="slide-y-transition")
 					v-btn( icon slot="activator" )
@@ -18,13 +18,13 @@
 				v-list-tile-content
 					v-list-tile-title {{ currentItem.executor }}
 					v-list-tile-sub-title автор
-			v-list-tile
+			v-list-tile(v-if="currentItem.controler")
 				v-list-tile-avatar.rel
 					img(:src="require('@/assets/img/user0.svg')").av
 					.k
 						span K
 				v-list-tile-content
-					v-list-tile-title Петров А.П.
+					v-list-tile-title {{ currentItem.controler }}
 					v-list-tile-sub-title контролер
 			v-list-tile
 				v-list-tile-avatar
@@ -32,7 +32,7 @@
 				v-list-tile-content
 					v-list-tile-title {{ currentItem.deadline }}
 					v-list-tile-sub-title срок
-			v-list-tile
+			v-list-tile(v-if="currentItem.controler")
 				v-list-tile-avatar
 					i.icon-control-date.deadline
 				v-list-tile-content
@@ -91,7 +91,8 @@ export default {
 		items () { return this.$store.getters.items },
 		currentItem () {
 			return this.items[this.id]
-		}
+		},
+		buttons () { return this.currentItem.actions }
 	},
 	methods: {
 		decision () {
