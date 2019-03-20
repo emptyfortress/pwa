@@ -1,10 +1,8 @@
 <template lang="pug">
-div
-	.cont(v-if="detail")
+	.cont
 		.group(v-sticky="{zIndex: 3}")
 			div.act
 				v-btn(color="info" v-for="button in abuttons" :loading="loading" :disabled="loading"  @click="decision") {{ button.title }}
-				v-btn( @click="$router.push(currentFolder.path)" ) back
 				v-spacer
 				v-menu(transition="slide-y-transition")
 					v-btn( icon slot="activator" )
@@ -51,9 +49,6 @@ div
 					Files(:current="currentItem" v-if="i > 0")
 
 		.descr.mt-3(v-if="currentItem.files === undefined") Файлы отстуствуют
-
-	.cont( v-if="!detail" )
-		h2 laksjdlakh
 </template>
 
 <script>
