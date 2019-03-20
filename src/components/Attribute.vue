@@ -1,59 +1,65 @@
 <template lang="pug">
-.cont
-	.group(v-sticky="{zIndex: 3}")
-		div.act
-			v-btn(color="info" v-for="button in abuttons" :loading="loading" :disabled="loading"  @click="decision") {{ button.title }}
-			v-spacer
-			v-menu(transition="slide-y-transition")
-				v-btn( icon slot="activator" )
-					v-icon more_vert
-				v-list
-					v-list-tile( v-for="(item, index) in bbuttons" :key="index" @click="")
-						v-list-tile-title {{ item.title }}
-	h2 {{ this.currentItem.title }}
-	.att1.mt-2
-		v-list-tile.mx-0
-			v-list-tile-avatar
-				img(:src="require('@/assets/img/user0.svg')").av
-			v-list-tile-content
-				v-list-tile-title {{ currentItem.executor }}
-				v-list-tile-sub-title автор
-		v-list-tile
-			v-list-tile-avatar.rel
-				img(:src="require('@/assets/img/user0.svg')").av
-				.k
-					span K
-			v-list-tile-content
-				v-list-tile-title Петров А.П.
-				v-list-tile-sub-title контролер
-		v-list-tile
-			v-list-tile-avatar
-				i.icon-deadline.deadline
-			v-list-tile-content
-				v-list-tile-title {{ currentItem.deadline }}
-				v-list-tile-sub-title срок
-		v-list-tile
-			v-list-tile-avatar
-				i.icon-control-date.deadline
-			v-list-tile-content
-				v-list-tile-title {{ currentItem.deadline }}
-				v-list-tile-sub-title срок контроля
-	.descr.mt-3 {{ currentItem.descr }}
+div
+	.cont(v-if="detail")
+		.group(v-sticky="{zIndex: 3}")
+			div.act
+				v-btn(color="info" v-for="button in abuttons" :loading="loading" :disabled="loading"  @click="decision") {{ button.title }}
+				v-btn( @click="$router.push(currentFolder.path)" ) back
+				v-spacer
+				v-menu(transition="slide-y-transition")
+					v-btn( icon slot="activator" )
+						v-icon more_vert
+					v-list
+						v-list-tile( v-for="(item, index) in bbuttons" :key="index" @click="")
+							v-list-tile-title {{ item.title }}
+		h2 {{ this.currentItem.title }}
+		.att1.mt-2
+			v-list-tile.mx-0
+				v-list-tile-avatar
+					img(:src="require('@/assets/img/user0.svg')").av
+				v-list-tile-content
+					v-list-tile-title {{ currentItem.executor }}
+					v-list-tile-sub-title автор
+			v-list-tile
+				v-list-tile-avatar.rel
+					img(:src="require('@/assets/img/user0.svg')").av
+					.k
+						span K
+				v-list-tile-content
+					v-list-tile-title Петров А.П.
+					v-list-tile-sub-title контролер
+			v-list-tile
+				v-list-tile-avatar
+					i.icon-deadline.deadline
+				v-list-tile-content
+					v-list-tile-title {{ currentItem.deadline }}
+					v-list-tile-sub-title срок
+			v-list-tile
+				v-list-tile-avatar
+					i.icon-control-date.deadline
+				v-list-tile-content
+					v-list-tile-title {{ currentItem.deadline }}
+					v-list-tile-sub-title срок контроля
+		.descr.mt-3 {{ currentItem.descr }}
 
-	v-expansion-panel(v-model="panel" expand).expand.mt-3
-		v-expansion-panel-content(v-for="( pan, i ) in panels" :key="i")
-			template( slot="header" )
-				.att-header {{ pan.header }}
-			v-card
-				Att(:current="currentItem" v-if="i === 0" )
+		v-expansion-panel(v-model="panel" expand).expand.mt-3
+			v-expansion-panel-content(v-for="( pan, i ) in panels" :key="i")
+				template( slot="header" )
+					.att-header {{ pan.header }}
+				v-card
+					Att(:current="currentItem" v-if="i === 0" )
+					Files(:current="currentItem" v-if="i > 0")
 
-	.descr.mt-3(v-if="currentItem.files === undefined") Файлы отстуствуют
+		.descr.mt-3(v-if="currentItem.files === undefined") Файлы отстуствуют
 
+	.cont( v-if="!detail" )
+		h2 laksjdlakh
 </template>
 
 <script>
 import VueSticky from 'vue-sticky'
 import Att from '@/components/Att'
+import Files from '@/components/Files'
 
 export default {
 	props: ['id'],
@@ -105,12 +111,12 @@ export default {
 		}
 	},
 	components: {
-		Att
+		Att,
+		Files
 	},
 	directives: {
 		'sticky': VueSticky
 	}
-
 }
 </script>
 

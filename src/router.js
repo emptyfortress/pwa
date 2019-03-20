@@ -45,11 +45,11 @@ export default new Router({
 			name: 'about',
 			component: About
 		},
-		{
-			path: '/create',
-			name: 'create',
-			component: Create
-		},
+		// {
+		// 	path: '/create',
+		// 	name: 'create',
+		// 	component: Create
+		// },
 		{
 			path: '/pivot',
 			name: 'pivot',

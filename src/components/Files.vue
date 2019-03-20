@@ -3,30 +3,6 @@ table.att
 	tr
 		td Автор:
 		td {{ current.executor }}
-	tr
-		td Исполнитель:
-		td {{ current.author }}
-	tr
-		td Контролер:
-		td {{ current.author }}
-	tr
-		td Создано:
-		td {{ current.created }}
-	tr
-		td Срок:
-		td {{ current.deadline }}
-	tr
-		td Срок контроля:
-		td {{ current.author }}
-	tr
-		td Статус:
-		td {{ current.status }}
-	tr(v-if="current.files")
-		td Вложения:
-		td {{ current.files }}
-	tr
-		td(colspan="2")
-			span &nbsp;
 </template>
 
 <script>

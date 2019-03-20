@@ -41,12 +41,15 @@ div
 			drag-handle.handle
 				div
 			drag-content.content
-				v-slide-x-transition(mode="out-in" v-if="detail")
+				v-slide-x-transition(mode="out-in")
 					Detail(:id="currId")
-				v-slide-x-transition(mode="out-in" v-if="!detail && !selectMode")
-					DummyFolder(:folder="currentFolder")
-				v-slide-x-transition(mode="out-in" v-if="!detail && selectMode")
-					Detail(:id="currId")
+					<!-- router&#45;view(v&#45;bind:key="currId" :detail="detail" ) -->
+				<!-- v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail") -->
+				<!-- 	DummyFolder(:folder="currentFolder") -->
+				<!-- v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail &#38;&#38; !selectMode") -->
+					<!-- DummyFolder(:folder="currentFolder") -->
+				<!-- v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail &#38;&#38; selectMode") -->
+				<!-- 	Detail(:id="currId") -->
 					<!-- MultiSelect -->
 
 </template>
@@ -54,8 +57,7 @@ div
 <script>
 import { SlickList, SlickItem } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
-import DummyFolder from '@/components/DummyFolder'
-import MultiSelect from '@/components/MultiSelect'
+// import MultiSelect from '@/components/MultiSelect'
 import Detail from '@/components/Detail'
 
 export default {
@@ -67,12 +69,13 @@ export default {
 				big: el => el.width > 1000
 			},
 			selectMode: false,
-			detail: false,
+			// detail: false,
 			selectAll: false,
 			selectNew: false
 		}
 	},
 	computed: {
+		detail () { return this.$store.getters.detail },
 		currId () { return this.$route.params.id },
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
@@ -151,18 +154,17 @@ export default {
 		},
 		selectCard (e, i) {
 			let destination = this.currentPath + '/' + e.id
-			if (this.selectMode) {
+			let full = this.$route.path
+			if (this.selectMode && full !== destination) {
 				this.$router.push(destination)
-				// return
 			}
 			if (i.shiftKey) {
 				this.selectMode = true
-				// this.detail = false
+				this.$store.commit('toggleDetail', true)
 				e.selected = true
 			} else {
 				this.$router.push(destination)
-				this.detail = true
-				// this.selectMode = false
+				this.$store.commit('toggleDetail', true)
 			}
 		},
 		newArr (e) {
@@ -174,14 +176,14 @@ export default {
 			if (e.unread && e.id === url && !this.selectMode) return 'unread selected'
 
 			else if (e.unread) return 'unread'
-			else if (e.id === url ) return 'selected'
+			else if (e.id === url) return 'selected'
 		}
 	},
 	components: {
 		SlickItem,
 		SlickList,
-		DummyFolder,
-		MultiSelect,
+		// DummyFolder,
+		// MultiSelect,
 		Detail
 	},
 	directives: {
