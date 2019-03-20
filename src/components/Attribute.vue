@@ -44,11 +44,12 @@
 			v-expansion-panel-content(v-for="( pan, i ) in panels" :key="i")
 				template( slot="header" )
 					.att-header {{ pan.header }}
+						span(v-if="i > 0 && currentItem.files").files {{ currentItem.files }}
 				v-card
 					Att(:current="currentItem" v-if="i === 0" )
-					Files(:current="currentItem" v-if="i > 0")
+					Files(:current="currentItem" v-if="i > 0 && currentItem.files")
 
-		.descr.mt-3(v-if="currentItem.files === undefined") Файлы отстуствуют
+		<!-- .descr.mt&#45;3(v&#45;if="currentItem.files === undefined") Файлы отстуствуют -->
 </template>
 
 <script>
@@ -68,11 +69,6 @@ export default {
 				{ title: 'Просмотр' },
 				{ title: 'Сделать основным' },
 				{ title: 'Действие' }
-			],
-			abuttons: [
-				{ title: 'делегировать' },
-				{ title: 'завершить' },
-				{ title: 'подписать' }
 			],
 			bbuttons: [
 				{ title: 'отклонить' },
@@ -192,5 +188,12 @@ h2 {
 	.theme--light.v-card {
 		background: transparent;
 	}
+}
+.files {
+	margin-left: 1rem;
+	padding: .2rem 0.5rem;
+	background: $info;
+	border-radius: 1rem;
+	color: #fff;
 }
 </style>

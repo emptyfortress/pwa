@@ -12,6 +12,9 @@
 				v-btn(icon large @click="toggleTree" :class="tree ? 'active' : ''").read
 					i.icon-tree
 				v-spacer
+				.status [ {{ currentItem.status }} ]
+					<!-- v&#45;chip(color="info" dark) {{ currentItem.status }} -->
+				v-spacer
 				v-btn(icon large @click="back")
 					i.icon-close
 
@@ -179,6 +182,7 @@ export default {
 .att1 {
 	width: 100%;
 	display: flex;
+	/* background: red; */
 }
 .empty {
 	background: #fff;
@@ -225,6 +229,16 @@ iframe {
 }
 .icon-close {
 	font-size: 1.8rem;
+}
+.status {
+	font-size: 1.7rem;
+	line-height: 3.4rem;
+	/* color: $secondary; */
+	color: $grey2;
+
+	/* border: 3px solid #000; */
+	/* background: #ccc; */
+	/* height: 30px; */
 }
 
 </style>
