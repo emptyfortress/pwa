@@ -296,6 +296,8 @@ export default new Vuex.Store({
 							deadline: obj[key].deadline,
 							executor: obj[key].executor,
 							filenames: obj[key].filenames,
+							dopfiles: obj[key].dopfiles,
+							report: obj[key].report,
 							status: obj[key].status,
 							selected: false
 						})
