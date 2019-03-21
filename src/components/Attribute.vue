@@ -192,8 +192,8 @@ h2 {
 .files {
 	margin-left: 1rem;
 	padding: .2rem 0.5rem;
-	background: $info;
 	border-radius: 1rem;
 	color: #fff;
+	background: $info;
 }
 </style>

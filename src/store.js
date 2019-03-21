@@ -11,7 +11,7 @@ export default new Vuex.Store({
 		user: null,
 		loading: false,
 		error: null,
-		view: 'tile',
+		view: 'split',
 		currentFolder: '',
 		filter: '',
 		folders: [],
@@ -113,7 +113,7 @@ export default new Vuex.Store({
 	},
 
 	actions: {
-		logUserIn ({commit}, payload) {
+		logUserIn ({ commit }, payload) {
 			commit('setLoading', true)
 			commit('clearError')
 			firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
@@ -134,11 +134,11 @@ export default new Vuex.Store({
 					}
 				)
 		},
-		clearError ({commit}) {
+		clearError ({ commit }) {
 			commit('clearError')
 		},
 
-		loadTree ({commit}) {
+		loadTree ({ commit }) {
 			commit('setLoading', true)
 			firebase.database().ref('tree').once('value')
 				.then((data1) => {
@@ -162,7 +162,7 @@ export default new Vuex.Store({
 				})
 		},
 
-		loadHeaders ({commit}) {
+		loadHeaders ({ commit }) {
 			commit('setLoading', true)
 			firebase.database().ref('headers').once('value')
 				.then((data) => {
@@ -189,7 +189,7 @@ export default new Vuex.Store({
 				})
 		},
 
-		loadDepartments ({commit}) {
+		loadDepartments ({ commit }) {
 			commit('setLoading', true)
 			firebase.database().ref('departments').once('value')
 				.then((data) => {
@@ -214,7 +214,7 @@ export default new Vuex.Store({
 				})
 		},
 
-		loadFolders ({commit}) {
+		loadFolders ({ commit }) {
 			commit('setLoading', true)
 			firebase.database().ref('folders').once('value')
 				.then((data) => {
@@ -243,7 +243,7 @@ export default new Vuex.Store({
 				})
 		},
 
-		loadMetro ({commit}) {
+		loadMetro ({ commit }) {
 			commit('setLoading', true)
 			firebase.database().ref('metro').once('value')
 				.then((data) => {
@@ -272,7 +272,7 @@ export default new Vuex.Store({
 				})
 		},
 
-		loadItems ({commit}) {
+		loadItems ({ commit }) {
 			commit('setLoading', true)
 			firebase.database().ref('items').once('value')
 				.then((data) => {
@@ -285,6 +285,7 @@ export default new Vuex.Store({
 							folder: obj[key].folder,
 							author: obj[key].author,
 							controler: obj[key].controler,
+							controldate: obj[key].controldate,
 							descr: obj[key].descr,
 							actions: obj[key].actions,
 							files: obj[key].files,
@@ -332,7 +333,7 @@ export default new Vuex.Store({
 		// 		})
 		// },
 
-		loadUsers ({commit}) {
+		loadUsers ({ commit }) {
 			commit('setLoading', true)
 			firebase.database().ref('users').once('value')
 				.then((data) => {
@@ -355,7 +356,7 @@ export default new Vuex.Store({
 					commit('setLoading', false)
 				})
 		},
-		updateItemReadStatus ({commit}, payload) {
+		updateItemReadStatus ({ commit }, payload) {
 			const updateObject = {}
 			updateObject.unread = payload.unread
 			firebase.database().ref('items').child(payload.id).update(updateObject)
@@ -366,7 +367,7 @@ export default new Vuex.Store({
 					console.log(error)
 				})
 		},
-		updateFolderFilter ({commit}, payload) {
+		updateFolderFilter ({ commit }, payload) {
 			const updateObject = {}
 			updateObject.id = payload.id
 			updateObject.filter = payload.filter

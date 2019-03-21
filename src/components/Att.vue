@@ -1,26 +1,26 @@
 <template lang="pug">
 table.att
 	tr
+		td Статус:
+		td {{ current.status }}
+	tr
 		td Автор:
 		td {{ current.executor }}
 	tr
 		td Исполнитель:
 		td {{ current.author }}
-	tr
+	tr(v-if="current.controler")
 		td Контролер:
-		td {{ current.author }}
+		td {{ current.controler }}
 	tr
 		td Создано:
 		td {{ current.created }}
 	tr
 		td Срок:
 		td {{ current.deadline }}
-	tr
+	tr(v-if="current.controler")
 		td Срок контроля:
-		td {{ current.author }}
-	tr
-		td Статус:
-		td {{ current.status }}
+		td {{ current.controldate }}
 	tr(v-if="current.files")
 		td Вложения:
 		td {{ current.files }}
@@ -32,19 +32,9 @@ table.att
 <script>
 export default {
 	props: ['current'],
-	data() {
+	data () {
 		return {
-			rows: [
-				{ val: 'author', label: 'Автор' },
-				{ val: '', label: 'Исполнитель' },
-				{ val: '', label: 'Контролер' },
-				{ val: '', label: 'Создано' },
-				{ val: '', label: 'Срок' },
-				{ val: '', label: 'Срок контроля' },
-				{ val: '', label: 'Статус' },
-				{ val: '', label: 'Вложения' },
-			]
-			
+
 		}
 	},
 	computed: {
