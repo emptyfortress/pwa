@@ -1,13 +1,16 @@
 <template lang="pug">
 	v-layout( row wrap ).filepanel
-		.file(v-for="file in current.files")
+		.file(v-if="current.files" v-for="file in current.files")
 			img(:src="require('@/assets/img/file-main.svg')").full
 			.name Dogovor aboutlka.doc
 			.type doc
-		.file(v-for="file in current.files").dop
+		.file(v-if="current.files" v-for="file in current.files").dop
 			img(:src="require('@/assets/img/file.svg')").full
 			.name Dogovor aboutlka.doc
 			.type doc
+		.file
+			v-btn( icon outline ).add
+				v-icon add
 
 </template>
 
@@ -33,7 +36,9 @@ export default {
 	.file {
 		position: relative;
 		width: 70px;
+		min-height: 100px;
 		margin-right: 2rem;
+		padding-bottom: 1rem;
 	}
 	.full {
 		width: 100%;
@@ -61,7 +66,12 @@ export default {
 	}
 	.dop {
 		.type, .name { opacity: .5; }
-
+	}
+	.add {
+		position: absolute;
+		top: 25px;
+		left: 7px;
+		color: #888;
 	}
 }
 

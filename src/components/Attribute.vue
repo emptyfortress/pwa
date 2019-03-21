@@ -47,7 +47,7 @@
 						span(v-if="i > 0 && currentItem.files").files {{ currentItem.files }}
 				v-card
 					Att(:current="currentItem" v-if="i === 0" )
-					Files(:current="currentItem" v-if="i > 0 && currentItem.files")
+					Files(:current="currentItem" v-if="i > 0")
 
 		<!-- .descr.mt&#45;3(v&#45;if="currentItem.files === undefined") Файлы отстуствуют -->
 </template>
@@ -77,11 +77,14 @@ export default {
 			panels: [
 				{ header: 'Атрибуты' },
 				{ header: 'Файлы' }
-			],
-			panel: [ false, true ]
+			]
 		}
 	},
 	computed: {
+		panel () {
+			return this.currentItem.files ? [ false, true ] : [ false, false ]
+
+		},
 		currentPath () { return this.$router.fullPath },
 		currentFolder () { return this.$store.getters.currentFolder },
 		items () { return this.$store.getters.items },
