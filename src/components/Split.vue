@@ -24,11 +24,11 @@ div
 		.divide.ml-2.mr-4
 		v-menu(transition="slide-y-transition")
 			.filter( slot="activator" )
-				span.hd {{ currentFilterTitle }}
+				span.hd {{ currentFilter }}
 				v-icon arrow_drop_down
 			v-list
-				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(index)")
-					v-list-tile-title {{ item.title }}
+				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(item)")
+					v-list-tile-title {{ item }}
 	div.all
 		drag-zone.zone
 			drag-content.content
@@ -76,13 +76,14 @@ import Detail from '@/components/Detail'
 export default {
 	data () {
 		return {
-			ffilters: [
-				{ title: 'Все', val: '' },
-				{ title: 'Новые', val: 'unread' },
-				{ title: 'Важные', val: '' },
-				{ title: 'Я - автор', val: '' },
-				{ title: 'Просроченные', val: '' }
-			],
+			ffilters: [ 'Все', 'Новые', 'Просроченные', 'Важные', 'На контроле', 'Завершенные' ],
+			// ffilters: [
+			// 	{ title: 'Все', val: '' },
+			// 	{ title: 'Новые', val: 'unread' },
+			// 	{ title: 'Важные', val: '' },
+			// 	{ title: 'Я - автор', val: '' },
+			// 	{ title: 'Просроченные', val: '' }
+			// ],
 			cardResponse: {
 				tiny: el => el.width < 400,
 				small: el => el.width < 800,
@@ -109,7 +110,7 @@ export default {
 		// selected () { return this.$store.getters.selected },
 		items () {
 			let all = this.$store.getters.items
-			if (this.currentFilter === 'unread') {
+			if (this.currentFilter === 'Новые') {
 				return all.filter(item => item.unread)
 			} else if (this.currentFilter === 'overdue') {
 				return all.filter(item => item.overdue)
@@ -149,7 +150,7 @@ export default {
 	},
 	methods: {
 		setFilter (e) {
-			this.currentFilter = this.ffilters[e].val
+			this.currentFilter = e
 		},
 		toggleAll () {
 			if (this.selectAll) {
