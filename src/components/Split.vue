@@ -4,7 +4,7 @@ div
 		v-slide-x-transition(mode="out-in")
 			.selectionPanel(v-if="selectMode" key="one")
 				div
-					v-checkbox(v-model="selectAll" primary hide-details @click.native="toggleAll").mt0.left
+					v-checkbox(v-model="selectAll" primary hide-details @click.native="toggleAll" :indeterminate="check").mt0.left
 				.quantity
 					v-btn(flat @click="closeSelection").mx-0.mt-0.close
 						i.icon-close
@@ -75,8 +75,8 @@ export default {
 				big: el => el.width > 1000
 			},
 			selectMode: false,
-			// detail: false,
 			selectAll: false,
+			// check: false,
 			selectNew: false
 		}
 	},
@@ -87,6 +87,11 @@ export default {
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
 		filter () { return this.currentFolder.filter },
+		check () {
+			if (this.selectedItems.length === 0 || this.selectedItems.length === this.items.length) {
+				return false
+			} else return true
+		},
 		// selected () { return this.$store.getters.selected },
 		items () {
 			let all = this.$store.getters.items
