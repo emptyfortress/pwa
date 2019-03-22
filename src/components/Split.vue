@@ -5,6 +5,7 @@ div
 			.selectionPanel(v-if="selectMode" key="one")
 				div
 					v-checkbox(v-model="selectAll" primary hide-details @click.native="toggleAll" :indeterminate="check").mt0.left
+				.divide
 				.quantity
 					v-btn(flat @click="closeSelection").mx-0.mt-0.close
 						i.icon-close
@@ -19,9 +20,15 @@ div
 					i.icon-packet
 		.actionBt(v-if="allRead" key="three")
 			v-btn(flat color="primary" @click="clearUnread" ) Сбросить новые
-		<!-- v&#45;spacer -->
-		v-btn(icon @click="").grouppen
-			i.icon-filter
+
+		.divide.ml-2.mr-4
+		v-menu(transition="slide-y-transition")
+			.filter( slot="activator" )
+				span.hd {{ currentFilterTitle }}
+				v-icon arrow_drop_down
+			v-list
+				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(index)")
+					v-list-tile-title {{ item.title }}
 	div.all
 		drag-zone.zone
 			drag-content.content
@@ -40,7 +47,7 @@ div
 										.some some staff goes here
 										.fio {{ item.executor }}
 										.date {{item.created}}
-										.state(@click="test") {{ item.status }}
+										.state {{ item.status }}
 				.empty(v-if="items.length === 0")
 					img(:src="require('@/assets/img/man.svg')")
 					div {{list}}
@@ -69,6 +76,13 @@ import Detail from '@/components/Detail'
 export default {
 	data () {
 		return {
+			ffilters: [
+				{ title: 'Все', val: '' },
+				{ title: 'Новые', val: 'unread' },
+				{ title: 'Важные', val: '' },
+				{ title: 'Я - автор', val: '' },
+				{ title: 'Просроченные', val: '' }
+			],
 			cardResponse: {
 				tiny: el => el.width < 400,
 				small: el => el.width < 800,
@@ -76,8 +90,8 @@ export default {
 			},
 			selectMode: false,
 			selectAll: false,
-			// check: false,
-			selectNew: false
+			selectNew: false,
+			currentFilter: 'Все'
 		}
 	},
 	computed: {
@@ -86,7 +100,7 @@ export default {
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
-		filter () { return this.currentFolder.filter },
+		// filter () { return this.currentFolder.filter },
 		check () {
 			if (this.selectedItems.length === 0 || this.selectedItems.length === this.items.length) {
 				return false
@@ -95,11 +109,11 @@ export default {
 		// selected () { return this.$store.getters.selected },
 		items () {
 			let all = this.$store.getters.items
-			if (this.filter === 'unread') {
+			if (this.currentFilter === 'unread') {
 				return all.filter(item => item.unread)
-			} else if (this.filter === 'overdue') {
+			} else if (this.currentFilter === 'overdue') {
 				return all.filter(item => item.overdue)
-			} else if (this.filter === 'important') {
+			} else if (this.currentFilter === 'important') {
 				return all.filter(item => item.important)
 			} else if (this.selectNew === true) {
 				let unread = all.filter(item => item.unread)
@@ -134,9 +148,8 @@ export default {
 		}
 	},
 	methods: {
-		test () {
-			console.log(this.selectedItems)
-			// console.log(this.selected)
+		setFilter (e) {
+			this.currentFilter = this.ffilters[e].val
 		},
 		toggleAll () {
 			if (this.selectAll) {
@@ -257,6 +270,12 @@ export default {
 		width: 8px;
 		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIUlEQVQYV2Ns2vj/f50/IyMDAwMDmPj///9/RhAAcWAAAN0pCAS0Z2yqAAAAAElFTkSuQmCC) repeat;
 	}
+}
+.divide {
+	width: 1px;
+	margin-bottom: 5px;
+	background: #ccc;
+	box-shadow: 1px 0 0 #fff;
 }
 
 .v-card.unread, .v-card.selected.unread {
@@ -393,7 +412,7 @@ export default {
 .selectionPanel {
 	display: flex;
 	div {
-		.left { margin-left: 1.5rem; margin-right: 2rem; }
+		.left { margin-left: 1.5rem; margin-right: 1rem; }
 	}
 }
 
@@ -432,8 +451,12 @@ export default {
 	margin-left: 1rem;
 	i {
 		font-size: 1.5rem;
-		color: $secondary;
 	}
+}
+.filter {
+	line-height: 37px;
+	.hd { font-size: 1.2rem; }
+	i { vertical-align: middle; }
 }
 
 </style>

@@ -88,22 +88,22 @@ export default {
 			return this.height + 'px'
 		}
 	},
-	mounted () {
-		if (this.currentItem.unread === true) {
-			let that = this
-			setTimeout(function () {
-				that.toggleUnread(false)
-			}, 2000)
-		}
-	},
-	updated () {
-		if (this.currentItem.unread === true) {
-			let that = this
-			setTimeout(function () {
-				that.toggleUnread(false)
-			}, 2000)
-		}
-	},
+	// mounted () {
+	// 	if (this.currentItem.unread === true) {
+	// 		let that = this
+	// 		setTimeout(function () {
+	// 			that.toggleUnread(false)
+	// 		}, 2000)
+	// 	}
+	// },
+	// updated () {
+	// 	if (this.currentItem.unread === true) {
+	// 		let that = this
+	// 		setTimeout(function () {
+	// 			that.toggleUnread(false)
+	// 		}, 2000)
+	// 	}
+	// },
 	methods: {
 		back () {
 			this.$router.push(this.currentFolder.path)
