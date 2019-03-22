@@ -46,6 +46,6 @@
 	{"id": 62, "text": "Папка 8.4", "type": "folder", "items": 31, "unread": 0, "filter": "", "overdue": 0, "history": [80, 5, 9, 98, 7, 6  ], "path": "/8.4", "dash": true},
 	{"id": 64, "text": "Папка 9", "type": "folder", "items": 11, "unread": 0, "filter": "", "overdue": 0, "history": [55, 19, 41, 30, 35, 32], "path": "/9"},
 	{"id": 65, "text": "Pivot", "type": "folder", "items": 41, "unread": 0, "filter": "", "overdue": 0, "history": [100, 151, 130, 88,  148, 146], "path": "/pivot"},
-	{"id": 66, "text": "Grid", "type": "folder", "items": 41, "unread": 0, "filter": "", "overdue": 0, "history": [100, 151, 130, 88,  148, 146], "path": "/grid"},
+	{"id": 66, "text": "Группировка", "type": "folder", "items": 41, "unread": 0, "filter": "", "overdue": 0, "history": [100, 151, 130, 88,  148, 146], "path": "/grid"},
 	{"id": 67, "text": "Новое поручение", "type": "folder", "items": 41, "unread": 0, "filter": "", "overdue": 0, "history": [100, 151, 130, 88,  148, 146], "path": "/new"}
 ]

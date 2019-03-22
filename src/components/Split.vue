@@ -9,16 +9,19 @@ div
 					v-btn(flat @click="closeSelection").mx-0.mt-0.close
 						i.icon-close
 							span {{selectedItems.length}}
-				.actionBt(v-if="selectedItems.length")
+				.actionBt(v-if="selectedItems.length" key="two")
 					span &rArr;
 					v-btn(flat text color="primary") В работу
 					v-btn(flat text color="primary") Делегировать
-					v-btn(flat text color="primary") Завершить
-			v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
-		v-slide-x-transition(mode="out-in")
-			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
-		v-slide-x-transition(mode="out-in")
-			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
+
+			div(v-if="!selectMode" key="three")
+				v-btn(icon v-if="!selectMode" key="two" @click="selectMode = true").grouppen
+					i.icon-packet
+		.actionBt(v-if="allRead" key="three")
+			v-btn(flat color="primary" @click="clearUnread" ) Сбросить новые
+		<!-- v&#45;spacer -->
+		v-btn(icon @click="").grouppen
+			i.icon-filter
 	div.all
 		drag-zone.zone
 			drag-content.content
@@ -29,7 +32,7 @@ div
 								.wrap
 									.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
 									.check(v-if="selectMode")
-										v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" )
+										v-checkbox(v-model="item.selected" :value="item.selected" :id="item.id.toString()" @click.prevent="item.selected = !item.selected" @click="doNothing")
 									v-list-tile-avatar
 										img(:src="require('@/assets/img/user0.svg')").av
 									.card-content
@@ -376,6 +379,10 @@ export default {
 
 .panel {
 	padding: .5rem 1rem 0 0;
+	display: flex;
+	border-bottom: 1px solid #ccc;
+	box-shadow: 0 1px 3px #ccc;
+	z-index: 10;
 }
 
 .selectionPanel {
@@ -407,14 +414,21 @@ export default {
 	}
 }
 .actionBt {
-	margin-left: 1rem;
 	margin-top: 0;
-	.v-btn { margin-top: 0; }
+	.v-btn { margin: 0;  }
 	span {
-		font-size: 2rem;
-		line-height: 0;
+		font-size: 1.5rem;
+		display: inline-block;
 	}
 
+}
+.grouppen {
+	margin-top: 0;
+	margin-left: 1rem;
+	i {
+		font-size: 1.5rem;
+		color: $secondary;
+	}
 }
 
 </style>

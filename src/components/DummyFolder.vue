@@ -89,7 +89,7 @@ export default {
 }
 
 .infolder {
-	padding-top: 0;
+	padding-top: 1rem;
 }
 .folder {
 	font-size: 2rem;
