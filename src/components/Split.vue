@@ -130,12 +130,12 @@ export default {
 			return this.selectedItems.length
 		},
 		list () {
-			if (this.items.length === 0 && this.filter === 'unread') {
+			if (this.items.length === 0 && this.filter === 'Новые') {
 				return 'Новых нет'
-			} else if (this.items.length === 0 && this.filter === 'overdue') {
+			} else if (this.items.length === 0 && this.filter === 'Просроченные') {
 				return 'Просроченных нет'
-			} else if (this.items.length === 0 && this.filter === 'important') {
-				return 'Важных нет'
+			} else if (this.items.length === 0 && this.filter === 'На контроле') {
+				return 'На контроле нет'
 			}
 		}
 	},
