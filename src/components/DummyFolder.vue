@@ -6,14 +6,14 @@ v-container.infolder
 		span {{folder.text}}
 	br
 	v-layout(row wrap).filt
-		v-flex.item(@click="setFilter('')" :class="filter==='' ? 'active' : ''") {{folder.items}}
+		v-flex.item(@click="setFilter('Все')" :class="filter==='Все' ? 'active' : ''") {{folder.items}}
 			.new Всего
-		v-flex.item(@click="setFilter('unread')" :class="filter==='unread' ? 'active' : ''") {{unreadItems}}
+		v-flex.item(@click="setFilter('Новые')" :class="filter==='Новые' ? 'active' : ''") {{unreadItems}}
 			.new Новых
-		v-flex.item(@click="setFilter('overdue')" :class="filter==='overdue' ? 'active' : ''") {{folder.overdue}}
+		v-flex.item(@click="setFilter('Просроченные')" :class="filter==='Просроченные' ? 'active' : ''") {{ overdueItems }}
 			.new Просрочено
-		v-flex.item(@click="setFilter('important')" :class="filter==='important' ? 'active' : ''") {{folder.overdue}}
-			.new Важных
+		v-flex.item(@click="setFilter('На контроле')" :class="filter==='На контроле' ? 'active' : ''") {{ controlItems }}
+			.new На контроле
 	br
 
 	v-layout(row wrap).sort
@@ -48,6 +48,16 @@ export default {
 			let items = this.$store.getters.items
 			let unread = items.filter(item => item.unread)
 			return unread.length
+		},
+		overdueItems () {
+			let items = this.$store.getters.items
+			let overdue = items.filter(item => item.overdue)
+			return overdue.length
+		},
+		controlItems () {
+			let items = this.$store.getters.items
+			let control = items.filter(item => item.controler)
+			return control.length
 		}
 	},
 	methods: {
