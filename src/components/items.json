@@ -3,7 +3,7 @@
 		"id": 0,
 		"folder": "",
 		"unread": false,
-		"files": 2,
+		"files": 3,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -30,7 +30,7 @@
 		"id": 1,
 		"folder": "",
 		"unread": false,
-		"files": 2,
+		"files": 3,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -77,7 +77,7 @@
 		"id": 3,
 		"folder": "",
 		"unread": false,
-		"files": 3,
+		"files": 4,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -104,7 +104,7 @@
 		"id": 4,
 		"folder": "",
 		"unread": true,
-		"files": 1,
+		"files": 2,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -131,7 +131,7 @@
 		"id": 5,
 		"folder": "",
 		"unread": true,
-		"files": 7,
+		"files": 8,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -197,17 +197,14 @@
 		"status": "Завершено",
 		"descr": "вобода понимает под собой сенсибельный закон исключённого третьего. Освобождение, конечно, рефлектирует примитивный позитивизм. Суждение, следовательно, порождает и обеспечивает даосизм.",
 		"actions": [
-			{"button": "Делегировать", "color": "info"},
-			{"button": "Согласовать", "color": "accent"},
-			{"button": "Согл. с замеч", "color": "yellow"},
-			{"button": "Отклонить", "color": "error"}
+			{"button": "В архив", "color": ""}
 		]
 	},
 	{
 		"id": 8,
 		"folder": "",
 		"unread": false,
-		"files": 2,
+		"files": 3,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -233,7 +230,7 @@
 		"id": 9,
 		"folder": "",
 		"unread": false,
-		"files": 1,
+		"files": 2,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -283,7 +280,7 @@
 		"id": 11,
 		"folder": "",
 		"unread": false,
-		"files": 2,
+		"files": 3,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -328,7 +325,7 @@
 		"id": 13,
 		"folder": "",
 		"unread": false,
-		"files": 7,
+		"files": 8,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -362,7 +359,7 @@
 		"id": 14,
 		"folder": "",
 		"unread": false,
-		"files": 1,
+		"files": 3,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -381,8 +378,7 @@
 		"status": "Завершено",
 		"descr": "Культ джайнизма включает в себя поклонение Махавире и другим тиртханкарам, поэтому врожденная интуиция ментально понимает под собой закон исключённого третьего.",
 		"actions": [
-			{"button": "Делегировать", "color": "info"},
-			{"button": "Отозвать", "color": "error"}
+			{"button": "В архив", "color": ""}
 		]
 	},
 	{
@@ -411,7 +407,7 @@
 		"id": 16,
 		"folder": "",
 		"unread": false,
-		"files": 5,
+		"files": 6,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -461,7 +457,7 @@
 		"id": 18,
 		"folder": "",
 		"unread": false,
-		"files": 7,
+		"files": 8,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -493,7 +489,7 @@
 		"id": 19,
 		"folder": "",
 		"unread": false,
-		"files": 4,
+		"files": 5,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -558,15 +554,14 @@
 		"status": "Завершено",
 		"descr": "Суждение трансформирует знак.",
 		"actions": [
-			{"button": "Ознакомиться", "color": "success"},
-			{"button": "Делегировать", "color": "info"}
+			{"button": "В архив", "color": ""}
 		]
 	},
 	{
 		"id": 22,
 		"folder": "",
 		"unread": false,
-		"files": 8,
+		"files": 9,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],
@@ -599,7 +594,7 @@
 		"id": 23,
 		"folder": "",
 		"unread": false,
-		"files": 1,
+		"files": 2,
 		"dopfiles": [
 			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
 		],

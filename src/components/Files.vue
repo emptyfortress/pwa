@@ -7,14 +7,14 @@
 		.file(v-if="current.dopfiles.length" v-for="file in current.dopfiles").dop
 			img(:src="require('@/assets/img/file.svg')").full
 			.name {{ file.name }}
-			.type {{ file.type }}
+			.type(:class="file.type") {{ file.type }}
 		.file
 			v-btn( icon outline ).add
 				v-icon add
 		.file(v-if="current.report.length" v-for="file in current.report")
 			img(:src="require('@/assets/img/report.svg')").full
 			.name {{ file.name }}
-			.type {{ file.type }}
+			.type(:class="file.type") {{ file.type }}
 
 </template>
 

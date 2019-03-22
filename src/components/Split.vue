@@ -9,11 +9,14 @@ div
 					v-btn(flat @click="closeSelection").mx-0.mt-0.close
 						i.icon-close
 							span {{selectedItems.length}}
-				.actionBt
-					v-btn(flat text color="info") В работу
-					v-btn(flat text color="info") Делегировать
-					v-btn(flat text color="info") Завершить
+				.actionBt(v-if="selectedItems.length")
+					span &rArr;
+					v-btn(flat text color="primary") В работу
+					v-btn(flat text color="primary") Делегировать
+					v-btn(flat text color="primary") Завершить
 			v-btn(flat small color="info" @click="clearUnread" v-if="allRead && !selectMode" key="two") Сбросить новые
+		v-slide-x-transition(mode="out-in")
+			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
 		v-slide-x-transition(mode="out-in")
 			v-btn(flat small color="info" @click="showAll" v-if="filter !== '' && !selectMode" ) Показать все
 	div.all
@@ -404,9 +407,14 @@ export default {
 	}
 }
 .actionBt {
-	margin-left: 5rem;
+	margin-left: 1rem;
 	margin-top: 0;
 	.v-btn { margin-top: 0; }
+	span {
+		font-size: 2rem;
+		line-height: 0;
+	}
+
 }
 
 </style>
