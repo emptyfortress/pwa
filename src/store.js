@@ -21,7 +21,6 @@ export default new Vuex.Store({
 		metro: [],
 		headers: [],
 		detail: false,
-		// goals: [],
 		users: [],
 		addTask: false,
 		selected: false,
@@ -229,7 +228,7 @@ export default new Vuex.Store({
 							items: obj[key].items,
 							unread: obj[key].unread,
 							filter: obj[key].filter,
-							overdue: obj[key].overdue,
+							// overdue: obj[key].overdue,
 							history: obj[key].history,
 							dash: obj[key].dash
 						})
@@ -294,6 +293,7 @@ export default new Vuex.Store({
 							created: obj[key].created,
 							modified: obj[key].modified,
 							deadline: obj[key].deadline,
+							overdue: obj[key].overdue,
 							executor: obj[key].executor,
 							filenames: obj[key].filenames,
 							dopfiles: obj[key].dopfiles,

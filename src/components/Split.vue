@@ -24,7 +24,7 @@ div
 		.divide.ml-2.mr-4
 		v-menu(transition="slide-y-transition")
 			.filter( slot="activator" )
-				span.hd {{ currentFilter }}
+				span.hd {{ filter }}
 				v-icon arrow_drop_down
 			v-list
 				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(item)")
@@ -77,13 +77,6 @@ export default {
 	data () {
 		return {
 			ffilters: [ 'Все', 'Новые', 'Просроченные', 'Важные', 'На контроле', 'Завершенные' ],
-			// ffilters: [
-			// 	{ title: 'Все', val: '' },
-			// 	{ title: 'Новые', val: 'unread' },
-			// 	{ title: 'Важные', val: '' },
-			// 	{ title: 'Я - автор', val: '' },
-			// 	{ title: 'Просроченные', val: '' }
-			// ],
 			cardResponse: {
 				tiny: el => el.width < 400,
 				small: el => el.width < 800,
@@ -92,7 +85,6 @@ export default {
 			selectMode: false,
 			selectAll: false,
 			selectNew: false,
-			currentFilter: 'Все'
 		}
 	},
 	computed: {
@@ -101,7 +93,7 @@ export default {
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
 		loading () { return this.$store.getters.loading },
-		// filter () { return this.currentFolder.filter },
+		filter () { return this.currentFolder.filter },
 		check () {
 			if (this.selectedItems.length === 0 || this.selectedItems.length === this.items.length) {
 				return false
@@ -110,12 +102,12 @@ export default {
 		// selected () { return this.$store.getters.selected },
 		items () {
 			let all = this.$store.getters.items
-			if (this.currentFilter === 'Новые') {
+			if (this.filter === 'Новые') {
 				return all.filter(item => item.unread)
-			} else if (this.currentFilter === 'overdue') {
+			} else if (this.filter === 'Просроченные') {
 				return all.filter(item => item.overdue)
-			} else if (this.currentFilter === 'important') {
-				return all.filter(item => item.important)
+			} else if (this.filter === 'На контроле') {
+				return all.filter(item => item.controler)
 			} else if (this.selectNew === true) {
 				let unread = all.filter(item => item.unread)
 				unread.map(item => { item.selected = true })
@@ -126,8 +118,7 @@ export default {
 			} else return all
 		},
 		allRead () {
-			let items = this.$store.getters.items
-			let unreadItems = items.filter(item => item.unread)
+			let unreadItems = this.items.filter(item => item.unread)
 			if (unreadItems.length === 0) {
 				return false
 			} else return true
@@ -150,7 +141,10 @@ export default {
 	},
 	methods: {
 		setFilter (e) {
-			this.currentFilter = e
+			let dummy = {}
+			dummy.id = this.$store.getters.currentFolder.id
+			dummy.filter = e
+			this.$store.dispatch('updateFolderFilter', dummy)
 		},
 		toggleAll () {
 			if (this.selectAll) {
