@@ -46,7 +46,7 @@ div
 										.head {{item.title}}
 										.some some staff goes here
 										.fio {{ item.executor }}
-										.date {{item.created}}
+										.date(:class="item.overdue ? 'overdue' : ''") {{item.created}}
 										.state {{ item.status }}
 				.empty(v-if="items.length === 0")
 					img(:src="require('@/assets/img/man.svg')")
@@ -324,6 +324,7 @@ export default {
 	.date {
 		margin: 0 1.5rem;
 		overflow: hidden;
+		&.overdue { color: red; font-weight: bold; }
 	}
 	.state {
 		color: orange;

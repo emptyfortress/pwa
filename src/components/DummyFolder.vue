@@ -16,17 +16,17 @@ v-container.infolder
 			.new На контроле
 	br
 
-	v-layout(row wrap).sort
-		v-flex
-			v-btn(round color="info" small) Срок
-		v-flex
-			v-btn(flat round small) Статус
-		v-flex
-			v-btn(flat round small) Автор
-		v-flex
-			v-btn(flat round small) Тема
-		v-flex
-			v-btn(flat round small) Создан
+	<!-- v&#45;layout(row wrap).sort -->
+	<!-- 	v&#45;flex -->
+	<!-- 		v&#45;btn(round color="info" small) Срок -->
+	<!-- 	v&#45;flex -->
+	<!-- 		v&#45;btn(flat round small) Статус -->
+	<!-- 	v&#45;flex -->
+	<!-- 		v&#45;btn(flat round small) Автор -->
+	<!-- 	v&#45;flex -->
+	<!-- 		v&#45;btn(flat round small) Тема -->
+	<!-- 	v&#45;flex -->
+	<!-- 		v&#45;btn(flat round small) Создан -->
 
 </template>
 
