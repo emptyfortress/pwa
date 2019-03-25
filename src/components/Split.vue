@@ -29,9 +29,12 @@ div
 			v-list
 				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(item)")
 					v-list-tile-title {{ item }}
-		.divide.ml-2.mr-4
-			v-btn(icon @click="openDialog").grouppen
-				i.icon-filter
+		.divide.ml-2
+		v-btn(icon @click="openDialog").grouppen
+			i.icon-filter
+		.divide.ml-2.mr-2
+		v-flex(xs1)
+			v-text-field(v-model="search" label="Поиск" hide-details).search
 
 	div.all
 		drag-zone.zone
@@ -84,7 +87,8 @@ export default {
 			},
 			selectMode: false,
 			selectAll: false,
-			selectNew: false
+			selectNew: false,
+			search: ''
 			// dialog: false
 		}
 	},
@@ -462,5 +466,8 @@ export default {
 
 .icon-filter {
 	margin-top: 6px;
+}
+.search {
+	margin-top: -8px;
 }
 </style>

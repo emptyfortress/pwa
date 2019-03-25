@@ -1,5 +1,5 @@
 <template lang="pug">
-	<v-dialog v-model="dialog" persistent max-width="600px">
+	<v-dialog v-model="dialog" persistent max-width="600px" transition="dialog-bottom-transition">
 		<v-card>
 			<v-card-title>
 				<span class="headline">Настроить фильтр</span>
