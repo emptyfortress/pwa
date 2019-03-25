@@ -76,8 +76,8 @@ import { SlickList, SlickItem } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import Detail from '@/components/Detail'
 
-export default {
-	data () {
+	export default {
+		data () {
 		return {
 			ffilters: [ 'Все', 'Новые', 'Просроченные', 'На контроле', 'Завершенные' ],
 			cardResponse: {
@@ -88,9 +88,13 @@ export default {
 			selectMode: false,
 			selectAll: false,
 			selectNew: false,
-			search: ''
-			// dialog: false
+			search: undefined,
+			currentFilter: 'Все'
+			// filteredItems: []
 		}
+	},
+	mounted () {
+		this.filteredItems = this.items
 	},
 	computed: {
 		filterDialog () { return this.$store.getters.filterDialog },
@@ -108,6 +112,12 @@ export default {
 		// selected () { return this.$store.getters.selected },
 		items () {
 			let all = this.$store.getters.items
+			if (this.search) {
+				let my = this.search.toLowerCase()
+				all = all.filter(item => {
+					return item.title.toLowerCase().indexOf(my) !== -1 || item.executor.toLowerCase().indexOf(my) !== -1 || item.author.toLowerCase().indexOf(my) !== -1 || item.status.toLowerCase().indexOf(my) !== -1
+				})
+			}
 			if (this.filter === 'Новые') {
 				return all.filter(item => item.unread)
 			} else if (this.filter === 'Просроченные') {
@@ -123,6 +133,8 @@ export default {
 			} else if (this.selectNew === false) {
 				all.map(item => { item.selected = false })
 				return all
+			} else if (this.search.length > 0) {
+				console.log(this.search)
 			} else return all
 		},
 		allRead () {
@@ -147,6 +159,13 @@ export default {
 			}
 		}
 	},
+	// watch: {
+	// 	search (val) {
+	// 		if (val.length > 0) {
+	// 			this.filteredItems = this.items.filter(item => item.unread)
+	// 		} else this.filteredItems = this.items
+	// 	}
+	// },
 	methods: {
 		openDialog () {
 			this.$store.commit('toggleFilterDialog', true)
