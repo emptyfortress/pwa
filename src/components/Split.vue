@@ -76,7 +76,7 @@ import Detail from '@/components/Detail'
 export default {
 	data () {
 		return {
-			ffilters: [ 'Все', 'Новые', 'Просроченные', 'Важные', 'На контроле', 'Завершенные' ],
+			ffilters: [ 'Все', 'Новые', 'Просроченные', 'На контроле', 'Завершенные' ],
 			cardResponse: {
 				tiny: el => el.width < 400,
 				small: el => el.width < 800,
@@ -108,6 +108,8 @@ export default {
 				return all.filter(item => item.overdue)
 			} else if (this.filter === 'На контроле') {
 				return all.filter(item => item.controler)
+			} else if (this.filter === 'Завершенные') {
+				return all.filter(item => item.status === 'Завершено')
 			} else if (this.selectNew === true) {
 				let unread = all.filter(item => item.unread)
 				unread.map(item => { item.selected = true })
@@ -348,7 +350,7 @@ export default {
 	.card-content {
 		display: block;
 		.head {
-			font-size: 1.27rem;
+			/* font-size: 1.27rem; */
 		}
 		.fio, .date, {
 			font-size: .95rem;
