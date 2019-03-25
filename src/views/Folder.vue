@@ -14,7 +14,7 @@ v-slide-x-transition(mode="out-in")
 							.drag(@click.prevent="item.unread = !item.unread" )
 							.card-content
 								.head {{item.title}}
-			<!-- Filter(:dialog="dialog") -->
+		Dialog(:dialog="filterDialog")
 
 </template>
 
@@ -24,7 +24,7 @@ import { ResponsiveDirective } from 'vue-responsive-components'
 import Tiles from '@/components/Tiles'
 import Split from '@/components/Split'
 import DataTable from '@/components/DataTable'
-// import Filter from '@/components/Filter'
+import Dialog from '@/components/Dialog'
 
 export default {
 	data () {
@@ -42,6 +42,7 @@ export default {
 		}
 	},
 	computed: {
+		filterDialog () { return this.$store.getters.filterDialog },
 		view () { return this.$store.getters.view },
 		currentPath () { return this.currentFolder.path },
 		currentFolder () { return this.$store.getters.currentFolder },
@@ -94,7 +95,7 @@ export default {
 		Tiles,
 		Split,
 		DataTable,
-		// Filter
+		Dialog
 		// DummyFolder,
 		// MultiSelect
 	},

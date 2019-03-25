@@ -66,14 +66,11 @@ div
 				<!-- v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail &#38;&#38; !selectMode") -->
 					<!-- DummyFolder(:folder="currentFolder") -->
 				<!-- v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail &#38;&#38; selectMode") -->
-				<!-- 	Detail(:id="currId") -->
-	Dialog(:dialog="filterDialog")
 </template>
 
 <script>
 import { SlickList, SlickItem } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
-import Dialog from '@/components/Dialog'
 import Detail from '@/components/Detail'
 
 export default {
@@ -211,8 +208,6 @@ export default {
 	components: {
 		SlickItem,
 		SlickList,
-		// DummyFolder,
-		Dialog,
 		Detail
 	},
 	directives: {
