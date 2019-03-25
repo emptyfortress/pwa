@@ -33,8 +33,8 @@ div
 		v-btn(icon @click="openDialog").grouppen
 			i.icon-filter
 		.divide.ml-2.mr-2
-		v-flex(xs1)
-			v-text-field(v-model="search" label="Поиск" hide-details).search
+		.search
+			v-text-field(v-model="search" label="Поиск" hide-details)
 
 	div.all
 		drag-zone.zone
@@ -56,7 +56,7 @@ div
 										.date(:class="item.overdue ? 'overdue' : ''") {{item.created}}
 										.state {{ item.status }}
 				.empty(v-if="items.length === 0")
-					img(:src="require('@/assets/img/man.svg')")
+					img(:src="require('@/assets/img/man.svg')").mt-5
 					div {{list}}
 			drag-handle.handle
 				div
@@ -487,6 +487,10 @@ import Detail from '@/components/Detail'
 	margin-top: 6px;
 }
 .search {
-	margin-top: -8px;
+	width: 200px;
+	.v-input {
+			margin-top: 4px;
+			padding-top: 0;
+		}
 }
 </style>
