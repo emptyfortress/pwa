@@ -14,6 +14,7 @@ v-slide-x-transition(mode="out-in")
 							.drag(@click.prevent="item.unread = !item.unread" )
 							.card-content
 								.head {{item.title}}
+			<!-- Filter(:dialog="dialog") -->
 
 </template>
 
@@ -23,6 +24,7 @@ import { ResponsiveDirective } from 'vue-responsive-components'
 import Tiles from '@/components/Tiles'
 import Split from '@/components/Split'
 import DataTable from '@/components/DataTable'
+// import Filter from '@/components/Filter'
 
 export default {
 	data () {
@@ -35,7 +37,8 @@ export default {
 			selectMode: false,
 			detail: false,
 			selectAll: 'none',
-			selectNew: false
+			selectNew: false,
+			dialog: true
 		}
 	},
 	computed: {
@@ -90,7 +93,8 @@ export default {
 		SlickList,
 		Tiles,
 		Split,
-		DataTable
+		DataTable,
+		// Filter
 		// DummyFolder,
 		// MultiSelect
 	},

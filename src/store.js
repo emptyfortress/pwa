@@ -28,6 +28,7 @@ export default new Vuex.Store({
 		slot0: null,
 		restore: false,
 		duration: 3,
+		filterDialog: false,
 		hours: false
 	},
 	mutations: {
@@ -43,6 +44,7 @@ export default new Vuex.Store({
 		setMetro (state, payload) { state.metro = payload },
 		setHeaders (state, payload) { state.headers = payload },
 		toggleDetail (state, payload) { state.detail = payload },
+		toggleFilterDialog (state, payload) { state.filterDialog = payload },
 		// setGoals (state, payload) { state.goals = payload },
 		setUsers (state, payload) { state.users = payload },
 		setSelected (state, payload) { state.selected = payload },
@@ -102,6 +104,7 @@ export default new Vuex.Store({
 		slot0 (state) { return state.slot0 },
 		duration (state) { return state.duration },
 		hours (state) { return state.hours },
+		filterDialog (state) { return state.filterDialog },
 		currentItem (state) {
 			return (itemId) => {
 				return state.items.find(item => {

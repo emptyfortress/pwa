@@ -29,6 +29,10 @@ div
 			v-list
 				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(item)")
 					v-list-tile-title {{ item }}
+		.divide.ml-2.mr-4
+			v-btn(icon @click="openDialog").grouppen
+				i.icon-filter
+
 	div.all
 		drag-zone.zone
 			drag-content.content
@@ -63,14 +67,13 @@ div
 					<!-- DummyFolder(:folder="currentFolder") -->
 				<!-- v&#45;slide&#45;x&#45;transition(mode="out&#45;in" v&#45;if="!detail &#38;&#38; selectMode") -->
 				<!-- 	Detail(:id="currId") -->
-					<!-- MultiSelect -->
-
+	Dialog(:dialog="filterDialog")
 </template>
 
 <script>
 import { SlickList, SlickItem } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
-// import MultiSelect from '@/components/MultiSelect'
+import Dialog from '@/components/Dialog'
 import Detail from '@/components/Detail'
 
 export default {
@@ -84,10 +87,12 @@ export default {
 			},
 			selectMode: false,
 			selectAll: false,
-			selectNew: false,
+			selectNew: false
+			// dialog: false
 		}
 	},
 	computed: {
+		filterDialog () { return this.$store.getters.filterDialog },
 		detail () { return this.$store.getters.detail },
 		currId () { return this.$route.params.id },
 		currentPath () { return this.currentFolder.path },
@@ -142,6 +147,9 @@ export default {
 		}
 	},
 	methods: {
+		openDialog () {
+			this.$store.commit('toggleFilterDialog', true)
+		},
 		setFilter (e) {
 			let dummy = {}
 			dummy.id = this.$store.getters.currentFolder.id
@@ -204,7 +212,7 @@ export default {
 		SlickItem,
 		SlickList,
 		// DummyFolder,
-		// MultiSelect,
+		Dialog,
 		Detail
 	},
 	directives: {
@@ -457,4 +465,7 @@ export default {
 	i { vertical-align: middle; }
 }
 
+.icon-filter {
+	margin-top: 6px;
+}
 </style>
