@@ -38,11 +38,11 @@ div
 		.divide.ml-2.mr-2
 		v-menu(transition="slide-y-transition")
 			.filter( slot="activator" )
-				v-icon arrow_drop_down
-				span.hd {{ filter }}
+				v-icon.mr-2 sort
+				span.hd {{ sort }}
 				v-icon arrow_drop_down
 			v-list
-				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(item)")
+				v-list-tile(v-model="currentFilter" v-for="(item, index) in sorts" :key="index" @click="setFilter(item)")
 					v-list-tile-title {{ item }}
 
 	div.all
@@ -89,6 +89,7 @@ export default {
 	data () {
 		return {
 			ffilters: [ 'Все', 'Новые', 'Просроченные', 'На контроле', 'Завершенные' ],
+			sorts: [ 'Вручную', 'Срок', 'Автор', 'Название' ],
 			cardResponse: {
 				tiny: el => el.width < 400,
 				small: el => el.width < 800,
@@ -98,7 +99,8 @@ export default {
 			selectAll: false,
 			selectNew: false,
 			search: undefined,
-			currentFilter: 'Все'
+			currentFilter: 'Все',
+			sort: 'Вручную'
 			// filteredItems: []
 		}
 	},
