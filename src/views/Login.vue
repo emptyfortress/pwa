@@ -98,10 +98,10 @@ export default {
 			this.chooseUser = !this.chooseUser
 		},
 		onPinEnter () {
-			this.$store.dispatch('logUserIn', {email: 'kmg01@docsvision.com', password: 'kmg001'})
+			this.$store.dispatch('logUserIn', { email: 'kmg01@docsvision.com', password: 'kmg001' })
 		},
 		onEnter () {
-			this.$store.dispatch('logUserIn', {email: this.currentUser.email, password: this.password})
+			this.$store.dispatch('logUserIn', { email: this.currentUser.email, password: this.password })
 		},
 		iconPath () {
 			var icon = this.active

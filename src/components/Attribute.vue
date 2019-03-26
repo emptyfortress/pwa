@@ -2,7 +2,7 @@
 	.cont
 		.group(v-sticky="{zIndex: 3}")
 			div.act
-				v-btn(:color="button.color" v-for="( button, index ) in buttons" :loading="loading" :disabled="loading"  @click="decision") {{ button.button }}
+				v-btn(:color="button.color" v-for="( button, index ) in buttons" :key="index" :loading="loading" :disabled="loading"  @click="decision") {{ button.button }}
 				v-spacer
 				v-menu(transition="slide-y-transition")
 					v-btn( icon slot="activator" )
@@ -83,7 +83,6 @@ export default {
 	computed: {
 		panel () {
 			return this.currentItem.files ? [ false, true ] : [ false, false ]
-
 		},
 		currentPath () { return this.$router.fullPath },
 		currentFolder () { return this.$store.getters.currentFolder },

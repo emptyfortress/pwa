@@ -56,20 +56,20 @@ export default {
 			items: [],
 			selected: this.value,
 			roles: [
-				{class: 'role', img: src[3], name: '=Автор'},
-				{class: 'role', img: src[3], name: '=Инициатор'},
-				{class: 'role', img: src[3], name: '=Исполнитель'},
-				{class: 'role', img: src[3], name: '=Согласующий'},
-				{class: 'role', img: src[3], name: '=Контролер'},
-				{class: 'role', img: src[3], name: '=Регистратор'},
-				{class: 'role', img: src[3], name: '=Все руководители'}
+				{ class: 'role', img: src[3], name: '=Автор' },
+				{ class: 'role', img: src[3], name: '=Инициатор' },
+				{ class: 'role', img: src[3], name: '=Исполнитель' },
+				{ class: 'role', img: src[3], name: '=Согласующий' },
+				{ class: 'role', img: src[3], name: '=Контролер' },
+				{ class: 'role', img: src[3], name: '=Регистратор' },
+				{ class: 'role', img: src[3], name: '=Все руководители' }
 			],
 			words: [
-				{class: 'word', img: src[4], name: '+Я'},
-				{class: 'word', img: src[4], name: '+Мои заместители'},
-				{class: 'word', img: src[4], name: '+Мои коллеги'},
-				{class: 'word', img: src[4], name: '+Мой отдел'},
-				{class: 'word', img: src[4], name: '+Мои подчиненные'}
+				{ class: 'word', img: src[4], name: '+Я' },
+				{ class: 'word', img: src[4], name: '+Мои заместители' },
+				{ class: 'word', img: src[4], name: '+Мои коллеги' },
+				{ class: 'word', img: src[4], name: '+Мой отдел' },
+				{ class: 'word', img: src[4], name: '+Мои подчиненные' }
 			]
 		}
 	},

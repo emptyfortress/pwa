@@ -35,6 +35,15 @@ div
 		.divide.ml-2.mr-2
 		.search
 			v-text-field(v-model="search" label="Поиск" hide-details)
+		.divide.ml-2.mr-2
+		v-menu(transition="slide-y-transition")
+			.filter( slot="activator" )
+				v-icon arrow_drop_down
+				span.hd {{ filter }}
+				v-icon arrow_drop_down
+			v-list
+				v-list-tile(v-model="currentFilter" v-for="(item, index) in ffilters" :key="index" @click="setFilter(item)")
+					v-list-tile-title {{ item }}
 
 	div.all
 		drag-zone.zone
@@ -76,8 +85,8 @@ import { SlickList, SlickItem } from 'vue-slicksort'
 import { ResponsiveDirective } from 'vue-responsive-components'
 import Detail from '@/components/Detail'
 
-	export default {
-		data () {
+export default {
+	data () {
 		return {
 			ffilters: [ 'Все', 'Новые', 'Просроченные', 'На контроле', 'Завершенные' ],
 			cardResponse: {

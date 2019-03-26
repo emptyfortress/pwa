@@ -263,22 +263,22 @@ export default {
 					theme: 'Цели сотрудников по отделам',
 					description: 'Промежуточные цели, уточнение формулировок'
 				},
-				{id: 3, class: '', name: '<Пусто>', fio: [], fio1: []},
-				{id: 4, class: '', name: '<Пусто>', fio: [], fio1: []},
-				{id: 5, class: '', name: '<Пусто>', fio: [], fio1: []},
-				{id: 6, class: '', name: '<Пусто>', fio: [], fio1: []},
-				{id: 7, class: '', name: '<Пусто>', fio: [], fio1: []},
-				{id: 8, class: '', name: '<Пусто>', fio: [], fio1: []},
-				{id: 9, class: '', name: '<Пусто>', fio: [], fio1: []},
-				{id: 10, class: '', name: '<Пусто>', fio: [], fio1: []}
+				{ id: 3, class: '', name: '<Пусто>', fio: [], fio1: [] },
+				{ id: 4, class: '', name: '<Пусто>', fio: [], fio1: [] },
+				{ id: 5, class: '', name: '<Пусто>', fio: [], fio1: [] },
+				{ id: 6, class: '', name: '<Пусто>', fio: [], fio1: [] },
+				{ id: 7, class: '', name: '<Пусто>', fio: [], fio1: [] },
+				{ id: 8, class: '', name: '<Пусто>', fio: [], fio1: [] },
+				{ id: 9, class: '', name: '<Пусто>', fio: [], fio1: [] },
+				{ id: 10, class: '', name: '<Пусто>', fio: [], fio1: [] }
 			],
 			favorites: [
-				{id: 0, name: 'Беспалов'},
-				{id: 1, name: 'Гордеев'},
-				{id: 2, name: 'Евдокимов'},
-				{id: 3, name: 'Карпов'},
-				{id: 4, name: 'Морозов'},
-				{id: 5, name: 'Фомин'}
+				{ id: 0, name: 'Беспалов' },
+				{ id: 1, name: 'Гордеев' },
+				{ id: 2, name: 'Евдокимов' },
+				{ id: 3, name: 'Карпов' },
+				{ id: 4, name: 'Морозов' },
+				{ id: 5, name: 'Фомин' }
 			]
 		}
 	},

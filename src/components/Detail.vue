@@ -61,9 +61,9 @@ export default {
 		return {
 			showme: false,
 			tree: false,
-			size: 465,
-			width: 465,
-			height: 651
+			size: 350,
+			width: 350,
+			height: 490
 		}
 	},
 	computed: {
@@ -88,22 +88,6 @@ export default {
 			return this.height + 'px'
 		}
 	},
-	// mounted () {
-	// 	if (this.currentItem.unread === true) {
-	// 		let that = this
-	// 		setTimeout(function () {
-	// 			that.toggleUnread(false)
-	// 		}, 2000)
-	// 	}
-	// },
-	// updated () {
-	// 	if (this.currentItem.unread === true) {
-	// 		let that = this
-	// 		setTimeout(function () {
-	// 			that.toggleUnread(false)
-	// 		}, 2000)
-	// 	}
-	// },
 	methods: {
 		back () {
 			this.$router.push(this.currentFolder.path)

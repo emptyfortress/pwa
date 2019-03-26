@@ -78,7 +78,7 @@ export default {
 		return {
 			expandRow: null,
 			row: 'Строк на странице',
-			rowsPerPageItems: [10, 25, 50, {'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1}],
+			rowsPerPageItems: [10, 25, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 }],
 			// search: '',
 			selected: [],
 			over: false,
@@ -158,7 +158,7 @@ export default {
 			else this.selected = this.items.slice()
 			this.snackbar = !this.snackbar
 		},
-		dragStart ({item}) {
+		dragStart ({ item }) {
 			const nextSib = item.nextSibling
 			if (nextSib &&
 				nextSib.classList.contains('datatable__expand-row')) {
@@ -167,7 +167,7 @@ export default {
 				this.expandRow = null
 			}
 		},
-		dragReorder ({item, oldIndex, newIndex}) {
+		dragReorder ({ item, oldIndex, newIndex }) {
 			let newItems = this.items.sort(this.predicateBy(this.pagination.sortBy))
 			if (this.pagination.descending === true) {
 				newItems = newItems.reverse()
