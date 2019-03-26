@@ -6,7 +6,7 @@ v-container.infolder
 		span {{folder.text}}
 	br
 	v-layout(row wrap).filt
-		v-flex.item(@click="setFilter('Все')" :class="filter==='Все' ? 'active' : ''") {{folder.items}}
+		v-flex.item(@click="setFilter('Все')" :class="filter==='Все' ? 'active' : ''") {{ items.length }}
 			.new Всего
 		v-flex.item(@click="setFilter('Новые')" :class="filter==='Новые' ? 'active' : ''") {{unreadItems}}
 			.new Новых
@@ -38,6 +38,9 @@ export default {
 		}
 	},
 	computed: {
+		items () {
+			return this.$store.getters.items
+		},
 		currentFolder () {
 			return this.$store.getters.currentFolder
 		},
