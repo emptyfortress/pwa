@@ -42,8 +42,8 @@ div
 				span.hd {{ currentSort }}
 				v-icon arrow_drop_down
 			v-card
-				v-list.sort
-					v-list-tile(v-model="currentSort" v-for="(item, index) in sorts" :key="index")
+				v-list
+					v-list-tile(v-model="currentSort" v-for="(item, index) in sorts" :key="index" @click="")
 						v-list-tile-content
 							v-list-tile-title {{ item }}
 						v-list-tile-action
@@ -518,8 +518,5 @@ export default {
 			margin-top: 4px;
 			padding-top: 0;
 		}
-}
-.sort {
-	/* width: 200px; */
 }
 </style>

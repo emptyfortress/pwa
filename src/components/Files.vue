@@ -1,9 +1,45 @@
 <template lang="pug">
 	v-layout( row wrap ).filepanel
-		.file(v-if="current.filenames.length" v-for="file in current.filenames")
-			img(:src="require('@/assets/img/file-main.svg')").full
-			.name {{ file.name }}
-			.type(:class="file.type") {{ file.type }}
+		v-menu(v-model="filemenu" v-if="current.filenames.length" v-for="( file, index ) in current.filenames" :key="index" )
+			.file(slot="activator")
+				img(:src="require('@/assets/img/file-main.svg')").full
+				.name {{ file.name }}
+				.type(:class="file.type") {{ file.type }}
+			v-card(max-width="300" color="info")
+				v-card-title
+					table.att
+						tr
+							td.label Имя:
+							td.bold {{ file.name }}
+						tr
+							td.label Размер:
+							td.bold {{ file.size }}
+						tr
+							td.label Создан:
+							td 2018-09-20
+						tr
+							td.label Изменен:
+							td --
+						tr
+							td.label Автор:
+							td {{ people[index] }}
+				v-divider
+				v-list
+					v-list-tile(@click="")
+						v-list-tile-content
+							v-list-tile-title Сделать обложкой
+					v-list-tile(@click="")
+						v-list-tile-content
+							v-list-tile-title Превью
+					v-list-tile(@click="")
+						v-list-tile-content
+							v-list-tile-title Скачать
+					v-list-tile(@click="")
+						v-list-tile-content
+							v-list-tile-title Создать версию
+					v-list-tile(@click="")
+						v-list-tile-content
+							v-list-tile-title Удалить
 		.file(v-if="current.dopfiles.length" v-for="file in current.dopfiles").dop
 			img(:src="require('@/assets/img/file.svg')").full
 			.name {{ file.name }}
@@ -23,6 +59,28 @@ export default {
 	props: ['current'],
 	data () {
 		return {
+			people: [
+				'Derek Barnhouse',
+				'Seth Reyes',
+				'John Miller',
+				'Lynn Mathias',
+				'Darlene Barrie',
+				'Wendy McHugh',
+				'Ruth Merrell',
+				'Joseph Mackey',
+				'Dennis Holman',
+				'Will Hernandez',
+				'Eugene Tuggle',
+				'Jamel Grant',
+				'Willy Fahey',
+				'Steven Griffith',
+				'Daniel Webster',
+				'Robert Carter',
+				'Velda White',
+				'Terresa Juarez',
+				'Angela Mayer',
+				'Florence Boyle'
+			]
 		}
 	},
 	computed: {
@@ -82,6 +140,17 @@ export default {
 		left: 7px;
 		color: #888;
 	}
+}
+.label {
+	color: #888;
+	padding-right: 1rem;
+}
+.bold {
+	font-weight: bold;
+	font-size: 1.1rem;
+}
+.att td {
+	color: #fff;
 }
 
 </style>

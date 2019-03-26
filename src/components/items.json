@@ -5,11 +5,11 @@
 		"unread": false,
 		"files": 3,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "38 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "Archive.txt", "size": "-- kB", "type": "txt"},
-			{"name": "router.js", "size": "-- kB", "type": "js"}
+			{"name": "Archive.txt", "size": "234 kB", "type": "txt"},
+			{"name": "router.js", "size": "471 kB", "type": "js"}
 		],
 		"executor": "Гусев П.И.",
 		"controler": "Сумкин П.А.",
@@ -32,11 +32,11 @@
 		"unread": false,
 		"files": 3,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "920 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "basket.doc", "size": "-- kB", "type": "doc"},
-			{"name": "logo.png", "size": "-- kB", "type": "png"}
+			{"name": "basket.doc", "size": "750 kB", "type": "doc"},
+			{"name": "logo.png", "size": "116 kB", "type": "png"}
 		],
 		"executor": "Гусев П.И.",
 		"author": "<Я>",
@@ -79,12 +79,12 @@
 		"unread": false,
 		"files": 4,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "822 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "mainfile.doc", "size": "-- kB", "type": "doc"},
-			{"name": "store.js", "size": "-- kB", "type": "js"},
-			{"name": "assets.pdf", "size": "-- kB", "type": "pdf"}
+			{"name": "mainfile.doc", "size": "374 kB", "type": "doc"},
+			{"name": "store.js", "size": "469 kB", "type": "js"},
+			{"name": "assets.pdf", "size": "230 kB", "type": "pdf"}
 		],
 		"executor": "Синичкина Г.И.",
 		"controler": "Сумкин П.А.",
@@ -106,10 +106,10 @@
 		"unread": true,
 		"files": 2,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "344 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "absentFile.doc", "size": "-- kB", "type": "doc"}
+			{"name": "absentFile.doc", "size": "651 kB", "type": "doc"}
 		],
 		"executor": "Соловьева А.П.",
 		"controler": "Сумкин П.А.",
@@ -133,16 +133,16 @@
 		"unread": true,
 		"files": 8,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "707 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "dopfile.doc", "size": "-- kB", "type": "doc"},
-			{"name": "filter-active.doc", "size": "-- kB", "type": "doc"},
-			{"name": "maindoc.doc", "size": "-- kB", "type": "doc"},
-			{"name": "main.js", "size": "-- kB", "type": "js"},
-			{"name": "folder.doc", "size": "-- kB", "type": "doc"},
-			{"name": "Sound.txt", "size": "-- kB", "type": "txt"},
-			{"name": "Home.txt", "size": "-- kB", "type": "txt"}
+			{"name": "dopfile.doc", "size": "522 kB", "type": "doc"},
+			{"name": "filter-active.doc", "size": "506 kB", "type": "doc"},
+			{"name": "maindoc.doc", "size": "2 kB", "type": "doc"},
+			{"name": "main.js", "size": "949 kB", "type": "js"},
+			{"name": "folder.doc", "size": "554 kB", "type": "doc"},
+			{"name": "Sound.txt", "size": "433 kB", "type": "txt"},
+			{"name": "Home.txt", "size": "444 kB", "type": "txt"}
 		],
 		"executor": "Соловьева А.П.",
 		"author": "<Я>",
@@ -187,7 +187,7 @@
 		"dopfiles": [],
 		"filenames": [],
 		"report": [
-			{"name": "Отчет.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Отчет.txt", "size": "912 kB", "type": "txt"}
 		],
 		"executor": "Уткин И.И",
 		"author": "<Я>",
@@ -207,11 +207,11 @@
 		"unread": false,
 		"files": 3,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "53 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "directives.pdf", "size": "-- kB", "type": "pdf"},
-			{"name": "filter-remove.doc", "size": "-- kB", "type": "doc"}
+			{"name": "directives.pdf", "size": "54 kB", "type": "pdf"},
+			{"name": "filter-remove.doc", "size": "559 kB", "type": "doc"}
 		],
 		"executor": "Орлов П.П.",
 		"controler": "Сумкин П.А.",
@@ -233,10 +233,10 @@
 		"unread": false,
 		"files": 2,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "281 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "refresh.doc", "size": "-- kB", "type": "doc"}
+			{"name": "refresh.doc", "size": "692 kB", "type": "doc"}
 		],
 		"executor": "Синичкина Г.И.",
 		"author": "<Я>",
@@ -284,11 +284,11 @@
 		"unread": false,
 		"files": 3,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "412 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "microphone.doc", "size": "-- kB", "type": "doc"},
-			{"name": "nmiddle.doc", "size": "-- kB", "type": "doc"}
+			{"name": "microphone.doc", "size": "740 kB", "type": "doc"},
+			{"name": "nmiddle.doc", "size": "178 kB", "type": "doc"}
 		],
 		"executor": "Воробьев К.А.",
 		"author": "<Я>",
@@ -329,16 +329,16 @@
 		"unread": false,
 		"files": 8,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "574 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "user1.doc", "size": "-- kB", "type": "doc"},
-			{"name": "moon.doc", "size": "-- kB", "type": "doc"},
-			{"name": "settings.doc", "size": "-- kB", "type": "doc"},
-			{"name": "AddTask.txt", "size": "-- kB", "type": "txt"},
-			{"name": "done.doc", "size": "-- kB", "type": "doc"},
-			{"name": "views.pdf", "size": "-- kB", "type": "pdf"},
-			{"name": "headers.json", "size": "-- kB", "type": "js"}
+			{"name": "user1.doc", "size": "890 kB", "type": "doc"},
+			{"name": "moon.doc", "size": "982 kB", "type": "doc"},
+			{"name": "settings.doc", "size": "755 kB", "type": "doc"},
+			{"name": "AddTask.txt", "size": "706 kB", "type": "txt"},
+			{"name": "done.doc", "size": "598 kB", "type": "doc"},
+			{"name": "views.pdf", "size": "645 kB", "type": "pdf"},
+			{"name": "headers.json", "size": "585 kB", "type": "js"}
 		],
 		"executor": "Жаворонков К.К.",
 		"controler": "Сумкин П.А.",
@@ -363,13 +363,13 @@
 		"unread": false,
 		"files": 3,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "4 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "ExpandItem.txt", "size": "-- kB", "type": "txt"}
+			{"name": "ExpandItem.txt", "size": "459 kB", "type": "txt"}
 		],
 		"report": [
-			{"name": "Отчет.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Отчет.txt", "size": "271 kB", "type": "txt"}
 		],
 		"executor": "Гусев П.И.",
 		"author": "<Я>",
@@ -411,14 +411,14 @@
 		"unread": false,
 		"files": 6,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "444 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "Alert.txt", "size": "-- kB", "type": "txt"},
-			{"name": "Attr.txt", "size": "-- kB", "type": "txt"},
-			{"name": "Bottom.xls", "size": "-- kB", "type": "xls"},
-			{"name": "context.doc", "size": "-- kB", "type": "doc"},
-			{"name": "Data.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Alert.txt", "size": "797 kB", "type": "txt"},
+			{"name": "Attr.txt", "size": "978 kB", "type": "txt"},
+			{"name": "Bottom.xls", "size": "502 kB", "type": "xls"},
+			{"name": "context.doc", "size": "863 kB", "type": "doc"},
+			{"name": "Data.txt", "size": "966 kB", "type": "txt"}
 		],
 		"executor": "Уткин И.И",
 		"controler": "Сумкин П.А.",
@@ -461,16 +461,16 @@
 		"unread": false,
 		"files": 8,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "463 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "HelloWorld.txt", "size": "-- kB", "type": "txt"},
-			{"name": "items.json", "size": "-- kB", "type": "js"},
-			{"name": "Min.txt", "size": "-- kB", "type": "txt"},
-			{"name": "MultiSelect.doc", "size": "-- kB", "type": "doc"},
-			{"name": "Split.txt", "size": "-- kB", "type": "txt"},
-			{"name": "Tiles.txt", "size": "-- kB", "type": "txt"},
-			{"name": "titles.json", "size": "-- kB", "type": "js"}
+			{"name": "HelloWorld.txt", "size": "900 kB", "type": "txt"},
+			{"name": "items.json", "size": "370 kB", "type": "js"},
+			{"name": "Min.txt", "size": "711 kB", "type": "txt"},
+			{"name": "MultiSelect.doc", "size": "697 kB", "type": "doc"},
+			{"name": "Split.txt", "size": "394 kB", "type": "txt"},
+			{"name": "Tiles.txt", "size": "678 kB", "type": "txt"},
+			{"name": "titles.json", "size": "984 kB", "type": "js"}
 		],
 		"executor": "Воробьев К.А.",
 		"author": "<Я>",
@@ -493,13 +493,13 @@
 		"unread": false,
 		"files": 5,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "970 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "DataTable.txt", "size": "-- kB", "type": "txt"},
-			{"name": "star-full.doc", "size": "-- kB", "type": "doc"},
-			{"name": "DrawerRightContent.txt", "size": "-- kB", "type": "txt"},
-			{"name": "Min.txt", "size": "-- kB", "type": "txt"}
+			{"name": "DataTable.txt", "size": "711 kB", "type": "txt"},
+			{"name": "star-full.doc", "size": "594 kB", "type": "doc"},
+			{"name": "DrawerRightContent.txt", "size": "974 kB", "type": "txt"},
+			{"name": "Min.txt", "size": "784 kB", "type": "txt"}
 		],
 		"executor": "Соловьева А.П.",
 		"author": "<Я>",
@@ -545,7 +545,7 @@
 		"dopfiles": [],
 		"filenames": [],
 		"report": [
-			{"name": "Отчет.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Отчет.txt", "size": "502 kB", "type": "txt"}
 		],
 		"executor": "Жаворонков К.К.",
 		"author": "<Я>",
@@ -565,17 +565,17 @@
 		"unread": false,
 		"files": 9,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "75 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "role.doc", "size": "-- kB", "type": "doc"},
-			{"name": "dopdoc.doc", "size": "-- kB", "type": "doc"},
-			{"name": "fingerprint.doc", "size": "-- kB", "type": "doc"},
-			{"name": "departments.json", "size": "-- kB", "type": "js"},
-			{"name": "dv-64.png", "size": "-- kB", "type": "png"},
-			{"name": "components.pdf", "size": "-- kB", "type": "pdf"},
-			{"name": "MultiSelect.txt", "size": "-- kB", "type": "txt"},
-			{"name": "contextFiles.txt", "size": "-- kB", "type": "txt"}
+			{"name": "role.doc", "size": "939 kB", "type": "doc"},
+			{"name": "dopdoc.doc", "size": "842 kB", "type": "doc"},
+			{"name": "fingerprint.doc", "size": "332 kB", "type": "doc"},
+			{"name": "departments.json", "size": "361 kB", "type": "js"},
+			{"name": "dv-64.png", "size": "657 kB", "type": "png"},
+			{"name": "components.pdf", "size": "549 kB", "type": "pdf"},
+			{"name": "MultiSelect.txt", "size": "987 kB", "type": "txt"},
+			{"name": "contextFiles.txt", "size": "383 kB", "type": "txt"}
 		],
 		"executor": "Гусев П.И.",
 		"author": "<Я>",
@@ -584,7 +584,7 @@
 		"modified": "2018-08-13",
 		"deadline": "2018-09-25",
 		"status": "В работе",
-		"descr": "--",
+		"descr": "806",
 		"actions": [
 			{"button": "Делегировать", "color": "info"},
 			{"button": "Согласовать", "color": "accent"},
@@ -598,10 +598,10 @@
 		"unread": false,
 		"files": 2,
 		"dopfiles": [
-			{"name": "Приложение.txt", "size": "-- kB", "type": "txt"}
+			{"name": "Приложение.txt", "size": "809 kB", "type": "txt"}
 		],
 		"filenames": [
-			{"name": "users.doc", "size": "-- kB", "type": "doc"}
+			{"name": "users.doc", "size": "26 kB", "type": "doc"}
 		],
 		"executor": "Соловьева А.П.",
 		"author": "<Я>",
