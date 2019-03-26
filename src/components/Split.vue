@@ -36,14 +36,27 @@ div
 		.search
 			v-text-field(v-model="search" label="Поиск" hide-details)
 		.divide.ml-2.mr-2
-		v-menu(transition="slide-y-transition")
+		v-menu(transition="slide-y-transition" v-model="menu" :close-on-content-click="false")
 			.filter( slot="activator" )
 				v-icon.mr-2 sort
-				span.hd {{ sort }}
+				span.hd {{ currentSort }}
 				v-icon arrow_drop_down
-			v-list
-				v-list-tile(v-model="currentFilter" v-for="(item, index) in sorts" :key="index" @click="setFilter(item)")
-					v-list-tile-title {{ item }}
+			v-card
+				v-list.sort
+					v-list-tile(v-model="currentSort" v-for="(item, index) in sorts" :key="index")
+						v-list-tile-content
+							v-list-tile-title {{ item }}
+						v-list-tile-action
+							v-spacer
+							v-layout(row)
+								v-btn(icon).mr-2
+									v-icon arrow_downward
+								v-btn(icon)
+									v-icon arrow_upward
+				v-divider
+				v-card-action
+					v-btn(flat color="info" @click="menu = false") Отмена
+					v-btn(flat color="info" @click="menu = false") Применить
 
 	div.all
 		drag-zone.zone
@@ -100,7 +113,9 @@ export default {
 			selectNew: false,
 			search: undefined,
 			currentFilter: 'Все',
-			sort: 'Вручную'
+			currentSort: 'Вручную',
+			menu: false,
+			sort: false
 			// filteredItems: []
 		}
 	},
@@ -503,5 +518,8 @@ export default {
 			margin-top: 4px;
 			padding-top: 0;
 		}
+}
+.sort {
+	/* width: 200px; */
 }
 </style>
