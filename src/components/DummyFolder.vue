@@ -34,6 +34,9 @@ export default {
 				labels: ['Новые', 'Просроченные', 'На контроле', 'Завершено', 'Остальные'],
 				dataLabels: {
 					enabled: true,
+					style: {
+						fontSize: '18px'
+					},
 					formatter: val => this.items.length / 100 * val
 				},
 				plotOptions: {
@@ -45,9 +48,9 @@ export default {
 						expandOnClick: true,
 						dataLabels: {
 							offset: 0,
-						}, 
+						},
 						donut: {
-							size: '65%',
+							size: '55%',
 							background: 'transparent',
 							labels: {
 								show: true,
@@ -70,7 +73,7 @@ export default {
 								},
 								total: {
 									show: true,
-									label: 'В папке',
+									label: 'Всего',
 									color: '#373d3f',
 									formatter: function (w) {
 										return w.globals.seriesTotals.reduce((a, b) => {
