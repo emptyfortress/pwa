@@ -185,13 +185,6 @@ export default {
 			}
 		}
 	},
-	// watch: {
-	// 	search (val) {
-	// 		if (val.length > 0) {
-	// 			this.filteredItems = this.items.filter(item => item.unread)
-	// 		} else this.filteredItems = this.items
-	// 	}
-	// },
 	methods: {
 		openDialog () {
 			this.$store.commit('toggleFilterDialog', true)

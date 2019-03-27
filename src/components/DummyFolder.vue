@@ -15,26 +15,29 @@ v-container.infolder
 		v-flex.item(@click="setFilter('На контроле')" :class="filter==='На контроле' ? 'active' : ''") {{ controlItems }}
 			.new На контроле
 	br
-
-	<!-- v&#45;layout(row wrap).sort -->
-	<!-- 	v&#45;flex -->
-	<!-- 		v&#45;btn(round color="info" small) Срок -->
-	<!-- 	v&#45;flex -->
-	<!-- 		v&#45;btn(flat round small) Статус -->
-	<!-- 	v&#45;flex -->
-	<!-- 		v&#45;btn(flat round small) Автор -->
-	<!-- 	v&#45;flex -->
-	<!-- 		v&#45;btn(flat round small) Тема -->
-	<!-- 	v&#45;flex -->
-	<!-- 		v&#45;btn(flat round small) Создан -->
+	.mychart(v-responsive="chartResponse")
+		apexchart( type="donut" width="600" :options="chartOptions" :series="series" id="bigChart")
+		apexchart( type="donut" width="400" :options="chartOptions" :series="series" id="smChart")
+		<!-- .all 50 -->
 
 </template>
 
 <script>
+import { ResponsiveDirective } from 'vue-responsive-components'
+
 export default {
 	props: ['folder'],
 	data () {
 		return {
+			chartOptions: {
+				labels: ['В работе', 'Новые', 'Просрочено', 'На контроле', 'Делегировано'],
+				dataLabels: { enabled: false }
+			},
+			series: [11, 32, 45],
+			chartResponse: {
+				small: el => el.width < 800,
+				big: el => el.width > 800
+			}
 		}
 	},
 	computed: {
@@ -70,6 +73,9 @@ export default {
 			dummy.filter = e
 			this.$store.dispatch('updateFolderFilter', dummy)
 		}
+	},
+	directives: {
+		responsive: ResponsiveDirective
 	}
 }
 </script>
@@ -133,4 +139,19 @@ export default {
 		flex-grow: 0;
 	}
 }
+.mychart {
+	position: relative;
+	.all {
+		position: absolute;
+		top: 40%;
+		left: 40%;
+	}
+}
+.small.mychart {
+	#bigChart { display: none; }
+}
+.big.mychart {
+	#smChart { display: none; }
+}
+
 </style>
