@@ -31,13 +31,56 @@ export default {
 	data () {
 		return {
 			chartOptions: {
-				labels: ['Новые','Просроченные', 'На контроле', 'Завершено', 'Остальные'],
+				labels: ['Новые', 'Просроченные', 'На контроле', 'Завершено', 'Остальные'],
 				dataLabels: {
 					enabled: true,
-					// formatter: function(val, opt) {
-					// 	return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
-					// }
 					formatter: val => this.items.length / 100 * val
+				},
+				plotOptions: {
+					pie: {
+						// size: undefined,
+						// customScale: 1,
+						offsetX: 0,
+						offsetY: 0,
+						expandOnClick: true,
+						dataLabels: {
+							offset: 0,
+						}, 
+						donut: {
+							size: '65%',
+							background: 'transparent',
+							labels: {
+								show: true,
+								name: {
+									show: true,
+									fontSize: '22px',
+									fontFamily: 'Helvetica, Arial, sans-serif',
+									color: undefined,
+									offsetY: -10
+								},
+								value: {
+									show: true,
+									fontSize: '27px',
+									fontFamily: 'Helvetica, Arial, sans-serif',
+									color: undefined,
+									offsetY: 16,
+									formatter: function (val) {
+										return val
+									}
+								},
+								total: {
+									show: true,
+									label: 'В папке',
+									color: '#373d3f',
+									formatter: function (w) {
+										return w.globals.seriesTotals.reduce((a, b) => {
+											return a + b
+										}, 0)
+									}
+								}
+							}
+						},      
+					}
 				},
 				chart: {
 					events: {
@@ -67,7 +110,7 @@ export default {
 			if (this.overdueItems) { temp.push({ label: 'Просроченные', val: this.overdueItems }) }
 			if (this.controlItems) { temp.push({ label: 'На контроле', val: this.controlItems }) }
 			if (this.finishedItems) { temp.push({ label: 'Завершено', val: this.finishedItems }) }
-			 temp.push({ label: 'Завершено', val: this.items.length - this.unreadItems - this.controlItems - this.overdueItems - this.finishedItems })
+			temp.push({ label: 'Завершено', val: this.items.length - this.unreadItems - this.controlItems - this.overdueItems - this.finishedItems })
 			return temp
 		},
 		items () {
