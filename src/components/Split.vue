@@ -54,7 +54,7 @@ div
 								v-btn(icon)
 									v-icon arrow_upward
 				v-divider
-				v-card-action
+				v-card-actions
 					v-btn(flat color="info" @click="menu = false") Отмена
 					v-btn(flat color="info" @click="menu = false") Применить
 

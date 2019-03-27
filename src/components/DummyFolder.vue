@@ -18,6 +18,7 @@ v-container.infolder
 	.mychart(v-responsive="chartResponse")
 		apexchart( type="donut" width="600" :options="chartOptions" :series="series" id="bigChart")
 		apexchart( type="donut" width="400" :options="chartOptions" :series="series" id="smChart")
+	v-btn(@click="test") test
 		<!-- .all 50 -->
 
 </template>
@@ -30,10 +31,23 @@ export default {
 	data () {
 		return {
 			chartOptions: {
-				labels: ['В работе', 'Новые', 'Просрочено', 'На контроле', 'Делегировано'],
-				dataLabels: { enabled: false }
+				labels: ['Новые','Просроченные', 'На контроле', 'Завершено', 'Остальные'],
+				dataLabels: {
+					enabled: true,
+					// formatter: function(val, opt) {
+					// 	return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+					// }
+					formatter: val => this.items.length / 100 * val
+				},
+				chart: {
+					events: {
+						dataPointSelection: function (event, chartContext, config) {
+							console.log(config.dataPointIndex)
+							console.log(this.mylabels)
+						}
+					}
+				}
 			},
-			series: [11, 32, 45],
 			chartResponse: {
 				small: el => el.width < 800,
 				big: el => el.width > 800
@@ -41,6 +55,21 @@ export default {
 		}
 	},
 	computed: {
+		series () {
+			return this.seriesAll.map(item => item.val)
+		},
+		mylabels () {
+			return this.seriesAll.map(item => item.label)
+		},
+		seriesAll () {
+			let temp = []
+			if (this.unreadItems) { temp.push({ label: 'Новые', val: this.unreadItems }) }
+			if (this.overdueItems) { temp.push({ label: 'Просроченные', val: this.overdueItems }) }
+			if (this.controlItems) { temp.push({ label: 'На контроле', val: this.controlItems }) }
+			if (this.finishedItems) { temp.push({ label: 'Завершено', val: this.finishedItems }) }
+			 temp.push({ label: 'Завершено', val: this.items.length - this.unreadItems - this.controlItems - this.overdueItems - this.finishedItems })
+			return temp
+		},
 		items () {
 			return this.$store.getters.items
 		},
@@ -64,9 +93,17 @@ export default {
 			let items = this.$store.getters.items
 			let control = items.filter(item => item.controler)
 			return control.length
+		},
+		finishedItems () {
+			let items = this.$store.getters.items
+			let finish = items.filter(item => item.status === 'Завершено')
+			return finish.length
 		}
 	},
 	methods: {
+		test () {
+			console.log(this.mylabels)
+		},
 		setFilter (e) {
 			let dummy = {}
 			dummy.id = this.$store.getters.currentFolder.id
