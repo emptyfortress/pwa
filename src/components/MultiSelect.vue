@@ -168,9 +168,6 @@ export default {
 	z-index: 1;
 }
 
-
-
-
 .modal {
 	z-index: 1050;
 	position: fixed;

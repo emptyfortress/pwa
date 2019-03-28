@@ -14,12 +14,12 @@ v-container.infolder
 			.new Просрочено
 		v-flex.item(@click="setFilter('На контроле')" :class="filter==='На контроле' ? 'active' : ''") {{ controlItems }}
 			.new На контроле
+		v-flex.item(@click="setFilter('Завершенные')" :class="filter==='Завершенные' ? 'active' : ''") {{ finishedItems }}
+			.new Завершено
 	br
 	.mychart(v-responsive="chartResponse")
 		apexchart( type="donut" width="600" :options="chartOptions" :series="series" id="bigChart")
 		apexchart( type="donut" width="400" :options="chartOptions" :series="series" id="smChart")
-	v-btn(@click="test") test
-		<!-- .all 50 -->
 
 </template>
 
@@ -30,8 +30,10 @@ export default {
 	props: ['folder'],
 	data () {
 		return {
+			filterActive: undefined,
 			chartOptions: {
 				labels: ['Новые', 'Просроченные', 'На контроле', 'Завершено', 'Остальные'],
+				colors: ['#527ACC', '#CC1E14', '#FFAF19', '#31991F', '#666'],
 				dataLabels: {
 					enabled: true,
 					style: {
@@ -41,13 +43,11 @@ export default {
 				},
 				plotOptions: {
 					pie: {
-						// size: undefined,
-						// customScale: 1,
 						offsetX: 0,
 						offsetY: 0,
 						expandOnClick: true,
 						dataLabels: {
-							offset: 0,
+							offset: 0
 						},
 						donut: {
 							size: '55%',
@@ -82,14 +82,13 @@ export default {
 									}
 								}
 							}
-						},      
+						}
 					}
 				},
 				chart: {
 					events: {
-						dataPointSelection: function (event, chartContext, config) {
-							console.log(config.dataPointIndex)
-							console.log(this.mylabels)
+						dataPointSelection: (event, chartContext, config) => {
+							this.setFilterChart(config.dataPointIndex)
 						}
 					}
 				}
@@ -103,9 +102,6 @@ export default {
 	computed: {
 		series () {
 			return this.seriesAll.map(item => item.val)
-		},
-		mylabels () {
-			return this.seriesAll.map(item => item.label)
 		},
 		seriesAll () {
 			let temp = []
@@ -147,13 +143,34 @@ export default {
 		}
 	},
 	methods: {
-		test () {
-			console.log(this.mylabels)
-		},
 		setFilter (e) {
 			let dummy = {}
 			dummy.id = this.$store.getters.currentFolder.id
 			dummy.filter = e
+			this.$store.dispatch('updateFolderFilter', dummy)
+		},
+		setFilterChart (e) {
+			let dummy = {}
+			dummy.id = this.$store.getters.currentFolder.id
+			if (e === 0 && this.filterActive !== 0) {
+				dummy.filter = 'Новые'
+				this.filterActive = 0
+			} else if (e === 1 && this.filterActive !== 1) {
+				dummy.filter = 'Просроченные'
+				this.filterActive = 1
+			} else if (e === 2 && this.filterActive !== 2) {
+				dummy.filter = 'На контроле'
+				this.filterActive = 2
+			} else if (e === 3 && this.filterActive !== 3) {
+				dummy.filter = 'Завершенные'
+				this.filterActive = 3
+			} else if (e === 4) {
+				dummy.filter = 'Все'
+				this.filterActive = undefined
+			} else if (this.filterActive === e) {
+				dummy.filter = 'Все'
+				this.filterActive = undefined
+			}
 			this.$store.dispatch('updateFolderFilter', dummy)
 		}
 	},
