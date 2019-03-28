@@ -43,7 +43,7 @@ v-container(grid-list-md)
 			Widget(:folders="featuredType('folder')")
 		v-flex(xs4)
 			.one
-				.week Статистика недели (поручения)
+				.week 23 неделя (поручения)
 				.digit 14
 				apexchart( type="bar" :options="chartOptions" :series="series" id="bigChart")
 				br
@@ -56,8 +56,12 @@ v-container(grid-list-md)
 							v-list-tile-title.bold {{ file.name }}
 							v-list-tile-subtitle.sub {{ file.size }}
 						v-list-tile-action
-							v-btn( icon )
-								v-icon(color="#003952") more_vert
+							v-menu
+								v-btn( icon slot="activator")
+										v-icon(color="#003952") more_vert
+								v-list
+									v-list-tile(@click="" v-for="( action, index ) in actions" :key="index")
+										v-list-tile-title {{ action }}
 
 </template>
 
@@ -69,6 +73,12 @@ import Widget from '@/components/Widget'
 export default {
 	data () {
 		return {
+			actions: [
+				'Просмотр',
+				'Скачать',
+				'Открыть карточку',
+				'Открыть папку'
+			],
 			files: [
 				{ name: 'Договор с ООО "Ромашка".doc', size: '45 kB' },
 				{ name: 'Приложение к договору.txt', size: '11 kB' },
