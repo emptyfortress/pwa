@@ -44,12 +44,22 @@ v-container(grid-list-md)
 		v-flex(xs4)
 			.one
 				.week 23 неделя (поручения)
-				.digit 14
+				v-layout(row)
+					.digit 14
+					v-spacer
+					.text-xs-right
+						v-btn(icon dark @click="prev")
+							i.icon-prev
+						v-btn(icon dark @click="next")
+							i.icon-next
 				apexchart( type="bar" :options="chartOptions" :series="series" id="bigChart")
 				br
 				.week Последние файлы
 				v-list.filelist
 					Preview(v-for="(file, index) in files" :index="index" :key="index").full
+				br
+				.week Команда
+				Team
 </template>
 
 <script>
@@ -57,6 +67,7 @@ import VueEasyPieChart from 'vue-easy-pie-chart'
 import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
 import Widget from '@/components/Widget'
 import Preview from '@/components/Preview'
+import Team from '@/components/Team'
 
 export default {
 	data () {
@@ -127,7 +138,8 @@ export default {
 	components: {
 		VueEasyPieChart,
 		Widget,
-		Preview
+		Preview,
+		Team
 	}
 }
 </script>
@@ -177,8 +189,7 @@ export default {
 	}
 }
 .one {
-	height: 96%;
-	/* margin-bottom: 6rem; */
+	height: 1062px;
 	margin-top: 3.4rem;
 	background: $info;
 	padding-top: 1rem;
