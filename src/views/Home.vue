@@ -48,31 +48,62 @@ v-container(grid-list-md)
 				apexchart( type="bar" :options="chartOptions" :series="series" id="bigChart")
 				br
 				.week Последние файлы
-				v-list(two-line).filelist
-					v-list-tile(v-for="file in files" :key="file.name" avatar @click="")
+				v-list.filelist
+					v-list-tile(v-for="file in files" :key="file.name" avatar @click.stop="showD").test
 						v-list-tile-avatar
 							i.icon-doc.lrg
 						v-list-tile-content
 							v-list-tile-title.bold {{ file.name }}
-							v-list-tile-subtitle.sub {{ file.size }}
-						v-list-tile-action
-							v-menu
-								v-btn( icon slot="activator")
-										v-icon(color="#003952") more_vert
-								v-list
-									v-list-tile(@click="" v-for="( action, index ) in actions" :key="index")
-										v-list-tile-title {{ action }}
+							<!-- v&#45;list&#45;tile&#45;subtitle.sub {{ file.size }} -->
+						<!-- v&#45;list&#45;tile&#45;action -->
+						<!-- 	v&#45;menu -->
+						<!-- 		v&#45;btn( icon slot="activator" ) -->
+						<!-- 				v&#45;icon(color="#003952") more_vert -->
+						<!-- 		v&#45;list -->
+						<!-- 			v&#45;list&#45;tile(@click="" v&#45;for="( action, index ) in actions" :key="index") -->
+						<!-- 				v&#45;list&#45;tile&#45;title {{ action }} -->
+	<!-- Preview( :preview="preview" ) -->
+				<div class="text-xs-center">
+					<v-dialog v-model="dialog" width="500" >
+						<template v-slot:activator="{ on }">
+							<v-btn color="red lighten-2" dark v-on="on" >
+								Click Me
+							</v-btn>
+						</template>
 
+						<v-card>
+							<v-card-title class="headline grey lighten-2" primary-title >
+								Privacy Policy
+							</v-card-title>
+
+								<v-card-text>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</v-card-text>
+
+								<v-divider></v-divider>
+
+								<v-card-actions>
+									<v-spacer></v-spacer>
+									<v-btn color="primary" flat @click="dialog = false" >
+										I accept
+									</v-btn>
+								</v-card-actions>
+						</v-card>
+					</v-dialog>
+				</div>
 </template>
 
 <script>
 import VueEasyPieChart from 'vue-easy-pie-chart'
 import 'vue-easy-pie-chart/dist/vue-easy-pie-chart.css'
 import Widget from '@/components/Widget'
+import Preview from '@/components/Preview'
 
 export default {
 	data () {
 		return {
+			dialog: false,
+			preview: false,
 			actions: [
 				'Просмотр',
 				'Скачать',
@@ -83,7 +114,7 @@ export default {
 				{ name: 'Договор с ООО "Ромашка".doc', size: '45 kB' },
 				{ name: 'Приложение к договору.txt', size: '11 kB' },
 				{ name: 'Расписане выплат.xls', size: '23 kB' },
-				{ name: 'Приказ № 12-3/Л.doc', size: '15 kB' },
+				{ name: 'Приказ № 12-3/Л.doc', size: '15 kB' }
 			],
 			chartOptions: {
 				chart: {
@@ -132,13 +163,19 @@ export default {
 		}
 	},
 	methods: {
+		showD () {
+			console.log(this.preview)
+			this.preview = !this.preview
+			console.log(this.preview)
+		},
 		featuredType (e) {
 			return this.featured.filter(x => x.type === e)
 		}
 	},
 	components: {
 		VueEasyPieChart,
-		Widget
+		Widget,
+		Preview
 	}
 }
 </script>
@@ -211,8 +248,14 @@ export default {
 		color: #fff;
 		background: transparent;
 	}
-	.lrg { font-size: 2.5rem; color: #003952; }
+	.lrg { font-size: 2.2rem; color: #003952; }
 	.sub { font-size: .9rem; color: #003952; }
+}
+.preview {
+	background: #dedede;
+}
+.av {
+	width: 100%;
 }
 
 </style>
