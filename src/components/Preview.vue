@@ -40,7 +40,7 @@ v-dialog( v-model="pre" width="800")
 					v-btn(icon large @click="next")
 						i.icon-next
 				.mt-5.text-xs-center
-					v-btn(block flat large v-for="bt in actions") {{ bt }}
+					v-btn(block flat large v-for="bt in actions" :key="bt") {{ bt }}
 
 </template>
 
