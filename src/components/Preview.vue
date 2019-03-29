@@ -1,34 +1,44 @@
 <template lang="pug">
-v-dialog( v-model="pre" width="800" )
+v-dialog( v-model="pre" width="800")
 	v-list-tile(avatar slot="activator").test
 		v-list-tile-avatar.sm
 			i.icon-doc.lrg
 		v-list-tile-content
 			v-list-tile-title.bold  {{ files[index].name }}
 
-	v-layout(row).gr
-		v-flex(xs8)
-			img(:src="require('@/assets/img/docs/img' + index + '.jpg')").ful
-		v-flex(xs4)
-			v-card(color="info")
-				v-card-title
-					table.att
-						tr
-							td(colspan="2").headline {{ files[index].name }}
-						tr
-							td(colspan="2").big {{ files[index].size }}
-						tr
-							td(colspan="2" height="50")
-						tr
-							td.label Создан:
-							td 2018-09-20
-						tr
-							td.label Изменен:
-							td --
-						tr
-							td.label Автор:
-							td {{ people[index].name }}
-				v-divider
+	v-window(v-model="index")
+		v-window-item(v-for="item in files" :key="item.name")
+			div.hei
+				v-layout(row).gr
+					v-flex(xs8)
+						img(:src="require('@/assets/img/docs/img' + index + '.jpg')").ful
+					v-flex(xs4)
+						v-card(color="info")
+							v-card-title
+								table.att
+									tr
+										td(colspan="2").headline {{ files[index].name }}
+									tr
+										td(colspan="2").big {{ files[index].size }}
+									tr
+										td(colspan="2" height="50")
+									tr
+										td.label Создан:
+										td 2018-09-20
+									tr
+										td.label Изменен:
+										td --
+									tr
+										td.label Автор:
+										td {{ people[index].name }}
+						v-divider
+						v-btn(icon large @click="prev")
+							i.icon-prev
+						v-btn(icon large @click="next")
+							i.icon-next
+						.mt-5.text-xs-center
+
+							v-btn(block flat large v-for="bt in actions") {{ bt }}
 
 </template>
 
@@ -37,9 +47,11 @@ export default {
 	props: ['preview', 'index'],
 	data () {
 		return {
+			length: 4,
 			dialog: false,
 			actions: [
 				'Просмотр',
+				'Редактировать',
 				'Скачать',
 				'Открыть карточку',
 				'Открыть папку'
@@ -65,6 +77,18 @@ export default {
 			},
 			set (newValue) { return false }
 		}
+	},
+	methods: {
+		next () {
+			this.index = this.index + 1 === this.length
+				? 0
+				: this.index + 1
+		},
+		prev () {
+			this.index = this.index - 1 < 0
+				? this.length - 1
+				: this.index - 1
+		}
 	}
 }
 </script>
@@ -81,4 +105,5 @@ export default {
 	td { vertical-align: top; }
 }
 .big { font-size: 1.2rem; }
+.hei { height: 760px; background: #dedede; }
 </style>
