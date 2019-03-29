@@ -49,48 +49,7 @@ v-container(grid-list-md)
 				br
 				.week Последние файлы
 				v-list.filelist
-					v-list-tile(v-for="file in files" :key="file.name" avatar @click.stop="showD").test
-						v-list-tile-avatar
-							i.icon-doc.lrg
-						v-list-tile-content
-							v-list-tile-title.bold {{ file.name }}
-							<!-- v&#45;list&#45;tile&#45;subtitle.sub {{ file.size }} -->
-						<!-- v&#45;list&#45;tile&#45;action -->
-						<!-- 	v&#45;menu -->
-						<!-- 		v&#45;btn( icon slot="activator" ) -->
-						<!-- 				v&#45;icon(color="#003952") more_vert -->
-						<!-- 		v&#45;list -->
-						<!-- 			v&#45;list&#45;tile(@click="" v&#45;for="( action, index ) in actions" :key="index") -->
-						<!-- 				v&#45;list&#45;tile&#45;title {{ action }} -->
-	<!-- Preview( :preview="preview" ) -->
-				<div class="text-xs-center">
-					<v-dialog v-model="dialog" width="500" >
-						<template v-slot:activator="{ on }">
-							<v-btn color="red lighten-2" dark v-on="on" >
-								Click Me
-							</v-btn>
-						</template>
-
-						<v-card>
-							<v-card-title class="headline grey lighten-2" primary-title >
-								Privacy Policy
-							</v-card-title>
-
-								<v-card-text>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								</v-card-text>
-
-								<v-divider></v-divider>
-
-								<v-card-actions>
-									<v-spacer></v-spacer>
-									<v-btn color="primary" flat @click="dialog = false" >
-										I accept
-									</v-btn>
-								</v-card-actions>
-						</v-card>
-					</v-dialog>
-				</div>
+					Preview(v-for="(file, index) in files" :index="index" :key="index").full
 </template>
 
 <script>
@@ -102,14 +61,7 @@ import Preview from '@/components/Preview'
 export default {
 	data () {
 		return {
-			dialog: false,
 			preview: false,
-			actions: [
-				'Просмотр',
-				'Скачать',
-				'Открыть карточку',
-				'Открыть папку'
-			],
 			files: [
 				{ name: 'Договор с ООО "Ромашка".doc', size: '45 kB' },
 				{ name: 'Приложение к договору.txt', size: '11 kB' },
@@ -248,14 +200,13 @@ export default {
 		color: #fff;
 		background: transparent;
 	}
-	.lrg { font-size: 2.2rem; color: #003952; }
-	.sub { font-size: .9rem; color: #003952; }
 }
-.preview {
-	background: #dedede;
-}
-.av {
+.full {
 	width: 100%;
+	display: block;
+	&:hover {
+		background: darken($info, 5%);
+	}
 }
 
 </style>
