@@ -6,39 +6,41 @@ v-dialog( v-model="pre" width="800")
 		v-list-tile-content
 			v-list-tile-title.bold  {{ files[index].name }}
 
-	v-window(v-model="index")
-		v-window-item(v-for="item in files" :key="item.name")
-			div.hei
-				v-layout(row).gr
-					v-flex(xs8)
-						img(:src="require('@/assets/img/docs/img' + index + '.jpg')").ful
-					v-flex(xs4)
-						v-card(color="info")
-							v-card-title
-								table.att
-									tr
-										td(colspan="2").headline {{ files[index].name }}
-									tr
-										td(colspan="2").big {{ files[index].size }}
-									tr
-										td(colspan="2" height="50")
-									tr
-										td.label Создан:
-										td 2018-09-20
-									tr
-										td.label Изменен:
-										td --
-									tr
-										td.label Автор:
-										td {{ people[index].name }}
-						v-divider
-						v-btn(icon large @click="prev")
-							i.icon-prev
-						v-btn(icon large @click="next")
-							i.icon-next
-						.mt-5.text-xs-center
-
-							v-btn(block flat large v-for="bt in actions") {{ bt }}
+	v-card
+		v-layout(row align-start).gr
+			v-flex(xs8)
+				v-window(v-model="index")
+					v-window-item(v-for="item in files" :key="item.name")
+						div
+							v-layout( align-center justify-center fill-height )
+								.vert
+									img(:src="require('@/assets/img/docs/img' + index + '.jpg')").ful
+			v-flex(xs4)
+				v-card(color="info")
+					v-card-title
+						table.att
+							tr
+								td(colspan="2").headline {{ files[index].name }}
+							tr
+								td(colspan="2").big {{ files[index].size }}
+							tr
+								td(colspan="2" height="50")
+							tr
+								td.label Создан:
+								td 2018-09-20
+							tr
+								td.label Изменен:
+								td --
+							tr
+								td.label Автор:
+								td {{ people[index].name }}
+				.ctr
+					v-btn(icon large @click="prev")
+						i.icon-prev
+					v-btn(icon large @click="next")
+						i.icon-next
+				.mt-5.text-xs-center
+					v-btn(block flat large v-for="bt in actions") {{ bt }}
 
 </template>
 
@@ -96,7 +98,7 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
-.gr { background: #dedede; }
+.gr { background: #dedede; height: 760px; }
 .lrg { font-size: 2.0rem; color: #003952; }
 .ful { width: 100%; }
 .att {
@@ -105,5 +107,8 @@ export default {
 	td { vertical-align: top; }
 }
 .big { font-size: 1.2rem; }
-.hei { height: 760px; background: #dedede; }
+.vert {
+	overflow: hidden;
+}
+.ctr { text-align: center; }
 </style>
