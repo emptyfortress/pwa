@@ -6,15 +6,17 @@ div
 
 	v-layout(row wrap v-if="!loading")
 		v-flex(v-for="folder in folders" :key="folder.id" xs12 sm4 @click="goToFolder(folder)")
-			v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
-				v-badge( color="info" overlap v-show="folder.unread != 0")
-					span( slot="badge" ) {{ folder.unread }}
-				v-layout( row justify-space-around align-center)
-					v-flex
-						.counter {{ folder.items }}
-					v-flex
-						trend( :data="folder.history" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
-				.folder {{ folder.text }}
+			v-hover
+				<!-- v&#45;card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'" slot&#45;scope="{ hover }" :class="elevation&#45;5") -->
+				v-card(flat slot-scope="{ hover }" :class="`elevation-${hover ? 5 : 0}`" ).big
+					v-badge( color="info" overlap v-show="folder.unread != 0")
+						span( slot="badge" ) {{ folder.unread }}
+					v-layout( row justify-space-around align-center)
+						v-flex
+							.counter {{ folder.items }}
+						v-flex
+							trend( :data="folder.history" :gradient=[ "#133C60", "#0195DA" ] auto-draw smooth )
+					.folder {{ folder.text }}
 
 </template>
 

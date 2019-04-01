@@ -10,7 +10,7 @@ v-container(grid-list-md)
 					v-progress-circular( indeterminate color="primary" )
 			v-layout( row wrap v-if="!loading")
 				v-flex( xs12 sm6 )
-					v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'")
+					v-card(flat :class="$vuetify.breakpoint.mdAndDown ? 'small' : 'big'" )
 						v-layout( row justify-center align-center)
 							v-flex
 								vue-easy-pie-chart( :percent="75" :scale-length="0" :size="80")
