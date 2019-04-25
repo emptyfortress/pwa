@@ -48,9 +48,9 @@ v-container(grid-list-md)
 					.digit 14
 					v-spacer
 					.text-xs-right
-						v-btn(icon dark @click="prev")
+						v-btn(icon dark @click="")
 							i.icon-prev
-						v-btn(icon dark @click="next")
+						v-btn(icon dark @click="")
 							i.icon-next
 				apexchart( type="bar" :options="chartOptions" :series="series" id="bigChart")
 				br

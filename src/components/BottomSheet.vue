@@ -11,7 +11,7 @@ v-bottom-sheet( v-model="sheet"  inset )
 			v-tab( href="#mobile-tabs-5-3" )
 				v-icon account_box
 		v-tabs-items( v-model="tabs" ).white.elevation-1
-			v-tab-item( v-for="i in 3" :id="'mobile-tabs-5-' + i" :key="i" )
+			v-tab-item( v-for="i in 3" :value="'mobile-tabs-5-' + i" :key="i" )
 				v-card.hei
 					v-card-text {{ text }}
 
