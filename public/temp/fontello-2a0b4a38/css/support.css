@@ -1,0 +1,104 @@
+@font-face {
+  font-family: 'support';
+  src: url('../font/support.eot?27261029');
+  src: url('../font/support.eot?27261029#iefix') format('embedded-opentype'),
+       url('../font/support.woff2?27261029') format('woff2'),
+       url('../font/support.woff?27261029') format('woff'),
+       url('../font/support.ttf?27261029') format('truetype'),
+       url('../font/support.svg?27261029#support') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'support';
+    src: url('../font/support.svg?27261029#support') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "support";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-up:before { content: '\e800'; } /* '' */
+.icon-settings:before { content: '\e801'; } /* '' */
+.icon-packet:before { content: '\e802'; } /* '' */
+.icon-empty:before { content: '\e803'; } /* '' */
+.icon-smile:before { content: '\e804'; } /* '' */
+.icon-deadline:before { content: '\e805'; } /* '' */
+.icon-loud:before { content: '\e80a'; } /* '' */
+.icon-search:before { content: '\e80c'; } /* '' */
+.icon-filter:before { content: '\e80d'; } /* '' */
+.icon-close:before { content: '\e80e'; } /* '' */
+.icon-arrow-down:before { content: '\e811'; } /* '' */
+.icon-arrow-up:before { content: '\e813'; } /* '' */
+.icon-eye1:before { content: '\e814'; } /* '' */
+.icon-link:before { content: '\e818'; } /* '' */
+.icon-book:before { content: '\e81c'; } /* '' */
+.icon-prev:before { content: '\e822'; } /* '' */
+.icon-next:before { content: '\e823'; } /* '' */
+.icon-info:before { content: '\e826'; } /* '' */
+.icon-new-window:before { content: '\e834'; } /* '' */
+.icon-user:before { content: '\e835'; } /* '' */
+.icon-folder-o:before { content: '\e836'; } /* '' */
+.icon-folder:before { content: '\e837'; } /* '' */
+.icon-check:before { content: '\e838'; } /* '' */
+.icon-doc:before { content: '\e839'; } /* '' */
+.icon-ham-d:before { content: '\e83a'; } /* '' */
+.icon-skrepka:before { content: '\e83b'; } /* '' */
+.icon-refresh:before { content: '\e83e'; } /* '' */
+.icon-multi:before { content: '\e83f'; } /* '' */
+.icon-basket:before { content: '\e840'; } /* '' */
+.icon-microphone:before { content: '\e841'; } /* '' */
+.icon-moon:before { content: '\e842'; } /* '' */
+.icon-filter-active:before { content: '\e843'; } /* '' */
+.icon-filter-remove:before { content: '\e844'; } /* '' */
+.icon-done:before { content: '\e845'; } /* '' */
+.icon-archive:before { content: '\e847'; } /* '' */
+.icon-down:before { content: '\e848'; } /* '' */
+.icon-star-full:before { content: '\e84a'; } /* '' */
+.icon-star-empty:before { content: '\e84b'; } /* '' */
+.icon-absentfile:before { content: '\e851'; } /* '' */
+.icon-ndown:before { content: '\e852'; } /* '' */
+.icon-nup:before { content: '\e853'; } /* '' */
+.icon-nmiddle:before { content: '\e854'; } /* '' */
+.icon-control-date:before { content: '\e855'; } /* '' */
+.icon-tree:before { content: '\e856'; } /* '' */
+.icon-sort:before { content: '\e857'; } /* '' */
+.icon-sort-alt-up:before { content: '\f160'; } /* '' */
+.icon-sort-alt-down:before { content: '\f161'; } /* '' */
