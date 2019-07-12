@@ -8,7 +8,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 	:isResizable="resizable"
 	@dblclick.native="expand"
 	).add
-	drop( @dragover="over = true" @dragleave="over = false").scroll
+	drop( @dragenter="over = true" ).scroll
 		.top
 			span создать:
 			span(v-if="true") {{ type }}
@@ -140,6 +140,7 @@ vue-drag-resize( ref="add" v-on:resizing="resize" v-on:dragging="resize"
 					slot="activator"
 					@dragstart="userDrag = 1"
 					@dragend="userDrag = null"
+					@dragleave="over = false"
 					)
 					v-list-tile-avatar
 						img(:src="require('@/assets/img/user0.svg')").av
@@ -354,10 +355,6 @@ export default {
 		contextFiles
 	},
 	methods: {
-		test (evt) {
-			evt.stopPropagation()
-			console.log(111)
-		},
 		attachFiles () {
 			if (event.shiftKey) {
 				this.$refs.file.click()
@@ -884,7 +881,6 @@ export default {
 .topform {
 	display: flex;
 	.v-select {
-		/* background: red; */
 		width: auto;
 	}
 	.v-input {
