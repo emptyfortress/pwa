@@ -1,6 +1,6 @@
 <template lang="pug" >
 v-slide-x-transition(mode="out-in")
-	div
+	.fullbg
 		v-slide-x-reverse-transition(mode="out-in")
 			Tiles(v-if="$vuetify.breakpoint.lgAndUp && view === 'tile'" :items="items")
 			Split(v-if="$vuetify.breakpoint.lgAndUp && view === 'split'" :items="items")
@@ -108,6 +108,15 @@ export default {
 
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
+
+.fullbg {
+	/* background: url(/img/globe-bg.jpg); */
+	background: url(/img/green.webp);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	height: 100%;
+}
 
 .mt0 {
 	margin: 0;

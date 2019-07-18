@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+.all
 	.panel
 			v-layout(row)
 				v-slide-x-transition(mode="out-in")
@@ -238,6 +238,10 @@ export default {
 .application .theme--light.v-table tbody tr:not(:last-child), .theme--light .v-table tbody tr:not(:last-child) {
 	/* border-bottom: 1px solid rgba(0,0,0,.12); */
 	border-bottom: none;
+}
+.all {
+	width: 80%;
+	margin: 0 auto;
 }
 .panel {
 	padding: .0 1rem;
