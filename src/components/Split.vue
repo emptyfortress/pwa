@@ -63,7 +63,7 @@ div
 			drag-content.content
 				SlickList(lockAxis="y" :value="items" helperClass="moving" :distance=2 @input="newArr")
 					transition-group(name="sort" )
-						SlickItem(v-for="(item, index) in items" :index="index" :key="index" :item="item" )
+						SlickItem(v-for="(item, index) in items" :index="index" :key="item.id" :item="item" )
 							v-card(flat v-responsive="cardResponse" :class="myclass(item)" @click.native="selectCard(item, $event)").desktope
 								.wrap
 									.drag(@click.prevent="item.unread = !item.unread" @click="doNothing")
