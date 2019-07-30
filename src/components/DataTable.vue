@@ -50,17 +50,18 @@
 				v-alert(:value="true" color="warning" icon="warning")
 					span Sorry, nothing to display here :(
 	v-dialog(v-model="dialog" width="350")
-		v-card
-			v-card-title(class="headline grey lighten-2" primary-title) Настроить колонки
+		v-card.pt-3
+			v-card-title.headline Настройка таблицы
+			v-select(:items="layouts" label="Представление" value="Дайджест").mx-4
 			SlickList( :value="headers" :distance=2 @input="newColumn" helperClass="moving" )
-				v-list.ml-4
+				v-list.ml-4.sm
 					SlickItem(v-for="(item, index) in headers" :index="index" :key="item.id" :item="item" v-if="item.text !== null")
 						v-checkbox(v-model="item.active" :label="item.text")
 			v-divider
 			v-card-actions
 				v-spacer
 				v-btn(color="primary" flat @click="dialog = false") Отмена
-				v-btn(color="primary" flat @click="dialog = false") Сохранить
+				v-btn(color="primary" flat @click="dialog = false") Применить
 
 	v-snackbar(v-model="snackbar" :timeout=0 multi-line ).snackbar
 		.packet(v-ripple)
@@ -100,6 +101,12 @@ export default {
 				{ 'id': 6, 'active': true, 'class': 'nowrap', 'text': 'Изменено', 'align': 'left', 'sortable': true, 'value': 'modified' },
 				{ 'id': 7, 'active': true, 'class': 'text-xs-center', 'text': 'Файлы', 'align': 'left', 'sortable': true, 'value': 'files' },
 				{ 'id': 8, 'active': false, 'class': '', 'text': null, 'value': '', sortable: false }
+			],
+			layouts: [
+				'Дайджест',
+				'Таблица с группировками',
+				'Поручения полный вид',
+				'Моя таблица'
 			]
 		}
 	},
@@ -347,6 +354,11 @@ tr.wide {
 	span {
 		margin-left: .5rem;
 		font-size: 1.6rem;
+	}
+}
+.sm {
+	.v-input {
+		margin-top: 0;
 	}
 }
 
