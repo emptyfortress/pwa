@@ -19,7 +19,7 @@
 							v-text-field(type='password'  label="Password" v-model='password' required )
 							v-checkbox( label="Чужой компьютер" )
 							v-layout( row justify-space-between wrap)
-								v-btn( flat color="accent" ) Напомнить пароль
+								v-btn( flat color="accent" @click="onPinEnter") Напомнить пароль
 								v-btn( flat color="success" type='submit') Вход
 					transition( name="slideX" mode="out-in" )
 						.user( v-if="chooseUser == true")

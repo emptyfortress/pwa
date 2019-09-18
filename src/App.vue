@@ -102,8 +102,8 @@ export default {
 			return this.$store.getters.currentFolder
 		},
 		userLogged () {
-			return true
-			// return this.$store.getters.user
+			// return true
+			return this.$store.getters.user
 		}
 	},
 	methods: {

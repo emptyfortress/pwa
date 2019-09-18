@@ -111,7 +111,7 @@ export default {
 
 .fullbg {
 	/* background: url(/img/globe-bg.jpg); */
-	background: url(/img/green.webp);
+	/* background: url(/img/green.webp); */
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-attachment: fixed;
