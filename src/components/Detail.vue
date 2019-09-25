@@ -21,6 +21,9 @@
 					i.icon-next
 				v-btn(icon large @click="back")
 					i.icon-close
+			.input
+				input(id="files" type="file")
+				v-btn(@click="load") Load
 
 			.parent
 				div
@@ -34,8 +37,9 @@
 										div
 											v-layout( align-center justify-center fill-height )
 												.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-													img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="!showme && item.files && !tree")
-													iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=https://firebasestorage.googleapis.com/v0/b/docsvision-8d5eb.appspot.com/o/sample.doc?alt=media&token=b94e9ae9-9634-4b02-a1cf-5ecb0e0310a7' width='100%' frameborder='0' scrolling='no' v-if="showme")
+													//- img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="!showme && item.files && !tree")
+													//- #cont(v-if="showme")
+													#cont
 													h2(v-if="!showme && tree").text-xs-center Здесь будет маршрут согласования
 													.dumb
 														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files && !tree")
@@ -45,15 +49,16 @@
 				v-fade-transition(mode="out-in")
 					router-view(v-bind:key="intId").full
 
-	<!-- iframe(src='https://view.officeapps.live.com/op/embed.aspx?src=https://firebasestorage.googleapis.com/v0/b/docsvision&#45;8d5eb.appspot.com/o/sample.doc?alt=media&#38;token=b94e9ae9&#45;9634&#45;4b02&#45;a1cf&#45;5ecb0e0310a7' width='100%' height='500' frameborder='0' scrolling='no' v&#45;if="showme") br -->
-	<!-- iframe(src='http://docs.google.com/viewer?url=https://firebasestorage.googleapis.com/v0/b/docsvision&#45;8d5eb.appspot.com/o/automate&#45;the&#45;boring&#45;stuff&#45;with&#45;python&#45;2015&#45;.pdf?alt=media&#38;token=2cd730cf&#45;cdbe&#45;4956&#45;a1c1&#45;6ead413cc248&#38;embedded=true' width='400' height='500' frameborder="0" ) -->
-	<!-- iframe(src="https://onedrive.live.com/embed?cid=CA582F2BC3AD1590&#38;resid=CA582F2BC3AD1590%2136277&#38;authkey=AHJ96YRJIbbJcec&#38;em=2" frameborder="0" width="400" height="346" ) -->
-	<!-- iframe( src="https://onedrive.live.com/embed?cid=CA582F2BC3AD1590&#38;resid=CA582F2BC3AD1590%2133463&#38;authkey=AFh1O3tkDLAQzzw&#38;em=2" width="100%" height="327" frameborder="0" scrolling="no" ) -->
-
 </template>
 
 <script>
+// import docx from 'docx-preview'
 import DummyFolder from '@/components/DummyFolder'
+
+// var docData = <document Blob>
+
+// docx.renderAsync(docData, document.getElementById("cont"))
+// 	.then(x => console.log("docx: finished"))
 
 export default {
 	props: ['id'],
@@ -142,6 +147,20 @@ export default {
 				this.tree = false
 				this.showme = false
 			}
+		},
+		load () {
+			this.tree = false
+			this.showme = true
+			let container = document.getElementById('cont')
+			var xhr = new XMLHttpRequest()
+			xhr.open('GET', '/img/test.docx')
+			xhr.responseType = 'blob' // force the HTTP response, response-type header to be blob
+			xhr.onload = function () {
+			// eslint-disable-next-line
+				docx.renderAsync(xhr.response, container, null, { debug: true })
+					.then(function (x) { console.log(x) })
+			}
+			xhr.send()
 		}
 	},
 	components: {
@@ -226,6 +245,11 @@ iframe {
 .quant {
 	line-height: 4.0rem;
 	color: $grey2;
+}
+#cont {
+	overflow-y: scroll;
+	width: 100%;
+	height: 100%;
 }
 
 </style>
