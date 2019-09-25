@@ -1,70 +1,66 @@
 <template lang="pug">
-.detail
+div
+	.detail
+		v-fade-transition(mode="out-in")
+			DummyFolder(:folder="currentFolder" v-if="!detail")
+
+			v-layout(column align-start v-if="detail")
+				.att1
+					.slider
+						v-slider(v-model="size" hide-details min=200 max=1000 @input="changeWidth")
+					v-btn(icon large @click="toggleShowme" :class="showme ? 'active' : ''").read
+						i.icon-book
+					v-btn(icon large @click="preview" :class="docx ? 'active' : ''").read
+						i.icon-eye1
+					v-btn(icon large @click="toggleTree" :class="tree ? 'active' : ''").read
+						i.icon-tree
+					v-spacer
+					.status [ {{ currentItem.status }} ]
+					v-spacer
+					v-btn(icon large @click="prev")
+						i.icon-prev
+					.quant {{ intId + 1 }} / {{ items.length }}
+					v-btn(icon large @click="next")
+						i.icon-next
+					v-btn(icon large @click="back")
+						i.icon-close
+
+				.parent
+					div
+						v-layout(row fill-height align-center )
+							v-btn( icon large @click="prev" ).big
+								i.icon-prev
+							div
+								v-card.empty
+									v-window(v-model="intId")
+										v-window-item(v-for="item in items" :key="item.id")
+											div
+												v-layout( align-center justify-center fill-height )
+													.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
+														img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="!showme && item.files && !tree")
+														iframe(src='http://docs.google.com/viewer?url=https://firebasestorage.googleapis.com/v0/b/docsvision-8d5eb.appspot.com/o/automate-the-boring-stuff-with-python-2015-.pdf?alt=media&token=2cd730cf-cdbe-4956-a1c1-6ead413cc248&embedded=true' width="100%"  frameborder="0" v-if="showme")
+														h2(v-if="tree").text-xs-center Здесь будет маршрут согласования
+														.dumb
+															img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files && !tree")
+							v-btn( icon large @click="next").big
+								i.icon-next
+
+					v-fade-transition(mode="out-in")
+						router-view(v-bind:key="intId").full
 	v-fade-transition(mode="out-in")
-		DummyFolder(:folder="currentFolder" v-if="!detail")
-
-		v-layout(column align-start v-if="detail")
-			.att1
-				.slider
-					v-slider(v-model="size" hide-details min=200 max=1000 @input="changeWidth")
-				v-btn(icon large @click="toggleShowme" :class="showme ? 'active' : ''").read
-					i.icon-book
-				v-btn(icon large @click="toggleTree" :class="tree ? 'active' : ''").read
-					i.icon-tree
-				v-spacer
-				.status [ {{ currentItem.status }} ]
-				v-spacer
-				v-btn(icon large @click="prev")
-					i.icon-prev
-				.quant {{ intId + 1 }} / {{ items.length }}
-				v-btn(icon large @click="next")
-					i.icon-next
-				v-btn(icon large @click="back")
-					i.icon-close
-			.input
-				input(id="files" type="file")
-				v-btn(@click="load") Load
-
-			.parent
-				div
-					v-layout(row fill-height align-center )
-						v-btn( icon large @click="prev" ).big
-							i.icon-prev
-						div
-							v-card.empty
-								v-window(v-model="intId")
-									v-window-item(v-for="item in items" :key="item.id")
-										div
-											v-layout( align-center justify-center fill-height )
-												.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
-													//- img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="!showme && item.files && !tree")
-													//- #cont(v-if="showme")
-													#cont
-													h2(v-if="!showme && tree").text-xs-center Здесь будет маршрут согласования
-													.dumb
-														img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files && !tree")
-						v-btn( icon large @click="next").big
-							i.icon-next
-
-				v-fade-transition(mode="out-in")
-					router-view(v-bind:key="intId").full
+		#cont(v-show="docx")
 
 </template>
 
 <script>
-// import docx from 'docx-preview'
 import DummyFolder from '@/components/DummyFolder'
-
-// var docData = <document Blob>
-
-// docx.renderAsync(docData, document.getElementById("cont"))
-// 	.then(x => console.log("docx: finished"))
 
 export default {
 	props: ['id'],
 	data () {
 		return {
 			showme: false,
+			docx: false,
 			tree: false,
 			size: 350,
 			width: 350,
@@ -148,9 +144,14 @@ export default {
 				this.showme = false
 			}
 		},
+		preview () {
+			this.docx = !this.docx
+			if (this.docx) {
+				this.load()
+			}
+			
+		},
 		load () {
-			this.tree = false
-			this.showme = true
 			let container = document.getElementById('cont')
 			var xhr = new XMLHttpRequest()
 			xhr.open('GET', '/img/test.docx')
@@ -174,7 +175,6 @@ export default {
 
 .detail {
 	height: 100%;
-	/* background: red; */
 	position: relative;
 	padding-right: 1rem;
 }
@@ -248,8 +248,13 @@ iframe {
 }
 #cont {
 	overflow-y: scroll;
-	width: 100%;
+	width: 940px;
 	height: 100%;
+	background: #000000aa;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
 }
 
 </style>
