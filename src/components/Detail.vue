@@ -48,11 +48,12 @@ div
 					v-fade-transition(mode="out-in")
 						router-view(v-bind:key="intId").full
 	v-fade-transition(mode="out-in")
-		#cont(v-show="docx")
+		#cont(v-if="docx" v-on-clickaway="away")
 
 </template>
 
 <script>
+import { directive as onClickaway } from 'vue-clickaway'
 import DummyFolder from '@/components/DummyFolder'
 
 export default {
@@ -67,6 +68,9 @@ export default {
 			height: 490
 		}
 	},
+	directives: {
+		onClickaway: onClickaway
+  },
 	computed: {
 		detail () { return this.$store.getters.detail },
 		currentPath () { return this.currentFolder.path },
@@ -144,12 +148,15 @@ export default {
 				this.showme = false
 			}
 		},
+		away () {
+			this.docx = false
+		},
 		preview () {
-			this.docx = !this.docx
-			if (this.docx) {
-				this.load()
-			}
-			
+			this.docx = true
+			let that = this
+			setTimeout(function () {
+				that.load ()
+			},0)
 		},
 		load () {
 			let container = document.getElementById('cont')
