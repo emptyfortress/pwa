@@ -1,6 +1,6 @@
 <template lang="pug">
 	v-layout( row wrap ).filepanel
-		v-menu(v-model="filemenu" v-if="current.filenames.length" v-for="( file, index ) in current.filenames" :key="index" )
+		v-menu(v-if="current.filenames.length" v-for="(file, index) in current.filenames" )
 			.file(slot="activator")
 				img(:src="require('@/assets/img/file-main.svg')").full
 				.name {{ file.name }}
@@ -40,7 +40,7 @@
 					v-list-tile(@click="")
 						v-list-tile-content
 							v-list-tile-title Удалить
-		v-menu(v-model="filemenu1" v-if="current.dopfiles" v-for="( file, index ) in current.dopfiles" :key="index" )
+		v-menu(v-if="current.dopfiles.length" v-for="( file, i) in current.dopfiles" :key="i" )
 			.file.dop(slot="activator")
 				img(:src="require('@/assets/img/file.svg')").full
 				.name {{ file.name }}
@@ -62,7 +62,7 @@
 							td --
 						tr
 							td.label Автор:
-							td {{ people[index + 2] }}
+							td {{ people[i+ 2] }}
 				v-divider
 				v-list
 					v-list-tile(@click="")
@@ -95,6 +95,8 @@ export default {
 	props: ['current'],
 	data () {
 		return {
+			// filemenu: false,
+			// filemenu1: false,
 			people: [
 				'Derek Barnhouse',
 				'Seth Reyes',

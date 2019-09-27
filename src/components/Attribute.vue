@@ -49,7 +49,7 @@
 					Att(:current="currentItem" v-if="i === 0" )
 					Files(:current="currentItem" v-if="i > 0")
 
-		<!-- .descr.mt&#45;3(v&#45;if="currentItem.files === undefined") Файлы отстуствуют -->
+		//- .descr.mt&#45;3(v&#45;if="currentItem.files === undefined") Файлы отстуствуют
 </template>
 
 <script>

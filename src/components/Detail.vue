@@ -330,6 +330,9 @@ iframe {
 }
 .vert {
 	overflow: hidden;
+	h2 {
+		color: #ccc;
+	}
 }
 .full {
 	flex-grow: 1;
