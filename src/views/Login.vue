@@ -99,6 +99,7 @@ export default {
 		},
 		onPinEnter () {
 			this.$store.dispatch('logUserIn', { email: 'kmg01@docsvision.com', password: 'kmg001' })
+			this.$router.push('/')
 		},
 		onEnter () {
 			this.$store.dispatch('logUserIn', { email: this.currentUser.email, password: this.password })

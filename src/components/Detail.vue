@@ -38,10 +38,18 @@ div
 												v-layout( align-center justify-center fill-height )
 													.vert(v-bind:style="{width: computedWidth, height: computedHeight}")
 														img(:src="require('@/assets/img/docs/img' + item.id + '.jpg')" width="100%" v-if="!showme && item.files && !tree")
-														iframe(src='http://docs.google.com/viewer?url=https://firebasestorage.googleapis.com/v0/b/docsvision-8d5eb.appspot.com/o/automate-the-boring-stuff-with-python-2015-.pdf?alt=media&token=2cd730cf-cdbe-4956-a1c1-6ead413cc248&embedded=true' width="100%"  frameborder="0" v-if="showme")
+														canvas(v-show="showme")#the-canvas
 														h2(v-if="tree").text-xs-center Здесь будет маршрут согласования
 														.dumb
 															img(:src="require('@/assets/img/empty.svg')" width="40%" v-if="!item.files && !tree")
+								v-layout(row v-show="showme").ctrl-panel
+									v-btn(flat)#prev Prev
+									v-btn(flat)#next Next
+									v-spacer
+									.pag
+										span(id="page_num")
+										span /
+										span(id="page_count")
 							v-btn( icon large @click="next").big
 								i.icon-next
 
@@ -55,6 +63,7 @@ div
 <script>
 import { directive as onClickaway } from 'vue-clickaway'
 import DummyFolder from '@/components/DummyFolder'
+import pdfjsLib from 'pdfjs-dist/build/pdf'
 
 export default {
 	props: ['id'],
@@ -70,7 +79,7 @@ export default {
 	},
 	directives: {
 		onClickaway: onClickaway
-  },
+	},
 	computed: {
 		detail () { return this.$store.getters.detail },
 		currentPath () { return this.currentFolder.path },
@@ -143,6 +152,93 @@ export default {
 			if (this.showme === false) {
 				this.tree = false
 				this.showme = true
+				// this is code from pdfjs
+				var url = '/automate-the-boring-stuff-with-python-2015-.pdf'
+
+				// The workerSrc property shall be specified.
+				pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/build/pdf.worker.js'
+
+				var pdfDoc = null,
+						pageNum = 1,
+						pageRendering = false,
+						pageNumPending = null,
+						scale = 0.8,
+						canvas = document.getElementById('the-canvas'),
+						ctx = canvas.getContext('2d')
+
+
+				function renderPage(num) {
+					pageRendering = true
+					// Using promise to fetch the page
+					pdfDoc.getPage(num).then(function(page) {
+						var viewport = page.getViewport({scale: scale})
+						canvas.height = viewport.height
+						canvas.width = viewport.width
+
+						// Render PDF page into canvas context
+						var renderContext = {
+							canvasContext: ctx,
+							viewport: viewport
+						}
+						var renderTask = page.render(renderContext)
+
+						// Wait for rendering to finish
+						renderTask.promise.then(function() {
+							pageRendering = false
+							if (pageNumPending !== null) {
+								// New page rendering is pending
+								renderPage(pageNumPending)
+								pageNumPending = null
+							}
+						})
+					})
+					// Update page counters
+					document.getElementById('page_num').textContent = num
+				}
+
+				/** * If another page rendering in progress, waits until the rendering is
+					* finised. Otherwise, executes rendering immediately. */
+				function queueRenderPage(num) {
+					if (pageRendering) {
+						pageNumPending = num
+					} else {
+						renderPage(num)
+					}
+				}
+				/**
+				* Displays previous page.
+				*/
+				function onPrevPage() {
+					if (pageNum <= 1) {
+						return
+					}
+					pageNum--
+					queueRenderPage(pageNum)
+				}
+				document.getElementById('prev').addEventListener('click', onPrevPage)
+
+				/**
+				* Displays next page.
+				*/
+				function onNextPage() {
+					if (pageNum >= pdfDoc.numPages) {
+						return
+					}
+					pageNum++
+					queueRenderPage(pageNum)
+				}
+				document.getElementById('next').addEventListener('click', onNextPage)
+
+				/**
+				* Asynchronously downloads PDF.
+				*/
+				pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+					pdfDoc = pdfDoc_
+					document.getElementById('page_count').textContent = pdfDoc.numPages
+
+					// Initial/first page rendering
+					renderPage(pageNum)
+				})
 			} else {
 				this.tree = false
 				this.showme = false
@@ -155,8 +251,8 @@ export default {
 			this.docx = true
 			let that = this
 			setTimeout(function () {
-				that.load ()
-			},0)
+				that.load()
+			}, 0)
 		},
 		load () {
 			let container = document.getElementById('cont')
@@ -234,9 +330,6 @@ iframe {
 }
 .vert {
 	overflow: hidden;
-	h2 {
-		color: #ccc;
-	}
 }
 .full {
 	flex-grow: 1;
@@ -262,6 +355,14 @@ iframe {
 	top: 0;
 	left: 0;
 	z-index: 100;
+}
+#the-canvas {
+	width: 100%;
+	height: 100%;
+}
+.pag {
+	font-size: 1.1rem;
+	line-height: 46px;
 }
 
 </style>
