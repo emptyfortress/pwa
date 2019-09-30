@@ -1,6 +1,6 @@
 <template lang="pug">
 	v-layout( row wrap ).filepanel
-		v-menu(v-if="current.filenames.length" v-for="(file, index) in current.filenames" )
+		v-menu(v-if="current.filenames.length" v-for="(file, index) in current.filenames" :key="index")
 			.file(slot="activator")
 				img(:src="require('@/assets/img/file-main.svg')").full
 				.name {{ file.name }}

@@ -7,12 +7,13 @@ module.exports = {
 		'plugin:vue/essential',
 		'@vue/standard'
 	],
-	"rules": {
+	'rules': {
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-		"indent": [ "error", "tab" ],
-		"no-tabs": 0,
-		"no-mixed-spaces-and-tabs": [ "error", "smart-tabs"]
+		'indent': [ 'error', 'tab' ],
+		'no-tabs': 0,
+		'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs']
+		// "no-inner-declarations": [2, "both"]
 	},
 	parserOptions: {
 		parser: 'babel-eslint'

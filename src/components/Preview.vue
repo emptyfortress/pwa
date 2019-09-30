@@ -9,12 +9,12 @@ v-dialog( v-model="pre" width="800")
 	v-card
 		v-layout(row align-start).gr
 			v-flex(xs8)
-				v-window(v-model="index")
+				v-window(v-model="img")
 					v-window-item(v-for="item in files" :key="item.name")
 						div
 							v-layout( align-center justify-center fill-height )
 								.vert
-									img(:src="require('@/assets/img/docs/img' + index + '.jpg')").ful
+									img(:src="require('@/assets/img/docs/img' + img + '.jpg')").ful
 			v-flex(xs4)
 				v-card(color="info")
 					v-card-title
@@ -51,6 +51,7 @@ export default {
 		return {
 			length: 4,
 			dialog: false,
+			img: this.index,
 			actions: [
 				'Просмотр',
 				'Редактировать',
@@ -78,18 +79,21 @@ export default {
 				return this.preview
 			},
 			set (newValue) { return false }
-		}
+		},
+		// img () {
+		// 	return this.index
+		// },
 	},
 	methods: {
 		next () {
-			this.index = this.index + 1 === this.length
+			this.img = this.img + 1 === this.length
 				? 0
-				: this.index + 1
+				: this.img + 1
 		},
 		prev () {
-			this.index = this.index - 1 < 0
+			this.img = this.img - 1 < 0
 				? this.length - 1
-				: this.index - 1
+				: this.img - 1
 		}
 	}
 }
@@ -100,7 +104,9 @@ export default {
 
 .gr { background: #dedede; height: 760px; }
 .lrg { font-size: 2.0rem; color: #003952; }
-.ful { width: 100%; }
+.ful {
+	width: 100%;
+}
 .att {
 	font-size: 1.0rem;
 	color: #fff;
