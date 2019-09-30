@@ -9,12 +9,13 @@ v-dialog( v-model="pre" width="800")
 	v-card
 		v-layout(row align-start).gr
 			v-flex(xs8)
-				v-window(v-model="img")
+				v-window(v-model="img" vertical)
 					v-window-item(v-for="item in files" :key="item.name")
-						div
-							v-layout( align-center justify-center fill-height )
+						v-card(flat)
+							v-row(align="center" justify="center").fill-height
 								.vert
 									img(:src="require('@/assets/img/docs/img' + img + '.jpg')").ful
+
 			v-flex(xs4)
 				v-card(color="info")
 					v-card-title
@@ -114,7 +115,11 @@ export default {
 }
 .big { font-size: 1.2rem; }
 .vert {
-	overflow: hidden;
+	/* height: 300px; */
+	/* overflow: hidden; */
+	/* height: 100%; */
+	width: 100%;
+	background: red;
 }
 .ctr { text-align: center; }
 </style>
