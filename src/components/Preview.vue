@@ -9,12 +9,10 @@ v-dialog( v-model="pre" width="800")
 	v-card
 		v-layout(row align-start).gr
 			v-flex(xs8)
-				v-window(v-model="img" vertical)
-					v-window-item(v-for="item in files" :key="item.name")
-						v-card(flat)
-							v-row(align="center" justify="center").fill-height
-								.vert
-									img(:src="require('@/assets/img/docs/img' + img + '.jpg')").ful
+				v-window( v-model="img")
+					v-window-item( v-for="item in files" :key="item.name").gr
+						img(:src="require('@/assets/img/docs/img' + img + '.jpg')").ful
+						//- v-card( flat )
 
 			v-flex(xs4)
 				v-card(color="info")
@@ -51,8 +49,9 @@ export default {
 	data () {
 		return {
 			length: 4,
-			dialog: false,
+			// dialog: false,
 			img: this.index,
+			// showarrows: true,
 			actions: [
 				'Просмотр',
 				'Редактировать',
@@ -80,10 +79,7 @@ export default {
 				return this.preview
 			},
 			set (newValue) { return false }
-		},
-		// img () {
-		// 	return this.index
-		// },
+		}
 	},
 	methods: {
 		next () {
@@ -114,12 +110,5 @@ export default {
 	td { vertical-align: top; }
 }
 .big { font-size: 1.2rem; }
-.vert {
-	/* height: 300px; */
-	/* overflow: hidden; */
-	/* height: 100%; */
-	width: 100%;
-	background: red;
-}
 .ctr { text-align: center; }
 </style>
