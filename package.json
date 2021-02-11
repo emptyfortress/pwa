@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@marketconnect/vue-pivot-table": "0.0.1",
-    "apexcharts": "^2.4.1",
+    "apexcharts": "^3.24.0",
     "firebase": "^5.2.0",
     "liquor-tree": "^0.2.46",
     "lodash": "^4.17.10",
