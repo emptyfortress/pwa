@@ -32,14 +32,20 @@ export default {
 		return {
 			filterActive: undefined,
 			chartOptions: {
-				labels: ['Новые', 'Просроченные', 'На контроле', 'Завершено', 'Остальные'],
+				labels: [
+					'Новые',
+					'Просроченные',
+					'На контроле',
+					'Завершено',
+					'Остальные'
+				],
 				colors: ['#527ACC', '#CC1E14', '#FFAF19', '#31991F', '#666'],
 				dataLabels: {
 					enabled: true,
 					style: {
 						fontSize: '18px'
 					},
-					formatter: val => this.items.length / 100 * val
+					formatter: val => (this.items.length / 100) * val
 				},
 				plotOptions: {
 					pie: {
@@ -55,7 +61,7 @@ export default {
 							labels: {
 								show: true,
 								name: {
-									show: true,
+									show: false,
 									fontSize: '22px',
 									fontFamily: 'Helvetica, Arial, sans-serif',
 									color: undefined,
@@ -73,7 +79,7 @@ export default {
 								},
 								total: {
 									show: true,
-									label: 'Всего',
+									// label: "Всего",
 									color: '#373d3f',
 									formatter: function (w) {
 										return w.globals.seriesTotals.reduce((a, b) => {
@@ -89,6 +95,7 @@ export default {
 					events: {
 						dataPointSelection: (event, chartContext, config) => {
 							this.setFilterChart(config.dataPointIndex)
+							console.log(2222)
 						}
 					}
 				}
@@ -105,11 +112,27 @@ export default {
 		},
 		seriesAll () {
 			let temp = []
-			if (this.unreadItems) { temp.push({ label: 'Новые', val: this.unreadItems }) }
-			if (this.overdueItems) { temp.push({ label: 'Просроченные', val: this.overdueItems }) }
-			if (this.controlItems) { temp.push({ label: 'На контроле', val: this.controlItems }) }
-			if (this.finishedItems) { temp.push({ label: 'Завершено', val: this.finishedItems }) }
-			temp.push({ label: 'Завершено', val: this.items.length - this.unreadItems - this.controlItems - this.overdueItems - this.finishedItems })
+			if (this.unreadItems) {
+				temp.push({ label: 'Новые', val: this.unreadItems })
+			}
+			if (this.overdueItems) {
+				temp.push({ label: 'Просроченные', val: this.overdueItems })
+			}
+			if (this.controlItems) {
+				temp.push({ label: 'На контроле', val: this.controlItems })
+			}
+			if (this.finishedItems) {
+				temp.push({ label: 'Завершено', val: this.finishedItems })
+			}
+			temp.push({
+				label: 'Завершено',
+				val:
+          this.items.length -
+          this.unreadItems -
+          this.controlItems -
+          this.overdueItems -
+          this.finishedItems
+			})
 			return temp
 		},
 		items () {
@@ -181,77 +204,80 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/css/colors.scss';
+@import "@/assets/css/colors.scss";
 
 .filt {
-	border-top: 1px solid $grey1;
-	border-bottom: 1px solid $grey1;
-	color: $secondary;
-	.item {
-		font-size: 2.5rem;
-		padding: 1rem;
-		line-height: 80%;
-		cursor: pointer;
-		&.active {
-			background: #fff;
-			border-top: 3px solid $info;
-		}
-		&:hover {
-			background: #fff;
-		}
-	}
-	.new {
-		font-size: 1rem;
-		line-height: 80%;
-		margin-top: .5rem;
-	}
+  border-top: 1px solid $grey1;
+  border-bottom: 1px solid $grey1;
+  color: $secondary;
+  .item {
+    font-size: 2.5rem;
+    padding: 1rem;
+    line-height: 80%;
+    cursor: pointer;
+    &.active {
+      background: #fff;
+      border-top: 3px solid $info;
+    }
+    &:hover {
+      background: #fff;
+    }
+  }
+  .new {
+    font-size: 1rem;
+    line-height: 80%;
+    margin-top: 0.5rem;
+  }
 }
 
 .infolder {
-	padding-top: 1rem;
+  padding-top: 1rem;
 }
 .folder {
-	font-size: 2rem;
-	opacity: .5;
-	span {
-		margin-left: 1rem;
-	}
+  font-size: 2rem;
+  opacity: 0.5;
+  span {
+    margin-left: 1rem;
+  }
 }
 .new {
-	font-size: 1.1rem;
-	span {
-		font-size: 2rem;
-		margin-left: 1rem;
-	}
+  font-size: 1.1rem;
+  span {
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
 }
 
 .trend {
-	/* display: block; */
-	/* margin-left: 2rem; */
-	width: 120px;
-	margin-bottom: 1rem;
+  /* display: block; */
+  /* margin-left: 2rem; */
+  width: 120px;
+  margin-bottom: 1rem;
 }
 
 .sort {
-	.v-btn {
-	}
-	.flex {
-		flex-grow: 0;
-	}
+  .v-btn {
+  }
+  .flex {
+    flex-grow: 0;
+  }
 }
 .mychart {
-	position: relative;
-	.all {
-		position: absolute;
-		top: 40%;
-		left: 40%;
-	}
+  position: relative;
+  .all {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+  }
 }
 .small.mychart {
-	#bigChart { display: none; }
+  #bigChart {
+    display: none;
+  }
 }
 .big.mychart {
-	#smChart { display: none; }
+  #smChart {
+    display: none;
+  }
 }
-
 </style>
